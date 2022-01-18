@@ -13,3 +13,5 @@
 /backend/.gradle/7.3.2/fileHashes/fileHashes.bin
 /backend/.gradle/7.3.2/fileHashes/fileHashes.lock
 /backend/build/tmp/compileJava/previous-compilation-data.bin
+/backend/.gradle/buildOutputCleanup/outputFiles.bin
+/backend/.gradle/buildOutputCleanup/cache.properties
