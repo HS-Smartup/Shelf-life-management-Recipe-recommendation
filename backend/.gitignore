@@ -50,6 +50,7 @@ cmake-build-*/
 # IntelliJ
 out/
 .idea
+.gradle
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -143,7 +144,7 @@ Temporary Items
 .apdisk
 
 ### Gradle ###
-.gradle
+.gradle/
 build/
 
 # Ignore Gradle GUI config
