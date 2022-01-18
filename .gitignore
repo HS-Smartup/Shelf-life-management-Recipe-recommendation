@@ -1,8 +1,8 @@
 .idea
 .vscode
-/backend/.gradle
+/backend/.gradle/
 /.idea/
 /backend/.idea/
-
+/backend/build/
 .idea/GW_project.iml
 
