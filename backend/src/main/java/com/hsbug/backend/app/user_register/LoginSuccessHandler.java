@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     // accountService;
-    AccountForm form;
+    UserRegisterDto form;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,HttpServletResponse response,
                 Authentication authentication)throws IOException, ServletException {
