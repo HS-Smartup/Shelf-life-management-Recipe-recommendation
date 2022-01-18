@@ -6,3 +6,10 @@
 /backend/build/
 .idea/GW_project.iml
 
+/backend/.gradle/file-system.probe
+/backend/.gradle/7.3.2/executionHistory/executionHistory.bin
+/backend/.gradle/7.3.2/executionHistory/executionHistory.lock
+/backend/.gradle/file-system.probe
+/backend/.gradle/7.3.2/fileHashes/fileHashes.bin
+/backend/.gradle/7.3.2/fileHashes/fileHashes.lock
+/backend/build/tmp/compileJava/previous-compilation-data.bin
