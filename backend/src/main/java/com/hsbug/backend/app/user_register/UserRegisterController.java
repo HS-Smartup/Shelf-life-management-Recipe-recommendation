@@ -18,30 +18,23 @@ public class UserRegisterController {
         this.userRegisterRepository = userRegisterRepository;
     }
 
-    @GetMapping("/login")     // 로그인 페이지 Controller
-    public String LoginPage() {
-        return "account/login";
+    @GetMapping("/loginsuccess")     // 로그인 페이지 Controller
+    public String LoginsuccessPage() {
+        return "login success";
     }
 
     @GetMapping("/signup")     // 회원가입 페이지 Controller
-    public List<UserRegisterEntity> SignupPage(){//@RequestBody AccountForm accountForm, HttpSession session) {
-        List<UserRegisterDto> acc = new ArrayList<UserRegisterDto>();
-        List<UserRegisterEntity> acc2 = new ArrayList<UserRegisterEntity>();
-        UserRegisterDto account = UserRegisterDto.builder()
-                .username("임현준")
-                .password("123")
-                .build();
-        acc.add(account);
-        userRegisterService.save(account);
-        acc2.add(userRegisterService.loadUserByUsername("임현준"));
-        return acc2;
+    public String SignupPage(){//@RequestBody AccountForm accountForm, HttpSession session) {
+        return "Sign up page";
     }
 
     @PostMapping("/signup")
     public UserRegisterDto createUser(@RequestBody UserRegisterDto accountForm) throws Exception {
         //System.out.println(accountForm.getUsername());
+        userRegisterService.save(accountForm);
+        System.out.println(accountForm.getUsername());
+        System.out.println(accountForm.getPassword());
         return accountForm;
-
         }
     }
 

@@ -11,7 +11,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/js/**","/css/**","/images/**","/font/**");
+        web.ignoring().antMatchers("/js/**","/css/**","/images/**","/font/**", "/h2-console/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -21,12 +21,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/api/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login")
-                .successHandler(new LoginSuccessHandler())
+                .defaultSuccessUrl("/api/loginsuccess")
+                .failureUrl("/api/loginfailure")
+                //.successHandler(new LoginSuccessHandler())
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -34,7 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling().accessDeniedPage("/login/denied");
-    http.csrf().disable();
+    http.csrf()
+            .ignoringAntMatchers("/h2-console/**")
+            .disable();
 
     }
 
