@@ -45,7 +45,7 @@ public class SecurityConfig {
                     .and()
                         .formLogin()        // 기본 login
                         .loginPage("/api/login")
-                        .usernameParameter("username")
+                        .usernameParameter("email")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/api/loginSuccess")     // 로그인 성공 Url
                         .failureUrl("/api/loginFailure")        // 로그인 실패 url
