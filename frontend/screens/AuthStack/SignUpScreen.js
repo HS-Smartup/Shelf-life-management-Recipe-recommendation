@@ -1,9 +1,9 @@
 import {ImageBackground, Keyboard, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import AuthImage from '../assets/images/AuthImage.png';
-import SignUpButton from '../components/SignUpButton';
-import SignUpForm from '../components/SignUpForm';
+import AuthImage from '../../assets/images/AuthImage.png';
+import SignUpButton from '../../components/Auth/SignUpButton';
+import SignUpForm from '../../components/Auth/SignUpForm';
 
 const SignUpScreen = () => {
   const [form, setForm] = useState({
