@@ -22,12 +22,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         System.out.println("Success Log In : " + authentication.getName());
         session.setAttribute("userid", authentication.getName());
         session.setAttribute("role", authentication.getAuthorities());
-        session.setAttribute("credit_check","v");
+
 
        // String a = accountService.loadUserByUsername(authentication.getName()).getCredit_check();
         //System.out.println(a);
 
         //if authentication.getName() == "[ROLE_USER]"
-        response.sendRedirect("/");
+        response.sendRedirect("/api/log");
     }
 }

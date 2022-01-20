@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -17,26 +19,25 @@ public class UserRegisterService implements UserDetailsService {
     private final UserRegisterRepository userRegisterRepository;      // accountRepository 가져옴
 
     @Transactional
-    public void save(UserRegisterDto form) throws UsernameNotFoundException {
+    public void save(UserRegisterDto form) throws UsernameNotFoundException {       // 회원 정보 save
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         form.setPassword(encoder.encode(form.getPassword()));
         userRegisterRepository.save(form.toEntity());
     }
 
-    @Override
+    @Override       // 회원 정보 찾기
     public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
         //System.out.println(username);
         return userRegisterRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    public void deleteUser(String username) throws NullPointerException {
-        Long memnum = userRegisterRepository.findByUsername(username).get().getId();
-        System.out.println(memnum);
-        userRegisterRepository.deleteById(memnum);
+    public boolean checkUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
+        Optional<UserRegisterEntity> check = userRegisterRepository.findByUsername(username);
+        return check.isEmpty();
     }
 
-    public void changepassword(String username, String password) throws UsernameNotFoundException {
+    public void changepassword(String username, String password) throws UsernameNotFoundException {     // 비밀번호 변경
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String new_password = encoder.encode(password);
         String new_encoded_password = "{bcrypt}"+new_password;

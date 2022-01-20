@@ -6,6 +6,8 @@
 /backend/build/
 .idea/GW_project.iml
 
+
+
 /backend/.gradle/file-system.probe
 /backend/.gradle/7.3.2/executionHistory/executionHistory.bin
 /backend/.gradle/7.3.2/executionHistory/executionHistory.lock

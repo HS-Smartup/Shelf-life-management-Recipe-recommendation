@@ -1,8 +1,9 @@
 package com.hsbug.backend.app.user_register;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
 @NoArgsConstructor
 @Setter @Getter
 public class UserRegisterDto {

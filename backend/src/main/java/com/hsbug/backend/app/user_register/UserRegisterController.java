@@ -2,46 +2,48 @@ package com.hsbug.backend.app.user_register;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+/*
 
+    로그인, 회원 가입, id/pw 찾기, 회원 탈퇴
 
+*/
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api")        // 기본 url /api/...
 public class UserRegisterController {
 
     private final UserRegisterService userRegisterService;
-    private final UserRegisterRepository userRegisterRepository;
 
-    public UserRegisterController(UserRegisterService userRegisterService, UserRegisterRepository userRegisterRepository) {
+    public UserRegisterController(UserRegisterService userRegisterService) {
         this.userRegisterService = userRegisterService;
-        this.userRegisterRepository = userRegisterRepository;
     }
 
-    @GetMapping("/login")     // 로그인 페이지 Controller
-    public String LoginPage() {
-        return "account/login";
+    @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
+    public String LoginsuccessPage() {
+        return "login success";
+    }
+
+    @GetMapping("loginFailure")
+    public String LoginfailurePage(){
+        return "로그인 실패";
     }
 
     @GetMapping("/signup")     // 회원가입 페이지 Controller
-    public List<UserRegisterEntity> SignupPage(){//@RequestBody AccountForm accountForm, HttpSession session) {
-        List<UserRegisterDto> acc = new ArrayList<UserRegisterDto>();
-        List<UserRegisterEntity> acc2 = new ArrayList<UserRegisterEntity>();
-        UserRegisterDto account = UserRegisterDto.builder()
-                .username("임현준")
-                .password("123")
-                .build();
-        acc.add(account);
-        userRegisterService.save(account);
-        acc2.add(userRegisterService.loadUserByUsername("임현준"));
-        return acc2;
+    public String SignupPage(){//@RequestBody AccountForm accountForm, HttpSession session) {
+        return "Sign up page";
     }
 
-    @PostMapping("/signup")
-    public UserRegisterDto createUser(@RequestBody UserRegisterDto accountForm) throws Exception {
-        //System.out.println(accountForm.getUsername());
-        return accountForm;
-
+    @PostMapping("/signup")     // 회원가입 post
+    public String CreateUser(@RequestBody UserRegisterDto userRegisterDto) {
+        if (!userRegisterService.checkUserByUsername(userRegisterDto.getUsername())){
+            System.out.println("이미 등록된 회원입니다.");
+            return "회원가입 실패, 이미 등록된 회원입니다.";
+        }
+        else {
+            userRegisterService.save(userRegisterDto);           // service에 dto 저장
+            System.out.println(userRegisterDto.getUsername());
+            System.out.println(userRegisterDto.getPassword());
+            return "회원가입 성공";
         }
     }
+}
 
