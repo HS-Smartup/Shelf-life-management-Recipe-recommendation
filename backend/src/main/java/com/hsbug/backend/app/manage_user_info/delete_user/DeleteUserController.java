@@ -19,7 +19,7 @@ public class DeleteUserController {     // 회원 탈퇴
     @PostMapping("/deleteUser")
     public String DeleteUser(@RequestBody UserRegisterDto userRegisterDto) throws Exception{
 
-        String username = userRegisterDto.getUsername();
+        String username = userRegisterDto.getEmail();
         System.out.println(username);
         deleteUserService.deleteUser(username);
         return "delete user"+username;

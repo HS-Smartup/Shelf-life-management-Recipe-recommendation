@@ -24,7 +24,7 @@ public class UserRegisterController {
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
     public UserRegisterDto LoginsuccessPage(UserRegisterDto form) {
         //UserRegisterDto form ;
-        form.setUsername(httpSession.getAttribute("username").toString());
+        form.setEmail(httpSession.getAttribute("username").toString());
         form.setPassword("secret");
         return form;
     }
@@ -41,13 +41,13 @@ public class UserRegisterController {
 
     @PostMapping("/signup")     // 회원가입 post
     public String CreateUser(@RequestBody UserRegisterDto userRegisterDto) {
-        if (!userRegisterService.checkUserByUsername(userRegisterDto.getUsername())){
+        if (!userRegisterService.checkUserByUsername(userRegisterDto.getEmail())){
             System.out.println("이미 등록된 회원입니다.");
             return "회원가입 실패, 이미 등록된 회원입니다.";
         }
         else {
             userRegisterService.save(userRegisterDto);           // service에 dto 저장
-            System.out.println(userRegisterDto.getUsername());
+            System.out.println(userRegisterDto.getEmail());
             System.out.println(userRegisterDto.getPassword());
             return "회원가입 성공";
         }
