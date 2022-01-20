@@ -9,21 +9,21 @@ import org.springframework.stereotype.Component;
 public class UserRegisterDto {
 
     private Long id;
-    private String username;
+    private String email;
     private String password;
 
 
     @Builder
-    public UserRegisterDto(Long id, String username, String password, String role, String credit_check){
+    public UserRegisterDto(Long id, String email, String password, String role, String credit_check){
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = "{bcrypt}"+password;
     }
 
     public UserRegisterEntity toEntity(){
         return UserRegisterEntity.builder()
                 .id(id)
-                .username(username)
+                .username(email)
                 .password(password)     // BCryptPasswordEncoder  == 스프링 시큐리티에서 제공, 비밀번호 암호화
                 .build();
     }
