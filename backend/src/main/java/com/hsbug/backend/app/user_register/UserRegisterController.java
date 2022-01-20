@@ -1,6 +1,9 @@
 package com.hsbug.backend.app.user_register;
 
+import org.h2.engine.User;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /*
 
@@ -12,14 +15,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserRegisterController {
 
     private final UserRegisterService userRegisterService;
-
-    public UserRegisterController(UserRegisterService userRegisterService) {
+    private final HttpSession  httpSession;
+    public UserRegisterController(UserRegisterService userRegisterService, HttpSession httpSession) {
         this.userRegisterService = userRegisterService;
+        this.httpSession = httpSession;
     }
 
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
-    public String LoginsuccessPage() {
-        return "login success";
+    public UserRegisterDto LoginsuccessPage(UserRegisterDto form) {
+        //UserRegisterDto form ;
+        form.setUsername(httpSession.getAttribute("username").toString());
+        form.setPassword("secret");
+        return form;
     }
 
     @GetMapping("loginFailure")

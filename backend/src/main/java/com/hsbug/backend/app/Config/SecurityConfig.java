@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.Config;
 
+import com.hsbug.backend.app.user_register.LoginSuccessHandler;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2Provider;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +50,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .defaultSuccessUrl("/api/loginSuccess")     // 로그인 성공 Url
                         .failureUrl("/api/loginFailure")        // 로그인 실패 url
-                        //.successHandler(new LoginSuccessHandler())
+                        .successHandler(new LoginSuccessHandler())
                     .and()
                         .logout()       // logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
