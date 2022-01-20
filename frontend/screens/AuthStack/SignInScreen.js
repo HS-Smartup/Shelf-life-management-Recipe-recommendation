@@ -8,9 +8,10 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SignInForm from '../components/SignInForm';
-import AuthImage from '../assets/images/AuthImage.png';
-import SignInButton from '../components/SignInButton';
+import SignInForm from '../../components/Auth/SignInForm';
+import AuthImage from '../../assets/images/AuthImage.png';
+import SignInButton from '../../components/Auth/SignInButton';
+import {signIn} from '../../lib/auth/auth';
 
 const SignInScreen = () => {
   const [form, setForm] = useState({
@@ -29,15 +30,15 @@ const SignInScreen = () => {
     const {email, password} = form;
     const info = {email, password};
     setLoading(true);
-    // try {
-    //   const {user} = await signIn(info);
-    //   console.log(user);
-    // } catch (e) {
-    //   Alert.alert('실패');
-    //   console.log(e);
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      const {user} = await signIn(info);
+      console.log(user);
+    } catch (e) {
+      Alert.alert('실패');
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
