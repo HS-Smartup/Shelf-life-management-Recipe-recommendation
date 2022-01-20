@@ -1,4 +1,4 @@
-package com.hsbug.backend.app.security;
+package com.hsbug.backend.app.user_register.external_login;
 
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 

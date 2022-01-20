@@ -17,12 +17,12 @@ public class UserRegisterController {
         this.userRegisterService = userRegisterService;
     }
 
-    @GetMapping("/loginsuccess")     // 로그인 성공시 get
+    @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
     public String LoginsuccessPage() {
         return "login success";
     }
 
-    @GetMapping("loginfailure")
+    @GetMapping("loginFailure")
     public String LoginfailurePage(){
         return "로그인 실패";
     }

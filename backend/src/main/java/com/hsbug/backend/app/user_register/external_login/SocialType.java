@@ -1,4 +1,4 @@
-package com.hsbug.backend.app.security;
+package com.hsbug.backend.app.user_register.external_login;
 
 
 public enum SocialType {

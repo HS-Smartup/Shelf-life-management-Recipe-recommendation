@@ -1,4 +1,4 @@
-package com.hsbug.backend.app.security;
+package com.hsbug.backend.app.user_register.external_login;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
