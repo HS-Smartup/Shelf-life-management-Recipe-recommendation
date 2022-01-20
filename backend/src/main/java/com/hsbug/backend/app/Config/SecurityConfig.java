@@ -14,21 +14,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/js/**","/css/**","/images/**","/font/**", "/h2-console/**");
     }
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {      // spring-security 설정
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
-                .formLogin()
+                .formLogin()        // login
                 .loginPage("/api/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/api/loginsuccess")
-                .failureUrl("/api/loginfailure")
+                .defaultSuccessUrl("/api/loginsuccess")     // 로그인 성공 Url
+                .failureUrl("/api/loginfailure")        // 로그인 실패 url
                 //.successHandler(new LoginSuccessHandler())
                 .and()
-                .logout()
+                .logout()       // logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .invalidateHttpSession(true)
                 .logoutSuccessUrl("/")
