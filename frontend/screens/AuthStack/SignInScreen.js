@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {createContext, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SignInForm from '../../components/Auth/SignInForm';
 import AuthImage from '../../assets/images/AuthImage.png';
@@ -25,14 +25,17 @@ const SignInScreen = () => {
     setForm({...form, [name]: value});
   };
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     Keyboard.dismiss();
     const {email, password} = form;
     const info = {email, password};
     setLoading(true);
+    console.log(email);
+    console.log(password);
     try {
-      const {user} = await signIn(info);
-      console.log(user);
+      const {user} = signIn(info);
+      console.log(email);
+      console.log(password);
     } catch (e) {
       Alert.alert('실패');
       console.log(e);
