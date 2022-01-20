@@ -9,7 +9,7 @@ const SignUpScreen = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
-    confrimPassword: '',
+    confirmPassword: '',
   });
 
   const createChangeTextHandler = name => value => {
