@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -28,6 +30,11 @@ public class UserRegisterService implements UserDetailsService {
         //System.out.println(username);
         return userRegisterRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    public boolean checkUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
+        Optional<UserRegisterEntity> check = userRegisterRepository.findByUsername(username);
+        return check.isEmpty();
     }
 
     public void changepassword(String username, String password) throws UsernameNotFoundException {     // 비밀번호 변경
