@@ -20,7 +20,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
 
         System.out.println("Success Log In : " + authentication.getName());
-        session.setAttribute("userid", authentication.getName());
+        session.setAttribute("username", authentication.getName());
         session.setAttribute("role", authentication.getAuthorities());
 
 
@@ -28,6 +28,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         //System.out.println(a);
 
         //if authentication.getName() == "[ROLE_USER]"
-        response.sendRedirect("/api/log");
+        response.sendRedirect("/api/loginSuccess");
     }
 }
