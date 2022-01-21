@@ -14,5 +14,13 @@ export function signIn({email, password}) {
 }
 
 export function signUp({email, password}) {
-  return fetch('http://192.168.0.1:8080/api/singup');
+  return fetch('http://192.168.0.1:8080/api/singup', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  })
+    .then(res => res.text())
+    .then(res => console.log(res));
 }

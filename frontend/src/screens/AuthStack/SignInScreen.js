@@ -9,7 +9,7 @@ import {
 import React, {createContext, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {signIn} from 'lib/auth/auth';
-import {AuthImage} from '@/assets/images/AuthImage.png';
+import AuthImage from '../../assets/images/AuthImage.png';
 import SignInForm from 'components/Auth/SignInForm';
 import SignInButton from 'components/Auth/SignInButton';
 
@@ -30,15 +30,18 @@ const SignInScreen = () => {
     const {email, password} = form;
     const info = {email, password};
     setLoading(true);
-    console.log(email);
-    console.log(password);
+
     try {
-      const {user} = signIn(info);
-      console.log(email);
-      console.log(password);
+      // const {user} = signIn(info);
+      // console.log(user);
+      console.log('sigin');
     } catch (e) {
-      Alert.alert('실패');
-      console.log(e);
+      const messages = {
+        // 잘못된 비밀번호입니다.
+        // 존재하지 않는 계정입니다.
+      };
+      const msg = messages[e.code] || '로그인 실패';
+      Alert.alert('실패', msg);
     } finally {
       setLoading(false);
     }
