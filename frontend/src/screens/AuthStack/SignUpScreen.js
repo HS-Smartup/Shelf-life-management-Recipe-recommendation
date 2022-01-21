@@ -1,47 +1,24 @@
-import {
-  Alert,
-  ImageBackground,
-  Keyboard,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import React, {createContext, useState} from 'react';
+import {ImageBackground, Keyboard, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SignInForm from '../../components/Auth/SignInForm';
 import AuthImage from '../../assets/images/AuthImage.png';
-import SignInButton from '../../components/Auth/SignInButton';
-import {signIn} from '../../lib/auth/auth';
+import SignUpForm from 'components/Auth/SignUpForm';
+import SignUpButton from 'components/Auth/SignUpButton';
 
-const SignInScreen = () => {
+const SignUpScreen = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
   });
-
-  const [loading, setLoading] = useState();
 
   const createChangeTextHandler = name => value => {
     setForm({...form, [name]: value});
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     Keyboard.dismiss();
-    const {email, password} = form;
-    const info = {email, password};
-    setLoading(true);
-    console.log(email);
-    console.log(password);
-    try {
-      const {user} = signIn(info);
-      console.log(email);
-      console.log(password);
-    } catch (e) {
-      Alert.alert('실패');
-      console.log(e);
-    } finally {
-      setLoading(false);
-    }
+    console.log(form);
   };
 
   return (
@@ -52,19 +29,19 @@ const SignInScreen = () => {
         resizeMode="cover">
         <Text style={styles.text}>레시피 냉장고</Text>
         <View style={styles.form}>
-          <SignInForm
+          <SignUpForm
             onSubmit={onSubmit}
             form={form}
             createChangeTextHandler={createChangeTextHandler}
           />
-          <SignInButton onSubmit={onSubmit} />
+          <SignUpButton onSubmit={onSubmit} />
         </View>
       </ImageBackground>
     </SafeAreaView>
   );
 };
 
-export default SignInScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   fullscreen: {

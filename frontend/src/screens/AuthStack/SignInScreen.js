@@ -1,24 +1,47 @@
-import {ImageBackground, Keyboard, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  Alert,
+  ImageBackground,
+  Keyboard,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {createContext, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import AuthImage from '../../assets/images/AuthImage.png';
-import SignUpButton from '../../components/Auth/SignUpButton';
-import SignUpForm from '../../components/Auth/SignUpForm';
+import {signIn} from 'lib/auth/auth';
+import {AuthImage} from '@/assets/images/AuthImage.png';
+import SignInForm from 'components/Auth/SignInForm';
+import SignInButton from 'components/Auth/SignInButton';
 
-const SignUpScreen = () => {
+const SignInScreen = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
-    confirmPassword: '',
   });
+
+  const [loading, setLoading] = useState();
 
   const createChangeTextHandler = name => value => {
     setForm({...form, [name]: value});
   };
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     Keyboard.dismiss();
-    console.log(form);
+    const {email, password} = form;
+    const info = {email, password};
+    setLoading(true);
+    console.log(email);
+    console.log(password);
+    try {
+      const {user} = signIn(info);
+      console.log(email);
+      console.log(password);
+    } catch (e) {
+      Alert.alert('실패');
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -29,19 +52,19 @@ const SignUpScreen = () => {
         resizeMode="cover">
         <Text style={styles.text}>레시피 냉장고</Text>
         <View style={styles.form}>
-          <SignUpForm
+          <SignInForm
             onSubmit={onSubmit}
             form={form}
             createChangeTextHandler={createChangeTextHandler}
           />
-          <SignUpButton onSubmit={onSubmit} />
+          <SignInButton onSubmit={onSubmit} />
         </View>
       </ImageBackground>
     </SafeAreaView>
   );
 };
 
-export default SignUpScreen;
+export default SignInScreen;
 
 const styles = StyleSheet.create({
   fullscreen: {
