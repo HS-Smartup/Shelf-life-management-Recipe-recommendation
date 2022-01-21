@@ -1,6 +1,6 @@
 package com.hsbug.backend.app.user_register;
 
-import org.h2.engine.User;
+import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -40,17 +40,19 @@ public class UserRegisterController {
     }
 
     @PostMapping("/signup")     // 회원가입 post
-    public String CreateUser(@RequestBody UserRegisterDto userRegisterDto) {
+    public JSONObject CreateUser(@RequestBody UserRegisterDto userRegisterDto) {
+        JSONObject obj = new JSONObject();
         if (!userRegisterService.checkUserByUsername(userRegisterDto.getEmail())){
             System.out.println("이미 등록된 회원입니다.");
-            return "회원가입 실패, 이미 등록된 회원입니다.";
+            obj.put("message","이미 등록된 회원입니다.");
         }
         else {
             userRegisterService.save(userRegisterDto);           // service에 dto 저장
             System.out.println(userRegisterDto.getEmail());
             System.out.println(userRegisterDto.getPassword());
-            return "회원가입 성공";
+            obj.put("message","회원 가입 성공");
         }
+        return obj;
     }
 }
 
