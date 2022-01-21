@@ -1,7 +1,7 @@
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import CustomButton from '../CustomButton';
+import CustomButton from 'components/CustomButton';
 
 const SignInButton = ({onSubmit, loading}) => {
   const signIn = '로그인';

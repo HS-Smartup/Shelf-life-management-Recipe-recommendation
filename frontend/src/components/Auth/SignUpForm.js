@@ -1,15 +1,16 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {useRef} from 'react';
-import BorderedInput from '../BorderedInput';
+import {StyleSheet} from 'react-native';
+import BorderedInput from 'components/BorderedInput';
 
-const SignInForm = ({onSubmit, form, createChangeTextHandler}) => {
+const SignUpForm = ({onSubmit, form, createChangeTextHandler}) => {
   const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
 
   return (
     <>
       <BorderedInput
-        placeholder="이메일"
         hasMarginBottom
+        placeholder="이메일"
         value={form.email}
         onChangeText={createChangeTextHandler('email')}
         autoCapitalize="none"
@@ -21,20 +22,27 @@ const SignInForm = ({onSubmit, form, createChangeTextHandler}) => {
       />
       <BorderedInput
         placeholder="비밀번호"
-        hasMarginBottom
         secureTextEntry
+        hasMarginBottom
         value={form.password}
         onChangeText={createChangeTextHandler('password')}
         ref={passwordRef}
+        returnKeyType="next"
+        onSubmitEditing={() => confirmPasswordRef.current.focus()}
+      />
+      <BorderedInput
+        placeholder="비밀번호 확인"
+        secureTextEntry
+        value={form.confirmPassword}
+        onChangeText={createChangeTextHandler('confirmPassword')}
+        ref={confirmPasswordRef}
         returnKeyType="done"
-        onSubmitEditing={() => {
-          onSubmit();
-        }}
+        onSubmitEditing={onSubmit}
       />
     </>
   );
 };
 
-export default SignInForm;
+export default SignUpForm;
 
 const styles = StyleSheet.create({});

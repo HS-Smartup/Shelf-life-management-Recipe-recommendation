@@ -12,3 +12,7 @@ export function signIn({email, password}) {
     .then(res => res.text())
     .then(res => console.log(res));
 }
+
+export function signUp({email, password}) {
+  return fetch('http://192.168.0.1:8080/api/singup');
+}

@@ -1,7 +1,7 @@
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import CustomButton from '../CustomButton';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import CustomButton from 'components/CustomButton';
 
 const SignUpButton = ({onSubmit, loading}) => {
   const signUp = '회원가입';
