@@ -28,11 +28,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         //System.out.println(a);
 
         //if authentication.getName() == "[ROLE_USER]"
-<<<<<<< HEAD
+
         System.out.println(authentication.getName());
         System.out.println(authentication.getAuthorities());
-=======
->>>>>>> 7952ad87a74ecf5f2f4122308156604443277373
+
         response.sendRedirect("/api/loginSuccess");
     }
 }

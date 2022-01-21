@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
@@ -27,8 +29,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-
+@Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
     private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 
     private static final String MISSING_USER_NAME_ATTRIBUTE_ERROR_CODE = "missing_user_name_attribute";
@@ -108,6 +111,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         System.out.println(authorities);
         System.out.println(userAttributes);
         System.out.println(userNameAttributeName);
+
+        //model.addAttribute("user",userAttributes.get("name"));
         return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
     }
 

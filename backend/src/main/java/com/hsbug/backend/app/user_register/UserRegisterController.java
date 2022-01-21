@@ -1,9 +1,16 @@
 package com.hsbug.backend.app.user_register;
 
+import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import org.json.simple.JSONObject;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 
 /*
 
@@ -16,9 +23,16 @@ public class UserRegisterController {
 
     private final UserRegisterService userRegisterService;
     private final HttpSession  httpSession;
-    public UserRegisterController(UserRegisterService userRegisterService, HttpSession httpSession) {
+    private final UserRegisterRepository userRegisterRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public UserRegisterController(UserRegisterService userRegisterService, HttpSession httpSession, UserRegisterRepository userRegisterRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userRegisterService = userRegisterService;
         this.httpSession = httpSession;
+        this.userRegisterRepository = userRegisterRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
@@ -47,11 +61,31 @@ public class UserRegisterController {
             obj.put("message","이미 등록된 회원입니다.");
         }
         else {
+            userRegisterDto.setRoles("ROLE_USER");
             userRegisterService.save(userRegisterDto);           // service에 dto 저장
             System.out.println(userRegisterDto.getEmail());
             System.out.println(userRegisterDto.getPassword());
+            System.out.println(userRegisterDto.getRoles());
             obj.put("message","회원 가입 성공");
         }
+        return obj;
+    }
+
+    @PostMapping("/login")
+    public JSONObject login(@RequestBody Map<String, String> user){
+        List<String> role = new ArrayList<>();
+        role.add("ROLE_USER");
+        JSONObject obj = new JSONObject();
+
+        UserRegisterEntity member = userRegisterRepository.findByUsername(user.get("email"))
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 회원"));
+        if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
+            obj.put("message", "잘못된 비밀번호입니다.");
+            return obj;
+            //throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+        obj.put("message","로그인 성공");
+        obj.put("token",jwtTokenProvider.createToken(member.getUsername(),role));
         return obj;
     }
 }

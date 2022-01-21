@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,12 +19,14 @@ public class UserRegisterEntity implements UserDetails {
 
     private String username;
     private String password;
+    private String roles;
 
     @Builder
-    public UserRegisterEntity(Long id, String username, String password, String role, String credit_check){
+    public UserRegisterEntity(Long id, String username, String password, String roles, String credit_check){
         this.id = id;
         this.username = username;
         this.password = "{bcrypt}"+password;
+        this.roles = roles;
     }
 
     @Override
@@ -50,4 +53,5 @@ public class UserRegisterEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

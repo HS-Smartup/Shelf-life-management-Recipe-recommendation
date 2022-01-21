@@ -1,5 +1,7 @@
 package com.hsbug.backend.app.Config;
 
+import com.hsbug.backend.app.Config.Jwt.JwtAuthenticationFilter;
+import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import com.hsbug.backend.app.user_register.LoginSuccessHandler;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2Provider;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2UserService;
@@ -8,14 +10,19 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.List;
@@ -32,32 +39,56 @@ public class SecurityConfig {
     @Configuration
     public static class SecurityConfig1 extends WebSecurityConfigurerAdapter{
 
+        private final JwtTokenProvider jwtTokenProvider;
+
+        public SecurityConfig1(JwtTokenProvider jwtTokenProvider) {
+            this.jwtTokenProvider = jwtTokenProvider;
+        }
+
+        //암호화에 필요한 passwordencoder bean 등록
+        @Bean
+        public PasswordEncoder passwordEncoder(){
+            return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        }
+
+        // authenticationManager를 Bean 등록합니다.
+        @Bean
         @Override
-        public void configure(WebSecurity web) {
+        public AuthenticationManager authenticationManagerBean() throws Exception {
+            return super.authenticationManagerBean();
+        }
+
+        @Override
+    public void configure(WebSecurity web) {
             web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/font/**", "/h2-console/**");
         }
 
         @Override
         public void configure(HttpSecurity httpSecurity) throws Exception {
-            httpSecurity.authorizeRequests()
+            httpSecurity
+                        .sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                        .authorizeRequests()
                         .antMatchers("/admin/**").hasRole("ADMIN")
                         .antMatchers("/**").permitAll()
                         .antMatchers("/h2-console/**").permitAll()
                     .and()
-                        .formLogin()        // 기본 login
-                        .loginPage("/api/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/api/loginSuccess")     // 로그인 성공 Url
-                        .failureUrl("/api/loginFailure")        // 로그인 실패 url
-                        .successHandler(new LoginSuccessHandler())
-                    .and()
+                        //.formLogin()        // 기본 login
+                        //.loginPage("/api/login")
+                        //.usernameParameter("email")
+                        //.passwordParameter("password")
+                        //.defaultSuccessUrl("/api/loginSuccess")     // 로그인 성공 Url
+                        //.failureUrl("/api/loginFailure")        // 로그인 실패 url
+                        //.successHandler(new LoginSuccessHandler())
+                    //.and()
                         .logout()       // logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/api/logout"))
                         .invalidateHttpSession(true)
                         .logoutSuccessUrl("/")
                     .and()
-                        .exceptionHandling().accessDeniedPage("/login/denied");
+                        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                        //.exceptionHandling().accessDeniedPage("/login/denied");
             httpSecurity.csrf()
                     .ignoringAntMatchers("/h2-console/**")
                     .disable();
@@ -75,11 +106,16 @@ public class SecurityConfig {
                         .oauth2Login()
                         .userInfoEndpoint().userService(new CustomOAuth2UserService())  // 네이버 USER INFO의 응답을 처리하기 위한 설정
                     .and()
-                        .defaultSuccessUrl("/api/loginSuccess")
-                        .failureUrl("/api/loginFailure")
+                        //.defaultSuccessUrl("/api/loginSuccess")
+                        //.failureUrl("/api/loginFailure")
+                    //.and()
+                        //.exceptionHandling()
+                        //.accessDeniedPage("/login")
                     .and()
-                        .exceptionHandling()
-                        .accessDeniedPage("/login");
+                        .sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
             httpSecurity.csrf()
                     .ignoringAntMatchers("/h2-console/**")
                     .disable();
