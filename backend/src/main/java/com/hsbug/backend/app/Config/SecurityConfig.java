@@ -2,7 +2,6 @@ package com.hsbug.backend.app.Config;
 
 import com.hsbug.backend.app.Config.Jwt.JwtAuthenticationFilter;
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
-import com.hsbug.backend.app.user_register.LoginSuccessHandler;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2Provider;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,9 +39,10 @@ public class SecurityConfig {
     public static class SecurityConfig1 extends WebSecurityConfigurerAdapter{
 
         private final JwtTokenProvider jwtTokenProvider;
-
-        public SecurityConfig1(JwtTokenProvider jwtTokenProvider) {
+        private final CustomOAuth2UserService customOAuth2UserService;
+        public SecurityConfig1(JwtTokenProvider jwtTokenProvider, CustomOAuth2UserService customOAuth2UserService) {
             this.jwtTokenProvider = jwtTokenProvider;
+            this.customOAuth2UserService = customOAuth2UserService;
         }
 
         //암호화에 필요한 passwordencoder bean 등록
@@ -104,7 +104,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                     .and()
                         .oauth2Login()
-                        .userInfoEndpoint().userService(new CustomOAuth2UserService())  // 네이버 USER INFO의 응답을 처리하기 위한 설정
+                        .userInfoEndpoint().userService(customOAuth2UserService)  // 네이버 USER INFO의 응답을 처리하기 위한 설정
                     .and()
                         //.defaultSuccessUrl("/api/loginSuccess")
                         //.failureUrl("/api/loginFailure")

@@ -1,5 +1,7 @@
 package com.hsbug.backend.app.user_register.external_login;
 
+import com.hsbug.backend.app.user_register.external_login.user.OAuth2UserEntity;
+import org.json.simple.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -18,19 +20,20 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpSession;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+    private final HttpSession httpSession;
 
     private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 
@@ -45,7 +48,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private RestOperations restOperations;
 
-    public CustomOAuth2UserService() {
+    public CustomOAuth2UserService(HttpSession httpSession) {
+        this.httpSession = httpSession;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
         this.restOperations = restTemplate;
@@ -112,7 +116,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         System.out.println(userAttributes);
         System.out.println(userNameAttributeName);
 
-        //model.addAttribute("user",userAttributes.get("name"));
+        httpSession.setAttribute("username",userAttributes.get("name"));
+        System.out.println(httpSession.getAttribute("username"));
+
+        JSONObject json = new JSONObject();
+        json.put("sub", userAttributes.get("sub"));
+
+        httpSession.setAttribute("user",json);
+        System.out.println(httpSession.getAttribute("user"));
+
         return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
     }
 
@@ -126,6 +138,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         return userAttributes;
     }
+
 }
 
 
