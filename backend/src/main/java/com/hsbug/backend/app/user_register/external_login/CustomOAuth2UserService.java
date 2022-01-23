@@ -1,8 +1,9 @@
 package com.hsbug.backend.app.user_register.external_login;
 
 import com.hsbug.backend.app.user_register.UserRegisterDto;
+import com.hsbug.backend.app.user_register.UserRegisterEntity;
+import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import com.hsbug.backend.app.user_register.UserRegisterService;
-import org.json.simple.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -28,6 +29,7 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.SysexMessage;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -37,6 +39,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final HttpSession httpSession;      //현준
     private final UserRegisterDto userRegisterDto;     //호배
     private final UserRegisterService userRegisterService;      //호배
+    private final UserRegisterRepository userRegisterRepository;
 
     private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 
@@ -51,10 +54,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private RestOperations restOperations;
 
-    public CustomOAuth2UserService(HttpSession httpSession, UserRegisterDto userRegisterDto, UserRegisterService userRegisterService) {
+    public CustomOAuth2UserService(HttpSession httpSession, UserRegisterDto userRegisterDto, UserRegisterService userRegisterService, UserRegisterRepository userRegisterRepository) {
         this.httpSession = httpSession;
         this.userRegisterDto = userRegisterDto;         //호배
         this.userRegisterService = userRegisterService;
+        this.userRegisterRepository = userRegisterRepository;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
         this.restOperations = restTemplate;
@@ -127,6 +131,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String name = String.valueOf(userAttributes.get("name"));
         String picture = String.valueOf(userAttributes.get("picture"));
         String google_sub; String naver_sub; String kakao_sub;
+
         userRegisterDto.clear();
         if (userNameAttributeName =="sub"){  // 구글
             google_sub = String.valueOf(userAttributes.get("sub"));
@@ -142,7 +147,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 userRegisterDto.kakaoDtoOption(email, name, kakao_sub, picture);
             }
         }
-
+        saveOrUpdate(userRegisterDto);
 
         /**
          * 구글 로그인에 대한 옵션
@@ -150,7 +155,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
          * google이라는 값으로 들어가게 해놓았다.
          */
 
-        userRegisterService.save(userRegisterDto);
 
         /**
          * 구글의 회원내용을 받아오는 DTO
@@ -173,6 +177,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userAttributes;
     }
 
+    private void saveOrUpdate(UserRegisterDto userRegisterDto){
+        boolean user_check = userRegisterService.checkUserByUsername(userRegisterDto.getEmail());
+        System.out.println(user_check);
+        if (!user_check){ // update
+            UserRegisterEntity user = userRegisterService.loadUserByUsername(userRegisterDto.getEmail());
+            userRegisterRepository.save(user);
+        }else{ //save
+            userRegisterService.save(userRegisterDto);
+        }
+
+    }
 
 }
 

@@ -29,14 +29,14 @@ public class UserRegisterService implements UserDetailsService {
 
     @Override       // 회원 정보 찾기
     public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
-        //System.out.println(username);
-        return userRegisterRepository.findByUsername(username)
+        System.out.println(username);
+        return userRegisterRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
     public boolean checkUserByUsername(String username) {//throws UsernameNotFoundException,NullPointerException {
-        Optional<UserRegisterEntity> check = userRegisterRepository.findByUsername(username);
-        System.out.println(check);
+        //Optional<UserRegisterEntity> check = userRegisterRepository.findByUsername(username);
+        Optional<UserRegisterEntity> check = userRegisterRepository.findByEmail(username);
         return check.isEmpty();
     }
 
