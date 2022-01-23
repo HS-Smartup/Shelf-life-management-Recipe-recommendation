@@ -33,8 +33,9 @@ public class UserRegisterService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    public boolean checkUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
+    public boolean checkUserByUsername(String username) {//throws UsernameNotFoundException,NullPointerException {
         Optional<UserRegisterEntity> check = userRegisterRepository.findByUsername(username);
+        System.out.println(check);
         return check.isEmpty();
     }
 

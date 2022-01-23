@@ -77,16 +77,22 @@ public class UserRegisterController {
         role.add("ROLE_USER");
         JSONObject obj = new JSONObject();
 
-        UserRegisterEntity member = userRegisterRepository.findByUsername(user.get("email"))
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 회원"));
-        if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
-            obj.put("message", "잘못된 비밀번호입니다.");
-            return obj;
-            //throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        if (userRegisterService.checkUserByUsername(user.get("email"))){
+            obj.put("message", "잘못된 아이디입니다.");
         }
-        obj.put("message","로그인 성공");
-        obj.put("token",jwtTokenProvider.createToken(member.getUsername(),role));
+        else {
+            UserRegisterEntity member = userRegisterService.loadUserByUsername(user.get("email"));
+
+            if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
+                obj.put("message", "잘못된 비밀번호입니다.");
+            }
+            else {
+                obj.put("message", "로그인 성공");
+                obj.put("token", jwtTokenProvider.createToken(member.getUsername(), role));
+            }
+        }
         return obj;
+
     }
 }
 
