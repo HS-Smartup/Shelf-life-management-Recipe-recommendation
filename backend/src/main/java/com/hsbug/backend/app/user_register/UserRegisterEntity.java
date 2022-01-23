@@ -21,12 +21,20 @@ public class UserRegisterEntity implements UserDetails {
     private String password;
     private String roles;
 
+    private String email;
+    private String goofleSub;
+    private String photo;
+
     @Builder
-    public UserRegisterEntity(Long id, String username, String password, String roles, String credit_check){
-        this.id = id;
+    public UserRegisterEntity(Long id, String email, String username, String password, String roles, String credit_check, String goofleSub, String photo){
+//        this.id = id; 아이디값을 줘야하나??
+
         this.username = username;
+        this.email = email;
         this.password = "{bcrypt}"+password;
         this.roles = roles;
+        this.goofleSub = goofleSub;
+        this.photo = photo;
     }
 
     @Override
