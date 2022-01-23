@@ -119,8 +119,29 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
 //        System.out.println(authorities);
-//        System.out.println(userAttributes);
+        System.out.println(userAttributes);
 //        System.out.println(userNameAttributeName);
+
+
+        String email = String.valueOf(userAttributes.get("email"));
+        String name = String.valueOf(userAttributes.get("name"));
+        String picture = String.valueOf(userAttributes.get("picture"));
+        String google_sub; String naver_sub; String kakao_sub;
+        userRegisterDto.clear();
+        if (userNameAttributeName =="sub"){  // 구글
+            google_sub = String.valueOf(userAttributes.get("sub"));
+            userRegisterDto.googleDtoOption(email, name, google_sub, picture);
+        }
+        if(userNameAttributeName =="id"){  // 카카오
+            if (userAttributes.containsKey("resultcode")){ // 네이버
+                naver_sub = String.valueOf(userAttributes.get("id"));
+                userRegisterDto.naverDtoOption(email, name, naver_sub, picture);
+            }
+            else {
+                kakao_sub = String.valueOf(userAttributes.get("id"));
+                userRegisterDto.kakaoDtoOption(email, name, kakao_sub, picture);
+            }
+        }
 
 
         /**
@@ -128,16 +149,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
          * email, name, sub, picture, 패스워드의 경우 dot를 만들때 알아서
          * google이라는 값으로 들어가게 해놓았다.
          */
-        String email = String.valueOf(userAttributes.get("email"));
-        String name = String.valueOf(userAttributes.get("name"));
-        String sub = String.valueOf(userAttributes.get("sub"));
-        String picture = String.valueOf(userAttributes.get("picture"));
+
+        userRegisterService.save(userRegisterDto);
 
         /**
          * 구글의 회원내용을 받아오는 DTO
          */
-        userRegisterDto.googleDtoOption(email, name, sub, picture);
-        userRegisterService.save(userRegisterDto);
+
+
 
 
         return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
@@ -153,6 +172,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         return userAttributes;
     }
+
 
 }
 

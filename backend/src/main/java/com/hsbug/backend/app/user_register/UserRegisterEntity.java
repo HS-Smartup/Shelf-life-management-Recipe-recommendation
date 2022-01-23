@@ -22,19 +22,23 @@ public class UserRegisterEntity implements UserDetails {
     private String roles;
 
     private String email;
-    private String goofleSub;
+    private String google_sub;
     private String photo;
+    private String kakao_sub;
+    private String naver_sub;
 
     @Builder
-    public UserRegisterEntity(Long id, String email, String username, String password, String roles, String credit_check, String goofleSub, String photo){
+    public UserRegisterEntity(Long id, String email, String username, String password, String roles, String credit_check, String google_sub, String photo,String kakao_sub, String naver_sub){
 //        this.id = id; 아이디값을 줘야하나??
 
         this.username = username;
         this.email = email;
         this.password = "{bcrypt}"+password;
         this.roles = roles;
-        this.goofleSub = goofleSub;
+        this.google_sub = google_sub;
         this.photo = photo;
+        this.kakao_sub = kakao_sub;
+        this.naver_sub = naver_sub;
     }
 
     @Override
