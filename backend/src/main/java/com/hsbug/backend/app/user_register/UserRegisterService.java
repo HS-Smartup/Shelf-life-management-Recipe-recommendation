@@ -26,6 +26,7 @@ public class UserRegisterService implements UserDetailsService {
         userRegisterRepository.save(form.toEntity());
     }
 
+
     @Override       // 회원 정보 찾기
     public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
         //System.out.println(username);
