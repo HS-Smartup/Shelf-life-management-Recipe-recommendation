@@ -1,6 +1,7 @@
 package com.hsbug.backend.app.user_register.external_login;
 
-import com.hsbug.backend.app.user_register.external_login.user.OAuth2UserEntity;
+import com.hsbug.backend.app.user_register.UserRegisterDto;
+import com.hsbug.backend.app.user_register.UserRegisterService;
 import org.json.simple.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
@@ -33,7 +34,9 @@ import java.util.Map;
 import java.util.Set;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    private final HttpSession httpSession;
+    private final HttpSession httpSession;      //현준
+    private final UserRegisterDto userRegisterDto;     //호배
+    private final UserRegisterService userRegisterService;      //호배
 
     private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 
@@ -48,8 +51,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private RestOperations restOperations;
 
-    public CustomOAuth2UserService(HttpSession httpSession) {
+    public CustomOAuth2UserService(HttpSession httpSession, UserRegisterDto userRegisterDto, UserRegisterService userRegisterService) {
         this.httpSession = httpSession;
+        this.userRegisterDto = userRegisterDto;         //호배
+        this.userRegisterService = userRegisterService;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
         this.restOperations = restTemplate;
@@ -112,18 +117,28 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         for (String authority : token.getScopes()) {
             authorities.add(new SimpleGrantedAuthority("SCOPE_" + authority));
         }
-        System.out.println(authorities);
-        System.out.println(userAttributes);
-        System.out.println(userNameAttributeName);
 
-        httpSession.setAttribute("username",userAttributes.get("name"));
-        System.out.println(httpSession.getAttribute("username"));
+//        System.out.println(authorities);
+//        System.out.println(userAttributes);
+//        System.out.println(userNameAttributeName);
 
-        JSONObject json = new JSONObject();
-        json.put("sub", userAttributes.get("sub"));
 
-        httpSession.setAttribute("user",json);
-        System.out.println(httpSession.getAttribute("user"));
+        /**
+         * 구글 로그인에 대한 옵션
+         * email, name, sub, picture, 패스워드의 경우 dot를 만들때 알아서
+         * google이라는 값으로 들어가게 해놓았다.
+         */
+        String email = String.valueOf(userAttributes.get("email"));
+        String name = String.valueOf(userAttributes.get("name"));
+        String sub = String.valueOf(userAttributes.get("sub"));
+        String picture = String.valueOf(userAttributes.get("picture"));
+
+        /**
+         * 구글의 회원내용을 받아오는 DTO
+         */
+        userRegisterDto.googleDtoOption(email, name, sub, picture);
+        userRegisterService.save(userRegisterDto);
+
 
         return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
     }
