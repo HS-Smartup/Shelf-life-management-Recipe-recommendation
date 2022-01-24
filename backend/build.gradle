@@ -28,6 +28,8 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // https://github.com/stleary/JSON-java
+    implementation files('libs/json-20211205.jar')
 
     compileOnly 'org.projectlombok:lombok'
 
