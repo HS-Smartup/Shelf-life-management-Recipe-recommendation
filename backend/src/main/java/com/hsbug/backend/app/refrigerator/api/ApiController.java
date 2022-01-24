@@ -1,7 +1,6 @@
 package com.hsbug.backend.app.refrigerator.api;
 
-import org.json.JSONObject;
-import org.json.XML;
+import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,10 +19,10 @@ import java.net.URL;
 public class ApiController {
 
     @GetMapping("/call_barcode")
-    public JSONObject callApi() {
+    public String callApi() throws ParseException {
         String apikey = "433bea5199ba464ab499";     // 맥심
         String bar_code = "8801037022315";
-        StringBuffer result_string = new StringBuffer();
+        StringBuffer result = new StringBuffer();
         try {
             String urlStr = "http://openapi.foodsafetykorea.go.kr/api/" +
                     apikey + "/" +                 // api 토큰 키
@@ -37,13 +36,11 @@ public class ApiController {
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
 
             String returnLine;
-
             while((returnLine = br.readLine()) != null){
-                result_string.append(returnLine + "\n");
+                result.append(returnLine + "\n");
             }
-            urlConnection.disconnect();;
-            System.out.println(urlStr);
-            System.out.println(result_string);
+            br.close();
+            urlConnection.disconnect();
         }
         catch (MalformedURLException e) {
             e.printStackTrace();
@@ -53,9 +50,9 @@ public class ApiController {
             e.printStackTrace();
         }
         {
-            JSONObject result_json = XML.toJSONObject(result_string.toString());
 
-            return result_json;
+            System.out.println(result);
+            return result.toString();
         }
     }
 }
