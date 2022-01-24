@@ -132,13 +132,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
           System.out.println(userAttributes);
 //        System.out.println(userNameAttributeName);
 
-
-        //String email = String.valueOf(userAttributes.get("email"));
-        //String name = String.valueOf(userAttributes.get("name"));
-        //String picture = String.valueOf(userAttributes.get("picture"));
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
         userRegisterDto.clear();
         if (userNameAttributeName =="sub"){  // 구글
             String google_sub = String.valueOf(userAttributes.get("sub"));
@@ -147,7 +140,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             String picture = String.valueOf(userAttributes.get("picture"));
             userRegisterDto.googleDtoOption(email, name, google_sub, picture);
         }
-        if(userNameAttributeName =="id"){  // 카카오
+        if(userNameAttributeName =="id"){  // 카카오 네이버는 id가 같아서 내부 요소로 확인
             if (userAttributes.containsKey("resultcode")){ // 네이버
                 String naver_sub = String.valueOf(userAttributes.get("id"));
                 String email = String.valueOf(userAttributes.get("email"));
@@ -156,33 +149,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
                 userRegisterDto.naverDtoOption(email, name, naver_sub, picture);
             }
-            else {
+            else { //카카오 닉네임은 userAttributes 안의 properties에, 카카오 닉네임은 userAttribues 안의 profile에 위치
                 String kakao_sub = String.valueOf(userAttributes.get("id"));
-                Object properties = userAttributes.get("properties");
-                System.out.println(properties);
+                Map<String,String> properties = (Map<String, String>) userAttributes.get("properties");
+                Map<String,String> profile = (Map<String, String>) userAttributes.get("kakao_account");
 
-                String email = String.valueOf(userAttributes.get("email"));
-                String name = String.valueOf(userAttributes.get("nickname"));
-                String picture = String.valueOf(userAttributes.get("picture"));
+                System.out.println(properties.get("nickname"));
+                System.out.println(profile.get("email"));
+                System.out.println(userAttributes.get("email"));
+
+                String email = String.valueOf(profile.get("email"));
+                String name = String.valueOf(properties.get("nickname"));
+                String picture = String.valueOf(properties.get("profile_image"));
                 userRegisterDto.kakaoDtoOption(email, name, kakao_sub, picture);
             }
         }
+        // 저장, 혹은 존재 시 업데이트
         saveOrUpdate(userRegisterDto);
-
-        /**
-         * 구글 로그인에 대한 옵션
-         * email, name, sub, picture, 패스워드의 경우 dot를 만들때 알아서
-         * google이라는 값으로 들어가게 해놓았다.
-         */
-
-
-        /**
-         * 구글의 회원내용을 받아오는 DTO
-         */
-
-
-
-
         return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
     }
 
@@ -210,5 +193,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
 }
+
 
 
