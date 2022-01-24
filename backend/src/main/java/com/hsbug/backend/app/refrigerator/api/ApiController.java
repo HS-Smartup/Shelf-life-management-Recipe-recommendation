@@ -1,9 +1,9 @@
 package com.hsbug.backend.app.refrigerator.api;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,15 +19,19 @@ import java.net.URL;
 public class ApiController {
 
     @GetMapping("/call_barcode")
-    public String callApi() throws ParseException {
+    public JSONObject callApi(@RequestParam String bar_code) throws ParseException {
         String apikey = "433bea5199ba464ab499";     // 맥심
-        String bar_code = "8801037022315";
+        System.out.println(bar_code);
+        //예비 값
+        //String bar_code = "8801037022315";
         StringBuffer result = new StringBuffer();
         try {
             String urlStr = "http://openapi.foodsafetykorea.go.kr/api/" +
                     apikey + "/" +                 // api 토큰 키
                     "I2570/json/1/5/" +             // I2570 = 바코드 인식 api, json, 시작위치, 종료위치
                     "BRCD_NO=" + bar_code;              //바코드 번호
+
+            // url 연결 후 한줄씩 버퍼에 담아 result에 저장
 
             URL url = new URL(urlStr);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -50,9 +54,12 @@ public class ApiController {
             e.printStackTrace();
         }
         {
-
+            // String to Json parsing
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(String.valueOf(result));
+            System.out.println(obj);
             System.out.println(result);
-            return result.toString();
+            return obj;
         }
     }
 }
