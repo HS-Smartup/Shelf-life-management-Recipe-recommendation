@@ -139,12 +139,15 @@ public class SecurityConfig {
                     .clientId(kakaoClientId)
                     .clientSecret(kakaoClientSecret)
                     .jwkSetUri("temp")
+                    .scope("profile_nickname","profile_image","account_email","gender","age_range")
+                    //.scope("profile", "account_email")
                     .build());
 
             registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
                     .clientId(naverClientId)
                     .clientSecret(naverClientSecret)
                     .jwkSetUri("temp")
+                    //.scope("profile_nickname","profile_image","account_email","gender","age_range")
                     .build());
             return new InMemoryClientRegistrationRepository(registrations);
         }

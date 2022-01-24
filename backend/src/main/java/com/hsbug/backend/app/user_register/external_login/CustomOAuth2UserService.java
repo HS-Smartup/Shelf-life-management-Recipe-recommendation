@@ -1,9 +1,14 @@
 package com.hsbug.backend.app.user_register.external_login;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import com.hsbug.backend.app.user_register.UserRegisterService;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -28,6 +33,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 import javax.sound.midi.SysexMessage;
 import java.util.LinkedHashMap;
@@ -123,27 +129,41 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
 //        System.out.println(authorities);
-        System.out.println(userAttributes);
+          System.out.println(userAttributes);
 //        System.out.println(userNameAttributeName);
 
 
-        String email = String.valueOf(userAttributes.get("email"));
-        String name = String.valueOf(userAttributes.get("name"));
-        String picture = String.valueOf(userAttributes.get("picture"));
-        String google_sub; String naver_sub; String kakao_sub;
+        //String email = String.valueOf(userAttributes.get("email"));
+        //String name = String.valueOf(userAttributes.get("name"));
+        //String picture = String.valueOf(userAttributes.get("picture"));
+
+        ObjectMapper objectMapper = new ObjectMapper();
 
         userRegisterDto.clear();
         if (userNameAttributeName =="sub"){  // 구글
-            google_sub = String.valueOf(userAttributes.get("sub"));
+            String google_sub = String.valueOf(userAttributes.get("sub"));
+            String email = String.valueOf(userAttributes.get("email"));
+            String name = String.valueOf(userAttributes.get("name"));
+            String picture = String.valueOf(userAttributes.get("picture"));
             userRegisterDto.googleDtoOption(email, name, google_sub, picture);
         }
         if(userNameAttributeName =="id"){  // 카카오
             if (userAttributes.containsKey("resultcode")){ // 네이버
-                naver_sub = String.valueOf(userAttributes.get("id"));
+                String naver_sub = String.valueOf(userAttributes.get("id"));
+                String email = String.valueOf(userAttributes.get("email"));
+                String name = String.valueOf(userAttributes.get("name"));
+                String picture = String.valueOf(userAttributes.get("picture"));
+
                 userRegisterDto.naverDtoOption(email, name, naver_sub, picture);
             }
             else {
-                kakao_sub = String.valueOf(userAttributes.get("id"));
+                String kakao_sub = String.valueOf(userAttributes.get("id"));
+                Object properties = userAttributes.get("properties");
+                System.out.println(properties);
+
+                String email = String.valueOf(userAttributes.get("email"));
+                String name = String.valueOf(userAttributes.get("nickname"));
+                String picture = String.valueOf(userAttributes.get("picture"));
                 userRegisterDto.kakaoDtoOption(email, name, kakao_sub, picture);
             }
         }
