@@ -1,7 +1,6 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,10 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,7 +22,7 @@ public class ManageRecipeController {
 
     @GetMapping("/api/get_admin_recipe")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public Object getAdminRecipe() throws IOException, ParseException {
+    public JSONObject getAdminRecipe() throws IOException, ParseException {
 
         StringBuffer result1 = new StringBuffer();
         StringBuffer result2 = new StringBuffer();
@@ -75,24 +71,39 @@ public class ManageRecipeController {
         JSONObject obj1 = (JSONObject) parser.parse(String.valueOf(result1));
         JSONObject obj2 = (JSONObject) parser.parse(String.valueOf(result2));
 
-        //ObjectMapper objectMapper = new ObjectMapper();
-        //objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        //String jsonString1 = objectMapper.writeValueAsString(obj1);
-        //String jsonString2 = objectMapper.writeValueAsString(obj2);
         JSONObject obj1_cook = (JSONObject) obj1.get("COOKRCP01");
-        //JSONArray obj1_set = (JSONArray) obj1_cook.get("row");
-
         JSONObject obj2_cook = (JSONObject) obj2.get("COOKRCP01");
-        //JSONArray obj2_set = (JSONArray) obj2_cook.get("row");
+        // 여기까지는 맞음
 
-        Object jsonDto1 = new ManageRecipeDto();
-        Object jsonDto2 = new ManageRecipeDto();
-        jsonDto1 = obj1_cook.get("row");
-        jsonDto2 = obj2_cook.get("row");
-        System.out.println(jsonDto1);
-        System.out.println(jsonDto2);
-        return jsonDto1;
+        ManageRecipeDto dto = new ManageRecipeDto();
+
+        JSONArray jsonArray1 = (JSONArray) obj1_cook.get("row");
+        String a = jsonArray1.toString();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        JSONObject jsonObject = null;
+        for (int i = 0; i < jsonArray1.size(); i++) {
+            jsonObject = (JSONObject) jsonArray1.get(i);
+            //ManageRecipeDto manageRecipeDtos = mapper.readValue((DataInput) jsonObject, ManageRecipeDto.class);
+            // 여기가 문젲임 건들ㅇ여야햠.
+            System.out.println(jsonObject.get("RCP_SEQ"));
+        }
+
+
+        //ManageRecipeDto dto11 = mapper.readValue((JsonParser) jsonDto1, ManageRecipeDto.class);
+        //ManageRecipeDto dto11 = mapper.readValue(obj1_cook,ManageRecipeDto.class);
+        //System.out.println(dto11);
+
+        //System.out.println(jsonDto1);
+        //JSONParser jsonParser1 = new JSONParser();
+        //JSONObject jsonObject = (JSONObject) jsonParser1.parse(String.valueOf(obj1_cook));
+        //ManageRecipeDto ddd = (ManageRecipeDto) jsonObject.get("row");
+
+        //System.out.println(jsonDto1);
+        //System.out.println(jsonDto2);
+        return jsonObject;
     }
 
 }
