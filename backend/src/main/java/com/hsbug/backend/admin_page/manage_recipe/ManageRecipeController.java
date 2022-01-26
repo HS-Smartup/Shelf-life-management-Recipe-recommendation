@@ -223,6 +223,8 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
 
             }
             obj.put("message","관리자 레시피 업데이트 완료");
+            obj.put("total_update",jsonArray1.size() + jsonArray2.size());
+
             return obj;
         }catch(Exception e){
             obj.put("message","관리자 레시피 업데이트 실패");

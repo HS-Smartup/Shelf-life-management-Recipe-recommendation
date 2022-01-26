@@ -1,11 +1,11 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -74,6 +74,7 @@ public class ManageRecipeDto {
     private Integer views=0;
     private Integer likes=0;
     private Integer stars=0;
+    private String ADD_TIME = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
     public ManageRecipeEntity toEntity(){
         return ManageRecipeEntity.builder()
@@ -134,6 +135,7 @@ public class ManageRecipeDto {
                 .INFO_FAT(INFO_FAT)
                 .INFO_NA(INFO_NA)
                 .HASH_TAG(HASH_TAG)
+                .ADD_TIME(ADD_TIME)
                 .build();
     }
 }
