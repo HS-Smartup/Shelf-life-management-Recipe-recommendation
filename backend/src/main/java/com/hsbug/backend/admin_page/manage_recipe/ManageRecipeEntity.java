@@ -1,17 +1,22 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
-
+@Setter
+@Getter
 public class ManageRecipeEntity {
 
-    @Id @Column
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long RCP_ID;
-    private String RCP_SEQ;  // 레시피 번호
+    @Column
+    private Long id;
+    private String RCPSEQ;  // 레시피 번호
     private String RCP_NM;    // 레시피 이름
     private String RCP_PAT2;  // 요리 종류
     @Column(length=600)
@@ -82,8 +87,8 @@ public class ManageRecipeEntity {
             , String MANUAL13, String MANUAL14, String MANUAL15){
         //String MANUAL16, String MANUAL17, String MANUAL18, String MANUAL19, String MANUAL20, String INFO_WGT, String MANUAL_IMG12, String MANUAL_IMG13,
         //String MANUAL_IMG14, String MANUAL_IMG15, String MANUAL_IMG16, String MANUAL_IMG17, String MANUAL_IMG18, String MANUAL_IMG19, String MANUAL_IMG20
-        this.RCP_ID=RCP_ID;
-        this.RCP_SEQ=RCP_SEQ;
+        this.id=RCP_ID;
+        this.RCPSEQ=RCP_SEQ;
         this.RCP_NM=RCP_NM; this.RCP_PAT2=RCP_PAT2; this.RCP_WAY2=RCP_WAY2;
         this.ATT_FILE_NO_MAIN=ATT_FILE_NO_MAIN; this.ATT_FILE_NO_MK=ATT_FILE_NO_MK; this.RCP_PARTS_DTLS = RCP_PARTS_DTLS; this.MANUAL01=MANUAL01;
         this.MANUAL02=MANUAL02; this.MANUAL03=MANUAL03; this.MANUAL04=MANUAL04; this.MANUAL05=MANUAL05; this.MANUAL06=MANUAL06; this.MANUAL07=MANUAL07; this.MANUAL08=MANUAL08; this.MANUAL09=MANUAL09; this.MANUAL10=MANUAL10;

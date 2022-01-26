@@ -84,7 +84,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
 
             JSONObject jsonObject = null;
 
-            for (int i = 0; i < jsonArray1.size(); i++) {
+            for (Integer i = 0; i < jsonArray1.size(); i++) {
                 ManageRecipeDto recipeDto = new ManageRecipeDto();
                 jsonObject = (JSONObject) jsonArray1.get(i);
 
@@ -146,10 +146,18 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                 recipeDto.setINFO_NA(((String) jsonObject.get("INFO_NA")));
                 recipeDto.setHASH_TAG(((String) jsonObject.get("HASH_TAG")));
 
-                manageRecipeService.saveAndUpdate(recipeDto);
+                //if (!manageRecipeService.checkRecipe((String) jsonObject.get("RCP_SEQ"))){
+                    System.out.println("업데이트를 진행합니다.");
+                 //   manageRecipeService.updateRecipe(recipeDto);
+                //}else {
+                 //   System.out.println("저장을 진행합니다.");
+                    manageRecipeService.saveRecipe((long) (i+1),recipeDto);
+
+                //}
+                //manageRecipeService.saveRecipe(recipeDto);
             }
 
-            for (int j = 0; j < jsonArray2.size(); j++) {
+            for (Integer j = 0; j < jsonArray2.size(); j++) {
                 ManageRecipeDto recipeDto = new ManageRecipeDto();
                 jsonObject = (JSONObject) jsonArray2.get(j);
 
@@ -210,8 +218,9 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                 recipeDto.setINFO_FAT(((String) jsonObject.get("INFO_FAT")));
                 recipeDto.setINFO_NA(((String) jsonObject.get("INFO_NA")));
                 recipeDto.setHASH_TAG(((String) jsonObject.get("HASH_TAG")));
+                // 660
+                 manageRecipeService.saveRecipe((long) (j+660),recipeDto);
 
-                manageRecipeService.saveAndUpdate(recipeDto);
             }
             obj.put("message","관리자 레시피 업데이트 완료");
             return obj;
