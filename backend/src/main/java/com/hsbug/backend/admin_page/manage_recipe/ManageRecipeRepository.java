@@ -1,4 +1,6 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
-public class ManageRecipeRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ManageRecipeRepository extends JpaRepository<ManageRecipeEntity,Long> {
 }
