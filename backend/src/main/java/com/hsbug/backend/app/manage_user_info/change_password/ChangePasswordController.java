@@ -1,6 +1,5 @@
 package com.hsbug.backend.app.manage_user_info.change_password;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

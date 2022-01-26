@@ -1,5 +1,4 @@
 package com.hsbug.backend.app.manage_user_info.delete_user;
-import com.hsbug.backend.app.manage_user_info.delete_user.DeleteUserService;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +16,7 @@ public class DeleteUserController {     // 회원 탈퇴
     }
 
     @PostMapping("/deleteUser")
-    public String DeleteUser(@RequestBody UserRegisterDto userRegisterDto) throws Exception{
+    public String DeleteUser(@RequestBody UserRegisterDto userRegisterDto) {
 
         String username = userRegisterDto.getEmail();
         System.out.println(username);

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +22,12 @@ public class UserRegisterController {
 
     private final UserRegisterService userRegisterService;
     private final HttpSession  httpSession;
-    private final UserRegisterRepository userRegisterRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserRegisterController(UserRegisterService userRegisterService, HttpSession httpSession, UserRegisterRepository userRegisterRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+    public UserRegisterController(UserRegisterService userRegisterService, HttpSession httpSession, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userRegisterService = userRegisterService;
         this.httpSession = httpSession;
-        this.userRegisterRepository = userRegisterRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
     }

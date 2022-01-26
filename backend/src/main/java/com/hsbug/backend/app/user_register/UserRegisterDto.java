@@ -1,14 +1,7 @@
 package com.hsbug.backend.app.user_register;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @NoArgsConstructor
@@ -41,14 +34,6 @@ public class UserRegisterDto {
         this.naver_sub = naver_sub;
     }
 
-    /**
-     * 구글 회원에게서 가져오는 폼중에서 필요한것만 따로 떨굼   (빌더회피를 위함)
-     * @param email
-     * @param name
-     * @param google_sub
-     * @param photo
-     * password값을 입력하지 않으면 저장시 오류가 나는 경우가 있어서 google입력은 google이라는 값으로 통일했다.
-     */
     public void googleDtoOption(String email, String name, String google_sub, String photo) {
         this.email = email;
         this.name = name;

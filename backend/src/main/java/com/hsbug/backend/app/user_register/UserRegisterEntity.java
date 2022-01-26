@@ -6,14 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRegisterEntity implements UserDetails {
-    @Id @Column(name = "user_id")       // SQL에서 자동 생성되도록 돕는 어노테이션
+    @Id @Column       // SQL에서 자동 생성되도록 돕는 어노테이션
     @GeneratedValue(strategy = GenerationType.IDENTITY)         // 자동 생성 (프라이머리 키 자동 증가)
     private Long id;
 

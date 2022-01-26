@@ -1,14 +1,10 @@
 package com.hsbug.backend.app.user_register.external_login;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import com.hsbug.backend.app.user_register.UserRegisterService;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -33,16 +29,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpSession;
-import javax.sound.midi.SysexMessage;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    private final HttpSession httpSession;      //현준
     private final UserRegisterDto userRegisterDto;     //호배
     private final UserRegisterService userRegisterService;      //호배
     private final UserRegisterRepository userRegisterRepository;
@@ -60,8 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private RestOperations restOperations;
 
-    public CustomOAuth2UserService(HttpSession httpSession, UserRegisterDto userRegisterDto, UserRegisterService userRegisterService, UserRegisterRepository userRegisterRepository) {
-        this.httpSession = httpSession;
+    public CustomOAuth2UserService(UserRegisterDto userRegisterDto, UserRegisterService userRegisterService, UserRegisterRepository userRegisterRepository) {
         this.userRegisterDto = userRegisterDto;         //호배
         this.userRegisterService = userRegisterService;
         this.userRegisterRepository = userRegisterRepository;

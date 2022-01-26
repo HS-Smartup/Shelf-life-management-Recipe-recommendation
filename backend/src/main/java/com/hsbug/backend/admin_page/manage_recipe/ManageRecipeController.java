@@ -1,7 +1,5 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,7 +23,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
     }
 
     @GetMapping("/api/get_admin_recipe")
-    public JSONObject getAdminRecipe() throws IOException, ParseException {
+    public JSONObject getAdminRecipe(){
 
         JSONObject obj = new JSONObject();
         try {

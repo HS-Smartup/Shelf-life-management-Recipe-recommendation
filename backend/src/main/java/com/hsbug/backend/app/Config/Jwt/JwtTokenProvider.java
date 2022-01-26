@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
 
 import java.util.Base64;
 import java.util.Date;
@@ -26,7 +25,7 @@ public class JwtTokenProvider {
     private String secretKey = "GW_project";
 
     //토큰 유효 시간
-    private long tokenValidTime = 600000000;
+    private final long tokenValidTime = 600000000;
 
     private final UserRegisterService userRegisterService;
 
