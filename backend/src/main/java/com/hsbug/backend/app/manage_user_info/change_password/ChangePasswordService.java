@@ -17,7 +17,6 @@ public class ChangePasswordService {
 
            // 회원 정보 찾기
     public UserRegisterEntity loadUserByUsername(String email) throws UsernameNotFoundException,NullPointerException {
-        System.out.println(email);
         return changePasswordRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
     }
