@@ -40,13 +40,6 @@ public class UserRegisterService implements UserDetailsService {
         return check.isEmpty();
     }
 
-    public void changepassword(String username, String password) throws UsernameNotFoundException {     // 비밀번호 변경
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        String new_password = encoder.encode(password);
-        String new_encoded_password = "{bcrypt}"+new_password;
-        UserRegisterEntity account = loadUserByUsername(username);
-        account.setPassword(new_encoded_password);
-        userRegisterRepository.save(account);
-    }
+
 
 }
