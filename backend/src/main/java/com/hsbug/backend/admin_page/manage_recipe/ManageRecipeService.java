@@ -21,7 +21,7 @@ public class ManageRecipeService {
                 manageRecipeRepository.save(recipeDto.toEntity());
             }else{  //값 있으므로 업데이트
                 ManageRecipeEntity recipe = optionalRecipe.get();
-                
+
                 recipeDto.setRCP_ID(recipe.getId());
                 manageRecipeRepository.save(recipeDto.toEntity());
             }
