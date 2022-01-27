@@ -22,7 +22,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
         this.manageRecipeService = manageRecipeService;
     }
 
-    @GetMapping("/api/get_admin_recipe")
+    @GetMapping("/admin/get_admin_recipe")
     public JSONObject getAdminRecipe(){
 
         JSONObject obj = new JSONObject();
