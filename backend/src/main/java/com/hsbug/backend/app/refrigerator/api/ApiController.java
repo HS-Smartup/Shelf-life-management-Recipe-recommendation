@@ -2,16 +2,12 @@ package com.hsbug.backend.app.refrigerator.api;
 
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import com.hsbug.backend.app.refrigerator.add_product.AddProductDto;
-import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

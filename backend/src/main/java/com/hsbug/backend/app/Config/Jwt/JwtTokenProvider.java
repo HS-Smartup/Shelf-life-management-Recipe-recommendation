@@ -29,7 +29,7 @@ public class JwtTokenProvider {
 
     private final UserRegisterService userRegisterService;
 
-    // 깨체 초기화, secretKey Base 64로 인코딩
+    // 계체 초기화, secretKey Base 64로 인코딩
     @PostConstruct
     protected void init(){
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
