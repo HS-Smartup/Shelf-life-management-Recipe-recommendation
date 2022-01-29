@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +32,7 @@ public class ApiController {
     }
 
     @GetMapping("/call_barcode")
-    public JSONObject callApi(@RequestHeader HttpHeaders header, @RequestParam String bar_code) throws ParseException {
+    public JSONObject callApi(HttpServletRequest request, @RequestParam String bar_code) throws ParseException {
         String apikey = "433bea5199ba464ab499";     // 맥심
         System.out.println(bar_code);
         //예비 값
@@ -80,10 +81,14 @@ public class ApiController {
                 AddProductDto addProductDto = new AddProductDto();
 
                 // 회원 아이디 jwt 토큰 이용해서 추출 가능한지 체크 중
-                System.out.println(header);
+                //System.out.println(header);
                 //String token = jwtTokenProvider.getUserPk(header.);
                 //Authentication user = SecurityContextHolder.getContext().getAuthentication();
                 //UserRegisterEntity user2 = (UserRegisterEntity) user.getPrincipal();
+
+                System.out.println(request.getHeader("X-AUTH-TYPE"));
+                //jwtTokenProvider.getAuthentication(request.getHeader("X-AUTH-TOKEN"));
+
 
                 //System.out.println(user2.getAuthorities());
                 //Long name = getCurrentMemberId();

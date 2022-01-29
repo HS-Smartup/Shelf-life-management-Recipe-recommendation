@@ -34,7 +34,7 @@ public class UserRegisterController {
 
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
     public UserRegisterDto LoginsuccessPage(UserRegisterDto form) {
-        //UserRegisterDto form ;
+
         form.setEmail(httpSession.getAttribute("username").toString());
         form.setPassword("secret");
         return form;

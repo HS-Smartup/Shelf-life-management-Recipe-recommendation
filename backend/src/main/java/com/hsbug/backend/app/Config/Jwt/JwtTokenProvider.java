@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.Config.Jwt;
 
+import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -45,13 +47,16 @@ public class JwtTokenProvider {
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
-                . compact();
+                .compact();
     }
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userRegisterService.loadUserByUsername(this.getUserPk(token));
+        //UserDetails userDetails = userRegisterService.loadUserDetailsByUsername(this.getUserPk(token));
+        System.out.println(userDetails.getAuthorities());
         return new UsernamePasswordAuthenticationToken(userDetails, "",userDetails.getAuthorities());
+        //return new UsernamePasswordAuthenticationToken("ROLE_USER", new UserRegisterDto(userDetails), null);
     }
 
     //토큰에서 회원 정보 추출

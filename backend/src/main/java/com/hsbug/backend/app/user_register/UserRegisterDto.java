@@ -1,6 +1,7 @@
 package com.hsbug.backend.app.user_register;
 
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,6 +33,9 @@ public class UserRegisterDto {
         this.photo = photo;
         this.kakao_sub = kakao_sub;
         this.naver_sub = naver_sub;
+    }
+
+    public UserRegisterDto(UserDetails userDetails) {
     }
 
     public void googleDtoOption(String email, String name, String google_sub, String photo) {
