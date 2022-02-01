@@ -73,9 +73,8 @@ public class SecurityConfig {
                         .authorizeRequests()
                         .antMatchers("/api/**").permitAll()
                         .antMatchers("/admin/**").permitAll()
-                        .antMatchers("/user/**").permitAll()//hasRole("USER")
+                        .antMatchers("/user/**").hasAuthority("ROLE_USER")
                         .antMatchers("/h2-console/**").permitAll()
-                        .antMatchers("/**").permitAll()
                     .and()
                         //.formLogin()        // 기본 login
                         //.loginPage("/api/login")
@@ -101,12 +100,9 @@ public class SecurityConfig {
                         .antMatchers("/", "/oauth2/**", "/login/**", "/css/**",
                                 "/images/**", "/js/**", "/console/**", "/favicon.ico/**", "/h2-console/**")
                         .permitAll()
-                        .antMatchers("/admin/**").permitAll()
-                        .antMatchers("/user/**").permitAll()//hasRole("USER")
                         .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
                         .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
                         .antMatchers("/naver").hasAuthority(NAVER.getRoleType())
-                        .antMatchers("/api/**").permitAll()
                         .anyRequest().permitAll()
                     .and()
                         .oauth2Login()

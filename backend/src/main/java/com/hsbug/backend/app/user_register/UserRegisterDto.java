@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @NoArgsConstructor
 @Setter @Getter
@@ -26,7 +28,7 @@ public class UserRegisterDto {
         this.id = id;
         this.email = email;
         this.password = "{bcrypt}"+password;
-        this.roles = "ROLE_USER";
+        this.roles = roles;
 
         this.name = name;
         this.google_sub = google_sub;

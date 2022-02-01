@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-@Controller
+@RestController
 @RequestMapping("/user")        // 기본 url /user/...
 public class ApiController {
 

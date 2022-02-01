@@ -2,10 +2,13 @@ package com.hsbug.backend.app.user_register;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,7 +30,7 @@ public class UserRegisterEntity implements UserDetails {
     private String naver_sub;
 
     @Builder
-    public UserRegisterEntity(Long id, String email, String username, String password, String roles, String credit_check, String google_sub, String photo,String kakao_sub, String naver_sub){
+    public UserRegisterEntity(Long id, String email, String username, String password, String roles, String credit_check, String google_sub, String photo, String kakao_sub, String naver_sub){
 //        this.id = id; 아이디값을 줘야하나??
 
         this.username = username;
@@ -42,7 +45,15 @@ public class UserRegisterEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        String str = getRoles();
+        if(str.equals("ROLE_USER")){
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        else{
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        return authorities;
     }
 
     @Override

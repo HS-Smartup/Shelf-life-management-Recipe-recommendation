@@ -54,8 +54,10 @@ public class JwtTokenProvider {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserRegisterEntity userDetails = userRegisterService.loadUserByUsername(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(userDetails.getEmail(),userDetails.getPassword());//userDetails.getAuthorities());
-        //return new UsernamePasswordAuthenticationToken("ROLE_USER", new UserRegisterDto(userDetails), null);
+        //return new UsernamePasswordAuthenticationToken(userDetails.getEmail(),userDetails.getPassword());//userDetails.getAuthorities());
+        System.out.println(userDetails.getAuthorities());
+        System.out.println(userDetails.getRoles());
+        return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
 
     //토큰에서 회원 정보 추출

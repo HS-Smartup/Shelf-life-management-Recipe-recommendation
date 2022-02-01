@@ -58,7 +58,9 @@ public class UserRegisterController {
             obj.put("message","이미 등록된 회원입니다.");
         }
         else {
-            userRegisterDto.setRoles("ROLE_USER");
+            List<String> role = new ArrayList<>();
+            role.add("ROLE_USER");
+            userRegisterDto.setRoles(String.valueOf(role));
             userRegisterService.save(userRegisterDto);           // service에 dto 저장
             System.out.println(userRegisterDto.getEmail());
             System.out.println(userRegisterDto.getPassword());
