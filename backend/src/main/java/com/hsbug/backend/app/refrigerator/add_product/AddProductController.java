@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class AddProductController {
 
     private final AddProductService addProductService;

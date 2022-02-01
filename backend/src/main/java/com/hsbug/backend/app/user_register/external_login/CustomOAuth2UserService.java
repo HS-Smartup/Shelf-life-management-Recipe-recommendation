@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
@@ -64,7 +65,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         Assert.notNull(userRequest, "userRequest cannot be null");
-
         if (!StringUtils.hasText(userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri())) {
             OAuth2Error oauth2Error = new OAuth2Error(
                     MISSING_USER_INFO_URI_ERROR_CODE,
@@ -130,6 +130,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             String name = String.valueOf(userAttributes.get("name"));
             String picture = String.valueOf(userAttributes.get("picture"));
             userRegisterDto.googleDtoOption(email, name, google_sub, picture);
+
+
         }
         if(userNameAttributeName =="id"){  // 카카오 네이버는 id가 같아서 내부 요소로 확인
             if (userAttributes.containsKey("resultcode")){ // 네이버
@@ -157,6 +159,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         // 저장, 혹은 존재 시 업데이트
         saveOrUpdate(userRegisterDto);
+
         return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
     }
 

@@ -19,12 +19,11 @@ public class OAuth2Controller {
     }
 
     @GetMapping({"", "/"})
-    public String getAuthorizationMessage(Model model) {
+    public String getAuthorizationMessage() {
         List<String> role = new ArrayList<>();
         role.add("ROLE_USER");
 
-        //String a = model.getAttribute("user").toString();
-        System.out.println(jwtTokenProvider.createToken("임혅누",role));
+        System.out.println(jwtTokenProvider.createToken("immenige2@gmail.com",role));
         return "redirect:/home";
     }
 

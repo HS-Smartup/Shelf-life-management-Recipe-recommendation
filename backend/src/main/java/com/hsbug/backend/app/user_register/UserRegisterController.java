@@ -85,7 +85,7 @@ public class UserRegisterController {
             }
             else {
                 obj.put("message", "로그인 성공");
-                obj.put("token", jwtTokenProvider.createToken(member.getUsername(), role));
+                obj.put("token", jwtTokenProvider.createToken(user.get("email"), role));
             }
         }
         return obj;

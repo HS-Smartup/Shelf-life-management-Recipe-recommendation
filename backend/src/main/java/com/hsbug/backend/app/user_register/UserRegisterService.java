@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,10 +29,10 @@ public class UserRegisterService implements UserDetailsService {
 
     @Override       // 회원 정보 찾기
     public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
-        System.out.println(username);
         return userRegisterRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
+
 
     public boolean checkUserByUsername(String username) {//throws UsernameNotFoundException,NullPointerException {
         //Optional<UserRegisterEntity> check = userRegisterRepository.findByUsername(username);

@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-@RestController
-@RequestMapping("/api")        // 기본 url /api/...
+@Controller
+@RequestMapping("/user")        // 기본 url /user/...
 public class ApiController {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -116,7 +117,7 @@ public class ApiController {
                 PRDT_NM : 제품 명                    (롯데 칸쵸 57g)
                 CMPNY_NM : 회사 명                   (롯데제과(주))
              */
-
+                System.out.println(obj_msg);
                 return obj_msg;
             }catch(Exception e){
                 System.out.println(e);

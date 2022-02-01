@@ -69,10 +69,13 @@ public class SecurityConfig {
                         .sessionManagement()
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
+                        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                         .authorizeRequests()
-                        .antMatchers("/admin/**").hasRole("ADMIN")
-                        .antMatchers("/**").permitAll()
+                        .antMatchers("/api/**").permitAll()
+                        .antMatchers("/admin/**").permitAll()
+                        .antMatchers("/user/**").permitAll()//hasRole("USER")
                         .antMatchers("/h2-console/**").permitAll()
+                        .antMatchers("/**").permitAll()
                     .and()
                         //.formLogin()        // 기본 login
                         //.loginPage("/api/login")
@@ -83,25 +86,28 @@ public class SecurityConfig {
                         //.successHandler(new LoginSuccessHandler())
                     //.and()
                         .logout()       // logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/api/logout"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                         .invalidateHttpSession(true)
-                        .logoutSuccessUrl("/")
-                    .and()
-                        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                        .logoutSuccessUrl("/");
+
                         //.exceptionHandling().accessDeniedPage("/login/denied");
             httpSecurity.csrf()
                     .ignoringAntMatchers("/h2-console/**")
                     .disable();
 
-            httpSecurity.authorizeRequests()
+            httpSecurity
+                        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                        .authorizeRequests()
                         .antMatchers("/", "/oauth2/**", "/login/**", "/css/**",
                                 "/images/**", "/js/**", "/console/**", "/favicon.ico/**", "/h2-console/**")
                         .permitAll()
+                        .antMatchers("/admin/**").permitAll()
+                        .antMatchers("/user/**").permitAll()//hasRole("USER")
                         .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
                         .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
                         .antMatchers("/naver").hasAuthority(NAVER.getRoleType())
-                        //.antMatchers("/api/**").permitAll()
-                        .anyRequest().authenticated()
+                        .antMatchers("/api/**").permitAll()
+                        .anyRequest().permitAll()
                     .and()
                         .oauth2Login()
                         .userInfoEndpoint().userService(customOAuth2UserService)  // 네이버 USER INFO의 응답을 처리하기 위한 설정
@@ -113,9 +119,8 @@ public class SecurityConfig {
                         //.accessDeniedPage("/login")
                     .and()
                         .sessionManagement()
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
-                        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
             httpSecurity.csrf()
                     .ignoringAntMatchers("/h2-console/**")
                     .disable();

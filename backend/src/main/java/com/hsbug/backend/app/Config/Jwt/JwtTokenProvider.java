@@ -1,14 +1,17 @@
 package com.hsbug.backend.app.Config.Jwt;
 
 import com.hsbug.backend.app.user_register.UserRegisterDto;
+import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -16,15 +19,13 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private String secretKey = "GW_project";
+    private String secretKey = "c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK";
 
     //토큰 유효 시간
     private final long tokenValidTime = 600000000;
@@ -52,10 +53,8 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userRegisterService.loadUserByUsername(this.getUserPk(token));
-        //UserDetails userDetails = userRegisterService.loadUserDetailsByUsername(this.getUserPk(token));
-        System.out.println(userDetails.getAuthorities());
-        return new UsernamePasswordAuthenticationToken(userDetails, "",userDetails.getAuthorities());
+        UserRegisterEntity userDetails = userRegisterService.loadUserByUsername(this.getUserPk(token));
+        return new UsernamePasswordAuthenticationToken(userDetails.getEmail(),userDetails.getPassword());//userDetails.getAuthorities());
         //return new UsernamePasswordAuthenticationToken("ROLE_USER", new UserRegisterDto(userDetails), null);
     }
 
