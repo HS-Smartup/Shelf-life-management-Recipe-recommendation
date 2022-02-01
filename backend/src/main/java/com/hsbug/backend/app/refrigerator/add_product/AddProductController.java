@@ -17,7 +17,7 @@ public class AddProductController {
     public JSONObject AddProduct(@RequestBody AddProductDto addProductDto) {
         JSONObject obj = new JSONObject();
         obj.put("obj",addProductDto);
-
+        addProductService.save(addProductDto);
         return obj;
     }
 }

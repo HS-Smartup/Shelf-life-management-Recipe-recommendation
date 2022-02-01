@@ -1,12 +1,37 @@
 package com.hsbug.backend.app.refrigerator.manage_refrigerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ManageProductEntity {
 
-    @Id
+    @Id @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String username;
+    private String barcode;  //String이 나을듯?
+    private String product_name;
+    private String product_type ;
+    private Integer product_num;
+    private String exp_date;   // 유통기한 직접 입력 데이터 타입 수정 해야함.
+    private String input_date; //  오늘 local 날짜로 지정
+
+    @Builder
+    public ManageProductEntity(Long id, String username, String barcode, String product_name, String product_type, String exp_date, String input_date, Integer product_num){
+        this.id = id;
+        this.username=username;
+        this.barcode = barcode;
+        this.product_name = product_name;
+        this.product_num = product_num;
+        this.product_type = product_type;
+        this.exp_date = exp_date;
+        this.input_date = input_date;
+    }
 
 }

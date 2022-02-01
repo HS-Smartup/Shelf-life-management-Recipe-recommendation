@@ -73,7 +73,7 @@ public class SecurityConfig {
                         .authorizeRequests()
                         .antMatchers("/api/**").permitAll()
                         .antMatchers("/admin/**").permitAll()
-                        .antMatchers("/user/**").hasAuthority("ROLE_USER") //이부분 permitall()로 변경해서 일단 코딩 쉽게
+                        .antMatchers("/user/**").permitAll()//hasAuthority("ROLE_USER") //이부분 permitall()로 변경해서 일단 코딩 쉽게
                         .antMatchers("/h2-console/**").permitAll()
                     .and()
                         //.formLogin()        // 기본 login
