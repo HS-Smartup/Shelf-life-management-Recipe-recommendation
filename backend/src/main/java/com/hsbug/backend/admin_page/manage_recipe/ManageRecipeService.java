@@ -1,18 +1,18 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+
 @Service
+@RequiredArgsConstructor
 public class ManageRecipeService {
 
     private final ManageRecipeRepository manageRecipeRepository;
-
-    public ManageRecipeService(ManageRecipeRepository manageRecipeRepository) {
-        this.manageRecipeRepository = manageRecipeRepository;
-    }
 
     @Transactional
     public void saveRecipe(Long id, ManageRecipeDto recipeDto){

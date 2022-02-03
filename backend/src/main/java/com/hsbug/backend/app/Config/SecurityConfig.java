@@ -63,9 +63,10 @@ public class SecurityConfig {
             web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/font/**", "/h2-console/**");
         }
 
+
         @Override
         public void configure(HttpSecurity httpSecurity) throws Exception {
-            httpSecurity
+            httpSecurity    // 인앱 로그인
                         .sessionManagement()
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
@@ -73,7 +74,7 @@ public class SecurityConfig {
                         .authorizeRequests()
                         .antMatchers("/api/**").permitAll()
                         .antMatchers("/admin/**").permitAll()
-                        .antMatchers("/user/**").permitAll()//hasAuthority("ROLE_USER") //이부분 permitall()로 변경해서 일단 코딩 쉽게
+                        .antMatchers("/user/**").hasAuthority("ROLE_USER") //이부분 permitall()로 변경해서 일단 코딩 쉽게
                         .antMatchers("/h2-console/**").permitAll()
                     .and()
                         //.formLogin()        // 기본 login
@@ -94,7 +95,7 @@ public class SecurityConfig {
                     .ignoringAntMatchers("/h2-console/**")
                     .disable();
 
-            httpSecurity
+            httpSecurity    //Oauth2로그인
                         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                         .authorizeRequests()
                         .antMatchers("/", "/oauth2/**", "/login/**", "/css/**",
