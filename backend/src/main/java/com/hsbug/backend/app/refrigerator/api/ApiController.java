@@ -1,13 +1,11 @@
 package com.hsbug.backend.app.refrigerator.api;
 
-import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
-import com.hsbug.backend.app.refrigerator.add_product.AddProductDto;
+import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,19 +16,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
 @RestController
-@RequestMapping("/user")        // 기본 url /user/...
+@RequestMapping("/user/barcode")        // 기본 url /user/...
 @RequiredArgsConstructor
 public class ApiController {
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    @GetMapping("/call_barcode")
+    @GetMapping("/call")
     public JSONObject callApi(HttpServletRequest request, @RequestParam String bar_code) throws ParseException {
         String apikey = "433bea5199ba464ab499";     // 맥심
         System.out.println(bar_code);
@@ -77,7 +72,7 @@ public class ApiController {
 
 
                 String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                AddProductDto addProductDto = new AddProductDto();
+                ManageProductDto addProductDto = new ManageProductDto();
 
                 // 회원 아이디 jwt 토큰 이용해서 추출 가능한지 체크 중
                 //System.out.println(header);

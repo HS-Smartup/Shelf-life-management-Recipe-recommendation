@@ -1,8 +1,5 @@
 package com.hsbug.backend.app.refrigerator.manage_product;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
-import com.hsbug.backend.app.refrigerator.add_product.AddProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +13,8 @@ public class ManageProductService {
 
     private final ManageProductRepository manageProductRepository;
 
-    private AddProductDto convertEntityToDto(ManageProductEntity manageProductEntity){
-        return AddProductDto.builder()
+    private ManageProductDto convertEntityToDto(ManageProductEntity manageProductEntity){
+        return ManageProductDto.builder()
                 .id(manageProductEntity.getId())
                 .product_num(manageProductEntity.getProduct_num())
                 .barcode(manageProductEntity.getBarcode())
@@ -30,9 +27,9 @@ public class ManageProductService {
     }
 
     @Transactional
-    public List<AddProductDto> findProduct(String email) {
+    public List<ManageProductDto> findProduct(String email) {
         List<ManageProductEntity> productEntities = manageProductRepository.findAllByEmail(email);
-        List<AddProductDto> productDtoList = new ArrayList<>();
+        List<ManageProductDto> productDtoList = new ArrayList<>();
 
         for(ManageProductEntity manageProductEntity : productEntities){
             productDtoList.add(this.convertEntityToDto(manageProductEntity));
@@ -42,5 +39,10 @@ public class ManageProductService {
 
     public void deleteProduct(Long id){
         manageProductRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void save(ManageProductDto addProductDto) {
+        manageProductRepository.save(addProductDto.toEntity());
     }
 }

@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
@@ -16,11 +17,12 @@ import java.net.URL;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class ManageRecipeController { //10초 정도 걸리는 듯.
 
     private final ManageRecipeService manageRecipeService;
 
-    @GetMapping("/admin/get_admin_recipe")
+    @GetMapping("/recipe/update_call")
     public JSONObject getAdminRecipe(){
 
         JSONObject obj = new JSONObject();

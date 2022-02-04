@@ -1,12 +1,11 @@
-package com.hsbug.backend.app.refrigerator.add_product;
+package com.hsbug.backend.app.refrigerator.manage_product;
 
-import com.hsbug.backend.app.refrigerator.manage_product.ManageProductEntity;
 import lombok.*;
 
 @Data
 @Getter
 @Setter
-public class AddProductDto {
+public class ManageProductDto {
     private Long id;
     private String email;
     private String barcode;  //String이 나을듯?
@@ -17,7 +16,7 @@ public class AddProductDto {
     private String input_date; //  오늘 local 날짜로 지정
 
     @Builder
-    public AddProductDto(Long id, String email, String barcode, String product_type, String product_name, String exp_date, Integer product_num, String input_date){
+    public ManageProductDto(Long id, String email, String barcode, String product_type, String product_name, String exp_date, Integer product_num, String input_date){
         this.id=id;
         this.email=email;
         this.barcode=barcode;
@@ -28,7 +27,7 @@ public class AddProductDto {
         this.input_date=input_date;
     }
 
-    public AddProductDto() {
+    public ManageProductDto() {
 
     }
 

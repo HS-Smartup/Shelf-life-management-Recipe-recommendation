@@ -55,8 +55,8 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
         UserRegisterEntity userDetails = userRegisterService.loadUserByUsername(this.getUserPk(token));
         //return new UsernamePasswordAuthenticationToken(userDetails.getEmail(),userDetails.getPassword());//userDetails.getAuthorities());
-        System.out.println(userDetails.getAuthorities());
-        System.out.println(userDetails.getRoles());
+        //System.out.println(userDetails.getAuthorities());
+        //System.out.println(userDetails.getRoles());
         return new UsernamePasswordAuthenticationToken(userDetails.getEmail(),"",userDetails.getAuthorities());
     }
 
