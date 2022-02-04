@@ -14,6 +14,13 @@ import java.util.List;
 public class BookmarkRecipeDto {
     private Long id;
     private String email;
-    private List<Integer> recipe_id;
+    private List<Long> recipe_id;
 
+    public BookmarkRecipeEntity toEntity(){
+        return BookmarkRecipeEntity.builder()
+                .id(id)
+                .email(email)
+                .recipe_id(recipe_id)
+                .build();
+    }
 }

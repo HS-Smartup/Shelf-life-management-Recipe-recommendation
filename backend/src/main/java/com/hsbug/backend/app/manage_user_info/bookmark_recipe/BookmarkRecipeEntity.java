@@ -20,10 +20,10 @@ public class BookmarkRecipeEntity {
     private String email;
 
     @ElementCollection
-    private List<Integer> recipe_id;
+    private List<Long> recipe_id;
 
     @Builder
-    public BookmarkRecipeEntity(Long id, String email, List<Integer> recipe_id){
+    public BookmarkRecipeEntity(Long id, String email, List<Long> recipe_id){
         this.id = id;
         this.email = email;
         this.recipe_id = recipe_id;
