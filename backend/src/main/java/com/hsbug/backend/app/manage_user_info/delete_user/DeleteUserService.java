@@ -1,17 +1,15 @@
 package com.hsbug.backend.app.manage_user_info.delete_user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class DeleteUserService {
 
     private final DeleteUserRepository deleteUserRepository;
-
-    public DeleteUserService(DeleteUserRepository deleteUserRepository) {
-        this.deleteUserRepository = deleteUserRepository;
-    }
 
     @Transactional
     public void deleteUser(String username) throws NullPointerException {       //회원 탈퇴

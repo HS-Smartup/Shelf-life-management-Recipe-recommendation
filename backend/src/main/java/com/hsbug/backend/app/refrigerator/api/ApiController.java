@@ -2,6 +2,7 @@ package com.hsbug.backend.app.refrigerator.api;
 
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import com.hsbug.backend.app.refrigerator.add_product.AddProductDto;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,13 +25,10 @@ import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/user")        // 기본 url /user/...
+@RequiredArgsConstructor
 public class ApiController {
 
     private final JwtTokenProvider jwtTokenProvider;
-
-    public ApiController(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
     @GetMapping("/call_barcode")
     public JSONObject callApi(HttpServletRequest request, @RequestParam String bar_code) throws ParseException {

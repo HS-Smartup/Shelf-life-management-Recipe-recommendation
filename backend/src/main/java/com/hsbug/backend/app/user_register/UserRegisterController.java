@@ -1,6 +1,7 @@
 package com.hsbug.backend.app.user_register;
 
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -18,19 +19,13 @@ import java.util.Map;
 */
 @RestController
 @RequestMapping("/api")        // 기본 url /api/...
+@RequiredArgsConstructor
 public class UserRegisterController {
 
     private final UserRegisterService userRegisterService;
     private final HttpSession  httpSession;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-
-    public UserRegisterController(UserRegisterService userRegisterService, HttpSession httpSession, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
-        this.userRegisterService = userRegisterService;
-        this.httpSession = httpSession;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
     public UserRegisterDto LoginsuccessPage(UserRegisterDto form) {

@@ -1,19 +1,17 @@
 package com.hsbug.backend.app.manage_user_info.change_password;
 
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ChangePasswordService {
 
     private final ChangePasswordRepository changePasswordRepository;      // accountRepository 가져옴
-
-    public ChangePasswordService(ChangePasswordRepository changePasswordRepository) {
-        this.changePasswordRepository = changePasswordRepository;
-    }
 
            // 회원 정보 찾기
     public UserRegisterEntity loadUserByUsername(String email) throws UsernameNotFoundException,NullPointerException {

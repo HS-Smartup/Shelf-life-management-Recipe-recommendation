@@ -1,6 +1,6 @@
 package com.hsbug.backend.app.refrigerator.add_product;
 
-import com.hsbug.backend.app.refrigerator.manage_refrigerator.ManageProductEntity;
+import com.hsbug.backend.app.refrigerator.manage_product.ManageProductEntity;
 import lombok.Getter;
 import lombok.Setter;
 

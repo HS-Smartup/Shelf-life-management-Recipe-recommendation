@@ -4,6 +4,7 @@ import com.hsbug.backend.app.Config.Jwt.JwtAuthenticationFilter;
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2Provider;
 import com.hsbug.backend.app.user_register.external_login.CustomOAuth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
@@ -36,14 +37,11 @@ public class SecurityConfig {
 
     @Order(1)
     @Configuration
+    @RequiredArgsConstructor
     public static class SecurityConfig1 extends WebSecurityConfigurerAdapter{
 
         private final JwtTokenProvider jwtTokenProvider;
         private final CustomOAuth2UserService customOAuth2UserService;
-        public SecurityConfig1(JwtTokenProvider jwtTokenProvider, CustomOAuth2UserService customOAuth2UserService) {
-            this.jwtTokenProvider = jwtTokenProvider;
-            this.customOAuth2UserService = customOAuth2UserService;
-        }
 
         //암호화에 필요한 passwordencoder bean 등록
         @Bean

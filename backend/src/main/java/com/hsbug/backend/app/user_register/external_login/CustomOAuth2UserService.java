@@ -5,6 +5,7 @@ import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import com.hsbug.backend.app.user_register.UserRegisterService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -35,6 +36,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRegisterDto userRegisterDto;     //호배
     private final UserRegisterService userRegisterService;      //호배
@@ -52,15 +54,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private Converter<OAuth2UserRequest, RequestEntity<?>> requestEntityConverter = new OAuth2UserRequestEntityConverter();
 
     private RestOperations restOperations;
-
-    public CustomOAuth2UserService(UserRegisterDto userRegisterDto, UserRegisterService userRegisterService, UserRegisterRepository userRegisterRepository) {
-        this.userRegisterDto = userRegisterDto;         //호배
-        this.userRegisterService = userRegisterService;
-        this.userRegisterRepository = userRegisterRepository;
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
-        this.restOperations = restTemplate;
-    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {

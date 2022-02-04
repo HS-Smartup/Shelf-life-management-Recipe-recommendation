@@ -1,5 +1,6 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,13 +15,10 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 @RestController
+@RequiredArgsConstructor
 public class ManageRecipeController { //10초 정도 걸리는 듯.
 
     private final ManageRecipeService manageRecipeService;
-
-    public ManageRecipeController(ManageRecipeService manageRecipeService) {
-        this.manageRecipeService = manageRecipeService;
-    }
 
     @GetMapping("/admin/get_admin_recipe")
     public JSONObject getAdminRecipe(){

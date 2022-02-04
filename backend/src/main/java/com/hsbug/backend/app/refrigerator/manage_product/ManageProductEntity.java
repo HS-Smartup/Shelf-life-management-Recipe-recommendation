@@ -1,4 +1,4 @@
-package com.hsbug.backend.app.refrigerator.manage_refrigerator;
+package com.hsbug.backend.app.refrigerator.manage_product;
 
 import lombok.*;
 
