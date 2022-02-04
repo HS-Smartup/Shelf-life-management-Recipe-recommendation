@@ -2,6 +2,7 @@ package com.hsbug.backend.app.refrigerator.add_product;
 
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,8 @@ public class AddProductController {
     @PostMapping("/addProduct")
     public JSONObject AddProduct(@RequestBody AddProductDto addProductDto) {
         JSONObject obj = new JSONObject();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        addProductDto.setUsername(email);
         obj.put("obj",addProductDto);
         addProductService.save(addProductDto);
         return obj;

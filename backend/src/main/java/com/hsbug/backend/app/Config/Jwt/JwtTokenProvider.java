@@ -57,7 +57,7 @@ public class JwtTokenProvider {
         //return new UsernamePasswordAuthenticationToken(userDetails.getEmail(),userDetails.getPassword());//userDetails.getAuthorities());
         System.out.println(userDetails.getAuthorities());
         System.out.println(userDetails.getRoles());
-        return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails.getEmail(),"",userDetails.getAuthorities());
     }
 
     //토큰에서 회원 정보 추출
