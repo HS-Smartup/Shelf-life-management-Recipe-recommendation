@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 public class AddProductDto {
     private Long id;
-    private String username;
+    private String email;
     private String barcode;  //String이 나을듯?
     private String product_name;
     private String product_type ;
@@ -17,9 +17,9 @@ public class AddProductDto {
     private String input_date; //  오늘 local 날짜로 지정
 
     @Builder
-    public AddProductDto(Long id, String username, String barcode, String product_type, String product_name, String exp_date, Integer product_num, String input_date){
+    public AddProductDto(Long id, String email, String barcode, String product_type, String product_name, String exp_date, Integer product_num, String input_date){
         this.id=id;
-        this.username=username;
+        this.email=email;
         this.barcode=barcode;
         this.product_name=product_name;
         this.product_type=product_type;
@@ -34,7 +34,7 @@ public class AddProductDto {
 
     public ManageProductEntity toEntity(){
         return ManageProductEntity.builder()
-                .username(username)
+                .email(email)
                 .barcode(barcode)
                 .product_name(product_name)
                 .product_num(product_num)

@@ -16,7 +16,7 @@ public class AddProductController {
     public JSONObject AddProduct(@RequestBody AddProductDto addProductDto) {
         JSONObject obj = new JSONObject();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        addProductDto.setUsername(email);
+        addProductDto.setEmail(email);
         obj.put("obj",addProductDto);
         addProductService.save(addProductDto);
         return obj;

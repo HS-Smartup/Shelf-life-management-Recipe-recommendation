@@ -14,7 +14,7 @@ public class ManageProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String email;
     private String barcode;  //String이 나을듯?
     private String product_name;
     private String product_type ;
@@ -23,9 +23,9 @@ public class ManageProductEntity {
     private String input_date; //  오늘 local 날짜로 지정
 
     @Builder
-    public ManageProductEntity(Long id, String username, String barcode, String product_name, String product_type, String exp_date, String input_date, Integer product_num){
+    public ManageProductEntity(Long id, String email, String barcode, String product_name, String product_type, String exp_date, String input_date, Integer product_num){
         this.id = id;
-        this.username=username;
+        this.email=email;
         this.barcode = barcode;
         this.product_name = product_name;
         this.product_num = product_num;

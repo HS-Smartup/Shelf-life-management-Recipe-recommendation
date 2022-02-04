@@ -28,7 +28,7 @@ public class JwtTokenProvider {
     private String secretKey = "c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK";
 
     //토큰 유효 시간
-    private final long tokenValidTime = 100000;     // 우선 100초 후 토큰만료
+    private final long tokenValidTime = 1000000;     // 우선 100초 후 토큰만료
 
     private final UserRegisterService userRegisterService;
 
