@@ -51,8 +51,13 @@ public class BookmarkRecipeService {
     }
 
     public BookmarkRecipeDto getUserBookmark(String email){
-        BookmarkRecipeEntity bookmarkRecipeEntity = bookmarkRecipeRepository.findByEmail(email);
-        BookmarkRecipeDto bookmarkRecipeDto = this.convertEntityToDto(bookmarkRecipeEntity);
-        return bookmarkRecipeDto;
+
+        try {
+            BookmarkRecipeEntity bookmarkRecipeEntity = bookmarkRecipeRepository.findByEmail(email);
+            BookmarkRecipeDto bookmarkRecipeDto = this.convertEntityToDto(bookmarkRecipeEntity);
+            return bookmarkRecipeDto;
+        } catch(Exception e){
+            return null;
+        }
     }
 }
