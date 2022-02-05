@@ -3,11 +3,7 @@ package com.hsbug.backend.app.manage_user_info.bookmark_recipe;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

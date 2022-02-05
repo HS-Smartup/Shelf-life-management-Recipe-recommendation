@@ -1,7 +1,5 @@
 package com.hsbug.backend.app.manage_user_info.bookmark_recipe;
 
-import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +18,7 @@ public class BookmarkRecipeController {
     @PostMapping("/addBookmark")
     public JSONObject addBookmark(@RequestParam Long id){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        JSONObject obj = new JSONObject();
 
         BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.getUserBookmark(email);
         if (bookmarkRecipeDto == null){ // 북마크 0일 때
@@ -30,12 +29,16 @@ public class BookmarkRecipeController {
         }else{ // 북마크 한 것이 있을 때
             List<Long> recipeList = bookmarkRecipeDto.getRecipe_id();
             System.out.println(recipeList);
-            recipeList.add(id);
-            bookmarkRecipeDto.setRecipe_id(recipeList);
-            System.out.println(recipeList);
-            bookmarkRecipeService.saveRecipe(bookmarkRecipeDto.getId(),bookmarkRecipeDto);
+            if (!recipeList.contains(id)) {
+                recipeList.add(id);
+                bookmarkRecipeDto.setRecipe_id(recipeList);
+                System.out.println(recipeList);
+                bookmarkRecipeService.saveRecipe(bookmarkRecipeDto.getId(), bookmarkRecipeDto);
+            }
+            else{
+                obj.put("message","이미 북마크에 저장 됨.");
+            }
         }
-        JSONObject obj = new JSONObject();
         return obj;
     }
 
