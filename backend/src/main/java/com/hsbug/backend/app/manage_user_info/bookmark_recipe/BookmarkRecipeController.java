@@ -47,11 +47,11 @@ public class BookmarkRecipeController {
         return bookmarkRecipeService.findRecipe(email);
     }
 
-    @PostMapping("/deleteBookmarke")
+    @PostMapping("/deleteBookmark")
     public JSONObject deleteBookMark(@RequestParam Long id) {
         String email = findEmail();
         JSONObject obj = new JSONObject();
-        bookmarkRecipeService.delite(email, id);
+        bookmarkRecipeService.delete(email, id);
         obj.put("message", "해당 북마크의 삭제가 완료되었습니다.");
         return obj;
     }

@@ -54,10 +54,14 @@ public class BookmarkRecipeService {
         }
     }
 
-    public void delite(String email,Long id) {
+    public void delete(String email,Long id) {
         BookmarkRecipeEntity bookmarkRecipeEntity = bookmarkRecipeRepository.findByEmail(email);
-        List<Long> bookMarkList = bookmarkRecipeEntity.getRecipe_id();
+        BookmarkRecipeDto bookmarkRecipeDto = this.convertEntityToDto(bookmarkRecipeEntity);
+
+        List<Long> bookMarkList = bookmarkRecipeDto.getRecipe_id();
         bookMarkList.remove(id);
 
+        bookmarkRecipeDto.setRecipe_id(bookMarkList);
+        this.saveRecipe(bookmarkRecipeDto);
     }
 }

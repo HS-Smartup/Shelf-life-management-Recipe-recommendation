@@ -24,4 +24,5 @@ public class BookmarkRecipeEntity {
         this.email = email;
         this.recipe_id = recipe_id;
     }
+
 }
