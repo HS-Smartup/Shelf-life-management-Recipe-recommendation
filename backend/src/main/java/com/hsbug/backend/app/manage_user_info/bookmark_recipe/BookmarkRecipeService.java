@@ -26,15 +26,8 @@ public class BookmarkRecipeService {
                 .build();
     }
 
-    public void saveRecipe(Long id,BookmarkRecipeDto bookmarkRecipeDto) {
-        Optional<BookmarkRecipeEntity> optionalBookmark = bookmarkRecipeRepository.findById(id);
-        if(!optionalBookmark.isPresent()) {
+    public void saveRecipe(BookmarkRecipeDto bookmarkRecipeDto){
             bookmarkRecipeRepository.save(bookmarkRecipeDto.toEntity());
-        } else{
-            BookmarkRecipeEntity bookmark = optionalBookmark.get();
-            bookmarkRecipeDto.setId(bookmark.getId());
-            bookmarkRecipeRepository.save(bookmarkRecipeDto.toEntity());
-        }
     }
 
     public JSONObject findRecipe(String email) {

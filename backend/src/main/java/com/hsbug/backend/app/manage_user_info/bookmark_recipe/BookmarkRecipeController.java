@@ -25,7 +25,7 @@ public class BookmarkRecipeController {
             List<Long> recipeList = new ArrayList<>();
             recipeList.add(id);
             BookmarkRecipeDto bookmark = new BookmarkRecipeDto(0L,email, recipeList);
-            bookmarkRecipeService.saveRecipe(0L,bookmark);
+            bookmarkRecipeService.saveRecipe(bookmark);
         }else{ // 북마크 한 것이 있을 때
             List<Long> recipeList = bookmarkRecipeDto.getRecipe_id();
             System.out.println(recipeList);
@@ -33,7 +33,7 @@ public class BookmarkRecipeController {
                 recipeList.add(id);
                 bookmarkRecipeDto.setRecipe_id(recipeList);
                 System.out.println(recipeList);
-                bookmarkRecipeService.saveRecipe(bookmarkRecipeDto.getId(), bookmarkRecipeDto);
+                bookmarkRecipeService.saveRecipe(bookmarkRecipeDto);
             }
             else{
                 obj.put("message","이미 북마크에 저장 됨.");
