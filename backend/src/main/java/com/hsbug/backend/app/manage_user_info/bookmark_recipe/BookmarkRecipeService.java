@@ -53,4 +53,11 @@ public class BookmarkRecipeService {
             return null;
         }
     }
+
+    public void delite(String email,Long id) {
+        BookmarkRecipeEntity bookmarkRecipeEntity = bookmarkRecipeRepository.findByEmail(email);
+        List<Long> bookMarkList = bookmarkRecipeEntity.getRecipe_id();
+        bookMarkList.remove(id);
+
+    }
 }
