@@ -51,7 +51,7 @@ public class BookmarkRecipeController {
     public JSONObject deleteBookMark(@RequestParam Long id) {
         String email = findEmail();
         JSONObject obj = new JSONObject();
-        bookmarkRecipeService.delete(email, id);
+        bookmarkRecipeService.deleteBookmark(email, id);
         obj.put("message", "해당 북마크의 삭제가 완료되었습니다.");
         return obj;
     }
