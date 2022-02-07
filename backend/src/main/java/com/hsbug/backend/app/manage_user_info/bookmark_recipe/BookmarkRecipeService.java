@@ -1,22 +1,16 @@
 package com.hsbug.backend.app.manage_user_info.bookmark_recipe;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class BookmarkRecipeService {
 
     private final BookmarkRecipeRepository bookmarkRecipeRepository;
-    private final ManageRecipeRepository manageRecipeRepository;
 
     private BookmarkRecipeDto convertEntityToDto(BookmarkRecipeEntity bookmarkRecipeEntity){
         return BookmarkRecipeDto.builder()
