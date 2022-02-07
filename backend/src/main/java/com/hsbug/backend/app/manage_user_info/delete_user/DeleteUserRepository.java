@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface DeleteUserRepository extends JpaRepository<UserRegisterEntity, Long> {
 
     Optional<UserRegisterEntity> findByUsername(String username);
-
+    Optional<UserRegisterEntity> deleteByEmail(String email);
 }
