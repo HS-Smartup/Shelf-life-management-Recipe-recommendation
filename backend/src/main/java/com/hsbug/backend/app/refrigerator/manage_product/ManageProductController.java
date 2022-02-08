@@ -17,7 +17,7 @@ public class ManageProductController {
     @PostMapping("/addProduct")
     public JSONObject AddProduct(@RequestBody ManageProductDto addProductDto) {
         JSONObject obj = new JSONObject();
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        String email = findEmail();
         addProductDto.setEmail(email);
         obj.put("obj",addProductDto);
         manageProductService.save(addProductDto);
@@ -26,7 +26,7 @@ public class ManageProductController {
 
     @GetMapping("/readProduct")
     public JSONObject ReadProduct(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        String email = findEmail();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         JSONObject obj = new JSONObject();
         obj.put("message","read 완료");
@@ -43,5 +43,10 @@ public class ManageProductController {
         manageProductService.deleteProduct(id);
         obj.put("message",id+" 삭제 완료");
         return obj;
+    }
+
+    private String findEmail() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return email;
     }
 }

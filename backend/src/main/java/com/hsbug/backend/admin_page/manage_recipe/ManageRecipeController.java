@@ -88,6 +88,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
 
                 //System.out.println(jsonObject.get("RCP_SEQ"));
                 recipeDto.setRCP_SEQ((String) jsonObject.get("RCP_SEQ"));
+                recipeDto.setWRITER("admin");
                 recipeDto.setRCP_NM((String) jsonObject.get("RCP_NM"));
                 recipeDto.setRCP_PAT2((String) jsonObject.get("RCP_PAT2"));
                 recipeDto.setRCP_PARTS_DTLS((String) jsonObject.get("RCP_PARTS_DTLS"));
@@ -161,6 +162,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
 
                 //System.out.println(jsonObject.get("RCP_SEQ"));
                 recipeDto.setRCP_SEQ((String) jsonObject.get("RCP_SEQ"));
+                recipeDto.setWRITER("admin");
                 recipeDto.setRCP_NM((String) jsonObject.get("RCP_NM"));
                 recipeDto.setRCP_PAT2((String) jsonObject.get("RCP_PAT2"));
                 recipeDto.setRCP_PARTS_DTLS((String) jsonObject.get("RCP_PARTS_DTLS"));
