@@ -31,7 +31,7 @@ public class ManageProductController {
         JSONObject obj = new JSONObject();
         obj.put("message","read 완료");
         for (int i = 0; i< productDtoList.size(); i++){
-            obj.put("raw"+(i+1),productDtoList.get(i));
+            obj.put((i+1),productDtoList.get(i));
         }
 
         return obj;
