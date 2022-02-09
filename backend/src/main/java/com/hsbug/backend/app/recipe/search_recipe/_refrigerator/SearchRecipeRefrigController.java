@@ -35,16 +35,20 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/search/myRefrig/getid")
-    public void getid(@RequestParam List<Long> id){
-        String[] array = null;
-        System.out.println(id);
+    public JSONObject getid(@RequestParam List<Long> id, boolean check){ //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
+        String email = getEmail();
+        JSONObject obj = new JSONObject();
+        List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
+
         for (int i = 0; i<id.size();i++){
-            System.out.println(id.get(i));
+            for (int j = 0; j < productDtoList.size(); j++){
+                if (id.get(i) == productDtoList.get(j).getId()){
+                    obj.put(i+1,productDtoList.get(j).getProduct_name());
+                }
+            }
         }
+        return obj;
     }
-
-
-
 
     public String getEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
