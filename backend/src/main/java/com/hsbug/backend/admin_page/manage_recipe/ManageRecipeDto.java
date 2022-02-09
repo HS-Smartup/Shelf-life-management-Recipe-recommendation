@@ -111,7 +111,7 @@ public class ManageRecipeDto {
                 .RCP_SEQ(RCP_SEQ)
                 .RCP_NM(RCP_NM)
                 .RCP_PAT2(RCP_PAT2)
-                .RCP_PARTS_DTLS(RCP_PARTS_DTLS)
+                .RCPPARTSDTLS(RCP_PARTS_DTLS)
                 .RCP_WAY2(RCP_WAY2)
                 .ATT_FILE_NO_MAIN(ATT_FILE_NO_MAIN)
                 .ATT_FILE_NO_MK(ATT_FILE_NO_MK)

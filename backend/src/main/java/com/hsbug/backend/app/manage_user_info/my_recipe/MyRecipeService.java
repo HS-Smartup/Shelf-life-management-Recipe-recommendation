@@ -37,14 +37,14 @@ public class MyRecipeService {
     }
 
 
-    private ManageRecipeDto convertEntityToDto(ManageRecipeEntity manageRecipeEntity){
+    public ManageRecipeDto convertEntityToDto(ManageRecipeEntity manageRecipeEntity){
         return ManageRecipeDto.builder()
                 .id(manageRecipeEntity.getId())
                 .WRITER(manageRecipeEntity.getWRITER())
                 .RCP_SEQ(manageRecipeEntity.getRCP_SEQ())
                 .RCP_NM(manageRecipeEntity.getRCP_NM())
                 .RCP_PAT2(manageRecipeEntity.getRCP_PAT2())
-                .RCP_PARTS_DTLS(manageRecipeEntity.getRCP_PARTS_DTLS())
+                .RCP_PARTS_DTLS(manageRecipeEntity.getRCPPARTSDTLS())
                 .RCP_WAY2(manageRecipeEntity.getRCP_WAY2())
                 .ATT_FILE_NO_MAIN(manageRecipeEntity.getATT_FILE_NO_MAIN())
                 .ATT_FILE_NO_MK(manageRecipeEntity.getATT_FILE_NO_MK())

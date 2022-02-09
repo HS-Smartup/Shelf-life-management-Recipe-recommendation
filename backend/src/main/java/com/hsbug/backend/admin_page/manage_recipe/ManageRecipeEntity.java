@@ -20,7 +20,7 @@ public class ManageRecipeEntity {
     private String RCP_NM;    // 레시피 이름
     private String RCP_PAT2;  // 요리 종류
     @Column(length=600)
-    private String RCP_PARTS_DTLS;  // 재료 정보
+    private String RCPPARTSDTLS;  // 재료 정보
     private String RCP_WAY2;      // 조리 방법 (끓이기, 굽기, 찌기 등)
 
     private String ATT_FILE_NO_MAIN;  // 메인 이미지 (소)
@@ -85,7 +85,7 @@ public class ManageRecipeEntity {
     private String ADD_TIME;
 
     @Builder
-    public ManageRecipeEntity(Long RCP_ID, String RCP_SEQ, String RCP_NM,String RCP_PAT2, String RCP_PARTS_DTLS, String RCP_WAY2
+    public ManageRecipeEntity(Long RCP_ID, String RCP_SEQ, String RCP_NM,String RCP_PAT2, String RCPPARTSDTLS, String RCP_WAY2
             , String ATT_FILE_NO_MAIN, String ATT_FILE_NO_MK, String MANUAL01, String MANUAL02, String MANUAL03, String MANUAL04
             , String MANUAL05, String MANUAL06, String MANUAL07, String MANUAL08, String MANUAL09, String MANUAL10, String MANUAL11
             , String MANUAL12, String MANUAL_IMG01, String MANUAL_IMG02, String MANUAL_IMG03, String MANUAL_IMG04, String MANUAL_IMG05
@@ -97,7 +97,7 @@ public class ManageRecipeEntity {
         this.id=RCP_ID;
         this.RCP_SEQ=RCP_SEQ;
         this.RCP_NM=RCP_NM; this.RCP_PAT2=RCP_PAT2; this.RCP_WAY2=RCP_WAY2;
-        this.ATT_FILE_NO_MAIN=ATT_FILE_NO_MAIN; this.ATT_FILE_NO_MK=ATT_FILE_NO_MK; this.RCP_PARTS_DTLS = RCP_PARTS_DTLS; this.MANUAL01=MANUAL01;
+        this.ATT_FILE_NO_MAIN=ATT_FILE_NO_MAIN; this.ATT_FILE_NO_MK=ATT_FILE_NO_MK; this.RCPPARTSDTLS = RCPPARTSDTLS; this.MANUAL01=MANUAL01;
         this.MANUAL02=MANUAL02; this.MANUAL03=MANUAL03; this.MANUAL04=MANUAL04; this.MANUAL05=MANUAL05; this.MANUAL06=MANUAL06; this.MANUAL07=MANUAL07; this.MANUAL08=MANUAL08; this.MANUAL09=MANUAL09; this.MANUAL10=MANUAL10;
         this.MANUAL11=MANUAL11; this.MANUAL12=MANUAL12; this.MANUAL_IMG01=MANUAL_IMG01; this.MANUAL_IMG02=MANUAL_IMG02; this.MANUAL_IMG03=MANUAL_IMG03; this.MANUAL_IMG04=MANUAL_IMG04; this.MANUAL_IMG05=MANUAL_IMG05; this.MANUAL_IMG06=MANUAL_IMG06; this.MANUAL_IMG07=MANUAL_IMG07; this.MANUAL_IMG08=MANUAL_IMG08; this.MANUAL_IMG09=MANUAL_IMG09; this.MANUAL_IMG10=MANUAL_IMG10; this.MANUAL_IMG11=MANUAL_IMG11;
         this.INFO_ENG=INFO_ENG; this.INFO_CAR=INFO_CAR; this.INFO_PRO = INFO_PRO; this.INFO_FAT=INFO_FAT; this.INFO_NA=INFO_NA; this.HASH_TAG=HASH_TAG;
