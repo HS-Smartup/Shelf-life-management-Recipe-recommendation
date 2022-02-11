@@ -16,7 +16,7 @@ public class MyRecipeController {
 
     private final MyRecipeService myRecipeService;
 
-    @GetMapping("/readMyRecipe")
+    @GetMapping("/MyRecipe/read")
     public JSONObject readMyRecipe() {
         String email = findEmail();
         JSONObject obj = new JSONObject();
@@ -32,7 +32,7 @@ public class MyRecipeController {
         return obj;
     }
 
-    @PostMapping("/addMyRecipe")
+    @PostMapping("/MyRecipe/add")
     public JSONObject addMyRecipe(@RequestBody ManageRecipeDto manageRecipeDto){
         String email = findEmail();
         JSONObject obj = new JSONObject();
@@ -44,7 +44,7 @@ public class MyRecipeController {
         return obj;
     }
 
-    @PostMapping("/deleteMyRecipe")
+    @PostMapping("/MyRecipe/delete")
     public JSONObject deleteMyRecipe(@RequestParam Long id){
         JSONObject obj = new JSONObject();
         myRecipeService.deleteRecipe(id);
