@@ -5,7 +5,7 @@
 /backend/.idea/
 /backend/build/
 .idea/GW_project.iml
-
+.DS_Store
 
 
 /backend/.gradle/file-system.probe
