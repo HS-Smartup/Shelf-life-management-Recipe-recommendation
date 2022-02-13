@@ -50,19 +50,21 @@ const SignUpScreen = props => {
       return;
     }
     setLoading(true);
+    console.log(form);
 
-    fetch('http://localhost:8080/api/signup', {
+    // ip 바꿔야 함.
+    fetch('http://192.168.168.102:8080/api/signup', {
       method: 'POST',
-      body: form,
+      body: JSON.stringify(form),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'application/json',
       },
     })
       .then(response => response.json())
       .then(responseJson => {
         setLoading(false);
         console.log(responseJson);
-        if (responseJson.status === 'success') {
+        if (responseJson.status === 200) {
           setIsSignUpSuccess(true);
         } else {
           setErrortext(responseJson.msg);

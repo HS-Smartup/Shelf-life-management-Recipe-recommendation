@@ -61,6 +61,7 @@ public class UserRegisterController {
             System.out.println(userRegisterDto.getPassword());
             System.out.println(userRegisterDto.getRoles());
             obj.put("message","회원 가입 성공");
+            obj.put("status",200);
         }
         return obj;
     }
