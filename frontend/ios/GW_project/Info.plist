@@ -76,6 +76,10 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Dongle-Bold.ttf</string>
+		<string>NanumSquareRoundOTFB.otf</string>
+		<string>NanumSquareRoundOTFEB.otf</string>
+		<string>NanumSquareRoundOTFL.otf</string>
+		<string>NanumSquareRoundOTFR.otf</string>
 	</array>
 </dict>
 </plist>
