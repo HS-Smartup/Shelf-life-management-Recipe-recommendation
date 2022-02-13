@@ -37,6 +37,11 @@
 		598E517CB2EA45FBAC27DA92 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B94D25C7AD7F4F0BBBE71EFE /* SimpleLineIcons.ttf */; };
 		53900C98CB35496A821F07AF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 931B39B7D52B49C48730B112 /* Zocial.ttf */; };
 		06CF57972125463586DD2C53 /* Dongle-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC9B9139F9724F2AB07B50E3 /* Dongle-Bold.ttf */; };
+		CFA4182929BC48EB8B7B3587 /* NanumSquareRoundOTFB.otf in Resources */ = {isa = PBXBuildFile; fileRef = 531DD030B37C4F00BB9F31AD /* NanumSquareRoundOTFB.otf */; };
+		C0C713A0F8F74AD7AC6AE1D1 /* NanumSquareRoundOTFEB.otf in Resources */ = {isa = PBXBuildFile; fileRef = D4AD4B206ED64EA7B6C9AF6B /* NanumSquareRoundOTFEB.otf */; };
+		02F8F378944D42CBB4CB6891 /* NanumSquareRoundOTFL.otf in Resources */ = {isa = PBXBuildFile; fileRef = 94D83BD179594257BC16ED9C /* NanumSquareRoundOTFL.otf */; };
+		22B1167EB17E490C9CD390A9 /* NanumSquareRoundOTFR.otf in Resources */ = {isa = PBXBuildFile; fileRef = A3D590F7DAD844039A7FD8C5 /* NanumSquareRoundOTFR.otf */; };
+		891C09C40CBC46C09BB54453 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 19DE90C91A924C8C81EDA2A7 /* NotoSansKR-Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +95,11 @@
 		B94D25C7AD7F4F0BBBE71EFE /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		931B39B7D52B49C48730B112 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		FC9B9139F9724F2AB07B50E3 /* Dongle-Bold.ttf */ = {isa = PBXFileReference; name = "Dongle-Bold.ttf"; path = "../assets/fonts/Dongle-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		531DD030B37C4F00BB9F31AD /* NanumSquareRoundOTFB.otf */ = {isa = PBXFileReference; name = "NanumSquareRoundOTFB.otf"; path = "../src/assets/fonts/NanumSquareRoundOTFB.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D4AD4B206ED64EA7B6C9AF6B /* NanumSquareRoundOTFEB.otf */ = {isa = PBXFileReference; name = "NanumSquareRoundOTFEB.otf"; path = "../src/assets/fonts/NanumSquareRoundOTFEB.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		94D83BD179594257BC16ED9C /* NanumSquareRoundOTFL.otf */ = {isa = PBXFileReference; name = "NanumSquareRoundOTFL.otf"; path = "../src/assets/fonts/NanumSquareRoundOTFL.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A3D590F7DAD844039A7FD8C5 /* NanumSquareRoundOTFR.otf */ = {isa = PBXFileReference; name = "NanumSquareRoundOTFR.otf"; path = "../src/assets/fonts/NanumSquareRoundOTFR.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		19DE90C91A924C8C81EDA2A7 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; name = "NotoSansKR-Regular.otf"; path = "../src/assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +232,11 @@
 				B94D25C7AD7F4F0BBBE71EFE /* SimpleLineIcons.ttf */,
 				931B39B7D52B49C48730B112 /* Zocial.ttf */,
 				FC9B9139F9724F2AB07B50E3 /* Dongle-Bold.ttf */,
+				531DD030B37C4F00BB9F31AD /* NanumSquareRoundOTFB.otf */,
+				D4AD4B206ED64EA7B6C9AF6B /* NanumSquareRoundOTFEB.otf */,
+				94D83BD179594257BC16ED9C /* NanumSquareRoundOTFL.otf */,
+				A3D590F7DAD844039A7FD8C5 /* NanumSquareRoundOTFR.otf */,
+				19DE90C91A924C8C81EDA2A7 /* NotoSansKR-Regular.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -346,6 +361,11 @@
 				598E517CB2EA45FBAC27DA92 /* SimpleLineIcons.ttf in Resources */,
 				53900C98CB35496A821F07AF /* Zocial.ttf in Resources */,
 				06CF57972125463586DD2C53 /* Dongle-Bold.ttf in Resources */,
+				CFA4182929BC48EB8B7B3587 /* NanumSquareRoundOTFB.otf in Resources */,
+				C0C713A0F8F74AD7AC6AE1D1 /* NanumSquareRoundOTFEB.otf in Resources */,
+				02F8F378944D42CBB4CB6891 /* NanumSquareRoundOTFL.otf in Resources */,
+				22B1167EB17E490C9CD390A9 /* NanumSquareRoundOTFR.otf in Resources */,
+				891C09C40CBC46C09BB54453 /* NotoSansKR-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
