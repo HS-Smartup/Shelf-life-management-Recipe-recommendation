@@ -3,6 +3,7 @@ package com.hsbug.backend.app.user_register;
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +11,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-
 /*
 
     로그인, 회원 가입, id/pw 찾기, 회원 탈퇴
@@ -27,18 +26,22 @@ public class UserRegisterController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
-    public UserRegisterDto LoginsuccessPage(UserRegisterDto form) {
-
-        return form;
+    public JSONObject LoginsuccessPage() {
+        JSONObject obj = new JSONObject();
+        obj.put("user email", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        return obj;
     }
 
-    @GetMapping("loginFailure")
-    public String LoginfailurePage(){
-        return "로그인 실패";
+    @GetMapping("/loginFailure")
+    public JSONObject LoginfailurePage(){
+        JSONObject obj = new JSONObject();
+        obj.put("message","로그인 실패");
+        return obj;
     }
 
     @GetMapping("/signup")     // 회원가입 페이지 Controller
     public String SignupPage(){//@RequestBody AccountForm accountForm, HttpSession session) {
+
         return "Sign up page";
     }
 
