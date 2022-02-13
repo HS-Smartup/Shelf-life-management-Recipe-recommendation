@@ -11,7 +11,7 @@ const SplashScreen = ({navigation}) => {
       AsyncStorage.getItem('user_id').then(value =>
         navigation.replace(value === null ? 'AuthStack' : 'MainStack'),
       );
-    }, 5000);
+    }, 3000);
   }, [navigation]);
 
   return (
