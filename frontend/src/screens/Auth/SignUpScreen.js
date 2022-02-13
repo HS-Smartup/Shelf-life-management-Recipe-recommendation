@@ -52,8 +52,8 @@ const SignUpScreen = props => {
     setLoading(true);
     console.log(form);
 
-    // ip 바꿔야 함.
-    fetch('http://192.168.168.102:8080/api/signup', {
+    // adb reverse tcp:8080 tcp:8080 -> 로컬 호스트 연결 명령어
+    fetch('http://localhost:8080/api/signup', {
       method: 'POST',
       body: JSON.stringify(form),
       headers: {
@@ -82,6 +82,7 @@ const SignUpScreen = props => {
         style={{
           flex: 1,
           justifyContent: 'center',
+          alignItems: 'center',
         }}>
         <Image
           source={require('../../assets/images/success.png')}
@@ -93,10 +94,10 @@ const SignUpScreen = props => {
         />
         <Text style={styles.successTextStyle}>회원가입이 완료되었습니다!</Text>
         <Pressable
-          style={styles.buttonStyle}
+          style={styles.signInButton}
           activeOpacity={0.5}
           onPress={() => props.navigation.navigate('SignInScreen')}>
-          <Text style={styles.buttonTextStyle}>로그인하기</Text>
+          <Text style={styles.signInText}>로그인하기</Text>
         </Pressable>
       </View>
     );
@@ -228,6 +229,27 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   buttonText: {
+    color: '#ffffff',
+    paddingVertical: 10,
+    fontSize: 18,
+  },
+  successTextStyle: {
+    marginVertical: 20,
+    fontSize: 28,
+    fontFamily: 'NanumSquareRoundOTFB',
+    color: '#000000',
+  },
+  signInButton: {
+    width: '90%',
+    borderRadius: 30,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ff8527',
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  signInText: {
     color: '#ffffff',
     paddingVertical: 10,
     fontSize: 18,
