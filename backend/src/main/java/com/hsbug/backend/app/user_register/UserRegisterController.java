@@ -23,15 +23,12 @@ import java.util.Map;
 public class UserRegisterController {
 
     private final UserRegisterService userRegisterService;
-    private final HttpSession  httpSession;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
     public UserRegisterDto LoginsuccessPage(UserRegisterDto form) {
 
-        form.setEmail(httpSession.getAttribute("username").toString());
-        form.setPassword("secret");
         return form;
     }
 
@@ -65,7 +62,7 @@ public class UserRegisterController {
         return obj;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public JSONObject login(@RequestBody Map<String, String> user){
         List<String> role = new ArrayList<>();
         role.add("ROLE_USER");
