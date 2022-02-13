@@ -15,14 +15,14 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Map.Entry;
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/search")
 @RequiredArgsConstructor
 public class SearchRecipeRefrigController {
 
     private final SearchRecipeRefrigService searchRecipeRefrigService;
     private final ManageProductService manageProductService;
 
-    @GetMapping("/search/myRefrig")
+    @GetMapping("/myRefrig")
     public JSONObject searchAaa(){
         String email = getEmail();
         JSONObject obj = new JSONObject();
@@ -34,8 +34,8 @@ public class SearchRecipeRefrigController {
         return obj;
     }
 
-    @GetMapping("/search/myRefrig/getid")
-    public Map<Long, Integer> getid(@RequestParam List<Long> id, boolean check) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
+    @GetMapping("/myRefrig/selectProduct")
+    public Map<Long, Integer> searchFromSelectProduct(@RequestParam List<Long> id, boolean check) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
         String email = getEmail();
         JSONObject obj = new JSONObject();
         ArrayList<String> product_list = new ArrayList<>();

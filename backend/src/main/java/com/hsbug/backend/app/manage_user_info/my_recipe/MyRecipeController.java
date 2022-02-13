@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/myrecipe")
+@RequestMapping("/user/myRecipe")
 @RequiredArgsConstructor
 public class MyRecipeController {
 
     private final MyRecipeService myRecipeService;
 
-    @GetMapping("/MyRecipe/read")
+    @GetMapping("/read")
     public JSONObject readMyRecipe() {
         String email = findEmail();
         JSONObject obj = new JSONObject();
@@ -32,7 +32,7 @@ public class MyRecipeController {
         return obj;
     }
 
-    @PostMapping("/MyRecipe/add")
+    @PostMapping("/add")
     public JSONObject addMyRecipe(@RequestBody ManageRecipeDto manageRecipeDto){
         String email = findEmail();
         JSONObject obj = new JSONObject();
@@ -44,7 +44,7 @@ public class MyRecipeController {
         return obj;
     }
 
-    @PostMapping("/MyRecipe/delete")
+    @PostMapping("/delete")
     public JSONObject deleteMyRecipe(@RequestParam Long id){
         JSONObject obj = new JSONObject();
         myRecipeService.deleteRecipe(id);

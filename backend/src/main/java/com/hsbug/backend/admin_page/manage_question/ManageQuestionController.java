@@ -14,25 +14,25 @@ import java.net.URL;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/admin/question")
 public class ManageQuestionController { //10초 정도 걸리는 듯.
 
     private final ManageQuestionService manageQuestionService;
 
-    @GetMapping("/question/no_answer")
+    @GetMapping("/no_answer")
     public JSONObject readAdminNoAnswer(){
         JSONObject obj = manageQuestionService.readNoAnswer();
         return obj;
 
     }
 
-    @GetMapping("/question/already_answer")
+    @GetMapping("/already_answer")
     public JSONObject readAdminAlreadyAnswer(){
         JSONObject obj = manageQuestionService.readAlreadyAnswer();
         return obj;
     }
 
-    @PostMapping("/question/no_answer/answer")
+    @PostMapping("/no_answer/answer")
     public JSONObject answerAdminNoAnswer(@RequestBody ManageQuestionDto manageQuestionDto){
         Long id = manageQuestionDto.getId();
         String answer = manageQuestionDto.getAnswer();

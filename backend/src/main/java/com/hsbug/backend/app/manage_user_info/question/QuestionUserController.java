@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/user/question")
 public class QuestionUserController {
 
     private final QuestionUserService questionUserService;
 
-    @GetMapping("/question/read")
+    @GetMapping("/read")
     public JSONObject userQuestionRead(){
         JSONObject obj;
         obj = questionUserService.readUserQuestion();
         return obj;
     }
 
-    @PostMapping("/question/add")
+    @PostMapping("/add")
     public JSONObject userQuestionAdd(@RequestBody ManageQuestionDto manageQuestionDto){
         JSONObject obj = new JSONObject();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
