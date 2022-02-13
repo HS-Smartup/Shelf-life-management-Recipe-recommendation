@@ -1,4 +1,4 @@
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -16,7 +16,11 @@ const SplashScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {/* 이미지 */}
+      <Image
+        source={require('../assets/images/logo.png')}
+        style={styles.logo}
+      />
+      <Text style={styles.title}>레시피 냉장고</Text>
       <ActivityIndicator
         animating={animating}
         color="#ffab91"
@@ -34,6 +38,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logo: {
+    width: 100,
+    height: 100,
+  },
+  title: {
+    marginTop: 30,
+    fontFamily: 'NanumSquareRoundOTFEB',
+    fontSize: 36,
+    color: '#000000',
   },
   activityIndicator: {
     alignItems: 'center',
