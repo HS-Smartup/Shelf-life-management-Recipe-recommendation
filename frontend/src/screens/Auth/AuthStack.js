@@ -17,16 +17,7 @@ const AuthStack = () => {
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
-        options={{
-          title: '회원가입',
-          headerStyle: {
-            backgroundColor: '#ffab91',
-          },
-          headerTintColor: '#ffffff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
