@@ -38,9 +38,9 @@ const SignInScreen = ({navigation}) => {
     }
     setLoading(true);
 
-    fetch('http://localhost:8081/api/login', {
+    fetch('http://localhost:8080/api/login', {
       method: 'POST',
-      body: form,
+      body: JSON.stringify(form),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
@@ -48,12 +48,12 @@ const SignInScreen = ({navigation}) => {
       .then(response => response.json())
       .then(responseJson => {
         setLoading(false);
-        if (responseJson.status === 'success') {
+        if (responseJson.status === 200) {
           AsyncStorage.setItem('user_email', responseJson.data.email);
           console.log(responseJson.data.email);
           navigation.replace('MainStack');
         } else {
-          setErrortext(responseJson.msg);
+          setErrortext(responseJson.message);
           console.log('이메일 혹은 패스워드를 확인해주세요.');
         }
       })
