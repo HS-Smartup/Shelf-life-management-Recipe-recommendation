@@ -67,7 +67,7 @@ const SignUpScreen = props => {
         if (responseJson.status === 200) {
           setIsSignUpSuccess(true);
         } else {
-          setErrortext(responseJson.msg);
+          setErrortext(responseJson.message);
         }
       })
       .catch(error => {
@@ -214,9 +214,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   errorText: {
+    marginTop: 5,
+    fontFamily: 'NanumSquareRoundOTFB',
     color: 'red',
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 18,
   },
   button: {
     width: '90%',
