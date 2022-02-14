@@ -31,6 +31,7 @@ public class SearchRecipeRefrigController {
         for (int i = 0; i < productDtoList.size();i++){
             obj.put((i+1),productDtoList.get(i));
         }
+        obj.put("status",200);
         return obj;
     }
 

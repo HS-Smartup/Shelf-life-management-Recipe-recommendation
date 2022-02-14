@@ -98,6 +98,7 @@ public class ApiController {
                 addProductDto.setInput_date(today);         // local date
 
                 obj_msg.put("message","바코드 인식 성공");
+                obj_msg.put("status",200);
                 obj_msg.put("infomation",addProductDto);
             /*
                 바코드 정보 ->
@@ -115,6 +116,7 @@ public class ApiController {
             }catch(Exception e){
                 System.out.println(e);
                 obj_msg.put("message","바코드 인식 실패");
+                obj_msg.put("status",200);
                 return obj_msg;
             }
         }

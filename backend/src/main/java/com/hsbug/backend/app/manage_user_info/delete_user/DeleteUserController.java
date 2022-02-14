@@ -15,6 +15,7 @@ public class DeleteUserController {     // 회원 탈퇴
     @PostMapping("/deleteUser/delete")
     public JSONObject DeleteUser() {
         JSONObject obj = deleteUserService.deleteUser();
+        obj.put("status",200);
         return obj;
     }
 

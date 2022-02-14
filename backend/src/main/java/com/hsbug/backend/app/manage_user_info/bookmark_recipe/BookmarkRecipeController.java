@@ -36,6 +36,7 @@ public class BookmarkRecipeController {
                 bookmarkRecipeService.saveRecipe(bookmarkRecipeDto);
             } else {
                 obj.put("message", "이미 북마크에 저장 됨.");
+                obj.put("status",200);
             }
         }
         return obj;
@@ -53,6 +54,7 @@ public class BookmarkRecipeController {
         JSONObject obj = new JSONObject();
         bookmarkRecipeService.deleteBookmark(email, id);
         obj.put("message", "해당 북마크의 삭제가 완료되었습니다.");
+        obj.put("status",200);
         return obj;
     }
 
