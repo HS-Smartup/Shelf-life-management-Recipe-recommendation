@@ -30,9 +30,11 @@ public class BookmarkRecipeService {
             BookmarkRecipeEntity bookmarkRecipeEntity = bookmarkRecipeRepository.findByEmail(email);
             BookmarkRecipeDto bookmarkRecipeDto = this.convertEntityToDto(bookmarkRecipeEntity);
             obj.put("리스트",bookmarkRecipeDto);
+            obj.put("status",200);
             return obj;
         } catch(Exception e){
             obj.put("message","아무 값이 음슴");
+            obj.put("status",200);
             return obj;
         }
     }
