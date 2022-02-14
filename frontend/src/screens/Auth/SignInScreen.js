@@ -38,19 +38,20 @@ const SignInScreen = ({navigation}) => {
     }
     setLoading(true);
 
-    fetch('http://localhost:8080/api/login', {
+    fetch('http://localhost:8080/api/signin', {
       method: 'POST',
       body: JSON.stringify(form),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'application/json',
       },
     })
       .then(response => response.json())
       .then(responseJson => {
         setLoading(false);
         if (responseJson.status === 200) {
-          AsyncStorage.setItem('user_email', responseJson.data.email);
-          console.log(responseJson.data.email);
+          AsyncStorage.setItem('user_email', responseJson.email);
+          AsyncStorage.setItem('user_id', responseJson.id);
+          console.log(responseJson.token);
           navigation.replace('MainStack');
         } else {
           setErrortext(responseJson.message);
@@ -170,9 +171,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   errorText: {
+    marginTop: 5,
+    fontFamily: 'NanumSquareRoundOTFB',
     color: 'red',
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 18,
   },
   middleText: {
     fontFamily: 'NotoSansKR-Reqular',

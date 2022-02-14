@@ -88,6 +88,8 @@ public class UserRegisterController {
             }
             else {
                 obj.put("message", "로그인 성공");
+                obj.put("email",SecurityContextHolder.getContext().getAuthentication().getName());
+                obj.put("id", member.getId().toString());
                 obj.put("status",200);
                 obj.put("token", jwtTokenProvider.createToken(user.get("email"), role));
             }
