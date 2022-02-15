@@ -20,6 +20,7 @@ public class ManageProductController {
         String email = findEmail();
         addProductDto.setEmail(email);
         obj.put("obj",addProductDto);
+        obj.put("status",200);
         manageProductService.save(addProductDto);
         return obj;
     }
@@ -30,6 +31,7 @@ public class ManageProductController {
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         JSONObject obj = new JSONObject();
         obj.put("message","read 완료");
+        obj.put("status",200);
         for (int i = 0; i< productDtoList.size(); i++){
             obj.put((i+1),productDtoList.get(i));
         }
@@ -42,6 +44,7 @@ public class ManageProductController {
         JSONObject obj = new JSONObject();
         manageProductService.deleteProduct(id);
         obj.put("message",id+" 삭제 완료");
+        obj.put("status",200);
         return obj;
     }
 

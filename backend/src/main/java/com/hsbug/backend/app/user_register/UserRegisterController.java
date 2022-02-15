@@ -49,6 +49,7 @@ public class UserRegisterController {
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
     public JSONObject LoginsuccessPage() {
         JSONObject obj = new JSONObject();
+        obj.put("status",200);
         obj.put("user email", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         return obj;
     }
@@ -57,6 +58,7 @@ public class UserRegisterController {
     public JSONObject LoginfailurePage(){
         JSONObject obj = new JSONObject();
         obj.put("message","로그인 실패");
+        obj.put("status",200);
         return obj;
     }
 
@@ -71,6 +73,7 @@ public class UserRegisterController {
         JSONObject obj = new JSONObject();
         if (!userRegisterService.checkUserByUsername(userRegisterDto.getEmail())){
             System.out.println("이미 등록된 회원입니다.");
+            obj.put("status","???");
             obj.put("message","이미 등록된 회원입니다.");
         }
         else {
@@ -82,6 +85,7 @@ public class UserRegisterController {
             System.out.println(userRegisterDto.getPassword());
             System.out.println(userRegisterDto.getRoles());
             obj.put("message","회원 가입 성공");
+            obj.put("status",200);
         }
         return obj;
     }
@@ -94,15 +98,20 @@ public class UserRegisterController {
 
         if (userRegisterService.checkUserByUsername(user.get("email"))){
             obj.put("message", "잘못된 아이디입니다.");
+            obj.put("status","???");
         }
         else {
             UserRegisterEntity member = userRegisterService.loadUserByUsername(user.get("email"));
 
             if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
                 obj.put("message", "잘못된 비밀번호입니다.");
+                obj.put("status","???");
             }
             else {
                 obj.put("message", "로그인 성공");
+                obj.put("email",SecurityContextHolder.getContext().getAuthentication().getName());
+                obj.put("id", member.getId().toString());
+                obj.put("status",200);
                 obj.put("token", jwtTokenProvider.createToken(user.get("email"), role));
             }
         }

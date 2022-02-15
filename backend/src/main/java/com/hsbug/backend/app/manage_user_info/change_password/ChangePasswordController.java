@@ -21,6 +21,7 @@ public class ChangePasswordController {
         //String password = userRegisterDto.
         changePasswordService.changepassword(userRegisterDto.getEmail(),userRegisterDto.getPassword());
         obj.put("message","변경 성공");
+        obj.put("status",200);
         obj.put("password",userRegisterDto.getPassword());
         return obj;
     }
