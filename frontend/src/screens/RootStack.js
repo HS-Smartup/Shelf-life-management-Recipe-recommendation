@@ -5,10 +5,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from './SplashScreen';
 import AuthStack from './Auth/AuthStack';
 import MainStack from './Main/MainStack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
+  AsyncStorage.clear();
   return (
     <Stack.Navigator initialRouteName="SplashScreen">
       <Stack.Screen
