@@ -31,7 +31,6 @@ const SignInScreen = ({navigation}) => {
       NaverLogin.login(props, (err, token) => {
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
         setNaverToken(token);
-        console.log(naverToken);
         if (err) {
           reject(err);
           return;
