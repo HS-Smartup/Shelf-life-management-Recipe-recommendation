@@ -5,7 +5,6 @@ import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import com.hsbug.backend.app.user_register.UserRegisterService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -23,8 +22,8 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
@@ -35,12 +34,13 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
 @Service
-@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRegisterDto userRegisterDto;     //호배
     private final UserRegisterService userRegisterService;      //호배
     private final UserRegisterRepository userRegisterRepository;
+    private RestOperations restOperations;
 
     private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 
@@ -53,7 +53,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private Converter<OAuth2UserRequest, RequestEntity<?>> requestEntityConverter = new OAuth2UserRequestEntityConverter();
 
-    private RestOperations restOperations;
+    public CustomOAuth2UserService(UserRegisterDto userRegisterDto, UserRegisterService userRegisterService, UserRegisterRepository userRegisterRepository) {
+        this.userRegisterDto = userRegisterDto;
+        this.userRegisterService = userRegisterService;
+        this.userRegisterRepository = userRegisterRepository;
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
+        this.restOperations = restTemplate;
+
+    }
+
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
