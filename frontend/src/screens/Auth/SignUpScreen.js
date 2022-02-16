@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import {BarPasswordStrengthDisplay} from 'react-native-password-strength-meter';
 
 const SignUpScreen = props => {
   const [form, setForm] = useState({
@@ -31,20 +32,67 @@ const SignUpScreen = props => {
     setForm({...form, [name]: value});
   };
 
+  // 비밀번호 강도 체크 레벨
+  const levels = [
+    {
+      label: '매우 약함',
+      labelColor: '#ff3e00',
+      activeBarColor: '#ff3e00',
+    },
+    {
+      label: '약함',
+      labelColor: '#ff6900',
+      activeBarColor: '#ff6900',
+    },
+    {
+      label: '적당함',
+      labelColor: '#f3d331',
+      activeBarColor: '#f3d331',
+    },
+    {
+      label: '강함',
+      labelColor: '#14eb6e',
+      activeBarColor: '#14eb6e',
+    },
+    {
+      label: '매우 강함',
+      labelColor: '#0af56d',
+      activeBarColor: '#0af56d',
+    },
+  ];
+
+  // 제출시 형식 체크
   const handleSubmitButton = () => {
     setErrortext('');
+
+    // 이메일 입력 체크
     if (!form.email) {
       Alert.alert('이메일을 입력해주세요.');
       return;
     }
+    let emailreg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (emailreg.test(form.email) === false) {
+      Alert.alert('이메일 형식이 올바르지 않습니다.');
+      return;
+    }
+
+    // 사용자이름 체크
     if (!form.username) {
       Alert.alert('사용자 이름을 입력해주세요.');
       return;
     }
+
+    // 비밀번호 체크
     if (!form.password) {
       Alert.alert('비밀번호를 입력해주세요.');
       return;
     }
+    if (form.password.length < 6 || form.password.length > 20) {
+      Alert.alert('비밀번호는 6자 이상 20자 이하여야 합니다.');
+      return;
+    }
+
+    //비밀번호 확인 체크
     if (form.password !== form.confirmPassword) {
       Alert.alert('비밀번호가 일치하지 않습니다.');
       return;
@@ -145,6 +193,14 @@ const SignUpScreen = props => {
               onSubmitEditing={() => confirmPasswordInputRef.current.focus()}
               secureTextEntry={true}
             />
+            <BarPasswordStrengthDisplay
+              password={form.password}
+              minLength={6}
+              barContainerStyle={styles.passwordStrengthBar}
+              labelStyle={styles.passwordStrengthLabel}
+              levels={levels}
+              width={250}
+            />
 
             {/* confirmPassword 입력창 */}
             <TextInput
@@ -187,7 +243,7 @@ const styles = StyleSheet.create({
   },
   signUpform: {
     width: '100%',
-    height: '85%',
+    height: '90%',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     alignItems: 'center',
@@ -219,6 +275,13 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 18,
+  },
+  passwordStrengthBar: {
+    marginVertical: 5,
+  },
+  passwordStrengthLabel: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 15,
   },
   button: {
     width: '90%',
