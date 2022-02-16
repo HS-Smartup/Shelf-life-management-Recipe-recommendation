@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,26 @@ public class UserRegisterController {
     private final UserRegisterService userRegisterService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @GetMapping("/usercheck")
+    public JSONObject userCheck(@RequestHeader String token){
+        System.out.println(token);
+        JSONObject obj = new JSONObject();
+        boolean check = jwtTokenProvider.validateToken(token);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (check){
+            obj.put("status",200);
+            obj.put("token",token);
+            obj.put("check", true);
+            obj.put("user", email);
+        }else{
+            obj.put("status",200);
+            obj.put("token",token);
+            obj.put("check", false);
+            obj.put("user", email);
+        }
+        return obj;
+    }
 
     @GetMapping({"/loginSuccess", "/hello"})     // 로그인 성공시 get
     public JSONObject LoginsuccessPage() {
