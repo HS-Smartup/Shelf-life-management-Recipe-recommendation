@@ -1,8 +1,10 @@
 import {
   Alert,
+  Button,
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -11,8 +13,48 @@ import {
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
+
+const androidKeys = {
+  kConsumerKey: 'AdgRFJLraRAWuCqSr1jL',
+  kConsumerSecret: '9HJC4aZGpE',
+  kServiceAppName: '테스트앱(안드로이드)',
+};
+
+const initials = androidKeys;
 
 const SignInScreen = ({navigation}) => {
+  const [naverToken, setNaverToken] = React.useState(null);
+
+  const naverLogin = props => {
+    return new Promise((resolve, reject) => {
+      NaverLogin.login(props, (err, token) => {
+        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
+        setNaverToken(token);
+        console.log(naverToken);
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(token);
+      });
+    });
+  };
+
+  const naverLogout = () => {
+    NaverLogin.logout();
+    setNaverToken('');
+  };
+
+  const getUserProfile = async () => {
+    const profileResult = await getProfile(naverToken.accessToken);
+    if (profileResult.resultcode === '024') {
+      Alert.alert('로그인 실패', profileResult.message);
+      return;
+    }
+    console.log('profileResult', profileResult);
+  };
+
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -110,6 +152,18 @@ const SignInScreen = ({navigation}) => {
           <Pressable style={styles.button} onPress={handleSubmitPress}>
             <Text style={styles.buttonText}>로그인</Text>
           </Pressable>
+
+          <Button
+            title="네이버 아이디로 로그인하기"
+            onPress={() => naverLogin(initials)}
+          />
+          {!!naverToken && (
+            <Button title="로그아웃하기" onPress={naverLogout} />
+          )}
+
+          {!!naverToken && (
+            <Button title="회원정보 가져오기" onPress={getUserProfile} />
+          )}
 
           <Text style={styles.middleText}>OR</Text>
 
