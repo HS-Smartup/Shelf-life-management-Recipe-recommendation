@@ -1,8 +1,11 @@
 import {
   Alert,
+  Button,
+  Image,
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -11,6 +14,15 @@ import {
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
+
+// 네이버 로그인 키
+const androidKeys = {
+  kConsumerKey: 'St5WwZj8gxRnB61bNjPQ',
+  kConsumerSecret: 'NT2G5zfXhA',
+  kServiceAppName: '레시피 냉장고',
+};
+const naverKey = androidKeys;
 
 const SignInScreen = ({navigation}) => {
   const [form, setForm] = useState({
@@ -26,6 +38,7 @@ const SignInScreen = ({navigation}) => {
     setForm({...form, [name]: value});
   };
 
+  // 일반 로그인
   const handleSubmitPress = () => {
     setErrortext('');
     if (!form.email) {
@@ -63,6 +76,63 @@ const SignInScreen = ({navigation}) => {
         console.error(error);
       });
   };
+
+  //네이버 로그인
+  const [naverToken, setNaverToken] = React.useState(null);
+
+  const naverLogin = props => {
+    const profileResult = getProfile(naverToken.accessToken);
+    return new Promise((resolve, reject) => {
+      NaverLogin.login(props, (err, token) => {
+        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
+        setNaverToken(token);
+        fetch('http://localhost:8080/api/signin/naver', {
+          method: 'POST',
+          body: JSON.stringify(profileResult),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(response => response.json())
+          .then(responseJson => {
+            setLoading(false);
+            if (responseJson.status === 200) {
+              AsyncStorage.setItem('user_email', responseJson.email);
+              AsyncStorage.setItem('user_id', responseJson.token);
+              console.log(responseJson.token);
+              navigation.replace('MainStack');
+            } else {
+              setErrortext(responseJson.message);
+              console.log('이메일 혹은 패스워드를 확인해주세요.');
+            }
+          })
+          .catch(error => {
+            setLoading(false);
+            console.error(error);
+          });
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(token);
+      });
+    });
+  };
+
+  // 네이버 로그아웃 추후 사용
+  // const naverLogout = () => {
+  //   NaverLogin.logout();
+  //   setNaverToken('');
+  // };
+
+  // const getUserProfile = async () => {
+  //   const profileResult = getProfile(naverToken.accessToken);
+  //   if (profileResult.resultcode === '024') {
+  //     Alert.alert('로그인 실패', profileResult.message);
+  //     return;
+  //   }
+  //   console.log('profileResult', profileResult);
+  // };
 
   return (
     <KeyboardAvoidingView behavior="height" style={styles.KeyboardAvoidingView}>
@@ -110,6 +180,23 @@ const SignInScreen = ({navigation}) => {
           <Pressable style={styles.button} onPress={handleSubmitPress}>
             <Text style={styles.buttonText}>로그인</Text>
           </Pressable>
+
+          <View style={styles.snsView}>
+            <View>
+              {/* 네이버 로그인 */}
+              <Pressable onPress={() => naverLogin(naverKey)}>
+                <Image
+                  source={require('../../assets/images/naverBtn.png')}
+                  style={styles.naverButton}
+                />
+              </Pressable>
+              <Text>네이버로 로그인</Text>
+            </View>
+          </View>
+
+          {/* {!!naverToken && (
+            <Button title="회원정보 가져오기" onPress={getUserProfile} />
+          )} */}
 
           <Text style={styles.middleText}>OR</Text>
 
@@ -176,6 +263,17 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 18,
+  },
+  snsView: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width: '90%',
+    height: 100,
+  },
+  naverButton: {
+    width: 70,
+    height: 70,
   },
   middleText: {
     fontFamily: 'NotoSansKR-Reqular',
