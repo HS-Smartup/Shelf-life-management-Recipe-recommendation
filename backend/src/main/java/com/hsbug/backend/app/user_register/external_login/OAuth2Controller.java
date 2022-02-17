@@ -39,6 +39,7 @@ public class OAuth2Controller {
         userRegisterDto.naverDtoOption(email, name, naver_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
         naver_obj.put("token",getToken(userRegisterDto.getNaver_sub()));
+        naver_obj.put("email",email);
         naver_obj.put("status",200);
         return naver_obj;
     }
@@ -56,6 +57,7 @@ public class OAuth2Controller {
         userRegisterDto.naverDtoOption(email, name, google_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
         google_obj.put("token",getToken(userRegisterDto.getGoogle_sub()));
+        google_obj.put("email",email);
         google_obj.put("status",200);
         return google_obj;
     }
@@ -73,6 +75,7 @@ public class OAuth2Controller {
         userRegisterDto.naverDtoOption(email, name, kakao_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
         kakao_obj.put("token",getToken(userRegisterDto.getKakao_sub()));
+        kakao_obj.put("email",email);
         kakao_obj.put("status",200);
         return kakao_obj;
     }
