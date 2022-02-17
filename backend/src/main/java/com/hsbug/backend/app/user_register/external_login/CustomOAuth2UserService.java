@@ -176,7 +176,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userAttributes;
     }
 
-    private void saveOrUpdate(UserRegisterDto userRegisterDto){
+    void saveOrUpdate(UserRegisterDto userRegisterDto){
         boolean user_check = userRegisterService.checkUserByUsername(userRegisterDto.getEmail());
         System.out.println(user_check);
         if (!user_check){ // update
