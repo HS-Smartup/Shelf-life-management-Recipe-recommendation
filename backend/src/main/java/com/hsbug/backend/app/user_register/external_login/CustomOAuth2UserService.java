@@ -76,8 +76,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             );
             throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
         }
+
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
+
+        // UserName Error 거르는 조건문
         if (!StringUtils.hasText(userNameAttributeName)) {
             OAuth2Error oauth2Error = new OAuth2Error(
                     MISSING_USER_NAME_ATTRIBUTE_ERROR_CODE,
@@ -88,9 +91,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
         }
 
+        //request 컬렉션에 저장
         RequestEntity<?> request = this.requestEntityConverter.convert(userRequest);
-
+        //response 저장할 객체 선언
         ResponseEntity<Map<String, Object>> response;
+
         try {
             response = this.restOperations.exchange(request, PARAMETERIZED_RESPONSE_TYPE);
         } catch (OAuth2AuthorizationException ex) {
