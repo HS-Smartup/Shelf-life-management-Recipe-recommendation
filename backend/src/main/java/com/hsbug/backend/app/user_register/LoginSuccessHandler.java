@@ -1,6 +1,7 @@
 package com.hsbug.backend.app.user_register;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@Slf4j
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     // accountService;
     UserRegisterDto form;
@@ -19,7 +21,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         HttpSession session = request.getSession();
 
-        System.out.println("Success Log In : " + authentication.getName());
+        log.info("Success Log in = {}", authentication.getName());
+//        System.out.println("Success Log In : " + authentication.getName());
         session.setAttribute("username", authentication.getName());
         session.setAttribute("role", authentication.getAuthorities());
 
@@ -29,8 +32,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         //if authentication.getName() == "[ROLE_USER]"
 
-        System.out.println(authentication.getName());
-        System.out.println(authentication.getAuthorities());
+
+        log.info("authentication.getName() = {}",authentication.getName());
+        log.info("authentication.getAuthorities() = {}",authentication.getAuthorities());
+//        System.out.println(authentication.getName());
+//        System.out.println(authentication.getAuthorities());
 
         response.sendRedirect("/api/loginSuccess");
     }
