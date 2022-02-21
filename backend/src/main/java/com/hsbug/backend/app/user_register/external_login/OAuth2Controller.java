@@ -29,7 +29,7 @@ public class OAuth2Controller {
     @PostMapping("/api/signin/naver")
     public JSONObject naverLogin(@RequestBody JSONObject object){
         JSONObject naver_obj = new JSONObject();
-
+        System.out.println(object);
         String naver_sub = (String) object.get("id");
         String email = (String)object.get("email");
         String name = (String)object.get("name");

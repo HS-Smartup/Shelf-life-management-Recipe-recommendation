@@ -23,7 +23,8 @@ const androidKeys = {
   kServiceAppName: '레시피 냉장고',
 };
 const naverKey = androidKeys;
-
+let global_token = null;
+let profileResult = null;
 const SignInScreen = ({navigation}) => {
   const [form, setForm] = useState({
     email: '',
@@ -105,9 +106,9 @@ const SignInScreen = ({navigation}) => {
   //   });
 
   //네이버 로그인
-  const [naverToken, setNaverToken] = useState(null);
 
-  const naverLogin = props => {
+  const [naverToken, setNaverToken] = useState(null);
+  function naverLogin(props) {
     return new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
@@ -118,8 +119,11 @@ const SignInScreen = ({navigation}) => {
         }
         resolve(token);
       });
+    }).then(token => {
+      global_token = token;
+      getUserProfile().then(r => {});
     });
-  };
+  }
 
   // 네이버 로그아웃 추후 사용
   const naverLogout = () => {
@@ -128,12 +132,26 @@ const SignInScreen = ({navigation}) => {
   };
 
   const getUserProfile = async () => {
-    const profileResult = getProfile(naverToken.accessToken);
+    //const profileResult = getProfile(naverToken.accessToken);
+    console.log('zzzzz', global_token);
+    profileResult = await getProfile(global_token.accessToken);
     if (profileResult.resultcode === '024') {
       Alert.alert('로그인 실패', profileResult.message);
       return;
     }
-    console.log('profileResult', profileResult);
+    console.log(profileResult);
+    return fetch('http://localhost:8080/api/signin/naver', {
+      method: 'POST',
+      body: JSON.stringify(profileResult),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        setLoading(false);
+        console.log(',,', responseJson);
+      });
   };
 
   return (
