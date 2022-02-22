@@ -63,8 +63,8 @@ const SignInScreen = ({navigation}) => {
         setLoading(false);
         if (responseJson.status === 200) {
           AsyncStorage.setItem('user_email', responseJson.email);
-          AsyncStorage.setItem('user_id', responseJson.token);
-          console.log(responseJson.token);
+          AsyncStorage.setItem('user_token', responseJson.token);
+          AsyncStorage.setItem('user_name', responseJson.username);
           navigation.replace('MainStack');
         } else {
           setErrortext(responseJson.message);
@@ -79,8 +79,8 @@ const SignInScreen = ({navigation}) => {
 
   //네이버 로그인
   const [naverToken, setNaverToken] = useState(null);
-  const naverLogin = props =>
-    new Promise((resolve, reject) => {
+  const naverLogin = async props =>
+    await new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
         setNaverToken(token);
@@ -90,42 +90,45 @@ const SignInScreen = ({navigation}) => {
         }
         resolve(token);
       });
+    }).catch(error => {
+      console.log(error);
     });
   const naverLoginButtonPress = () => {
     naverLogin(naverKey).then(async resolvedToken => {
-      console.log('zzzzz', resolvedToken);
-      const profileResult = await getProfile(resolvedToken.accessToken);
-      if (profileResult.resultcode === '024') {
-        Alert.alert('로그인 실패', profileResult.message);
-        return;
-      }
-      console.log('hihi', profileResult);
-      return fetch('http://localhost:8080/api/signin/naver', {
-        method: 'POST',
-        body: JSON.stringify(profileResult),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          setLoading(false);
-          if (responseJson.status === 200) {
-            console.log('responseJson', responseJson);
-            AsyncStorage.setItem('user_email', responseJson.email);
-            AsyncStorage.setItem('user_id', responseJson.token);
-            console.log(responseJson.token);
-            console.log(responseJson);
-            navigation.replace('MainStack');
-          } else {
-            setErrortext(responseJson.message);
-            console.log('이메일 혹은 패스워드를 확인해주세요.');
-          }
+      try {
+        const profileResult = await getProfile(resolvedToken.accessToken);
+        if (profileResult.resultcode === '024') {
+          Alert.alert('로그인 실패', profileResult.message);
+          return;
+        }
+        return fetch('http://localhost:8080/api/signin/naver', {
+          method: 'POST',
+          body: JSON.stringify(profileResult),
+          headers: {
+            'Content-Type': 'application/json',
+          },
         })
-        .catch(error => {
-          setLoading(false);
-          console.error(error);
-        });
+          .then(response => response.json())
+          .then(responseJson => {
+            setLoading(false);
+            if (responseJson.status === 200) {
+              console.log('responseJson', responseJson);
+              AsyncStorage.setItem('user_email', responseJson.email);
+              AsyncStorage.setItem('user_token', responseJson.token);
+              AsyncStorage.setItem('user_name', responseJson.username);
+              // navigation.replace('MainStack');
+            } else {
+              setErrortext(responseJson.message);
+              console.log('이메일 혹은 패스워드를 확인해주세요.');
+            }
+          })
+          .catch(error => {
+            setLoading(false);
+            console.error(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     });
   };
 

@@ -8,7 +8,7 @@ const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
-      AsyncStorage.getItem('user_id').then(value =>
+      AsyncStorage.getItem('user_token').then(value =>
         navigation.replace(value === null ? 'AuthStack' : 'MainStack'),
       );
     }, 3000);
