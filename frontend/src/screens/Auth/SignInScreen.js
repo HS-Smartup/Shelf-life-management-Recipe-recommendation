@@ -15,6 +15,14 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
+import {
+  KakaoOAuthToken,
+  KakaoProfile,
+  getProfile as getKakaoProfile,
+  login,
+  logout,
+  unlink,
+} from '@react-native-seoul/kakao-login';
 
 // 네이버 로그인 키
 const androidKeys = {
@@ -138,6 +146,33 @@ const SignInScreen = ({navigation}) => {
     setNaverToken(null);
   };
 
+  //카카오 로그인
+  const [result, setResult] = useState('');
+
+  const signInWithKakao = async () => {
+    const token = await login();
+
+    setResult(JSON.stringify(token));
+  };
+
+  const signOutWithKakao = async () => {
+    const message = await logout();
+
+    setResult(message);
+  };
+
+  const getProfile = async () => {
+    const profile = await getKakaoProfile();
+
+    setResult(JSON.stringify(profile));
+  };
+
+  const unlinkKakao = async () => {
+    const message = await unlink();
+
+    setResult(message);
+  };
+
   return (
     <KeyboardAvoidingView behavior="height" style={styles.KeyboardAvoidingView}>
       <ImageBackground
@@ -186,8 +221,8 @@ const SignInScreen = ({navigation}) => {
           </Pressable>
 
           <View style={styles.snsView}>
+            {/* 네이버 로그인 */}
             <View>
-              {/* 네이버 로그인 */}
               <Pressable onPress={naverLoginButtonPress}>
                 <Image
                   source={require('../../assets/images/naverBtn.png')}
@@ -196,7 +231,21 @@ const SignInScreen = ({navigation}) => {
               </Pressable>
               <Text>네이버로 로그인</Text>
             </View>
+            {/* 카카오 로그인 */}
+            <View>
+              <Pressable onPress={() => signInWithKakao()}>
+                <Image
+                  source={require('../../assets/images/naverBtn.png')}
+                  style={styles.naverButton}
+                />
+              </Pressable>
+              <Text>카카오로 로그인</Text>
+            </View>
           </View>
+          {!!result && (
+            <Button title="로그아웃하기" onPress={() => signOutWithKakao()} />
+          )}
+
           {!!naverToken && (
             <Button title="로그아웃하기" onPress={naverLogout} />
           )}
