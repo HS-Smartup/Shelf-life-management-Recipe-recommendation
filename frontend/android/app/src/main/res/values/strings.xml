@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GW_project</string>
+    <string name="kakao_app_key">bfd31b12cd56c7a45fbeda5be9e3adfc</string>
 </resources>
