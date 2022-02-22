@@ -94,12 +94,8 @@ const SignInScreen = ({navigation}) => {
   const naverLoginButtonPress = () => {
     naverLogin(naverKey).then(async resolvedToken => {
       console.log('zzzzz', resolvedToken);
-<<<<<<< HEAD
-      const profileResult = getProfile(resolvedToken.accessToken);
       console.log('xxxxx', profileResult);
-=======
       const profileResult = await getProfile(resolvedToken.accessToken);
->>>>>>> 4b2e632edb3d099e1342597b9f7b818b98e95556
       if (profileResult.resultcode === '024') {
         Alert.alert('로그인 실패', profileResult.message);
         return;
