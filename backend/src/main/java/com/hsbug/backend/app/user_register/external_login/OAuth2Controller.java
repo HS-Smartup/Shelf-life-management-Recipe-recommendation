@@ -4,6 +4,8 @@ import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,20 +29,27 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/api/signin/naver")
-    public JSONObject naverLogin(@RequestBody JSONObject object){
+    public JSONObject naverLogin(@RequestBody JSONObject object) throws ParseException {
         JSONObject naver_obj = new JSONObject();
+        JSONParser parser = new JSONParser();
+        JSONObject naver_json = (JSONObject) parser.parse(String.valueOf(object));
+        JSONObject response = (JSONObject) naver_json.get("response");
+
         System.out.println(object);
-        String naver_sub = (String) object.get("id");
-        String email = (String)object.get("email");
-        String name = (String)object.get("name");
+        String naver_sub = (String) response.get("id");
+        String email = (String)response.get("email");
+        String username = (String)response.get("name");
         String picture = (String)object.get("picture");
 
         UserRegisterDto userRegisterDto = new UserRegisterDto();
-        userRegisterDto.naverDtoOption(email, name, naver_sub, picture);
+        userRegisterDto.naverDtoOption(email, username, naver_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
+
         naver_obj.put("token",getToken(userRegisterDto.getNaver_sub()));
         naver_obj.put("email",email);
         naver_obj.put("status",200);
+        naver_obj.put("username",username);
+
         return naver_obj;
     }
 
@@ -50,15 +59,17 @@ public class OAuth2Controller {
 
         String google_sub = (String) object.get("sub");
         String email = (String)object.get("email");
-        String name = (String)object.get("name");
+        String username = (String)object.get("name");
         String picture = (String)object.get("picture");
 
         UserRegisterDto userRegisterDto = new UserRegisterDto();
-        userRegisterDto.naverDtoOption(email, name, google_sub, picture);
+        userRegisterDto.naverDtoOption(email, username, google_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
         google_obj.put("token",getToken(userRegisterDto.getGoogle_sub()));
         google_obj.put("email",email);
         google_obj.put("status",200);
+        google_obj.put("username",username);
+
         return google_obj;
     }
 
@@ -68,15 +79,17 @@ public class OAuth2Controller {
 
         String kakao_sub = (String) object.get("id");
         String email = (String)object.get("email");
-        String name = (String)object.get("nickname");
+        String username = (String)object.get("nickname");
         String picture = (String)object.get("profile_image");
 
         UserRegisterDto userRegisterDto = new UserRegisterDto();
-        userRegisterDto.naverDtoOption(email, name, kakao_sub, picture);
+        userRegisterDto.naverDtoOption(email, username, kakao_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
         kakao_obj.put("token",getToken(userRegisterDto.getKakao_sub()));
         kakao_obj.put("email",email);
         kakao_obj.put("status",200);
+        kakao_obj.put("username",username);
+
         return kakao_obj;
     }
 
