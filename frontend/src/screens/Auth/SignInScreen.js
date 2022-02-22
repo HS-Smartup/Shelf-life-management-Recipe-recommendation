@@ -23,8 +23,7 @@ const androidKeys = {
   kServiceAppName: '레시피 냉장고',
 };
 const naverKey = androidKeys;
-let global_token = null;
-let profileResult = null;
+
 const SignInScreen = ({navigation}) => {
   const [form, setForm] = useState({
     email: '',
@@ -78,38 +77,10 @@ const SignInScreen = ({navigation}) => {
       });
   };
 
-  // console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-  // setNaverToken(token);
-  // fetch('http://localhost:8080/api/signin/naver', {
-  //   method: 'POST',
-  //   body: JSON.stringify(profileResult),
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // })
-  //   .then(response => response.json())
-  //   .then(responseJson => {
-  //     setLoading(false);
-  //     if (responseJson.status === 200) {
-  //       AsyncStorage.setItem('user_email', responseJson.email);
-  //       AsyncStorage.setItem('user_id', responseJson.token);
-  //       console.log(responseJson.token);
-  //       navigation.replace('MainStack');
-  //     } else {
-  //       setErrortext(responseJson.message);
-  //       console.log('이메일 혹은 패스워드를 확인해주세요.');
-  //     }
-  //   })
-  //   .catch(error => {
-  //     setLoading(false);
-  //     console.error(error);
-  //   });
-
   //네이버 로그인
-
   const [naverToken, setNaverToken] = useState(null);
-  function naverLogin(props) {
-    return new Promise((resolve, reject) => {
+  const naverLogin = props =>
+    new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
         setNaverToken(token);
@@ -119,39 +90,45 @@ const SignInScreen = ({navigation}) => {
         }
         resolve(token);
       });
-    }).then(token => {
-      global_token = token;
-      getUserProfile().then(r => {});
     });
-  }
-
-  // 네이버 로그아웃 추후 사용
-  const naverLogout = () => {
-    NaverLogin.logout();
-    setNaverToken('');
+  const naverLoginButtonPress = () => {
+    naverLogin(naverKey).then(resolvedToken => {
+      console.log('zzzzz', resolvedToken);
+      const profileResult = getProfile(resolvedToken.accessToken);
+      if (profileResult.resultcode === '024') {
+        Alert.alert('로그인 실패', profileResult.message);
+        return;
+      }
+      return fetch('http://localhost:8080/api/signin/naver', {
+        method: 'POST',
+        body: JSON.stringify(profileResult),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          setLoading(false);
+          if (responseJson.status === 200) {
+            AsyncStorage.setItem('user_email', responseJson.email);
+            AsyncStorage.setItem('user_id', responseJson.token);
+            console.log(responseJson.token);
+            navigation.replace('MainStack');
+          } else {
+            setErrortext(responseJson.message);
+            console.log('이메일 혹은 패스워드를 확인해주세요.');
+          }
+        })
+        .catch(error => {
+          setLoading(false);
+          console.error(error);
+        });
+    });
   };
 
-  const getUserProfile = async () => {
-    //const profileResult = getProfile(naverToken.accessToken);
-    console.log('zzzzz', global_token);
-    profileResult = await getProfile(global_token.accessToken);
-    if (profileResult.resultcode === '024') {
-      Alert.alert('로그인 실패', profileResult.message);
-      return;
-    }
-    console.log(profileResult);
-    return fetch('http://localhost:8080/api/signin/naver', {
-      method: 'POST',
-      body: JSON.stringify(profileResult),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        setLoading(false);
-        console.log(',,', responseJson);
-      });
+  const naverLogout = () => {
+    NaverLogin.logout();
+    setNaverToken(null);
   };
 
   return (
@@ -204,7 +181,7 @@ const SignInScreen = ({navigation}) => {
           <View style={styles.snsView}>
             <View>
               {/* 네이버 로그인 */}
-              <Pressable onPress={() => naverLogin(naverKey)}>
+              <Pressable onPress={naverLoginButtonPress}>
                 <Image
                   source={require('../../assets/images/naverBtn.png')}
                   style={styles.naverButton}
@@ -215,10 +192,6 @@ const SignInScreen = ({navigation}) => {
           </View>
           {!!naverToken && (
             <Button title="로그아웃하기" onPress={naverLogout} />
-          )}
-
-          {!!naverToken && (
-            <Button title="회원정보 가져오기" onPress={getUserProfile} />
           )}
 
           <Text style={styles.middleText}>OR</Text>
