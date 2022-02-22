@@ -95,6 +95,7 @@ const SignInScreen = ({navigation}) => {
     naverLogin(naverKey).then(resolvedToken => {
       console.log('zzzzz', resolvedToken);
       const profileResult = getProfile(resolvedToken.accessToken);
+      console.log('xxxxx', profileResult);
       if (profileResult.resultcode === '024') {
         Alert.alert('로그인 실패', profileResult.message);
         return;
@@ -113,6 +114,7 @@ const SignInScreen = ({navigation}) => {
             AsyncStorage.setItem('user_email', responseJson.email);
             AsyncStorage.setItem('user_id', responseJson.token);
             console.log(responseJson.token);
+            console.log(responseJson);
             navigation.replace('MainStack');
           } else {
             setErrortext(responseJson.message);
