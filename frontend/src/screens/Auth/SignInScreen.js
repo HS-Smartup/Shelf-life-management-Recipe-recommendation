@@ -61,6 +61,7 @@ const SignInScreen = ({navigation}) => {
       .then(response => response.json())
       .then(responseJson => {
         setLoading(false);
+        console.log(responseJson);
         if (responseJson.status === 200) {
           AsyncStorage.setItem('user_email', responseJson.email);
           AsyncStorage.setItem('user_token', responseJson.token);
