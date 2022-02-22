@@ -63,7 +63,7 @@ const SignInScreen = ({navigation}) => {
         setLoading(false);
         if (responseJson.status === 200) {
           AsyncStorage.setItem('user_email', responseJson.email);
-          AsyncStorage.setItem('user_id', responseJson.id);
+          AsyncStorage.setItem('user_id', responseJson.token);
           console.log(responseJson.token);
           navigation.replace('MainStack');
         } else {
@@ -94,7 +94,6 @@ const SignInScreen = ({navigation}) => {
   const naverLoginButtonPress = () => {
     naverLogin(naverKey).then(async resolvedToken => {
       console.log('zzzzz', resolvedToken);
-      console.log('xxxxx', profileResult);
       const profileResult = await getProfile(resolvedToken.accessToken);
       if (profileResult.resultcode === '024') {
         Alert.alert('로그인 실패', profileResult.message);
