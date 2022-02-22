@@ -92,14 +92,19 @@ const SignInScreen = ({navigation}) => {
       });
     });
   const naverLoginButtonPress = () => {
-    naverLogin(naverKey).then(resolvedToken => {
+    naverLogin(naverKey).then(async resolvedToken => {
       console.log('zzzzz', resolvedToken);
+<<<<<<< HEAD
       const profileResult = getProfile(resolvedToken.accessToken);
       console.log('xxxxx', profileResult);
+=======
+      const profileResult = await getProfile(resolvedToken.accessToken);
+>>>>>>> 4b2e632edb3d099e1342597b9f7b818b98e95556
       if (profileResult.resultcode === '024') {
         Alert.alert('로그인 실패', profileResult.message);
         return;
       }
+      console.log('hihi', profileResult);
       return fetch('http://localhost:8080/api/signin/naver', {
         method: 'POST',
         body: JSON.stringify(profileResult),
@@ -111,6 +116,7 @@ const SignInScreen = ({navigation}) => {
         .then(responseJson => {
           setLoading(false);
           if (responseJson.status === 200) {
+            console.log('responseJson', responseJson);
             AsyncStorage.setItem('user_email', responseJson.email);
             AsyncStorage.setItem('user_id', responseJson.token);
             console.log(responseJson.token);
