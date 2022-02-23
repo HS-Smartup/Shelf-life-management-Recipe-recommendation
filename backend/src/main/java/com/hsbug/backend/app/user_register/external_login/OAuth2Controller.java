@@ -32,8 +32,8 @@ public class OAuth2Controller {
     public JSONObject naverLogin(@RequestBody JSONObject object) throws ParseException {
         JSONObject naver_obj = new JSONObject();
         JSONParser parser = new JSONParser();
-        JSONObject naver_json = (JSONObject) parser.parse(String.valueOf(object));
-        JSONObject response = (JSONObject) naver_json.get("response");
+        JSONObject naver_profile = (JSONObject) parser.parse(String.valueOf(object));
+        JSONObject response = (JSONObject) naver_profile.get("response");
 
         System.out.println(object);
         String naver_sub = (String) response.get("id");
@@ -63,7 +63,7 @@ public class OAuth2Controller {
         String picture = (String)object.get("picture");
 
         UserRegisterDto userRegisterDto = new UserRegisterDto();
-        userRegisterDto.naverDtoOption(email, username, google_sub, picture);
+        userRegisterDto.googleDtoOption(email, username, google_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
         google_obj.put("token",getToken(userRegisterDto.getGoogle_sub()));
         google_obj.put("email",email);
@@ -74,16 +74,23 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/api/signin/kakao")
-    public JSONObject kakaoLogin(@RequestBody JSONObject object){
+    public JSONObject kakaoLogin(@RequestBody JSONObject object) throws ParseException {
         JSONObject kakao_obj = new JSONObject();
+        JSONParser parser = new JSONParser();
+        JSONObject response = (JSONObject) parser.parse(String.valueOf(object));
 
-        String kakao_sub = (String) object.get("id");
-        String email = (String)object.get("email");
-        String username = (String)object.get("nickname");
-        String picture = (String)object.get("profile_image");
+        JSONObject kakao_profile = (JSONObject) response.get("kakaoProfileResult");
+        JSONObject kakao_token = (JSONObject) response.get("token");
+
+        System.out.println(kakao_token);
+        System.out.println(kakao_profile);
+        String kakao_sub = (String)kakao_token.get("accessToken");
+        String email = (String)kakao_profile.get("email");
+        String username = (String)kakao_profile.get("nickname");
+        String picture = (String)kakao_profile.get("profileImageUrl");
 
         UserRegisterDto userRegisterDto = new UserRegisterDto();
-        userRegisterDto.naverDtoOption(email, username, kakao_sub, picture);
+        userRegisterDto.kakaoDtoOption(email, username, kakao_sub, picture);
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
         kakao_obj.put("token",getToken(userRegisterDto.getKakao_sub()));
         kakao_obj.put("email",email);

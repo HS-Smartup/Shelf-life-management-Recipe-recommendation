@@ -155,9 +155,9 @@ const SignInScreen = ({navigation}) => {
     console.log(kakaoProfileResult);
     setKakaoToken(JSON.stringify(token));
     console.log('11111', token);
-    return fetch('http://localhost:8080/api/signin/naver', {
+    return fetch('http://localhost:8080/api/signin/kakao', {
       method: 'POST',
-      body: JSON.stringify(kakaoProfileResult),
+      body: JSON.stringify({kakaoProfileResult, token}),
       headers: {
         'Content-Type': 'application/json',
       },
