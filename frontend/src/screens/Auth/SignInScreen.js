@@ -20,8 +20,9 @@ import {
   KakaoProfile,
   getProfile as getKakaoProfile,
   login,
-  logout,
   unlink,
+  logout,
+  getAccessToken,
 } from '@react-native-seoul/kakao-login';
 
 // 네이버 로그인 키
@@ -105,14 +106,14 @@ const SignInScreen = ({navigation}) => {
   const naverLoginButtonPress = () => {
     naverLogin(naverKey).then(async resolvedToken => {
       try {
-        const profileResult = await getProfile(resolvedToken.accessToken);
-        if (profileResult.resultcode === '024') {
-          Alert.alert('로그인 실패', profileResult.message);
+        const naverProfileResult = await getProfile(resolvedToken.accessToken);
+        if (naverProfileResult.resultcode === '024') {
+          Alert.alert('로그인 실패', naverProfileResult.message);
           return;
         }
         return fetch('http://localhost:8080/api/signin/naver', {
           method: 'POST',
-          body: JSON.stringify(profileResult),
+          body: JSON.stringify(naverProfileResult),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -121,7 +122,7 @@ const SignInScreen = ({navigation}) => {
           .then(responseJson => {
             setLoading(false);
             if (responseJson.status === 200) {
-              console.log('responseJson', responseJson);
+              console.log('naver responseJson', responseJson);
               AsyncStorage.setItem('user_email', responseJson.email);
               AsyncStorage.setItem('user_token', responseJson.token);
               AsyncStorage.setItem('user_name', responseJson.username);
@@ -150,48 +151,44 @@ const SignInScreen = ({navigation}) => {
   const [kakaoToken, setKakaoToken] = useState('');
 
   const signInWithKakao = async () => {
-    const token = await login();
-    const kakaoProfileResult = await getKakaoProfile();
-    console.log(kakaoProfileResult);
-    setKakaoToken(JSON.stringify(token));
-    console.log('11111', token);
-    return fetch('http://localhost:8080/api/signin/kakao', {
-      method: 'POST',
-      body: JSON.stringify({kakaoProfileResult, token}),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        setLoading(false);
-        if (responseJson.status === 200) {
-          console.log('responseJson', responseJson);
-          AsyncStorage.setItem('user_email', responseJson.email);
-          AsyncStorage.setItem('user_token', responseJson.token);
-          AsyncStorage.setItem('user_name', responseJson.username);
-          // navigation.replace('MainStack');
-        } else {
-          setErrortext(responseJson.message);
-          console.log('이메일 혹은 패스워드를 확인해주세요.');
-        }
+    try {
+      const token = await login();
+      const kakaoProfileResult = await getKakaoProfile();
+      const accessToken = await getAccessToken();
+      setKakaoToken(JSON.stringify(token));
+      return fetch('http://localhost:8080/api/signin/kakao', {
+        method: 'POST',
+        body: JSON.stringify({kakaoProfileResult, accessToken}),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .catch(error => {
-        setLoading(false);
-        console.error(error);
-      });
+        .then(response => response.json())
+        .then(responseJson => {
+          setLoading(false);
+          if (responseJson.status === 200) {
+            console.log('kakao responseJson', responseJson);
+            AsyncStorage.setItem('user_email', responseJson.email);
+            AsyncStorage.setItem('user_token', responseJson.token);
+            AsyncStorage.setItem('user_name', responseJson.username);
+            // navigation.replace('MainStack');
+          } else {
+            setErrortext(responseJson.message);
+            console.log('이메일 혹은 패스워드를 확인해주세요.');
+          }
+        })
+        .catch(error => {
+          setLoading(false);
+          console.error(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const signOutWithKakao = async () => {
-    const message = await logout();
-
-    setKakaoToken(message);
-  };
-
-  const unlinkKakao = async () => {
-    const message = await unlink();
-
-    setKakaoToken(message);
+    const kakaoLogout = await logout();
+    setKakaoToken(kakaoLogout);
   };
 
   return (
@@ -256,7 +253,7 @@ const SignInScreen = ({navigation}) => {
             <View>
               <Pressable onPress={signInWithKakao}>
                 <Image
-                  source={require('../../assets/images/naverBtn.png')}
+                  source={require('../../assets/images/kakaoBtn.png')}
                   style={styles.naverButton}
                 />
               </Pressable>
@@ -264,10 +261,7 @@ const SignInScreen = ({navigation}) => {
             </View>
           </View>
           {!!kakaoToken && (
-            <Button
-              title="카카오 로그아웃하기"
-              onPress={() => signOutWithKakao()}
-            />
+            <Button title="카카오 로그아웃하기" onPress={signOutWithKakao} />
           )}
 
           {!!naverToken && (
