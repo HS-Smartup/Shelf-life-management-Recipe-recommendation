@@ -80,7 +80,7 @@ public class OAuth2Controller {
         JSONObject response = (JSONObject) parser.parse(String.valueOf(object));
 
         JSONObject kakao_profile = (JSONObject) response.get("kakaoProfileResult");
-        JSONObject kakao_token = (JSONObject) response.get("token");
+        JSONObject kakao_token = (JSONObject) response.get("accessToken");
 
         System.out.println(kakao_token);
         System.out.println(kakao_profile);
