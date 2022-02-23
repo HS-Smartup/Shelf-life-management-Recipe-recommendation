@@ -147,30 +147,51 @@ const SignInScreen = ({navigation}) => {
   };
 
   //카카오 로그인
-  const [result, setResult] = useState('');
+  const [kakaoToken, setKakaoToken] = useState('');
 
   const signInWithKakao = async () => {
     const token = await login();
-
-    setResult(JSON.stringify(token));
+    const kakaoProfileResult = await getKakaoProfile();
+    console.log(kakaoProfileResult);
+    setKakaoToken(JSON.stringify(token));
+    console.log('11111', token);
+    return fetch('http://localhost:8080/api/signin/naver', {
+      method: 'POST',
+      body: JSON.stringify(kakaoProfileResult),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        setLoading(false);
+        if (responseJson.status === 200) {
+          console.log('responseJson', responseJson);
+          AsyncStorage.setItem('user_email', responseJson.email);
+          AsyncStorage.setItem('user_token', responseJson.token);
+          AsyncStorage.setItem('user_name', responseJson.username);
+          // navigation.replace('MainStack');
+        } else {
+          setErrortext(responseJson.message);
+          console.log('이메일 혹은 패스워드를 확인해주세요.');
+        }
+      })
+      .catch(error => {
+        setLoading(false);
+        console.error(error);
+      });
   };
 
   const signOutWithKakao = async () => {
     const message = await logout();
 
-    setResult(message);
-  };
-
-  const getProfile = async () => {
-    const profile = await getKakaoProfile();
-
-    setResult(JSON.stringify(profile));
+    setKakaoToken(message);
   };
 
   const unlinkKakao = async () => {
     const message = await unlink();
 
-    setResult(message);
+    setKakaoToken(message);
   };
 
   return (
@@ -233,7 +254,7 @@ const SignInScreen = ({navigation}) => {
             </View>
             {/* 카카오 로그인 */}
             <View>
-              <Pressable onPress={() => signInWithKakao()}>
+              <Pressable onPress={signInWithKakao}>
                 <Image
                   source={require('../../assets/images/naverBtn.png')}
                   style={styles.naverButton}
@@ -242,12 +263,15 @@ const SignInScreen = ({navigation}) => {
               <Text>카카오로 로그인</Text>
             </View>
           </View>
-          {!!result && (
-            <Button title="로그아웃하기" onPress={() => signOutWithKakao()} />
+          {!!kakaoToken && (
+            <Button
+              title="카카오 로그아웃하기"
+              onPress={() => signOutWithKakao()}
+            />
           )}
 
           {!!naverToken && (
-            <Button title="로그아웃하기" onPress={naverLogout} />
+            <Button title="네이버 로그아웃하기" onPress={naverLogout} />
           )}
 
           <Text style={styles.middleText}>OR</Text>
