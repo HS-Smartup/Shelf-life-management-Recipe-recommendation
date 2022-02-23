@@ -188,7 +188,8 @@ const SignInScreen = ({navigation}) => {
 
   const signOutWithKakao = async () => {
     const kakaoLogout = await logout();
-    setKakaoToken(kakaoLogout);
+    console.log(kakaoLogout);
+    setKakaoToken('');
   };
 
   return (
