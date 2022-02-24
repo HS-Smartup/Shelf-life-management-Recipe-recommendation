@@ -15,11 +15,8 @@ import React, {useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
 import {
-  KakaoOAuthToken,
-  KakaoProfile,
   getProfile as getKakaoProfile,
   login,
-  unlink,
   logout,
   getAccessToken,
 } from '@react-native-seoul/kakao-login';
@@ -30,12 +27,11 @@ import {
 } from '@react-native-google-signin/google-signin';
 
 // 네이버 로그인 키
-const androidKeys = {
+const naverKey = {
   kConsumerKey: 'St5WwZj8gxRnB61bNjPQ',
   kConsumerSecret: 'NT2G5zfXhA',
   kServiceAppName: '레시피 냉장고',
 };
-const naverKey = androidKeys;
 
 const SignInScreen = ({navigation}) => {
   const [form, setForm] = useState({
@@ -146,14 +142,13 @@ const SignInScreen = ({navigation}) => {
     });
   };
 
-  const naverLogout = () => {
+  const naverSignOut = () => {
     NaverLogin.logout();
-    setNaverToken(null);
+    setNaverToken('');
   };
 
   //카카오 로그인
   const [kakaoToken, setKakaoToken] = useState('');
-
   const kakaoSignIn = async () => {
     try {
       const token = await login();
@@ -190,15 +185,19 @@ const SignInScreen = ({navigation}) => {
     }
   };
 
-  const signOutWithKakao = async () => {
-    const kakaoLogout = await logout();
-    console.log(kakaoLogout);
+  const kakaoSignOut = async () => {
+    const kakaoSignOutMsg = await logout();
+    console.log(kakaoSignOutMsg);
     setKakaoToken('');
   };
 
   //구글 로그인
   const [googleToken, setGoogleToken] = useState('');
-  GoogleSignin.configure();
+  GoogleSignin.configure({
+    scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+    forceCodeForRefreshToken: true,
+    accountName: '',
+  });
   const googleSignIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -216,9 +215,8 @@ const SignInScreen = ({navigation}) => {
       }
     }
   };
-
   const googleSignInButtonPress = () => {
-    googleSignIn().then(async token => {
+    googleSignIn().then(async () => {
       try {
         const googleProfileResult = await GoogleSignin.getCurrentUser();
         const accessToken = await GoogleSignin.getTokens();
@@ -235,7 +233,7 @@ const SignInScreen = ({navigation}) => {
           .then(responseJson => {
             setLoading(false);
             if (responseJson.status === 200) {
-              console.log('kakao responseJson', responseJson);
+              console.log('google responseJson', responseJson);
               AsyncStorage.setItem('user_email', responseJson.email);
               AsyncStorage.setItem('user_token', responseJson.token);
               AsyncStorage.setItem('user_name', responseJson.username);
@@ -258,7 +256,7 @@ const SignInScreen = ({navigation}) => {
   const googleSignOut = async () => {
     try {
       await GoogleSignin.signOut();
-      setGoogleToken(''); // Remember to remove the user from your app's state as well
+      setGoogleToken('');
     } catch (error) {
       console.error(error);
     }
@@ -313,55 +311,49 @@ const SignInScreen = ({navigation}) => {
 
           <View style={styles.snsView}>
             {/* 네이버 로그인 */}
-            <View>
+            <View style={styles.snsButtonWrapper}>
               <Pressable onPress={naverSignInButtonPress}>
                 <Image
                   source={require('../../assets/images/naverBtn.png')}
-                  style={styles.snsButton}
+                  style={styles.naverButton}
                 />
               </Pressable>
-              <Text>네이버로 로그인</Text>
+              <Text style={styles.snsButtonText}>네이버로 로그인</Text>
             </View>
 
             {/* 구글 로그인 */}
-            <View>
-              {/* <Pressable onPress={signInWithKakao}>
-                <Image
-                  source={require('../../assets/images/kakaoBtn.png')}
-                  style={styles.snsButton}
-                />
-              </Pressable> */}
+            <View style={styles.snsButtonWrapper}>
               <GoogleSigninButton
-                style={styles.snsButton}
+                style={styles.googleButton}
                 size={GoogleSigninButton.Size.Icon}
                 color={GoogleSigninButton.Color.Light}
                 onPress={googleSignInButtonPress}
               />
-              <Text>구글로 로그인</Text>
+              <Text style={styles.snsButtonText}>구글로 로그인</Text>
             </View>
 
             {/* 카카오 로그인 */}
-            <View>
+            <View style={styles.snsButtonWrapper}>
               <Pressable onPress={kakaoSignIn}>
                 <Image
                   source={require('../../assets/images/kakaoBtn.png')}
-                  style={styles.snsButton}
+                  style={styles.kakaoButton}
                 />
               </Pressable>
-              <Text>카카오로 로그인</Text>
+              <Text style={styles.snsButtonText}>카카오로 로그인</Text>
             </View>
           </View>
 
           {!!naverToken && (
-            <Button title="네이버 로그아웃하기" onPress={naverLogout} />
-          )}
-
-          {!!kakaoToken && (
-            <Button title="카카오 로그아웃하기" onPress={signOutWithKakao} />
+            <Button title="네이버 로그아웃하기" onPress={naverSignOut} />
           )}
 
           {!!googleToken && (
             <Button title="구글 로그아웃하기" onPress={googleSignOut} />
+          )}
+
+          {!!kakaoToken && (
+            <Button title="카카오 로그아웃하기" onPress={kakaoSignOut} />
           )}
 
           <Text style={styles.middleText}>OR</Text>
@@ -437,12 +429,32 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 100,
   },
-  snsButton: {
-    width: 70,
-    height: 70,
+  snsButtonWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  naverButton: {
+    width: 60,
+    height: 60,
+    marginVertical: 5,
+  },
+  googleButton: {
+    width: 65,
+    height: 65,
+    marginVertical: 2.5,
+  },
+  kakaoButton: {
+    width: 60,
+    height: 60,
+    marginVertical: 5,
+  },
+  snsButtonText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    color: '#000000',
+    fontSize: 16,
   },
   middleText: {
-    fontFamily: 'NotoSansKR-Reqular',
+    fontFamily: 'NotoSansKR-Regular',
     fontSize: 18,
     color: '#bdbdbd',
   },
@@ -467,7 +479,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 18,
     padding: 10,
   },
 });
