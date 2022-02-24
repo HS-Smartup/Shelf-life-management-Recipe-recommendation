@@ -5,14 +5,13 @@ import {
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
 import {
@@ -24,6 +23,11 @@ import {
   logout,
   getAccessToken,
 } from '@react-native-seoul/kakao-login';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 // 네이버 로그인 키
 const androidKeys = {
@@ -89,7 +93,7 @@ const SignInScreen = ({navigation}) => {
 
   //네이버 로그인
   const [naverToken, setNaverToken] = useState(null);
-  const naverLogin = async props =>
+  const naverSignIn = async props =>
     await new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
@@ -103,8 +107,8 @@ const SignInScreen = ({navigation}) => {
     }).catch(error => {
       console.log(error);
     });
-  const naverLoginButtonPress = () => {
-    naverLogin(naverKey).then(async resolvedToken => {
+  const naverSignInButtonPress = () => {
+    naverSignIn(naverKey).then(async resolvedToken => {
       try {
         const naverProfileResult = await getProfile(resolvedToken.accessToken);
         if (naverProfileResult.resultcode === '024') {
@@ -150,7 +154,7 @@ const SignInScreen = ({navigation}) => {
   //카카오 로그인
   const [kakaoToken, setKakaoToken] = useState('');
 
-  const signInWithKakao = async () => {
+  const kakaoSignIn = async () => {
     try {
       const token = await login();
       const kakaoProfileResult = await getKakaoProfile();
@@ -190,6 +194,74 @@ const SignInScreen = ({navigation}) => {
     const kakaoLogout = await logout();
     console.log(kakaoLogout);
     setKakaoToken('');
+  };
+
+  //구글 로그인
+  const [googleToken, setGoogleToken] = useState('');
+  GoogleSignin.configure();
+  const googleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      setGoogleToken(userInfo);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
+  const googleSignInButtonPress = () => {
+    googleSignIn().then(async token => {
+      try {
+        const googleProfileResult = await GoogleSignin.getCurrentUser();
+        const accessToken = await GoogleSignin.getTokens();
+        console.log('111', accessToken);
+        console.log('222\n\n\n\n', googleProfileResult);
+        return fetch('http://localhost:8080/api/signin/google', {
+          method: 'POST',
+          body: JSON.stringify({googleProfileResult, accessToken}),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(response => response.json())
+          .then(responseJson => {
+            setLoading(false);
+            if (responseJson.status === 200) {
+              console.log('kakao responseJson', responseJson);
+              AsyncStorage.setItem('user_email', responseJson.email);
+              AsyncStorage.setItem('user_token', responseJson.token);
+              AsyncStorage.setItem('user_name', responseJson.username);
+              // navigation.replace('MainStack');
+            } else {
+              setErrortext(responseJson.message);
+              console.log('이메일 혹은 패스워드를 확인해주세요.');
+            }
+          })
+          .catch(error => {
+            setLoading(false);
+            console.error(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
+  const googleSignOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      setGoogleToken(''); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -242,31 +314,54 @@ const SignInScreen = ({navigation}) => {
           <View style={styles.snsView}>
             {/* 네이버 로그인 */}
             <View>
-              <Pressable onPress={naverLoginButtonPress}>
+              <Pressable onPress={naverSignInButtonPress}>
                 <Image
                   source={require('../../assets/images/naverBtn.png')}
-                  style={styles.naverButton}
+                  style={styles.snsButton}
                 />
               </Pressable>
               <Text>네이버로 로그인</Text>
             </View>
-            {/* 카카오 로그인 */}
+
+            {/* 구글 로그인 */}
             <View>
-              <Pressable onPress={signInWithKakao}>
+              {/* <Pressable onPress={signInWithKakao}>
                 <Image
                   source={require('../../assets/images/kakaoBtn.png')}
-                  style={styles.naverButton}
+                  style={styles.snsButton}
+                />
+              </Pressable> */}
+              <GoogleSigninButton
+                style={styles.snsButton}
+                size={GoogleSigninButton.Size.Icon}
+                color={GoogleSigninButton.Color.Light}
+                onPress={googleSignInButtonPress}
+              />
+              <Text>구글로 로그인</Text>
+            </View>
+
+            {/* 카카오 로그인 */}
+            <View>
+              <Pressable onPress={kakaoSignIn}>
+                <Image
+                  source={require('../../assets/images/kakaoBtn.png')}
+                  style={styles.snsButton}
                 />
               </Pressable>
               <Text>카카오로 로그인</Text>
             </View>
           </View>
+
+          {!!naverToken && (
+            <Button title="네이버 로그아웃하기" onPress={naverLogout} />
+          )}
+
           {!!kakaoToken && (
             <Button title="카카오 로그아웃하기" onPress={signOutWithKakao} />
           )}
 
-          {!!naverToken && (
-            <Button title="네이버 로그아웃하기" onPress={naverLogout} />
+          {!!googleToken && (
+            <Button title="구글 로그아웃하기" onPress={googleSignOut} />
           )}
 
           <Text style={styles.middleText}>OR</Text>
@@ -342,7 +437,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 100,
   },
-  naverButton: {
+  snsButton: {
     width: 70,
     height: 70,
   },
