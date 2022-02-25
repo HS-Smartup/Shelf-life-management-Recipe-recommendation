@@ -10,5 +10,9 @@ public interface UserRegisterRepository extends JpaRepository<UserRegisterEntity
 
     Optional<UserRegisterEntity> findByUsername(String username);
     Optional<UserRegisterEntity> findByEmail(String username);
+    Optional<UserRegisterEntity> findByNaversub(String naver_sub);
+    Optional<UserRegisterEntity> findByGooglesub(String google_sub);
+    Optional<UserRegisterEntity> findByKakaosub(String kakao_sub);
+
 
 }

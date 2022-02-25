@@ -28,20 +28,48 @@ public class UserRegisterService implements UserDetailsService {
         userRegisterRepository.save(form.toEntity());
     }
 
-
-    @Override       // 회원 정보 찾기
-    public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
-        return userRegisterRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
-    }
-
-
+    // 회원 정보 찾기
     public boolean checkUserByUsername(String username) {//throws UsernameNotFoundException,NullPointerException {
         //Optional<UserRegisterEntity> check = userRegisterRepository.findByUsername(username);
         Optional<UserRegisterEntity> check = userRegisterRepository.findByEmail(username);
         return check.isEmpty();
     }
 
+    @Override       // 회원 정보 불러오기
+    public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
+        return userRegisterRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    public boolean checkUserByNaversub(String naver_sub) {//throws UsernameNotFoundException,NullPointerException {
+        Optional<UserRegisterEntity> check = userRegisterRepository.findByNaversub(naver_sub);
+        return check.isEmpty();
+    }
+
+    public UserRegisterEntity loadUserByNaversub(String naver_sub) throws UsernameNotFoundException,NullPointerException {
+        return userRegisterRepository.findByNaversub(naver_sub)
+                .orElseThrow(() -> new UsernameNotFoundException(naver_sub));
+    }
+
+    public boolean checkUserByGooglesub(String google_sub) {//throws UsernameNotFoundException,NullPointerException {
+        Optional<UserRegisterEntity> check = userRegisterRepository.findByGooglesub(google_sub);
+        return check.isEmpty();
+    }
+
+    public UserRegisterEntity loadUserByGooglesub(String google_sub) throws UsernameNotFoundException,NullPointerException {
+        return userRegisterRepository.findByGooglesub(google_sub)
+                .orElseThrow(() -> new UsernameNotFoundException(google_sub));
+    }
+
+    public boolean checkUserByKakaosub(String kakao_sub) {//throws UsernameNotFoundException,NullPointerException {
+        Optional<UserRegisterEntity> check = userRegisterRepository.findByKakaosub(kakao_sub);
+        return check.isEmpty();
+    }
+
+    public UserRegisterEntity loadUserByKakaosub(String kakao_sub) throws UsernameNotFoundException,NullPointerException {
+        return userRegisterRepository.findByKakaosub(kakao_sub)
+                .orElseThrow(() -> new UsernameNotFoundException(kakao_sub));
+    }
 
 
 }

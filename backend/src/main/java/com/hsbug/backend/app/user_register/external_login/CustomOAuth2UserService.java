@@ -182,15 +182,47 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     void saveOrUpdate(UserRegisterDto userRegisterDto){
-        boolean user_check = userRegisterService.checkUserByUsername(userRegisterDto.getEmail());
-        System.out.println(user_check);
-        if (!user_check){ // update
-            UserRegisterEntity user = userRegisterService.loadUserByUsername(userRegisterDto.getEmail());
-            userRegisterRepository.save(user);
-        }else{ //save
-            userRegisterService.save(userRegisterDto);
+        String login_con = userRegisterDto.getLogin_cont();
+        boolean user_check = true;
+        System.out.println(userRegisterDto.getLogin_cont());
+        if (login_con =="naver"){
+            user_check = userRegisterService.checkUserByNaversub(userRegisterDto.getNaver_sub());
+            if(!user_check){
+                UserRegisterEntity user = userRegisterService.loadUserByNaversub(userRegisterDto.getNaver_sub());
+                userRegisterRepository.save(user);
+            }else{
+                userRegisterService.save(userRegisterDto);
+            }
         }
-
+        else if (login_con == "google"){
+            user_check = userRegisterService.checkUserByGooglesub(userRegisterDto.getGoogle_sub());
+            if(!user_check){
+                UserRegisterEntity user = userRegisterService.loadUserByGooglesub(userRegisterDto.getGoogle_sub());
+                userRegisterRepository.save(user);
+            }else{
+                userRegisterService.save(userRegisterDto);
+            }
+        }
+        else if (login_con == "kakao"){
+            user_check = userRegisterService.checkUserByKakaosub(userRegisterDto.getKakao_sub());
+            if(!user_check){
+                UserRegisterEntity user = userRegisterService.loadUserByKakaosub(userRegisterDto.getKakao_sub());
+                userRegisterRepository.save(user);
+            }else{
+                userRegisterService.save(userRegisterDto);
+            }
+        }
+        else{
+            System.out.println("문제 발생");
+        }
+        //user_check = userRegisterService.checkUserByUsername(userRegisterDto.getEmail());
+        //System.out.println(user_check);
+        //if (!user_check){ // update
+        //    UserRegisterEntity user = userRegisterService.loadUserByUsername(userRegisterDto.getEmail());
+        //    userRegisterRepository.save(user);
+        //}else{ //save
+        //    userRegisterService.save(userRegisterDto);
+        //}
     }
 
 }
