@@ -70,11 +70,7 @@ public class SearchRecipeRefrigController {
     public Map<Long, Integer> ValueSort(Map<Long, Integer> map) {
         List<Entry<Long, Integer>> entryList = new ArrayList<>(map.entrySet());
         Map<Long, Integer> sorted_map = new LinkedHashMap<>();
-        Collections.sort(entryList, new Comparator<Entry<Long, Integer>>() {
-            public int compare(Entry<Long, Integer> o1, Entry<Long, Integer> o2) {
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
+        Collections.sort(entryList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         for(int i = 0; i<entryList.size(); i++){
             sorted_map.put(entryList.get(i).getKey(), entryList.get(i).getValue());
         }
