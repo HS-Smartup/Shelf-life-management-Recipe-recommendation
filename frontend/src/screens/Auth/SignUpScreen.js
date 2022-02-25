@@ -219,7 +219,7 @@ const SignUpScreen = props => {
               <Text style={styles.errorText}>{errortext}</Text>
             ) : null}
           </View>
-          {/* 회원가입 버튼 */}
+          {/* 회원가입 완료 버튼 */}
           <Pressable style={styles.button} onPress={handleSubmitButton}>
             <Text style={styles.buttonText}>완료</Text>
           </Pressable>

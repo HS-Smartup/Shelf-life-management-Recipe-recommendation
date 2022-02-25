@@ -1,7 +1,5 @@
 import {
   Alert,
-  Button,
-  Image,
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
@@ -13,25 +11,9 @@ import {
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
-import {
-  getProfile as getKakaoProfile,
-  login,
-  logout,
-  getAccessToken,
-} from '@react-native-seoul/kakao-login';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-
-// 네이버 로그인 키
-const naverKey = {
-  kConsumerKey: 'St5WwZj8gxRnB61bNjPQ',
-  kConsumerSecret: 'NT2G5zfXhA',
-  kServiceAppName: '레시피 냉장고',
-};
+import NaverSignIn from 'components/NaverSignIn';
+import GoogleSignIn from 'components/GoogleSignIn';
+import KaKaoSignIn from 'components/KaKaoSignIn';
 
 const SignInScreen = ({navigation}) => {
   const [form, setForm] = useState({
@@ -70,8 +52,8 @@ const SignInScreen = ({navigation}) => {
       .then(response => response.json())
       .then(responseJson => {
         setLoading(false);
-        console.log(responseJson);
         if (responseJson.status === 200) {
+          // console.log(responseJson);
           AsyncStorage.setItem('user_email', responseJson.email);
           AsyncStorage.setItem('user_token', responseJson.token);
           AsyncStorage.setItem('user_name', responseJson.username);
@@ -85,181 +67,6 @@ const SignInScreen = ({navigation}) => {
         setLoading(false);
         console.error(error);
       });
-  };
-
-  //네이버 로그인
-  const [naverToken, setNaverToken] = useState(null);
-  const naverSignIn = async props =>
-    await new Promise((resolve, reject) => {
-      NaverLogin.login(props, (err, token) => {
-        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-        setNaverToken(token);
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(token);
-      });
-    }).catch(error => {
-      console.log(error);
-    });
-  const naverSignInButtonPress = () => {
-    naverSignIn(naverKey).then(async resolvedToken => {
-      try {
-        const naverProfileResult = await getProfile(resolvedToken.accessToken);
-        if (naverProfileResult.resultcode === '024') {
-          Alert.alert('로그인 실패', naverProfileResult.message);
-          return;
-        }
-        return fetch('http://localhost:8080/api/signin/naver', {
-          method: 'POST',
-          body: JSON.stringify(naverProfileResult),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(response => response.json())
-          .then(responseJson => {
-            setLoading(false);
-            if (responseJson.status === 200) {
-              console.log('naver responseJson', responseJson);
-              AsyncStorage.setItem('user_email', responseJson.email);
-              AsyncStorage.setItem('user_token', responseJson.token);
-              AsyncStorage.setItem('user_name', responseJson.username);
-              // navigation.replace('MainStack');
-            } else {
-              setErrortext(responseJson.message);
-              console.log('이메일 혹은 패스워드를 확인해주세요.');
-            }
-          })
-          .catch(error => {
-            setLoading(false);
-            console.error(error);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
-
-  const naverSignOut = () => {
-    NaverLogin.logout();
-    setNaverToken('');
-  };
-
-  //카카오 로그인
-  const [kakaoToken, setKakaoToken] = useState('');
-  const kakaoSignIn = async () => {
-    try {
-      const token = await login();
-      const kakaoProfileResult = await getKakaoProfile();
-      const accessToken = await getAccessToken();
-      setKakaoToken(JSON.stringify(token));
-      return fetch('http://localhost:8080/api/signin/kakao', {
-        method: 'POST',
-        body: JSON.stringify({kakaoProfileResult, accessToken}),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          setLoading(false);
-          if (responseJson.status === 200) {
-            console.log('kakao responseJson', responseJson);
-            AsyncStorage.setItem('user_email', responseJson.email);
-            AsyncStorage.setItem('user_token', responseJson.token);
-            AsyncStorage.setItem('user_name', responseJson.username);
-            // navigation.replace('MainStack');
-          } else {
-            setErrortext(responseJson.message);
-            console.log('이메일 혹은 패스워드를 확인해주세요.');
-          }
-        })
-        .catch(error => {
-          setLoading(false);
-          console.error(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const kakaoSignOut = async () => {
-    const kakaoSignOutMsg = await logout();
-    console.log(kakaoSignOutMsg);
-    setKakaoToken('');
-  };
-
-  //구글 로그인
-  const [googleToken, setGoogleToken] = useState('');
-  GoogleSignin.configure({
-    scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-    forceCodeForRefreshToken: true,
-    accountName: '',
-  });
-  const googleSignIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      setGoogleToken(userInfo);
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
-    }
-  };
-  const googleSignInButtonPress = () => {
-    googleSignIn().then(async () => {
-      try {
-        const googleProfileResult = await GoogleSignin.getCurrentUser();
-        const accessToken = await GoogleSignin.getTokens();
-        console.log('111', accessToken);
-        console.log('222\n\n\n\n', googleProfileResult);
-        return fetch('http://localhost:8080/api/signin/google', {
-          method: 'POST',
-          body: JSON.stringify({googleProfileResult, accessToken}),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(response => response.json())
-          .then(responseJson => {
-            setLoading(false);
-            if (responseJson.status === 200) {
-              console.log('google responseJson', responseJson);
-              AsyncStorage.setItem('user_email', responseJson.email);
-              AsyncStorage.setItem('user_token', responseJson.token);
-              AsyncStorage.setItem('user_name', responseJson.username);
-              // navigation.replace('MainStack');
-            } else {
-              setErrortext(responseJson.message);
-              console.log('이메일 혹은 패스워드를 확인해주세요.');
-            }
-          })
-          .catch(error => {
-            setLoading(false);
-            console.error(error);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
-
-  const googleSignOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      setGoogleToken('');
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
@@ -285,7 +92,6 @@ const SignInScreen = ({navigation}) => {
                 passwordInputRef.current && passwordInputRef.current.focus()
               }
             />
-
             {/* password 입력창 */}
             <TextInput
               style={styles.input}
@@ -309,52 +115,12 @@ const SignInScreen = ({navigation}) => {
             <Text style={styles.buttonText}>로그인</Text>
           </Pressable>
 
+          {/* OAuth2 */}
           <View style={styles.snsView}>
-            {/* 네이버 로그인 */}
-            <View style={styles.snsButtonWrapper}>
-              <Pressable onPress={naverSignInButtonPress}>
-                <Image
-                  source={require('../../assets/images/naverBtn.png')}
-                  style={styles.naverButton}
-                />
-              </Pressable>
-              <Text style={styles.snsButtonText}>네이버로 로그인</Text>
-            </View>
-
-            {/* 구글 로그인 */}
-            <View style={styles.snsButtonWrapper}>
-              <GoogleSigninButton
-                style={styles.googleButton}
-                size={GoogleSigninButton.Size.Icon}
-                color={GoogleSigninButton.Color.Light}
-                onPress={googleSignInButtonPress}
-              />
-              <Text style={styles.snsButtonText}>구글로 로그인</Text>
-            </View>
-
-            {/* 카카오 로그인 */}
-            <View style={styles.snsButtonWrapper}>
-              <Pressable onPress={kakaoSignIn}>
-                <Image
-                  source={require('../../assets/images/kakaoBtn.png')}
-                  style={styles.kakaoButton}
-                />
-              </Pressable>
-              <Text style={styles.snsButtonText}>카카오로 로그인</Text>
-            </View>
+            <NaverSignIn navigation={navigation} />
+            <GoogleSignIn navigation={navigation} />
+            <KaKaoSignIn navigation={navigation} />
           </View>
-
-          {!!naverToken && (
-            <Button title="네이버 로그아웃하기" onPress={naverSignOut} />
-          )}
-
-          {!!googleToken && (
-            <Button title="구글 로그아웃하기" onPress={googleSignOut} />
-          )}
-
-          {!!kakaoToken && (
-            <Button title="카카오 로그아웃하기" onPress={kakaoSignOut} />
-          )}
 
           <Text style={styles.middleText}>OR</Text>
 
@@ -432,26 +198,6 @@ const styles = StyleSheet.create({
   snsButtonWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  naverButton: {
-    width: 60,
-    height: 60,
-    marginVertical: 5,
-  },
-  googleButton: {
-    width: 65,
-    height: 65,
-    marginVertical: 2.5,
-  },
-  kakaoButton: {
-    width: 60,
-    height: 60,
-    marginVertical: 5,
-  },
-  snsButtonText: {
-    fontFamily: 'NanumSquareRoundOTFB',
-    color: '#000000',
-    fontSize: 16,
   },
   middleText: {
     fontFamily: 'NotoSansKR-Regular',
