@@ -12,7 +12,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   PermissionsAndroid,
-  Platform, TouchableHighlight,
+  Platform,
+  TouchableHighlight,
 } from 'react-native';
 
 import {CameraScreen} from 'react-native-camera-kit';
