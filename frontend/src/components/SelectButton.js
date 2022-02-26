@@ -1,18 +1,23 @@
-import {
-  PermissionsAndroid,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import React, {useState} from 'react';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  PermissionsAndroid,
+  Platform, TouchableHighlight,
+} from 'react-native';
 
 import {CameraScreen} from 'react-native-camera-kit';
 
-const MainStack = () => {
+function SelectButton({navigation}) {
   const [qrvalue, setQrvalue] = useState('');
   const [opneScanner, setOpneScanner] = useState(false);
 
@@ -56,6 +61,7 @@ const MainStack = () => {
       setOpneScanner(true);
     }
   };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {opneScanner ? (
@@ -78,15 +84,54 @@ const MainStack = () => {
         </View>
       ) : (
         <View style={styles.container}>
-          <TouchableHighlight onPress={onOpneScanner}>
-            <Text>바코드 스캔하기1</Text>
-          </TouchableHighlight>
+          <View style={styles.container}>
+            <TouchableHighlight onPress={onOpneScanner}>
+              <Text>바코드 스캔하기</Text>
+            </TouchableHighlight>
+          </View>
         </View>
       )}
     </SafeAreaView>
   );
-};
+}
 
-export default MainStack;
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, //전체의 공간을 차지한다는 의미
+    flexDirection: 'column',
+    backgroundColor: 'white',
+  },
+  logoArea: {
+    height: hp(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'red',
+    paddingBottom: wp(15),
+  },
+  btnArea: {
+    height: hp(8),
+    // backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: hp(1.5),
+  },
+  btn: {
+    flex: 1,
+    width: wp(75),
+    borderRadius: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2B8E1B',
+  },
+  btnoutline: {
+    flex: 1,
+    width: wp(75),
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#2B8E1B',
+  },
+});
+export default SelectButton;
