@@ -5,6 +5,7 @@ import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import com.hsbug.backend.app.user_register.UserRegisterService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -22,7 +23,6 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRegisterDto userRegisterDto;     //호배
     private final UserRegisterService userRegisterService;      //호배
@@ -126,9 +127,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             authorities.add(new SimpleGrantedAuthority("SCOPE_" + authority));
         }
 
-//        System.out.println(authorities);
-          System.out.println(userAttributes);
-//        System.out.println(userNameAttributeName);
+        log.info("userAttribute = {}",userAttributes);
+
 
         userRegisterDto.clear();
         if (userNameAttributeName =="sub"){  // 구글

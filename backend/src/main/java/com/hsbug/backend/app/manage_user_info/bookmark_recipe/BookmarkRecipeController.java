@@ -19,28 +19,10 @@ public class BookmarkRecipeController {
     public JSONObject addBookmark(@RequestParam Long id) {
         String email = findEmail();
         JSONObject obj = new JSONObject();
-
-        BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.getUserBookmark(email);
-        if (bookmarkRecipeDto == null) { // 북마크 0일 때
-            List<Long> recipeList = new ArrayList<>();
-            recipeList.add(id);
-            BookmarkRecipeDto bookmark = new BookmarkRecipeDto(0L, email, recipeList);
-            bookmarkRecipeService.saveRecipe(bookmark);
-        } else { // 북마크 한 것이 있을 때
-            List<Long> recipeList = bookmarkRecipeDto.getRecipe_id();
-            System.out.println(recipeList);
-            if (!recipeList.contains(id)) {
-                recipeList.add(id);
-                bookmarkRecipeDto.setRecipe_id(recipeList);
-                System.out.println(recipeList);
-                bookmarkRecipeService.saveRecipe(bookmarkRecipeDto);
-            } else {
-                obj.put("message", "이미 북마크에 저장 됨.");
-                obj.put("status",200);
-            }
-        }
+        bookmarkSaveValidation(id, email, obj);
         return obj;
     }
+
 
     @GetMapping("/readBookmark")
     public JSONObject readBookmark() {
@@ -61,6 +43,28 @@ public class BookmarkRecipeController {
     private String findEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return email;
+    }
+
+    private void bookmarkSaveValidation(Long id, String email, JSONObject obj) {
+        BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.getUserBookmark(email);
+        if (bookmarkRecipeDto == null) { // 북마크 0일 때
+            List<Long> recipeList = new ArrayList<>();
+            recipeList.add(id);
+            BookmarkRecipeDto bookmark = new BookmarkRecipeDto(0L, email, recipeList);
+            bookmarkRecipeService.saveRecipe(bookmark);
+        } else { // 북마크 한 것이 있을 때
+            List<Long> recipeList = bookmarkRecipeDto.getRecipe_id();
+            System.out.println(recipeList);
+            if (!recipeList.contains(id)) {
+                recipeList.add(id);
+                bookmarkRecipeDto.setRecipe_id(recipeList);
+                System.out.println(recipeList);
+                bookmarkRecipeService.saveRecipe(bookmarkRecipeDto);
+            } else {
+                obj.put("message", "이미 북마크에 저장 됨.");
+                obj.put("status",200);
+            }
+        }
     }
 }
 

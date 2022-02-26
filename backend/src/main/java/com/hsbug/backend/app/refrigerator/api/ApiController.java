@@ -2,6 +2,7 @@ package com.hsbug.backend.app.refrigerator.api;
 
 import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,7 +20,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/user/barcode")        // 기본 url /user/...
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class ApiController {
     @GetMapping("/call")
     public JSONObject callApi(HttpServletRequest request, @RequestParam String bar_code) throws ParseException {
         String apikey = "433bea5199ba464ab499";     // 맥심
-        System.out.println(bar_code);
+        log.info("bar-code = {}",bar_code);
         //예비 값
         //String bar_code = "8801037022315";
         StringBuffer result = new StringBuffer();
@@ -74,21 +75,8 @@ public class ApiController {
                 String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 ManageProductDto addProductDto = new ManageProductDto();
 
-                // 회원 아이디 jwt 토큰 이용해서 추출 가능한지 체크 중
-                //System.out.println(header);
-                //String token = jwtTokenProvider.getUserPk(header.);
-                //Authentication user = SecurityContextHolder.getContext().getAuthentication();
-                //UserRegisterEntity user2 = (UserRegisterEntity) user.getPrincipal();
+                log.info("X-AUTH-TYPE = {}",request.getHeader("X-AUTH-TYPE"));
 
-                System.out.println(request.getHeader("X-AUTH-TYPE"));
-                //jwtTokenProvider.getAuthentication(request.getHeader("X-AUTH-TOKEN"));
-
-
-                //System.out.println(user2.getAuthorities());
-                //Long name = getCurrentMemberId();
-                //System.out.println(request.getHeader("X-AUTH-TOKEN"));
-                //addProductDto.setUsername();
-                //
 
                 addProductDto.setBarcode((String) product.get("BRCD_NO"));
                 addProductDto.setProduct_name((String) product.get("PRDT_NM"));
