@@ -4,12 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -110,11 +111,6 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                 recipeDto.setMANUAL13((String) jsonObject.get("MANUAL14"));
                 recipeDto.setMANUAL14((String) jsonObject.get("MANUAL15"));
                 recipeDto.setMANUAL15((String) jsonObject.get("MANUAL16"));
-                //recipeDto.setMANUAL16((String) jsonObject.get("MANUAL16"));
-                //recipeDto.setMANUAL17((String) jsonObject.get("MANUAL17"));
-                //recipeDto.setMANUAL18((String) jsonObject.get("MANUAL18"));
-                //recipeDto.setMANUAL19((String) jsonObject.get("MANUAL19"));
-                //recipeDto.setMANUAL20((String) jsonObject.get("MANUAL20"));
 
                 recipeDto.setMANUAL_IMG01((String) jsonObject.get("MANUAL_IMG01"));
                 recipeDto.setMANUAL_IMG02((String) jsonObject.get("MANUAL_IMG02"));
@@ -127,16 +123,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                 recipeDto.setMANUAL_IMG09((String) jsonObject.get("MANUAL_IMG09"));
                 recipeDto.setMANUAL_IMG10((String) jsonObject.get("MANUAL_IMG10"));
                 recipeDto.setMANUAL_IMG11((String) jsonObject.get("MANUAL_IMG11"));
-                //recipeDto.setMANUAL_IMG12((String) jsonObject.get("MANUAL_IMG12"));
-                //recipeDto.setMANUAL_IMG13((String) jsonObject.get("MANUAL_IMG13"));
-                //recipeDto.setMANUAL_IMG14((String) jsonObject.get("MANUAL_IMG14"));
-                //recipeDto.setMANUAL_IMG15((String) jsonObject.get("MANUAL_IMG15"));
-                //recipeDto.setMANUAL_IMG16((String) jsonObject.get("MANUAL_IMG16"));
-                //recipeDto.setMANUAL_IMG17((String) jsonObject.get("MANUAL_IMG17"));
-                //recipeDto.setMANUAL_IMG18((String) jsonObject.get("MANUAL_IMG18"));
-                //recipeDto.setMANUAL_IMG19((String) jsonObject.get("MANUAL_IMG19"));
-                //recipeDto.setMANUAL_IMG20((String) jsonObject.get("MANUAL_IMG20"));
-                //recipeDto.setINFO_WGT((String) jsonObject.get("INFO_WGT"));
+
 
                 recipeDto.setINFO_ENG(((String) jsonObject.get("INFO_ENG")));
                 recipeDto.setINFO_CAR(((String) jsonObject.get("INFO_CAR")));
