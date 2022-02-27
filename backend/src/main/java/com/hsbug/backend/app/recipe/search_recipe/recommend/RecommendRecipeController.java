@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -21,16 +21,19 @@ public class RecommendRecipeController {
 
     @GetMapping("/random")
     @ResponseBody
-    public List<RecommendRecipeDto> searchRecipeDemo(){
-
-        List<RecommendRecipeDto> randomRecipe = new ArrayList<>();
+    public Map<String, RecommendRecipeDto> searchRecipeDemo(){
+//        JSONObject obj = new JSONObject();
+        Map<String, RecommendRecipeDto> randomRecipeMap = new HashMap<>();
+//        List<RecommendRecipeDto> randomRecipe = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             RecommendRecipeDto recipeDto = recommendRecipeService.randomRecipe();
-            randomRecipe.add(recipeDto);
+//            randomRecipe.add(recipeDto);
+            String recipe = "recipe" + String.valueOf(i+1);
+            randomRecipeMap.put(recipe, recipeDto);
         }
-        log.info("randomRecipe = {}", randomRecipe);
-
-        return randomRecipe;
+//        log.info("randomRecipe = {}", randomRecipe);
+//        obj.put("randomRecipe",randomRecipeMap);
+        return randomRecipeMap;
     }
 
 }
