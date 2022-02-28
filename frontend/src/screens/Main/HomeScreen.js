@@ -17,28 +17,23 @@ const Stack = createNativeStackNavigator();
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [offset, setOffset] = useState(1);
   const [isListEnd, setIsListEnd] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => getData(), []);
 
   const getData = () => {
-    console.log(offset);
     if (!loading && !isListEnd) {
-      console.log('getData');
       setLoading(true);
       // Service to get the data from the server to render
-      fetch('https://aboutreact.herokuapp.com/getpost.php?offset=' + offset)
+      fetch('http://localhost:8080/user/recommend/random')
         // Sending the currect offset with get request
         .then(response => response.json())
         .then(responseJson => {
           // Successful response from the API Call
-          console.log(responseJson);
-          if (responseJson.results.length > 0) {
-            setOffset(offset + 1);
+          if (responseJson.recipe.length > 0) {
             // After the response increasing the offset
-            setDataSource([...dataSource, ...responseJson.results]);
+            setDataSource([...dataSource, ...responseJson.recipe]);
             setLoading(false);
           } else {
             setIsListEnd(true);
@@ -49,6 +44,20 @@ const HomeScreen = ({navigation}) => {
           console.error(error);
         });
     }
+  };
+
+  const renderItem = ({item}) => {
+    const img = {uri: `${item.att_FILE_NO_MAIN}`};
+    return (
+      <View style={styles.card}>
+        <Image
+          source={img ? img : null}
+          style={styles.recipeImage}
+          resizeMode="stretch"
+        />
+        <Text style={styles.recipeText}>{item.rcp_NM}</Text>
+      </View>
+    );
   };
 
   return (
@@ -65,17 +74,16 @@ const HomeScreen = ({navigation}) => {
           style={styles.searchWarpper}
           onPress={() => navigation.navigate('SearchScreen')}>
           <View style={styles.search}>
-            <Icon name="search" size={24} color={'#636773'} />
+            <Icon name="search" size={24} color={'#ff8527'} />
             <Text style={styles.searchText}>레시피 검색</Text>
           </View>
         </Pressable>
         <Pressable style={styles.notification}>
-          <Icon name="notifications-none" size={32} color={'#636773'} />
+          <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
       </View>
       <View style={styles.contentWrapper}>
         <FlatList
-          style={styles.ScrollView}
           data={[{id: '1'}]}
           renderItem={() => (
             <View>
@@ -89,9 +97,12 @@ const HomeScreen = ({navigation}) => {
                 <Text style={styles.myRefrigeratorText}>내 냉장고 </Text>
               </Pressable>
               <FlatList
-                style={{backgroundColor: '#ffffff'}}
+                style={styles.recipeWrapper}
                 data={dataSource}
-                renderItem={({item}) => <Text>hi</Text>}
+                renderItem={renderItem}
+                horizontal={true}
+                initialNumToRender={10}
+                showsHorizontalScrollIndicator={false}
               />
             </View>
           )}
@@ -105,10 +116,13 @@ const HomeScreen = ({navigation}) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  fullscreen: {flex: 1},
+  fullscreen: {
+    flex: 1,
+    backgroundColor: '#f2f3f4',
+  },
   header: {
     width: '100%',
-    height: '13%',
+    height: '11%',
     flexDirection: 'row',
     // borderBottomWidth: 0.5,
     // borderColor: '#b3b4ba',
@@ -143,14 +157,12 @@ const styles = StyleSheet.create({
   contentWrapper: {
     flex: 1,
   },
-  ScrollView: {
-    backgroundColor: '#202124',
-  },
+  ScrollView: {},
   myRefrigerator: {
     width: '95%',
     height: 150,
     flexDirection: 'row',
-    backgroundColor: '#e1e2e3',
+    backgroundColor: '#fff',
     borderRadius: 10,
     marginVertical: 10,
     marginHorizontal: 10,
@@ -161,5 +173,32 @@ const styles = StyleSheet.create({
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 48,
     color: '#000000',
+  },
+  recipeWrapper: {
+    backgroundColor: '#f2f3f4',
+    marginVertical: 5,
+    marginLeft: 5,
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    width: 160,
+    height: 150,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginHorizontal: 5,
+    elevation: 8,
+  },
+  recipeImage: {
+    width: 150,
+    height: 100,
+    borderRadius: 10,
+    marginTop: 5,
+  },
+  recipeText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 18,
+    color: '#000000',
+    marginHorizontal: 5,
   },
 });
