@@ -89,7 +89,7 @@ const HomeScreen = ({navigation}) => {
             <View>
               <Pressable
                 style={styles.myRefrigerator}
-                onPress={() => console.log('hi')}>
+                onPress={() => navigation.navigate('RefrigeratorScreen')}>
                 <Image
                   source={require('../../assets/images/logo.png')}
                   style={styles.logo}
