@@ -2,17 +2,15 @@ import {View, Text} from 'react-native';
 import React, {createContext, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const UserNameContext = createContext('123123');
+const UserNameContext = createContext('');
 
 const UserNameContextProvider = ({children}) => {
   const [username, setUsername] = useState('');
 
   const getData = async () => {
     try {
-      const user = await AsyncStorage.getItem('user_name');
-      const parsedUser = JSON.parse(user);
-      setUsername(parsedUser);
-      console.log('qqqqqqqqq');
+      const getUser = await AsyncStorage.getItem('user_name');
+      setUsername(getUser);
     } catch (error) {
       console.log(error);
     }
