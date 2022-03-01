@@ -81,6 +81,10 @@ const SignUpScreen = props => {
       Alert.alert('사용자 이름을 입력해주세요.');
       return;
     }
+    if (form.username.length < 2 || form.username.length > 8) {
+      Alert.alert('사용자 이름은 2자 이상 8자 이하여야 합니다.');
+      return;
+    }
 
     // 비밀번호 체크
     if (!form.password) {
@@ -111,7 +115,7 @@ const SignUpScreen = props => {
       .then(response => response.json())
       .then(responseJson => {
         setLoading(false);
-        console.log(responseJson);
+        // console.log(responseJson);
         if (responseJson.status === 200) {
           setIsSignUpSuccess(true);
         } else {
