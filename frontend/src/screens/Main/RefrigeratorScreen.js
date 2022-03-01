@@ -3,9 +3,20 @@ import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserNameContext} from 'contexts/UserNameContext';
+import RefrigeratorEmpty from 'components/RefrigeratorEmpty';
+import RefrigeratorList from 'components/RefrigeratorList';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
+  const [refrigeratorItem, setRefrigeratorItem] = useState([
+    {
+      id: 1,
+      itemName: '양파',
+      itemNumber: '1122334455667',
+      itemExp: '2021-03-05',
+    },
+  ]);
+
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
@@ -45,7 +56,11 @@ const RefrigeratorScreen = ({navigation}) => {
         </Pressable>
       </View>
       <View style={styles.listWrapper}>
-        <FlatList></FlatList>
+        {refrigeratorItem.length === 0 ? (
+          <RefrigeratorEmpty />
+        ) : (
+          <RefrigeratorList refrigeratorItem={refrigeratorItem} />
+        )}
       </View>
     </View>
   );
@@ -74,18 +89,21 @@ const styles = StyleSheet.create({
   headerTextWrapper: {
     width: '65%',
     height: 50,
-    marginHorizontal: 15,
+    marginLeft: 20,
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
   innerText: {
     fontFamily: 'NanumSquareRoundOTFB',
-    fontSize: 28,
+    fontSize: 23,
   },
   headerText: {
     fontFamily: 'NanumSquareRoundOTFR',
-    fontSize: 25,
+    fontSize: 20,
     color: '#000000',
+  },
+  notification: {
+    marginLeft: 20,
   },
   refrigeratorSearch: {
     width: '98%',
