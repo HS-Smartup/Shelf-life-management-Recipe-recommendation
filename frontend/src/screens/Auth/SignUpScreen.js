@@ -81,8 +81,8 @@ const SignUpScreen = props => {
       Alert.alert('사용자 이름을 입력해주세요.');
       return;
     }
-    if (form.username.length < 2 || form.username.length > 8) {
-      Alert.alert('사용자 이름은 2자 이상 8자 이하여야 합니다.');
+    if (form.username.length < 2 || form.username.length > 7) {
+      Alert.alert('사용자 이름은 2자 이상 7자 이하여야 합니다.');
       return;
     }
 
@@ -102,7 +102,6 @@ const SignUpScreen = props => {
       return;
     }
     setLoading(true);
-    console.log(form);
 
     // adb reverse tcp:8080 tcp:8080 -> 로컬 호스트 연결 명령어
     fetch('http://localhost:8080/api/signup', {
