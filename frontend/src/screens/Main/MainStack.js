@@ -3,23 +3,26 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeTab from './HomeTab';
 import SearchScreen from './SearchScreen';
+import {UserNameContextProvider} from 'contexts/UserNameContext';
 
 const Stack = createNativeStackNavigator();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomeTab"
-        component={HomeTab}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="SearchScreen"
-        component={SearchScreen}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
+    <UserNameContextProvider>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="HomeTab"
+          component={HomeTab}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SearchScreen"
+          component={SearchScreen}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </UserNameContextProvider>
   );
 };
 

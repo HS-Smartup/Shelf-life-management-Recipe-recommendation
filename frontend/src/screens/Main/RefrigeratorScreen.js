@@ -1,20 +1,11 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserNameContext} from 'contexts/UserNameContext';
 
 const RefrigeratorScreen = ({navigation}) => {
-  const [username, setUsername] = useState('');
-  const storeData = async () => {
-    let user = await AsyncStorage.getItem('user_name');
-    if (user) {
-      user = JSON.parse(user);
-      setUsername(user);
-    }
-  };
-  useEffect(() => {
-    storeData();
-  }, []);
+  const {username, setUsername} = useContext(UserNameContext);
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
@@ -25,7 +16,12 @@ const RefrigeratorScreen = ({navigation}) => {
             resizeMode="contain"
           />
         </Pressable>
-        <Text style={styles.headerText}>{username}님의 냉장고</Text>
+        <View style={styles.headerTextWrapper}>
+          <Text style={styles.headerText}>
+            <Text style={styles.innerText}>{username} </Text>
+            님의 냉장고
+          </Text>
+        </View>
         <Pressable style={styles.notification}>
           <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
@@ -45,21 +41,29 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '11%',
     flexDirection: 'row',
-    marginVertical: 15,
+    marginVertical: 5,
     marginHorizontal: 10,
+    alignItems: 'center',
   },
   logo: {
     width: 56,
     height: 56,
   },
-  headerText: {
+  headerTextWrapper: {
+    width: '65%',
+    height: 50,
+    marginHorizontal: 15,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  innerText: {
     fontFamily: 'NanumSquareRoundOTFB',
-    fontSize: 32,
+    fontSize: 28,
+  },
+  headerText: {
+    fontFamily: 'NanumSquareRoundOTFR',
+    fontSize: 25,
     color: '#000000',
-    marginHorizontal: 25,
   },
-  notification: {
-    marginVertical: 19,
-    marginHorizontal: 10,
-  },
+  notification: {},
 });
