@@ -18,15 +18,9 @@ const RefrigeratorItem = ({
       />
       <View style={styles.textWrapper}>
         <View style={styles.topWrapper}>
-          <Text style={styles.itemName}>{itemName}</Text>
-          <Text style={styles.itemNumber}>{itemNumber}</Text>
-        </View>
-        <View style={styles.bottomWrapper}>
-          <View style={styles.expWrapper}>
-            <Text style={styles.itemRegistration}>
-              등록일: {itemRegistration}
-            </Text>
-            <Text style={styles.itemExp}>유통기한: {itemExp}</Text>
+          <View style={styles.topTextWrapper}>
+            <Text style={styles.itemName}>{itemName}</Text>
+            <Text style={styles.itemNumber}>{itemNumber}</Text>
           </View>
           <View style={styles.expCircleWrapper}>
             <ImageBackground
@@ -35,6 +29,14 @@ const RefrigeratorItem = ({
               resizeMode="center">
               <Text style={styles.expCircleText}>{itemRemainingDate}</Text>
             </ImageBackground>
+          </View>
+        </View>
+        <View style={styles.bottomWrapper}>
+          <View style={styles.expWrapper}>
+            <Text style={styles.itemRegistration}>
+              등록일: {itemRegistration}
+            </Text>
+            <Text style={styles.itemExp}>유통기한: {itemExp}</Text>
           </View>
         </View>
       </View>
@@ -74,30 +76,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: '60%',
+    width: '100%',
   },
-  bottomWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: '40%',
+  topTextWrapper: {
+    flexDirection: 'column',
+    width: '75%',
   },
   itemName: {
-    width: '55%',
+    width: '90%',
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 20,
     color: '#000000',
     marginLeft: 10,
   },
   itemNumber: {
-    width: '38%',
+    width: '45%',
     fontFamily: 'NanumSquareRoundOTFR',
-    fontSize: 12,
+    fontSize: 10,
     color: '#000000',
+    marginTop: 5,
     marginLeft: 5,
     borderWidth: 0.5,
     borderRadius: 10,
     borderColor: '#b3b4ba',
-    padding: 5,
+    padding: 3,
+  },
+  bottomWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: '40%',
   },
   expWrapper: {
     width: '70%',
@@ -120,8 +128,9 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   expCircleWrapper: {
-    width: '15%',
-    height: '100%',
+    width: '13%',
+    height: '80%',
+    marginLeft: 20,
   },
   expCircle: {
     height: '100%',

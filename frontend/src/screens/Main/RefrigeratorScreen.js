@@ -5,13 +5,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserNameContext} from 'contexts/UserNameContext';
 import RefrigeratorEmpty from 'components/RefrigeratorEmpty';
 import RefrigeratorList from 'components/RefrigeratorList';
+import AddButton from 'components/AddButton';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
+  const [hidden, setHidden] = useState(false);
+
   const [refrigeratorItem, setRefrigeratorItem] = useState([
     {
       id: 1,
-      itemName: '양파',
+      itemName: '비비고 군만두',
       itemNumber: '1122334455667',
       itemRegistration: '22.03.02',
       itemExp: '22.03.05',
@@ -78,6 +81,7 @@ const RefrigeratorScreen = ({navigation}) => {
         ) : (
           <RefrigeratorList refrigeratorItem={refrigeratorItem} />
         )}
+        <AddButton />
       </View>
     </View>
   );
@@ -123,6 +127,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   listWrapper: {
-    height: '88%',
+    height: '87%',
   },
 });
