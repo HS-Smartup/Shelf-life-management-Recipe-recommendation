@@ -86,7 +86,7 @@ const HomeScreen = ({navigation}) => {
         <FlatList
           data={[{id: '1'}]}
           renderItem={() => (
-            <View>
+            <View style={styles.content}>
               <Pressable
                 style={styles.myRefrigerator}
                 onPress={() => navigation.navigate('RefrigeratorScreen')}>
@@ -96,6 +96,28 @@ const HomeScreen = ({navigation}) => {
                 />
                 <Text style={styles.myRefrigeratorText}>내 냉장고 </Text>
               </Pressable>
+              <View style={styles.recipeSearch}>
+                <Pressable style={styles.recipeSearchBtn}>
+                  <Image
+                    source={require('../../assets/images/refrigeratorSearchBtn.png')}
+                    style={styles.recipeSearchImage}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.recipeSearchText}>
+                    냉장고 재료로 레시피 검색
+                  </Text>
+                </Pressable>
+                <Pressable style={styles.recipeSearchBtn}>
+                  <Image
+                    source={require('../../assets/images/cameraSearchBtn.png')}
+                    style={styles.recipeSearchImage}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.recipeSearchText}>
+                    카메라 인식으로 레시피 검색
+                  </Text>
+                </Pressable>
+              </View>
               <FlatList
                 style={styles.recipeWrapper}
                 data={dataSource}
@@ -157,7 +179,6 @@ const styles = StyleSheet.create({
   contentWrapper: {
     flex: 1,
   },
-  ScrollView: {},
   myRefrigerator: {
     width: '95%',
     height: 150,
@@ -173,6 +194,33 @@ const styles = StyleSheet.create({
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 48,
     color: '#000000',
+  },
+  recipeSearch: {
+    width: '98%',
+    height: 100,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  recipeSearchBtn: {
+    width: '45%',
+    height: '90%',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginHorizontal: 10,
+    elevation: 10,
+  },
+  recipeSearchImage: {
+    width: '60%',
+    height: '50%',
+    marginBottom: 10,
+  },
+  recipeSearchText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 15,
+    color: '#000',
   },
   recipeWrapper: {
     backgroundColor: '#f2f3f4',

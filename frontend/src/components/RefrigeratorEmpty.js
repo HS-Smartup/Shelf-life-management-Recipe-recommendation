@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
   description: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 30,
-    color: '#000000',
+    color: '#636773',
   },
 });

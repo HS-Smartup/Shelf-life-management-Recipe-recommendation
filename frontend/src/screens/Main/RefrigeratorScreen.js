@@ -13,7 +13,41 @@ const RefrigeratorScreen = ({navigation}) => {
       id: 1,
       itemName: '양파',
       itemNumber: '1122334455667',
-      itemExp: '2021-03-05',
+      itemRegistration: '22.03.02',
+      itemExp: '22.03.05',
+      itemRemainingDate: '1',
+    },
+    {
+      id: 2,
+      itemName: '2',
+      itemNumber: '1122334455667',
+      itemRegistration: '22.03.02',
+      itemExp: '22.03.05',
+      itemRemainingDate: '1',
+    },
+    {
+      id: 3,
+      itemName: '3',
+      itemNumber: '1122334455667',
+      itemRegistration: '22.03.02',
+      itemExp: '22.03.05',
+      itemRemainingDate: '1',
+    },
+    {
+      id: 4,
+      itemName: '4',
+      itemNumber: '1122334455667',
+      itemRegistration: '22.03.02',
+      itemExp: '22.03.05',
+      itemRemainingDate: '1',
+    },
+    {
+      id: 5,
+      itemName: '5',
+      itemNumber: '1122334455667',
+      itemRegistration: '22.03.02',
+      itemExp: '22.03.05',
+      itemRemainingDate: '1',
     },
   ]);
 
@@ -37,24 +71,7 @@ const RefrigeratorScreen = ({navigation}) => {
           <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
       </View>
-      <View style={styles.refrigeratorSearch}>
-        <Pressable style={styles.searchBtn}>
-          <Image
-            source={require('../../assets/images/refrigeratorSearchBtn.png')}
-            style={styles.searchImage}
-            resizeMode="contain"
-          />
-          <Text style={styles.searchText}>냉장고 재료로 레시피 검색</Text>
-        </Pressable>
-        <Pressable style={styles.searchBtn}>
-          <Image
-            source={require('../../assets/images/cameraSearchBtn.png')}
-            style={styles.searchImage}
-            resizeMode="contain"
-          />
-          <Text style={styles.searchText}>카메라 인식으로 레시피 검색</Text>
-        </Pressable>
-      </View>
+
       <View style={styles.listWrapper}>
         {refrigeratorItem.length === 0 ? (
           <RefrigeratorEmpty />
@@ -105,36 +122,7 @@ const styles = StyleSheet.create({
   notification: {
     marginLeft: 20,
   },
-  refrigeratorSearch: {
-    width: '98%',
-    height: '20%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#b3b4ba',
-  },
-  searchBtn: {
-    width: '45%',
-    height: '90%',
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginHorizontal: 10,
-    elevation: 10,
-  },
-  searchImage: {
-    width: '60%',
-    height: '50%',
-    marginBottom: 10,
-  },
-  searchText: {
-    fontFamily: 'NanumSquareRoundOTFB',
-    fontSize: 15,
-    color: '#000',
-  },
   listWrapper: {
-    flex: 1,
+    height: '88%',
   },
 });
