@@ -29,6 +29,10 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
+    implementation 'com.google.firebase:firebase-admin:8.1.0'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+
     compileOnly 'org.projectlombok:lombok'
 
     annotationProcessor 'org.projectlombok:lombok'
