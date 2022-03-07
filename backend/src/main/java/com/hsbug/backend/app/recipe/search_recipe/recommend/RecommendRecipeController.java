@@ -23,19 +23,15 @@ public class RecommendRecipeController {
     @GetMapping("/random")
     @ResponseBody
     public Map<String, ArrayList> searchRecipeDemo(){
-//        JSONObject obj = new JSONObject();
         Map<String, ArrayList> randomRecipeMap = new HashMap<>();
-//        List<RecommendRecipeDto> randomRecipe = new ArrayList<>();
         ArrayList arr = new ArrayList<>();
+
         for (int i = 0; i < 30; i++) {
             RecommendRecipeDto recipeDto = recommendRecipeService.randomRecipe();
-//            randomRecipe.add(recipeDto);
             arr.add(recipeDto);
-
         }
+
         randomRecipeMap.put("recipe", arr);
-//        log.info("randomRecipe = {}", randomRecipe);
-//        obj.put("randomRecipe",randomRecipeMap);
         return randomRecipeMap;
     }
 
