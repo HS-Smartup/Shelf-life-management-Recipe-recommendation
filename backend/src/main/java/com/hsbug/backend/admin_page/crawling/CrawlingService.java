@@ -35,4 +35,20 @@ public class CrawlingService {
         foodIngredientsMap.put("foodIngredients", searchList);
         return foodIngredientsMap;
     }
+
+    public HashMap<String,List> findTextByCssQuery2(String url, String cssQuery) throws IOException {
+        HashMap<String, List> foodIngredientsMap = new HashMap<>();
+        List<String> searchList = new ArrayList<>();
+        Document docs = Jsoup.connect(url).get();
+//        Elements elements = docs.select("h2[class=blog-shortcode-post-title entry-title]");
+        Elements elements = docs.select(cssQuery);
+
+
+        for (Element e : elements) {
+            searchList.add(e.text());
+        }
+
+        foodIngredientsMap.put("foodIngredients", searchList);
+        return foodIngredientsMap;
+    }
 }
