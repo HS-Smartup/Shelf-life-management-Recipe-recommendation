@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 5,
   },
   myRefrigeratorText: {
     fontFamily: 'NanumSquareRoundOTFB',

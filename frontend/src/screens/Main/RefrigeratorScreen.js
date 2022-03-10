@@ -54,6 +54,12 @@ const RefrigeratorScreen = ({navigation}) => {
     },
   ]);
 
+  const onScrolledToBottom = isBottom => {
+    if (hidden !== isBottom) {
+      setHidden(isBottom);
+    }
+  };
+
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
@@ -79,9 +85,12 @@ const RefrigeratorScreen = ({navigation}) => {
         {refrigeratorItem.length === 0 ? (
           <RefrigeratorEmpty />
         ) : (
-          <RefrigeratorList refrigeratorItem={refrigeratorItem} />
+          <RefrigeratorList
+            refrigeratorItem={refrigeratorItem}
+            onScrolledToBottom={onScrolledToBottom}
+          />
         )}
-        <AddButton />
+        <AddButton hidden={hidden} />
       </View>
     </View>
   );
