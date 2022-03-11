@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 
-const AddButton = ({hidden}) => {
+const AddButton = ({hidden, onOpenScanner}) => {
   const navigation = useNavigation();
 
   const [mainPress, setMainPress] = useState(true);
@@ -22,7 +22,6 @@ const AddButton = ({hidden}) => {
 
   const onToggle = () => {
     setMainPress(!mainPress);
-    console.log(mainPress);
   };
 
   const animation = useRef(new Animated.Value(0)).current;
@@ -59,7 +58,7 @@ const AddButton = ({hidden}) => {
             <Pressable
               style={({pressed}) => [styles.barcodeBtn]}
               android_ripple={{color: '#fff'}}
-              onPress={onPress}>
+              onPress={onOpenScanner}>
               <CommunityIcon
                 name="barcode-scan"
                 size={20}
