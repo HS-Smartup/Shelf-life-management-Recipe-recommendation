@@ -3,50 +3,7 @@ import React, {useState} from 'react';
 import {Platform, PermissionsAndroid, Pressable} from 'react-native';
 import {CameraScreen} from 'react-native-camera-kit';
 
-const CameraKitScreen = ({navigation}) => {
-  const [qrvalue, setQrvalue] = useState('');
-  const [openScanner, setOpenScanner] = useState(false);
-
-  const onBarcodeScan = qrvalue => {
-    // Called after te successful scanning of QRCode/Barcode
-    setQrvalue(qrvalue);
-
-    setOpenScanner(false);
-    Alert.alert(qrvalue);
-  };
-
-  const onOpenScanner = () => {
-    // To Start Scanning
-    if (Platform.OS === 'android') {
-      async function requestCameraPermission() {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA,
-            {
-              title: 'Camera Permission',
-              message: 'App needs permission for camera access',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            // If CAMERA Permission is granted
-            setQrvalue('');
-            setOpenScanner(true);
-          } else {
-            Alert.alert('CAMERA permission denied');
-          }
-        } catch (err) {
-          Alert.alert('Camera permission err', err);
-          console.warn(err);
-        }
-      }
-      // Calling the camera permission function
-      requestCameraPermission();
-    } else {
-      setQrvalue('');
-      setOpenScanner(true);
-    }
-  };
-
+const CameraKitScreen = ({navigation, onBarcodeScan}) => {
   return (
     <View style={styles.fullScreen}>
       <CameraScreen

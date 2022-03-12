@@ -16,6 +16,7 @@ import {UserNameContext} from 'contexts/UserNameContext';
 import RefrigeratorEmpty from 'components/RefrigeratorEmpty';
 import RefrigeratorList from 'components/RefrigeratorList';
 import AddButton from 'components/AddButton';
+import CameraKitScreen from './CameraKitScreen';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
@@ -70,40 +71,85 @@ const RefrigeratorScreen = ({navigation}) => {
     }
   };
 
+  const [qrvalue, setQrvalue] = useState('');
+  const [openScanner, setOpenScanner] = useState(false);
+
+  const onBarcodeScan = qrvalue => {
+    // Called after te successful scanning of QRCode/Barcode
+    setQrvalue(qrvalue);
+
+    setOpenScanner(false);
+    Alert.alert(qrvalue);
+  };
+
+  const onOpenScanner = () => {
+    // To Start Scanning
+    if (Platform.OS === 'android') {
+      async function requestCameraPermission() {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+              title: 'Camera Permission',
+              message: 'App needs permission for camera access',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            // If CAMERA Permission is granted
+            setQrvalue('');
+            setOpenScanner(true);
+          } else {
+            Alert.alert('CAMERA permission denied');
+          }
+        } catch (err) {
+          Alert.alert('Camera permission err', err);
+          console.warn(err);
+        }
+      }
+      // Calling the camera permission function
+      requestCameraPermission();
+    } else {
+      setQrvalue('');
+      setOpenScanner(true);
+    }
+  };
   return (
     <View style={styles.fullscreen}>
-      <View>
-        <View style={styles.header}>
-          <Pressable onPress={() => navigation.navigate('HomeScreen')}>
-            <Image
-              source={require('../../assets/images/logo.png')}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-          </Pressable>
-          <View style={styles.headerTextWrapper}>
-            <Text style={styles.headerText}>
-              <Text style={styles.innerText}>{username} </Text>
-              님의 냉장고
-            </Text>
+      {openScanner ? (
+        <CameraKitScreen onBarcodeScan={onBarcodeScan} />
+      ) : (
+        <View>
+          <View style={styles.header}>
+            <Pressable onPress={() => navigation.navigate('HomeScreen')}>
+              <Image
+                source={require('../../assets/images/logo.png')}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+            </Pressable>
+            <View style={styles.headerTextWrapper}>
+              <Text style={styles.headerText}>
+                <Text style={styles.innerText}>{username} </Text>
+                님의 냉장고
+              </Text>
+            </View>
+            <Pressable style={styles.notification}>
+              <Icon name="notifications-none" size={32} color={'#ff8527'} />
+            </Pressable>
           </View>
-          <Pressable style={styles.notification}>
-            <Icon name="notifications-none" size={32} color={'#ff8527'} />
-          </Pressable>
+          <View style={styles.listWrapper}>
+            {refrigeratorItem.length === 0 ? (
+              <RefrigeratorEmpty />
+            ) : (
+              <RefrigeratorList
+                refrigeratorItem={refrigeratorItem}
+                onScrolledToBottom={onScrolledToBottom}
+              />
+            )}
+            <AddButton hidden={hidden} onOpenScanner={onOpenScanner} />
+          </View>
         </View>
-
-        <View style={styles.listWrapper}>
-          {refrigeratorItem.length === 0 ? (
-            <RefrigeratorEmpty />
-          ) : (
-            <RefrigeratorList
-              refrigeratorItem={refrigeratorItem}
-              onScrolledToBottom={onScrolledToBottom}
-            />
-          )}
-          <AddButton hidden={hidden} />
-        </View>
-      </View>
+      )}
     </View>
   );
 };
