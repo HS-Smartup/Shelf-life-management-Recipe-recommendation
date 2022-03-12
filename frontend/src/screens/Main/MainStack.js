@@ -22,11 +22,6 @@ const MainStack = () => {
           component={SearchScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="CameraKitScreen"
-          component={CameraKitScreen}
-          options={{headerShown: false}}
-        />
       </Stack.Navigator>
     </UserNameContextProvider>
   );

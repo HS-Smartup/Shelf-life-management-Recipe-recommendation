@@ -74,48 +74,41 @@ const RefrigeratorScreen = ({navigation}) => {
   const [qrvalue, setQrvalue] = useState('');
   const [openScanner, setOpenScanner] = useState(false);
 
-  const onBarcodeScan = qrvalue => {
+  const onBarcodeScan = scanValue => {
     // Called after te successful scanning of QRCode/Barcode
-    setQrvalue(qrvalue);
+    setQrvalue(scanValue);
 
     setOpenScanner(false);
-    Alert.alert(qrvalue);
+    Alert.alert(scanValue);
   };
 
   const onOpenScanner = () => {
-    // To Start Scanning
-    if (Platform.OS === 'android') {
-      async function requestCameraPermission() {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA,
-            {
-              title: 'Camera Permission',
-              message: 'App needs permission for camera access',
-            },
+    async function requestCameraPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // If CAMERA Permission is granted
+          setQrvalue('');
+          setOpenScanner(true);
+        } else {
+          Alert.alert(
+            '카메라 사용권한 거부',
+            '카메라 사용권한이 거부되었습니다.',
+            [{text: '확인'}],
           );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            // If CAMERA Permission is granted
-            setQrvalue('');
-            setOpenScanner(true);
-          } else {
-            Alert.alert('CAMERA permission denied');
-          }
-        } catch (err) {
-          Alert.alert('Camera permission err', err);
-          console.warn(err);
         }
+      } catch (error) {
+        Alert.alert('카메라 권한 에러', error);
+        console.error(error);
       }
-      // Calling the camera permission function
-      requestCameraPermission();
-    } else {
-      setQrvalue('');
-      setOpenScanner(true);
     }
+    requestCameraPermission();
   };
 
   useEffect(() => {
-    return () => setOpenScanner(false);
+    return () => onOpenScanner();
   }, []);
 
   return (
@@ -154,7 +147,12 @@ const RefrigeratorScreen = ({navigation}) => {
                 onScrolledToBottom={onScrolledToBottom}
               />
             )}
-            <AddButton hidden={hidden} onOpenScanner={onOpenScanner} />
+            <AddButton
+              hidden={hidden}
+              onOpenScanner={onOpenScanner}
+              setQrvalue={setQrvalue}
+              setOpenScanner={setOpenScanner}
+            />
           </View>
         </View>
       )}

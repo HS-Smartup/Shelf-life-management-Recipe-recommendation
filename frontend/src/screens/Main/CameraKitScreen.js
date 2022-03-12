@@ -1,9 +1,9 @@
 import {Alert, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Platform, PermissionsAndroid, Pressable} from 'react-native';
 import {CameraScreen} from 'react-native-camera-kit';
 
-const CameraKitScreen = ({navigation, onBarcodeScan, setOpenScanner}) => {
+const CameraKitScreen = ({onBarcodeScan, setOpenScanner}) => {
   return (
     <View style={styles.fullScreen}>
       <CameraScreen

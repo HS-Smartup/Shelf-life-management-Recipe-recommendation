@@ -1,5 +1,6 @@
 import {
   Animated,
+  PermissionsAndroid,
   Platform,
   Pressable,
   StyleSheet,
@@ -11,10 +12,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 
-const AddButton = ({hidden, onOpenScanner}) => {
+const AddButton = ({hidden, setQrvalue, setOpenScanner, onOpenScanner}) => {
   const navigation = useNavigation();
 
-  const [mainPress, setMainPress] = useState(true);
+  const [mainPress, setMainPress] = useState(false);
 
   const onPress = () => {
     navigation.navigate('HomeScreen');
@@ -31,7 +32,7 @@ const AddButton = ({hidden, onOpenScanner}) => {
       toValue: hidden ? 1 : 0,
       useNativeDriver: true,
     }).start();
-    return () => setMainPress(true);
+    return () => setMainPress(false);
   }, [animation, hidden]);
 
   return (
@@ -53,13 +54,20 @@ const AddButton = ({hidden, onOpenScanner}) => {
           }),
         },
       ]}>
-      {!mainPress ? (
+      {mainPress ? (
         <View>
           <View style={styles.barcodeBtnWrapper}>
             <Pressable
               style={({pressed}) => [styles.barcodeBtn]}
               android_ripple={{color: '#fff'}}
-              onPress={onOpenScanner}>
+              onPress={() => {
+                setOpenScanner(false);
+                setQrvalue(false);
+                setMainPress(false);
+                setTimeout(() => {
+                  onOpenScanner();
+                }, 100);
+              }}>
               <CommunityIcon
                 name="barcode-scan"
                 size={20}
