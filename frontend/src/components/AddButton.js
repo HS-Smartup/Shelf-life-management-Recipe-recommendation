@@ -31,6 +31,7 @@ const AddButton = ({hidden, onOpenScanner}) => {
       toValue: hidden ? 1 : 0,
       useNativeDriver: true,
     }).start();
+    return () => setMainPress(true);
   }, [animation, hidden]);
 
   return (

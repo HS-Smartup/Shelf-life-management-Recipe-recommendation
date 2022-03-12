@@ -113,10 +113,18 @@ const RefrigeratorScreen = ({navigation}) => {
       setOpenScanner(true);
     }
   };
+
+  useEffect(() => {
+    return () => setOpenScanner(false);
+  }, []);
+
   return (
     <View style={styles.fullscreen}>
       {openScanner ? (
-        <CameraKitScreen onBarcodeScan={onBarcodeScan} />
+        <CameraKitScreen
+          onBarcodeScan={onBarcodeScan}
+          setOpenScanner={setOpenScanner}
+        />
       ) : (
         <View>
           <View style={styles.header}>

@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {Platform, PermissionsAndroid, Pressable} from 'react-native';
 import {CameraScreen} from 'react-native-camera-kit';
 
-const CameraKitScreen = ({navigation, onBarcodeScan}) => {
+const CameraKitScreen = ({navigation, onBarcodeScan, setOpenScanner}) => {
   return (
     <View style={styles.fullScreen}>
       <CameraScreen
@@ -23,7 +23,7 @@ const CameraKitScreen = ({navigation, onBarcodeScan}) => {
       <View style={styles.cameraBtnWrapper}>
         <Pressable
           style={styles.cameraCancelBtn}
-          onPress={() => navigation.goBack()}>
+          onPress={() => setOpenScanner(false)}>
           <Text style={styles.cameraCancelText}>취소</Text>
         </Pressable>
         <Pressable style={styles.cameraSuccessBtn}>
