@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeTab from './HomeTab';
 import SearchScreen from './SearchScreen';
 import {UserNameContextProvider} from 'contexts/UserNameContext';
+import CameraKitScreen from './CameraKitScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,11 @@ const MainStack = () => {
         <Stack.Screen
           name="SearchScreen"
           component={SearchScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CameraKitScreen"
+          component={CameraKitScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

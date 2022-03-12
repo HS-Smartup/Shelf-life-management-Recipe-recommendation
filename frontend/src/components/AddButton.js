@@ -58,7 +58,7 @@ const AddButton = ({hidden, onOpenScanner}) => {
             <Pressable
               style={({pressed}) => [styles.barcodeBtn]}
               android_ripple={{color: '#fff'}}
-              onPress={onOpenScanner}>
+              onPress={() => navigation.navigate('CameraKitScreen')}>
               <CommunityIcon
                 name="barcode-scan"
                 size={20}

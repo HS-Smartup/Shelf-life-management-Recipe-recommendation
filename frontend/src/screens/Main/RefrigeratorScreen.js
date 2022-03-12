@@ -16,7 +16,6 @@ import {UserNameContext} from 'contexts/UserNameContext';
 import RefrigeratorEmpty from 'components/RefrigeratorEmpty';
 import RefrigeratorList from 'components/RefrigeratorList';
 import AddButton from 'components/AddButton';
-import {CameraScreen} from 'react-native-camera-kit';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
@@ -70,103 +69,41 @@ const RefrigeratorScreen = ({navigation}) => {
       setHidden(isBottom);
     }
   };
-  const [qrvalue, setQrvalue] = useState('');
-  const [opneScanner, setOpneScanner] = useState(false);
-
-  const onBarcodeScan = qrvalue => {
-    // Called after te successful scanning of QRCode/Barcode
-    setQrvalue(qrvalue);
-
-    setOpneScanner(false);
-    Alert.alert(qrvalue);
-  };
-
-  const onOpenScanner = () => {
-    // To Start Scanning
-    if (Platform.OS === 'android') {
-      async function requestCameraPermission() {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA,
-            {
-              title: 'Camera Permission',
-              message: 'App needs permission for camera access',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            // If CAMERA Permission is granted
-            setQrvalue('');
-            setOpneScanner(true);
-          } else {
-            Alert.alert('CAMERA permission denied');
-          }
-        } catch (err) {
-          Alert.alert('Camera permission err', err);
-          console.warn(err);
-        }
-      }
-      // Calling the camera permission function
-      requestCameraPermission();
-    } else {
-      setQrvalue('');
-      setOpneScanner(true);
-    }
-  };
 
   return (
     <View style={styles.fullscreen}>
-      {opneScanner ? (
-        <View>
-          <CameraScreen
-            showFrame={false}
-            // Show/hide scan frame
-            scanBarcode={true}
-            // Can restrict for the QR Code only
-            laserColor={'blue'}
-            // Color can be of your choice
-            frameColor={'yellow'}
-            // If frame is visible then frame color
-            colorForScannerFrame={'black'}
-            // Scanner Frame color
-            onReadCode={event =>
-              onBarcodeScan(event.nativeEvent.codeStringValue)
-            }
-          />
-        </View>
-      ) : (
-        <View>
-          <View style={styles.header}>
-            <Pressable onPress={() => navigation.navigate('HomeScreen')}>
-              <Image
-                source={require('../../assets/images/logo.png')}
-                style={styles.logo}
-                resizeMode="contain"
-              />
-            </Pressable>
-            <View style={styles.headerTextWrapper}>
-              <Text style={styles.headerText}>
-                <Text style={styles.innerText}>{username} </Text>
-                님의 냉장고
-              </Text>
-            </View>
-            <Pressable style={styles.notification}>
-              <Icon name="notifications-none" size={32} color={'#ff8527'} />
-            </Pressable>
+      <View>
+        <View style={styles.header}>
+          <Pressable onPress={() => navigation.navigate('HomeScreen')}>
+            <Image
+              source={require('../../assets/images/logo.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <View style={styles.headerTextWrapper}>
+            <Text style={styles.headerText}>
+              <Text style={styles.innerText}>{username} </Text>
+              님의 냉장고
+            </Text>
           </View>
+          <Pressable style={styles.notification}>
+            <Icon name="notifications-none" size={32} color={'#ff8527'} />
+          </Pressable>
+        </View>
 
-          <View style={styles.listWrapper}>
-            {refrigeratorItem.length === 0 ? (
-              <RefrigeratorEmpty />
-            ) : (
-              <RefrigeratorList
-                refrigeratorItem={refrigeratorItem}
-                onScrolledToBottom={onScrolledToBottom}
-              />
-            )}
-            <AddButton hidden={hidden} onOpenScanner={onOpenScanner} />
-          </View>
+        <View style={styles.listWrapper}>
+          {refrigeratorItem.length === 0 ? (
+            <RefrigeratorEmpty />
+          ) : (
+            <RefrigeratorList
+              refrigeratorItem={refrigeratorItem}
+              onScrolledToBottom={onScrolledToBottom}
+            />
+          )}
+          <AddButton hidden={hidden} />
         </View>
-      )}
+      </View>
     </View>
   );
 };
