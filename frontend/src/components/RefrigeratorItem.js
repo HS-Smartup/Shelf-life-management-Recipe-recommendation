@@ -20,7 +20,6 @@ const RefrigeratorItem = ({
         <View style={styles.topWrapper}>
           <View style={styles.topTextWrapper}>
             <Text style={styles.itemName}>{itemName}</Text>
-            <Text style={styles.itemNumber}>{itemNumber}</Text>
           </View>
           <View style={styles.expCircleWrapper}>
             <ImageBackground
@@ -88,18 +87,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#000000',
     marginLeft: 10,
-  },
-  itemNumber: {
-    width: '45%',
-    fontFamily: 'NanumSquareRoundOTFR',
-    fontSize: 10,
-    color: '#000000',
-    marginTop: 5,
-    marginLeft: 5,
-    borderWidth: 0.5,
-    borderRadius: 10,
-    borderColor: '#b3b4ba',
-    padding: 3,
   },
   bottomWrapper: {
     flexDirection: 'row',

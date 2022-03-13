@@ -1,18 +1,6 @@
-import {
-  FlatList,
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-const Stack = createNativeStackNavigator();
 
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -189,6 +177,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 5,
   },
   myRefrigeratorText: {
     fontFamily: 'NanumSquareRoundOTFB',
