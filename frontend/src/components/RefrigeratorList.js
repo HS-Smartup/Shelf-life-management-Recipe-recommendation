@@ -31,7 +31,7 @@ const RefrigeratorList = ({refrigeratorItem, onScrolledToBottom}) => {
           id={item.id}
           itemName={item.itemName}
           itemNumber={item.itemNumber}
-          itemRegistration={item.itemRegistration}
+          itemReg={item.itemReg}
           itemExp={item.itemExp}
           itemRemainingDate={item.itemRemainingDate}
         />

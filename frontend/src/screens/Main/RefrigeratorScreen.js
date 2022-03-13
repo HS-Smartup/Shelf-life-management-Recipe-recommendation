@@ -26,15 +26,15 @@ const RefrigeratorScreen = ({navigation}) => {
       id: 1,
       itemName: '비비고 군만두',
       itemNumber: '1122334455667',
-      itemRegistration: '22.03.02',
+      itemReg: '22.03.02',
       itemExp: '22.03.05',
-      itemRemainingDate: '1',
+      itemRemainingDate: '',
     },
     {
       id: 2,
       itemName: '2',
       itemNumber: '1122334455667',
-      itemRegistration: '22.03.02',
+      itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',
     },
@@ -42,7 +42,7 @@ const RefrigeratorScreen = ({navigation}) => {
       id: 3,
       itemName: '3',
       itemNumber: '1122334455667',
-      itemRegistration: '22.03.02',
+      itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',
     },
@@ -50,7 +50,7 @@ const RefrigeratorScreen = ({navigation}) => {
       id: 4,
       itemName: '4',
       itemNumber: '1122334455667',
-      itemRegistration: '22.03.02',
+      itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',
     },
@@ -58,7 +58,7 @@ const RefrigeratorScreen = ({navigation}) => {
       id: 5,
       itemName: '5',
       itemNumber: '1122334455667',
-      itemRegistration: '22.03.02',
+      itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',
     },
@@ -70,14 +70,13 @@ const RefrigeratorScreen = ({navigation}) => {
     }
   };
 
-  const [qrvalue, setQrvalue] = useState('');
+  const [qrValue, setQrValue] = useState('');
   const [openScanner, setOpenScanner] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const onBarcodeScan = scanValue => {
     // Called after te successful scanning of QRCode/Barcode
-    setQrvalue(scanValue);
-
+    setQrValue(scanValue);
     setOpenScanner(false);
     setModalVisible(!modalVisible);
   };
@@ -90,7 +89,7 @@ const RefrigeratorScreen = ({navigation}) => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           // If CAMERA Permission is granted
-          setQrvalue('');
+          setQrValue('');
           setOpenScanner(true);
         } else {
           Alert.alert(
@@ -108,7 +107,7 @@ const RefrigeratorScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    return () => onOpenScanner();
+    return () => RefrigeratorScreen;
   }, []);
 
   return (
@@ -152,16 +151,22 @@ const RefrigeratorScreen = ({navigation}) => {
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
-                Alert.alert('Modal has been closed');
                 setModalVisible(!modalVisible);
               }}>
-              <RefrigeratorAddModal />
+              <RefrigeratorAddModal
+                qrValue={qrValue}
+                setQrValue={setQrValue}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
             </Modal>
             <AddButton
               hidden={hidden}
               onOpenScanner={onOpenScanner}
-              setQrvalue={setQrvalue}
+              setQrValue={setQrValue}
               setOpenScanner={setOpenScanner}
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
             />
           </View>
         </View>

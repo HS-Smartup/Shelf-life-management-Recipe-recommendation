@@ -5,7 +5,7 @@ const RefrigeratorItem = ({
   id,
   itemName,
   itemNumber,
-  itemRegistration,
+  itemReg,
   itemExp,
   itemRemainingDate,
 }) => {
@@ -32,9 +32,7 @@ const RefrigeratorItem = ({
         </View>
         <View style={styles.bottomWrapper}>
           <View style={styles.expWrapper}>
-            <Text style={styles.itemRegistration}>
-              등록일: {itemRegistration}
-            </Text>
+            <Text style={styles.itemRegistration}>등록일: {itemReg}</Text>
             <Text style={styles.itemExp}>유통기한: {itemExp}</Text>
           </View>
         </View>

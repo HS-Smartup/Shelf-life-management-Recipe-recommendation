@@ -4,13 +4,20 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 
-const AddButton = ({hidden, setQrvalue, setOpenScanner, onOpenScanner}) => {
+const AddButton = ({
+  hidden,
+  setQrValue,
+  setOpenScanner,
+  onOpenScanner,
+  modalVisible,
+  setModalVisible,
+}) => {
   const navigation = useNavigation();
 
   const [mainPress, setMainPress] = useState(false);
 
-  const onPress = () => {
-    navigation.navigate('HomeScreen');
+  const onPressSelfAddBtn = () => {
+    setModalVisible(!modalVisible);
   };
 
   const onToggle = () => {
@@ -54,7 +61,7 @@ const AddButton = ({hidden, setQrvalue, setOpenScanner, onOpenScanner}) => {
               android_ripple={{color: '#fff'}}
               onPress={() => {
                 setOpenScanner(false);
-                setQrvalue(false);
+                setQrValue(false);
                 setMainPress(false);
                 setTimeout(() => {
                   onOpenScanner();
@@ -71,7 +78,7 @@ const AddButton = ({hidden, setQrvalue, setOpenScanner, onOpenScanner}) => {
             <Pressable
               style={({pressed}) => [styles.selfAddBtn]}
               android_ripple={{color: '#fff'}}
-              onPress={onPress}>
+              onPress={onPressSelfAddBtn}>
               <CommunityIcon name="pencil-plus" size={20} style={styles.icon} />
             </Pressable>
           </View>
