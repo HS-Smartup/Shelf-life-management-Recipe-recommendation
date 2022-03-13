@@ -42,6 +42,13 @@ public class ManageProductService {
     }
 
     @Transactional
+    public void updateProduct(ManageProductDto dto){
+       ManageProductEntity manageProduct = manageProductRepository.findById(dto.getId()).get();
+        manageProduct.update(dto);
+    }
+
+
+    @Transactional
     public void save(ManageProductDto addProductDto) {
         manageProductRepository.save(addProductDto.toEntity());
     }

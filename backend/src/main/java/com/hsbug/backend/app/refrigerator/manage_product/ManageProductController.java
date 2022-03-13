@@ -48,6 +48,17 @@ public class ManageProductController {
         return obj;
     }
 
+      // dto를 read하여 수정후에 dto를 수정한다
+
+    @PostMapping("/updateProduct")
+    public JSONObject UpdateProduct(@RequestBody ManageProductDto dto) {
+        JSONObject obj = new JSONObject();
+        manageProductService.updateProduct(dto);
+        obj.put("message"," 업데이트 완료");
+        obj.put("status",200);
+        return obj;
+    }
+
     private String findEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return email;

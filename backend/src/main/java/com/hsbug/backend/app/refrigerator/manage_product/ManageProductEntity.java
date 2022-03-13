@@ -34,4 +34,14 @@ public class ManageProductEntity {
         this.input_date = input_date;
     }
 
+    public void update(ManageProductDto dto) {
+        this.email = dto.getEmail();
+        this.barcode = dto.getBarcode();
+        this.product_name = dto.getProduct_name();
+        this.product_type = dto.getProduct_type();
+        this.product_num = dto.getProduct_num();
+        this.exp_date = dto.getExp_date();
+        this.input_date = dto.getInput_date();
+    }
+
 }
