@@ -7,6 +7,7 @@ import {
   PermissionsAndroid,
   Alert,
   Modal,
+  ScrollView,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,6 +17,7 @@ import RefrigeratorList from 'components/RefrigeratorList';
 import AddButton from 'components/AddButton';
 import CameraKitScreen from './CameraKitScreen';
 import RefrigeratorAddModal from 'components/RefrigeratorAddModal';
+import ReactNativeModal from 'react-native-modal';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
@@ -147,6 +149,8 @@ const RefrigeratorScreen = ({navigation}) => {
               />
             )}
             <Modal
+              propagateSwipe={true}
+              avoidKeyboard={true}
               animationType="slide"
               transparent={true}
               visible={modalVisible}

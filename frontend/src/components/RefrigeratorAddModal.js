@@ -5,8 +5,10 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
+import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 
 const RefrigeratorAddModal = ({
   qrValue,
@@ -35,10 +37,6 @@ const RefrigeratorAddModal = ({
     setModalVisible(!modalVisible);
     setQrValue('');
   };
-
-  console.log(input);
-  console.log(qrValue);
-
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -48,22 +46,25 @@ const RefrigeratorAddModal = ({
           style={styles.image}
           resizeMode="center"
         />
+
         <View style={styles.textWrapper}>
           <TextInput
             style={styles.itemName}
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
           />
-          <TextInput
+          {/* <TextInput
             style={styles.itemNumber}
             onChangeText={createChangeTextHandler('itemNumber')}
             placeholder={'상품번호'}
+            keyboardType="number-pad"
             value={qrValue}
-          />
+          /> */}
           <TextInput
             style={styles.itemAmount}
             onChangeText={createChangeTextHandler('itemAmount')}
             placeholder={'수량'}
+            keyboardType="number-pad"
           />
           <TextInput
             style={styles.itemReg}
@@ -95,14 +96,14 @@ export default RefrigeratorAddModal;
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(52,52,52, 0.8)',
   },
   modalView: {
     width: '80%',
-    height: '70%',
-    margin: 20,
+    height: 450,
+    marginTop: 20,
     backgroundColor: '#f2f3f4',
     borderRadius: 15,
     padding: 10,
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     width: '100%',
-    height: '50%',
+    height: 200,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '10%',
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 20,
   },
   cancelBtn: {
     width: '47%',
