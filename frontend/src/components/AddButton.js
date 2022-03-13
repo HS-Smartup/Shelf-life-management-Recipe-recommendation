@@ -1,12 +1,4 @@
-import {
-  Animated,
-  PermissionsAndroid,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Platform, Pressable, StyleSheet, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -66,7 +58,7 @@ const AddButton = ({hidden, setQrvalue, setOpenScanner, onOpenScanner}) => {
                 setMainPress(false);
                 setTimeout(() => {
                   onOpenScanner();
-                }, 100);
+                }, 10);
               }}>
               <CommunityIcon
                 name="barcode-scan"

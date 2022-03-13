@@ -1,6 +1,6 @@
-import {Alert, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Platform, PermissionsAndroid, Pressable} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {Pressable} from 'react-native';
 import {CameraScreen} from 'react-native-camera-kit';
 
 const CameraKitScreen = ({onBarcodeScan, setOpenScanner}) => {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   cameraSuccessBtn: {
     width: '47%',
     height: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffb856',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
@@ -76,6 +76,6 @@ const styles = StyleSheet.create({
   cameraSuccessText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 24,
-    color: '#000',
+    color: '#fff',
   },
 });

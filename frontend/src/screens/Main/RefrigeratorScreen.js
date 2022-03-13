@@ -1,22 +1,21 @@
 import {
-  FlatList,
   Image,
   Pressable,
   StyleSheet,
   Text,
   View,
-  Platform,
   PermissionsAndroid,
   Alert,
+  Modal,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserNameContext} from 'contexts/UserNameContext';
 import RefrigeratorEmpty from 'components/RefrigeratorEmpty';
 import RefrigeratorList from 'components/RefrigeratorList';
 import AddButton from 'components/AddButton';
 import CameraKitScreen from './CameraKitScreen';
+import RefrigeratorAddModal from 'components/RefrigeratorAddModal';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
@@ -73,13 +72,14 @@ const RefrigeratorScreen = ({navigation}) => {
 
   const [qrvalue, setQrvalue] = useState('');
   const [openScanner, setOpenScanner] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onBarcodeScan = scanValue => {
     // Called after te successful scanning of QRCode/Barcode
     setQrvalue(scanValue);
 
     setOpenScanner(false);
-    Alert.alert(scanValue);
+    setModalVisible(!modalVisible);
   };
 
   const onOpenScanner = () => {
@@ -147,6 +147,16 @@ const RefrigeratorScreen = ({navigation}) => {
                 onScrolledToBottom={onScrolledToBottom}
               />
             )}
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed');
+                setModalVisible(!modalVisible);
+              }}>
+              <RefrigeratorAddModal />
+            </Modal>
             <AddButton
               hidden={hidden}
               onOpenScanner={onOpenScanner}
