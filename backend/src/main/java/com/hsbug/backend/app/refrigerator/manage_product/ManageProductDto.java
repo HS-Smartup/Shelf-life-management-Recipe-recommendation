@@ -2,6 +2,7 @@ package com.hsbug.backend.app.refrigerator.manage_product;
 
 import lombok.*;
 
+
 @Data
 @Getter
 @Setter
@@ -14,9 +15,10 @@ public class ManageProductDto {
     private Integer product_num;
     private String exp_date;   // 유통기한 직접 입력 데이터 타입 수정 해야함.
     private String input_date; //  오늘 local 날짜로 지정
+    private Integer remain_date;
 
     @Builder
-    public ManageProductDto(Long id, String email, String barcode, String product_type, String product_name, String exp_date, Integer product_num, String input_date){
+    public ManageProductDto(Long id, String email, String barcode, String product_type, String product_name, String exp_date, Integer product_num, String input_date, Integer remain_date){
         this.id=id;
         this.email=email;
         this.barcode=barcode;
@@ -25,6 +27,7 @@ public class ManageProductDto {
         this.product_num=product_num;
         this.exp_date=exp_date;
         this.input_date=input_date;
+        this.remain_date=remain_date;
     }
 
     public ManageProductDto() {
@@ -40,6 +43,7 @@ public class ManageProductDto {
                 .product_type(product_type)
                 .exp_date(exp_date)
                 .input_date(input_date)
+                .remain_date(remain_date)
                 .build();
     }
 }
