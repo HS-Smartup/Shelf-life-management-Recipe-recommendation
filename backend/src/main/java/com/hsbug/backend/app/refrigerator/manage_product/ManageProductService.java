@@ -23,6 +23,7 @@ public class ManageProductService {
                 .input_date(manageProductEntity.getInput_date())
                 .product_name(manageProductEntity.getProduct_name())
                 .product_type(manageProductEntity.getProduct_type())
+                .remain_date((manageProductEntity.getRemain_date()))
                 .build();
     }
 
