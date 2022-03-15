@@ -256,11 +256,11 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 15,
     fontFamily: 'NanumSquareRoundOTFB',
-    fontSize: 36,
+    fontSize: 28,
     color: '#000000',
   },
   inputForm: {
-    marginTop: 30,
+    marginTop: 20,
     width: '90%',
   },
   input: {

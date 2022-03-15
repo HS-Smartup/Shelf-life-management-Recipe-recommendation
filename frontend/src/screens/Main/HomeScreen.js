@@ -92,17 +92,17 @@ const HomeScreen = ({navigation}) => {
                     resizeMode="contain"
                   />
                   <Text style={styles.recipeSearchText}>
-                    냉장고 재료로 레시피 검색
+                    냉장고 재료로 {'\n'} 레시피 검색
                   </Text>
                 </Pressable>
                 <Pressable style={styles.recipeSearchBtn}>
                   <Image
                     source={require('../../assets/images/cameraSearchBtn.png')}
-                    style={styles.recipeSearchImage}
+                    style={styles.recipeSearchCameraImage}
                     resizeMode="contain"
                   />
                   <Text style={styles.recipeSearchText}>
-                    카메라 인식으로 레시피 검색
+                    카메라 인식으로 {'\n'} 레시피 검색
                   </Text>
                 </Pressable>
               </View>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   recipeSearch: {
     width: '98%',
-    height: 100,
+    height: 130,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -203,8 +203,14 @@ const styles = StyleSheet.create({
   },
   recipeSearchImage: {
     width: '60%',
-    height: '50%',
+    height: '60%',
     marginBottom: 10,
+  },
+  recipeSearchCameraImage: {
+    width: '60%',
+    height: '45%',
+    marginTop: 10,
+    marginBottom: 18,
   },
   recipeSearchText: {
     fontFamily: 'NanumSquareRoundOTFB',
