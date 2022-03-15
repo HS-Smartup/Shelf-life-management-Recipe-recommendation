@@ -1,4 +1,11 @@
-import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 
 const RefrigeratorItem = ({
@@ -10,7 +17,7 @@ const RefrigeratorItem = ({
   itemRemainingDate,
 }) => {
   return (
-    <View style={styles.itemWrapper}>
+    <Pressable style={styles.itemWrapper} onPress={() => console.log('hi')}>
       <Image
         source={require('../assets/images/logo.png')}
         style={styles.itemImage}
@@ -37,7 +44,7 @@ const RefrigeratorItem = ({
           </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

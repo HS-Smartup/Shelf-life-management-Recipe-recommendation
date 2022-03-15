@@ -27,7 +27,6 @@ const RefrigeratorScreen = ({navigation}) => {
     {
       id: 1,
       itemName: '비비고 군만두',
-      itemNumber: '1122334455667',
       itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '',
@@ -35,7 +34,6 @@ const RefrigeratorScreen = ({navigation}) => {
     {
       id: 2,
       itemName: '2',
-      itemNumber: '1122334455667',
       itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',
@@ -43,7 +41,6 @@ const RefrigeratorScreen = ({navigation}) => {
     {
       id: 3,
       itemName: '3',
-      itemNumber: '1122334455667',
       itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',
@@ -51,7 +48,6 @@ const RefrigeratorScreen = ({navigation}) => {
     {
       id: 4,
       itemName: '4',
-      itemNumber: '1122334455667',
       itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',
@@ -59,7 +55,6 @@ const RefrigeratorScreen = ({navigation}) => {
     {
       id: 5,
       itemName: '5',
-      itemNumber: '1122334455667',
       itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '1',

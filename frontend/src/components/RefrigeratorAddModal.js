@@ -7,8 +7,10 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
 
 const RefrigeratorAddModal = ({
   qrValue,
@@ -16,17 +18,9 @@ const RefrigeratorAddModal = ({
   modalVisible,
   setModalVisible,
 }) => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
   const [input, setInput] = useState({
     itemName: '',
-    itemNumber: '',
     itemAmount: '',
-    itemReg: '',
-    itemExp: '',
   });
 
   const createChangeTextHandler = name => value => {
@@ -37,6 +31,30 @@ const RefrigeratorAddModal = ({
     setModalVisible(!modalVisible);
     setQrValue('');
   };
+
+  const [regDate, setRegDate] = useState(new Date());
+  const [regOpen, setRegOpen] = useState(false);
+  const [expDate, setExpDate] = useState(new Date());
+  const [expOpen, setExpOpen] = useState(false);
+
+  const formattedRegDate = moment(regDate).format('YYYY-MM-DD');
+  const formattedExpDate = moment(expDate).format('YYYY-MM-DD');
+
+  console.log(11111111, formattedRegDate);
+  console.log(2, formattedExpDate);
+  console.log(3, input);
+  console.log(4444, JSON.stringify(formattedRegDate, formattedExpDate));
+  console.log(5555, JSON.stringify(formattedExpDate));
+
+  useEffect(() => {
+    setInput({
+      ...input,
+      ['itemReg']: formattedRegDate,
+      ['itemExp']: formattedExpDate,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formattedRegDate, formattedExpDate]);
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -53,30 +71,65 @@ const RefrigeratorAddModal = ({
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
           />
-          {/* <TextInput
-            style={styles.itemNumber}
-            onChangeText={createChangeTextHandler('itemNumber')}
-            placeholder={'상품번호'}
-            keyboardType="number-pad"
-            value={qrValue}
-          /> */}
           <TextInput
             style={styles.itemAmount}
             onChangeText={createChangeTextHandler('itemAmount')}
             placeholder={'수량'}
             keyboardType="number-pad"
           />
-          <TextInput
-            style={styles.itemReg}
-            onChangeText={createChangeTextHandler('itemReg')}
-            placeholder={'등록일자'}
-            value={`${year}.${month}.${day}`}
-          />
-          <TextInput
-            style={styles.itemExp}
-            onChangeText={createChangeTextHandler('itemExp')}
-            placeholder={'유통기한'}
-          />
+          <View style={styles.itemRegExpWrapper}>
+            <View style={styles.itemRegWrapper}>
+              <Text style={styles.itemRegTitle}>등록일자</Text>
+              <Pressable
+                onPress={() => setRegOpen(true)}
+                style={styles.itemReg}>
+                <Text style={styles.itemRegText}>{formattedRegDate}</Text>
+              </Pressable>
+              <DatePicker
+                modal
+                open={regOpen}
+                date={regDate}
+                mode={'date'}
+                title={'등록일자 선택'}
+                confirmText={'확인'}
+                cancelText={'취소'}
+                onDateChange={setRegDate}
+                onConfirm={regDate => {
+                  setRegOpen(false);
+                  setRegDate(regDate);
+                }}
+                onCancel={() => {
+                  setRegOpen(false);
+                }}
+              />
+            </View>
+
+            <View style={styles.itemExpWrapper}>
+              <Text style={styles.itemRegTitle}>유통기한</Text>
+              <Pressable
+                onPress={() => setExpOpen(true)}
+                style={styles.itemExp}>
+                <Text style={styles.itemRegText}>{formattedExpDate}</Text>
+              </Pressable>
+              <DatePicker
+                modal
+                open={expOpen}
+                date={expDate}
+                mode={'date'}
+                title={'유통기한 선택'}
+                confirmText={'확인'}
+                cancelText={'취소'}
+                onDateChange={setExpDate}
+                onConfirm={expDate => {
+                  setExpOpen(false);
+                  setExpDate(expDate);
+                }}
+                onCancel={() => {
+                  setExpOpen(false);
+                }}
+              />
+            </View>
+          </View>
         </View>
         <View style={styles.btnWrapper}>
           <Pressable style={styles.cancelBtn} onPress={pressCancelBtn}>
@@ -112,7 +165,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'NanumSquareRoundOTFEB',
-    fontSize: 35,
+    fontSize: 26,
     color: '#000000',
     marginVertical: 10,
   },
@@ -123,7 +176,7 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     width: '100%',
-    height: 200,
+    height: 180,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -151,27 +204,60 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#000000',
   },
-  itemReg: {
+  itemRegExpWrapper: {
+    flexDirection: 'row',
     width: '90%',
+    height: '30%',
+    justifyContent: 'space-between',
+    marginTop: 5,
+  },
+  itemRegWrapper: {
+    width: '45%',
+  },
+  itemRegTitle: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 14,
+    color: '#000',
+    marginBottom: 10,
+  },
+  itemReg: {
+    width: '100%',
     borderBottomWidth: 1,
     borderColor: '#b3b4ba',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemRegText: {
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 20,
-    color: '#000000',
+    color: '#000',
+  },
+  itemExpWrapper: {
+    width: '45%',
+  },
+  itemExpTitle: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 14,
+    color: '#000',
+    marginBottom: 10,
   },
   itemExp: {
-    width: '90%',
+    width: '100%',
     borderBottomWidth: 1,
     borderColor: '#b3b4ba',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemExpText: {
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 20,
-    color: '#000000',
+    color: '#000',
   },
   btnWrapper: {
     width: '100%',
-    height: '10%',
+    height: '12%',
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
   },
   cancelBtn: {
     width: '47%',
