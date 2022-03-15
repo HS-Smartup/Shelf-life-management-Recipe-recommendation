@@ -36,7 +36,7 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/myRefrig/selectProduct")
-    public void searchFromList(@RequestParam List<Long> id, boolean check){
+    public JSONObject searchFromList(@RequestParam List<Long> id, boolean check){
         String email = getEmail();
         ArrayList<String> product_list = new ArrayList<>();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
@@ -50,13 +50,12 @@ public class SearchRecipeRefrigController {
             }
         }
         System.out.println(product_list);
-        //searchRecipeRefrigService.findIdFromPart()
-        this.searchFromSelectProduct(product_list, check);
+        JSONObject obj = searchRecipeRefrigService.findProduct(product_list);
+        return obj;
+        //this.searchFromSelectProduct(product_list, check); 뒤에 이거 주석 풀기
     }
 
-
     public Map<Long, Integer> searchFromSelectProduct(ArrayList<String> product_list, boolean check) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
-
         Map<Long, Integer> map;
         if (check) {
             map = searchRecipeRefrigService.findIdFromPart(product_list);

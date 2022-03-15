@@ -9,9 +9,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -75,13 +73,16 @@ public class CrawlingService {
         }
 
         for(int i = 0; i<totalSearchList.size(); i++){
-            CrawlingEntity crawlingEntity = new CrawlingEntity();
-            crawlingEntity.setId((long) i);
-            crawlingEntity.setMenu(totalSearchList.get(i));
-            crawlingRepository.save(crawlingEntity);
+            if (crawlingRepository.findByMenu(totalSearchList.get(i)).isEmpty()) {
+                CrawlingDto crawlingDto = new CrawlingDto();
+                crawlingDto.setMenu(totalSearchList.get(i));
+                crawlingRepository.save(crawlingDto.toEntity());
+            }
         }
         return totalSearchList;
     }
+
+
 
     public void loof(int start,int last,String url,String cssQuery,int page,List<String> searchList ,int i) throws IOException {
         for (int j = start; j<=last; j++){
