@@ -36,11 +36,11 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/myRefrig/selectProduct")
-    public Map<Long, Integer> searchFromSelectProduct(@RequestParam List<Long> id, boolean check) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
+    public void searchFromList(@RequestParam List<Long> id, boolean check){
         String email = getEmail();
-        JSONObject obj = new JSONObject();
         ArrayList<String> product_list = new ArrayList<>();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
+        System.out.println(productDtoList);
 
         for (int i = 0; i < id.size(); i++) {
             for (int j = 0; j < productDtoList.size(); j++) {
@@ -50,6 +50,13 @@ public class SearchRecipeRefrigController {
             }
         }
         System.out.println(product_list);
+        //searchRecipeRefrigService.findIdFromPart()
+        this.searchFromSelectProduct(product_list, check);
+    }
+
+
+    public Map<Long, Integer> searchFromSelectProduct(ArrayList<String> product_list, boolean check) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
+
         Map<Long, Integer> map;
         if (check) {
             map = searchRecipeRefrigService.findIdFromPart(product_list);
@@ -59,6 +66,7 @@ public class SearchRecipeRefrigController {
         }
         return this.ValueSort(map);
     }
+
 
     public String getEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

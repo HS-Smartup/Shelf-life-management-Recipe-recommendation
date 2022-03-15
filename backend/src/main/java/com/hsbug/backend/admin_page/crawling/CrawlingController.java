@@ -43,4 +43,5 @@ public class CrawlingController{
         obj.put("totalSearchList", totalSearchList);
         return obj;
     }
+
 }
