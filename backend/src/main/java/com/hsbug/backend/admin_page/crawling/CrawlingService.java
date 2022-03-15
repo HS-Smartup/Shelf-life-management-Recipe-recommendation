@@ -1,5 +1,6 @@
 package com.hsbug.backend.admin_page.crawling;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,7 +15,10 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CrawlingService {
+
+    private final CrawlingRepository crawlingRepository;
 
     //url 바탕으로 텍스트로 자료 가져오기
     public String findText(String url) throws IOException {
@@ -70,6 +74,12 @@ public class CrawlingService {
             }
         }
 
+        for(int i = 0; i<totalSearchList.size(); i++){
+            CrawlingEntity crawlingEntity = new CrawlingEntity();
+            crawlingEntity.setId((long) i);
+            crawlingEntity.setMenu(totalSearchList.get(i));
+            crawlingRepository.save(crawlingEntity);
+        }
         return totalSearchList;
     }
 
@@ -80,3 +90,4 @@ public class CrawlingService {
     }
 
 }
+
