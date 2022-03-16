@@ -45,7 +45,7 @@ public class SearchRecipeRefrigController {
         for (int i = 0; i < id.size(); i++) {
             for (int j = 0; j < productDtoList.size(); j++) {
                 if (id.get(i) == productDtoList.get(j).getId()) {
-                    product_list.add(productDtoList.get(j).getProduct_name());
+                    product_list.add(productDtoList.get(j).getItemName());
                 }
             }
         }

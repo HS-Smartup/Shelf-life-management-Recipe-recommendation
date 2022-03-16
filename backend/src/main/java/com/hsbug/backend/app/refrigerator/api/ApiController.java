@@ -79,11 +79,11 @@ public class ApiController {
 
 
                 addProductDto.setBarcode((String) product.get("BRCD_NO"));
-                addProductDto.setProduct_name((String) product.get("PRDT_NM"));
+                addProductDto.setItemName((String) product.get("PRDT_NM"));
                 addProductDto.setProduct_type((String) product.get("PRDLST_NM"));
-                addProductDto.setProduct_num(1);            // 초깃값 : 1
-                addProductDto.setExp_date(today);           // local date
-                addProductDto.setInput_date(today);         // local date
+                addProductDto.setItemAmount(1);            // 초깃값 : 1
+                addProductDto.setItemExp(today);           // local date
+                addProductDto.setItemReg(today);         // local date
 
                 obj_msg.put("message","바코드 인식 성공");
                 obj_msg.put("status",200);
