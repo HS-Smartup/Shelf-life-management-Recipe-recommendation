@@ -87,7 +87,7 @@ public class ApiController {
 
                 obj_msg.put("message","바코드 인식 성공");
                 obj_msg.put("status",200);
-                obj_msg.put("infomation",addProductDto);
+                obj_msg.put("information",addProductDto);
             /*
                 바코드 정보 ->
                 PRDLST_REPORT_NO : 품목보고(신고)번호  (197806140099)
