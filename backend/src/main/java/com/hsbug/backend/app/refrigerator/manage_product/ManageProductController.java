@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,8 +19,8 @@ public class ManageProductController {
     private final ManageProductService manageProductService;
 
     @PostMapping("/addProduct")
-    public JSONObject AddProduct(@RequestBody ManageProductDto addProductDto, @RequestHeader JSONObject header) throws ParseException {
-        System.out.println(header);
+    public JSONObject AddProduct(@RequestBody ManageProductDto addProductDto, HttpServletRequest request) throws ParseException {
+        System.out.println(request.getHeader("token"));
         JSONObject obj = new JSONObject();
         String email = findEmail();
         int remain_date = remainDate(addProductDto.getItemExp());
