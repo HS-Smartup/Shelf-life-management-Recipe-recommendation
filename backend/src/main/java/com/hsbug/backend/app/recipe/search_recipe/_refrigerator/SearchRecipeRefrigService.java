@@ -74,6 +74,7 @@ public class SearchRecipeRefrigService {
                 }
             }
         }
+
         for (Map.Entry<Long, Integer> entry : map.entrySet()) {
             if (entry.getValue() == product_list.size()) {
                 choice_only_map.put(entry.getKey(), product_list.size());
@@ -113,13 +114,13 @@ public class SearchRecipeRefrigService {
                 System.out.println("ㅁㅁㅁㅁ"+keyword[j]+"ㅁㅁㅁㅁㅁㅁ");
                 System.out.println(map);
             }
-            Map<String, Integer> sorted_map = ValueSort(map);
+            Map<String, Integer> sorted_map = ValueSortProduct(map);
             obj.put(refrigList.get(i), sorted_map);
         }
         return obj;
     }
 
-    public Map<String, Integer> ValueSort(Map<String, Integer> map) {
+    public Map<String, Integer> ValueSortProduct(Map<String, Integer> map) {
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(map.entrySet());
         Map<String, Integer> sorted_map = new LinkedHashMap<>();
         Collections.sort(entryList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));

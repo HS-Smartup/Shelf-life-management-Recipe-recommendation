@@ -63,7 +63,7 @@ public class SearchRecipeRefrigController {
             map = searchRecipeRefrigService.findIdFromAll(product_list);
             //sort 할 필요 없는데 map -> json obj 때문에
         }
-        return this.ValueSort(map);
+        return this.ValueSortRecipe(map);
     }
 
 
@@ -74,7 +74,7 @@ public class SearchRecipeRefrigController {
 
     // 관련 = 오름차순, 조회수 get 오름차순,
 
-    public Map<Long, Integer> ValueSort(Map<Long, Integer> map) {
+    public Map<Long, Integer> ValueSortRecipe(Map<Long, Integer> map) {   // 레시피 내림차순
         List<Entry<Long, Integer>> entryList = new ArrayList<>(map.entrySet());
         Map<Long, Integer> sorted_map = new LinkedHashMap<>();
         Collections.sort(entryList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
