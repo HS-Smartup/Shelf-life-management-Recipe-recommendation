@@ -67,7 +67,7 @@ const RefrigeratorScreen = ({navigation}) => {
           setModalVisible(!modalVisible);
           setInput({
             ...input,
-            ['itemName']: responseJson.infomation.itemName,
+            ['itemName']: responseJson.information.itemName,
           });
           console.log(input);
         } else {
