@@ -56,15 +56,13 @@ const RefrigeratorAddModal = ({
     setQrValue('');
   };
 
-  const value = AsyncStorage.getItem('user_token');
-
-  const onPressSubmit = () => {
-    fetch('http://localhost:8080/user/refrig/addProduct', {
+  const onPressSubmit = async () => {
+    await fetch('http://localhost:8080/user/refrig/addProduct', {
       method: 'POST',
       body: JSON.stringify(input),
       headers: {
         'Content-Type': 'application/json',
-        token: value,
+        token: AsyncStorage.getItem('user_token'),
       },
     })
       .then(response => response.json())
