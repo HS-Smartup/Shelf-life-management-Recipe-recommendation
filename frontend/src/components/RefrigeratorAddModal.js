@@ -57,27 +57,41 @@ const RefrigeratorAddModal = ({
   };
 
   const onPressSubmit = async () => {
-    await fetch('http://localhost:8080/user/refrig/addProduct', {
-      method: 'POST',
-      body: JSON.stringify(input),
-      headers: {
-        'Content-Type': 'application/json',
-        token: AsyncStorage.getItem('user_token'),
-      },
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-        if (responseJson.status === 200) {
-          setModalVisible(!modalVisible);
-        } else {
-          console.log('error');
-        }
+    try {
+      const value = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/refrig/addProduct', {
+        method: 'POST',
+        body: JSON.stringify(input),
+        headers: {
+          'Content-Type': 'application/json',
+          token: value,
+        },
       })
-      .catch(error => {
-        console.error(error);
-      });
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+          if (responseJson.status === 200) {
+            setModalVisible(!modalVisible);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  AsyncStorage.getAllKeys((err, keys) => {
+    AsyncStorage.multiGet(keys, (error, stores) => {
+      stores.map((result, i, store) => {
+        console.log({[store[i][0]]: store[i][1]});
+        return true;
+      });
+    });
+  });
 
   return (
     <View style={styles.centeredView}>
