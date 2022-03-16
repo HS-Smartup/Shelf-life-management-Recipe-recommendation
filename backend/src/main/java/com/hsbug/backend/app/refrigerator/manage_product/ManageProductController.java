@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,12 +39,14 @@ public class ManageProductController {
         String email = findEmail();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         JSONObject obj = new JSONObject();
+        ArrayList list = new ArrayList<>();
+
         obj.put("message","read 완료");
         obj.put("status",200);
         for (int i = 0; i< productDtoList.size(); i++){
-            obj.put((i+1),productDtoList.get(i));
+            list.add(productDtoList.get(i));
         }
-
+        obj.put("refrigeratorItem",list);
         return obj;
     }
 
