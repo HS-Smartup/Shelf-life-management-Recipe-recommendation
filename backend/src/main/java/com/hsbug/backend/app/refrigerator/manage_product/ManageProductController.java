@@ -18,7 +18,8 @@ public class ManageProductController {
     private final ManageProductService manageProductService;
 
     @PostMapping("/addProduct")
-    public JSONObject AddProduct(@RequestBody ManageProductDto addProductDto) throws ParseException {
+    public JSONObject AddProduct(@RequestBody ManageProductDto addProductDto, @RequestHeader JSONObject header) throws ParseException {
+        System.out.println(header);
         JSONObject obj = new JSONObject();
         String email = findEmail();
         int remain_date = remainDate(addProductDto.getItemExp());
