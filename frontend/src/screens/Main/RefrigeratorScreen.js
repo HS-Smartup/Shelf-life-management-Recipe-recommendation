@@ -18,6 +18,7 @@ import AddButton from 'components/AddButton';
 import CameraKitScreen from './CameraKitScreen';
 import RefrigeratorAddModal from 'components/RefrigeratorAddModal';
 import ReactNativeModal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
@@ -31,12 +32,39 @@ const RefrigeratorScreen = ({navigation}) => {
   const [refrigeratorItem, setRefrigeratorItem] = useState([
     {
       id: 1,
+      itemImage: '',
       itemName: '비비고 군만두',
-      itemReg: '22.03.02',
-      itemExp: '22.03.05',
-      itemRemainingDate: '',
+      itemAmount: '3',
+      itemReg: '2022.03.02',
+      itemExp: '2022.03.05',
+      itemRemainingDate: '1',
     },
   ]);
+
+  useEffect(() => {
+    const readItem = async () => {
+      const token = AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/refrig/readProduct', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log('aaaaa', responseJson);
+          if (responseJson.status === 200) {
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+    readItem();
+  }, []);
 
   const onScrolledToBottom = isBottom => {
     if (hidden !== isBottom) {
@@ -69,7 +97,6 @@ const RefrigeratorScreen = ({navigation}) => {
             ...input,
             ['itemName']: responseJson.information.itemName,
           });
-          console.log(input);
         } else {
           console.log('error');
         }
@@ -106,9 +133,9 @@ const RefrigeratorScreen = ({navigation}) => {
     requestCameraPermission();
   };
 
-  useEffect(() => {
-    return () => RefrigeratorScreen;
-  }, []);
+  // useEffect(() => {
+  //   return () => RefrigeratorScreen;
+  // }, []);
 
   return (
     <View style={styles.fullscreen}>
@@ -137,6 +164,9 @@ const RefrigeratorScreen = ({navigation}) => {
               <Icon name="notifications-none" size={32} color={'#ff8527'} />
             </Pressable>
           </View>
+          {/* <View style={styles.searchFilterWrapper}>
+            <Text>searchfilter</Text>
+          </View> */}
           <View style={styles.listWrapper}>
             {refrigeratorItem.length === 0 ? (
               <RefrigeratorEmpty />
@@ -216,6 +246,10 @@ const styles = StyleSheet.create({
   notification: {
     marginLeft: 20,
   },
+  // searchFilterWrapper: {
+  //   height: '8%',
+  //   backgroundColor: '#636773',
+  // },
   listWrapper: {
     height: '87%',
   },

@@ -1,18 +1,16 @@
 import {
+  Alert,
   Image,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
-  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RefrigeratorItem from './RefrigeratorItem';
 
 const RefrigeratorAddModal = ({
   qrValue,
@@ -49,12 +47,38 @@ const RefrigeratorAddModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedRegDate, formattedExpDate]);
 
-  const pressCancelBtn = () => {
+  useEffect(() => {
+    setInput({
+      ...input,
+      ['itemName']: '',
+      ['itemAmount']: '',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalVisible]);
+
+  const onPressCancel = () => {
     setModalVisible(!modalVisible);
     setQrValue('');
   };
 
   const onPressSubmit = async () => {
+    if (!input.itemName) {
+      Alert.alert('상품명을 입력해주세요.');
+      return;
+    }
+
+    if (!input.itemAmount) {
+      Alert.alert('수량을 입력해주세요.');
+      return;
+    }
+
+    if (input.itemReg > input.itemExp) {
+      Alert.alert(
+        '유통기한을 다시 설정해주세요.\n유통기한이 등록일자보다 커야 합니다.',
+      );
+      return;
+    }
+
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/addProduct', {
@@ -131,7 +155,6 @@ const RefrigeratorAddModal = ({
                 }}
               />
             </View>
-
             <View style={styles.itemExpWrapper}>
               <Text style={styles.itemRegTitle}>유통기한</Text>
               <Pressable
@@ -160,7 +183,7 @@ const RefrigeratorAddModal = ({
           </View>
         </View>
         <View style={styles.btnWrapper}>
-          <Pressable style={styles.cancelBtn} onPress={pressCancelBtn}>
+          <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
           <Pressable style={styles.successBtn} onPress={onPressSubmit}>
@@ -182,7 +205,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(52,52,52, 0.8)',
   },
   modalView: {
-    width: '80%',
+    width: '85%',
     height: 450,
     marginTop: 20,
     backgroundColor: '#f2f3f4',
@@ -295,6 +318,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     marginLeft: 5,
+    elevation: 5,
   },
   successBtn: {
     width: '47%',
@@ -304,6 +328,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     marginLeft: 15,
+    elevation: 5,
   },
   cancelText: {
     fontFamily: 'NanumSquareRoundOTFB',

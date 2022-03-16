@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import React from 'react';
 import RefrigeratorItem from './RefrigeratorItem';
 
@@ -29,8 +29,9 @@ const RefrigeratorList = ({refrigeratorItem, onScrolledToBottom}) => {
       renderItem={({item}) => (
         <RefrigeratorItem
           id={item.id}
+          itemImage={item.itemImage}
           itemName={item.itemName}
-          itemNumber={item.itemNumber}
+          itemAmount={item.itemAmount}
           itemReg={item.itemReg}
           itemExp={item.itemExp}
           itemRemainingDate={item.itemRemainingDate}
