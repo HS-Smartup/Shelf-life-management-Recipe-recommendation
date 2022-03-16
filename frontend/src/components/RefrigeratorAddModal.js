@@ -11,6 +11,7 @@ import React, {useEffect, useState} from 'react';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RefrigeratorAddModal = ({
   qrValue,
@@ -25,11 +26,6 @@ const RefrigeratorAddModal = ({
 
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
-  };
-
-  const pressCancelBtn = () => {
-    setModalVisible(!modalVisible);
-    setQrValue('');
   };
 
   const [regDate, setRegDate] = useState(new Date());
@@ -54,6 +50,36 @@ const RefrigeratorAddModal = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedRegDate, formattedExpDate]);
+
+  const pressCancelBtn = () => {
+    setModalVisible(!modalVisible);
+    setQrValue('');
+  };
+
+  const value = AsyncStorage.getItem('user_token');
+
+  const onPressSubmit = () => {
+    fetch('http://localhost:8080/user/refrig/addProduct', {
+      method: 'POST',
+      body: JSON.stringify(input),
+      headers: {
+        'Content-Type': 'application/json',
+        token: value,
+      },
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        if (responseJson.status === 200) {
+          setModalVisible(!modalVisible);
+        } else {
+          console.log('error');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   return (
     <View style={styles.centeredView}>
@@ -135,7 +161,7 @@ const RefrigeratorAddModal = ({
           <Pressable style={styles.cancelBtn} onPress={pressCancelBtn}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.successBtn}>
+          <Pressable style={styles.successBtn} onPress={onPressSubmit}>
             <Text style={styles.successText}>등록</Text>
           </Pressable>
         </View>
