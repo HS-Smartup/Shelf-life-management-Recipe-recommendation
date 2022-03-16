@@ -23,6 +23,11 @@ const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
   const [hidden, setHidden] = useState(false);
 
+  const [input, setInput] = useState({
+    itemName: '',
+    itemAmount: '',
+  });
+
   const [refrigeratorItem, setRefrigeratorItem] = useState([
     {
       id: 1,
@@ -30,34 +35,6 @@ const RefrigeratorScreen = ({navigation}) => {
       itemReg: '22.03.02',
       itemExp: '22.03.05',
       itemRemainingDate: '',
-    },
-    {
-      id: 2,
-      itemName: '2',
-      itemReg: '22.03.02',
-      itemExp: '22.03.05',
-      itemRemainingDate: '1',
-    },
-    {
-      id: 3,
-      itemName: '3',
-      itemReg: '22.03.02',
-      itemExp: '22.03.05',
-      itemRemainingDate: '1',
-    },
-    {
-      id: 4,
-      itemName: '4',
-      itemReg: '22.03.02',
-      itemExp: '22.03.05',
-      itemRemainingDate: '1',
-    },
-    {
-      id: 5,
-      itemName: '5',
-      itemReg: '22.03.02',
-      itemExp: '22.03.05',
-      itemRemainingDate: '1',
     },
   ]);
 
@@ -71,9 +48,35 @@ const RefrigeratorScreen = ({navigation}) => {
   const [openScanner, setOpenScanner] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const onBarcodeScan = scanValue => {
+  const onBarcodeScan = async scanValue => {
     // Called after te successful scanning of QRCode/Barcode
     setQrValue(scanValue);
+    await fetch(
+      'http://localhost:8080/user/barcode/call?bar_code=' + scanValue,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        if (responseJson.status === 200) {
+          setModalVisible(!modalVisible);
+          setInput({
+            ...input,
+            ['itemName']: responseJson.infomation.itemName,
+          });
+          console.log(input);
+        } else {
+          console.log('error');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
     setOpenScanner(false);
     setModalVisible(!modalVisible);
   };
@@ -157,6 +160,8 @@ const RefrigeratorScreen = ({navigation}) => {
                 setQrValue={setQrValue}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
+                input={input}
+                setInput={setInput}
               />
             </Modal>
             <AddButton

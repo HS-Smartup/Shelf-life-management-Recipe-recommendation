@@ -12,18 +12,16 @@ import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/Key
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RefrigeratorItem from './RefrigeratorItem';
 
 const RefrigeratorAddModal = ({
   qrValue,
   setQrValue,
   modalVisible,
   setModalVisible,
+  input,
+  setInput,
 }) => {
-  const [input, setInput] = useState({
-    itemName: '',
-    itemAmount: '',
-  });
-
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
   };
@@ -36,11 +34,11 @@ const RefrigeratorAddModal = ({
   const formattedRegDate = moment(regDate).format('YYYY-MM-DD');
   const formattedExpDate = moment(expDate).format('YYYY-MM-DD');
 
-  console.log(11111111, formattedRegDate);
-  console.log(2, formattedExpDate);
-  console.log(3, input);
-  console.log(4444, JSON.stringify(formattedRegDate, formattedExpDate));
-  console.log(5555, JSON.stringify(formattedExpDate));
+  // console.log(11111111, formattedRegDate);
+  // console.log(2, formattedExpDate);
+  // console.log(3, input);
+  // console.log(4444, JSON.stringify(formattedRegDate, formattedExpDate));
+  // console.log(5555, JSON.stringify(formattedExpDate));
 
   useEffect(() => {
     setInput({
@@ -58,13 +56,13 @@ const RefrigeratorAddModal = ({
 
   const onPressSubmit = async () => {
     try {
-      const value = await AsyncStorage.getItem('user_token');
+      const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/addProduct', {
         method: 'POST',
         body: JSON.stringify(input),
         headers: {
           'Content-Type': 'application/json',
-          token: value,
+          token: token,
         },
       })
         .then(response => response.json())
@@ -84,15 +82,6 @@ const RefrigeratorAddModal = ({
     }
   };
 
-  AsyncStorage.getAllKeys((err, keys) => {
-    AsyncStorage.multiGet(keys, (error, stores) => {
-      stores.map((result, i, store) => {
-        console.log({[store[i][0]]: store[i][1]});
-        return true;
-      });
-    });
-  });
-
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -108,6 +97,7 @@ const RefrigeratorAddModal = ({
             style={styles.itemName}
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
+            value={input.itemName}
           />
           <TextInput
             style={styles.itemAmount}
