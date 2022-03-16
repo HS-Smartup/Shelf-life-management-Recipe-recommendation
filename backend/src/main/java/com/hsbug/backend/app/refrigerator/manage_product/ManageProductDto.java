@@ -10,23 +10,23 @@ public class ManageProductDto {
     private Long id;
     private String email;
     private String barcode;  //String이 나을듯?
-    private String product_name;
+    private String itemName;
     private String product_type ;
-    private Integer product_num;
-    private String exp_date;   // 유통기한 직접 입력 데이터 타입 수정 해야함.
-    private String input_date; //  오늘 local 날짜로 지정
+    private Integer itemAmount;
+    private String itemExp;   // 유통기한 직접 입력 데이터 타입 수정 해야함.
+    private String itemReg; //  오늘 local 날짜로 지정
     private Integer remain_date;
 
     @Builder
-    public ManageProductDto(Long id, String email, String barcode, String product_type, String product_name, String exp_date, Integer product_num, String input_date, Integer remain_date){
+    public ManageProductDto(Long id, String email, String barcode, String product_type, String itemName, String itemExp, Integer itemAmount, String itemReg, Integer remain_date){
         this.id=id;
         this.email=email;
         this.barcode=barcode;
-        this.product_name=product_name;
+        this.itemName=itemName;
         this.product_type=product_type;
-        this.product_num=product_num;
-        this.exp_date=exp_date;
-        this.input_date=input_date;
+        this.itemAmount=itemAmount;
+        this.itemExp=itemExp;
+        this.itemReg=itemReg;
         this.remain_date=remain_date;
     }
 
@@ -38,11 +38,11 @@ public class ManageProductDto {
         return ManageProductEntity.builder()
                 .email(email)
                 .barcode(barcode)
-                .product_name(product_name)
-                .product_num(product_num)
+                .itemName(itemName)
+                .itemAmount(itemAmount)
                 .product_type(product_type)
-                .exp_date(exp_date)
-                .input_date(input_date)
+                .itemExp(itemExp)
+                .itemReg(itemReg)
                 .remain_date(remain_date)
                 .build();
     }

@@ -16,12 +16,12 @@ public class ManageProductService {
     private ManageProductDto convertEntityToDto(ManageProductEntity manageProductEntity){
         return ManageProductDto.builder()
                 .id(manageProductEntity.getId())
-                .product_num(manageProductEntity.getProduct_num())
+                .itemAmount(manageProductEntity.getItemAmount())
                 .barcode(manageProductEntity.getBarcode())
                 .email(manageProductEntity.getEmail())
-                .exp_date(manageProductEntity.getExp_date())
-                .input_date(manageProductEntity.getInput_date())
-                .product_name(manageProductEntity.getProduct_name())
+                .itemExp(manageProductEntity.getItemExp())
+                .itemReg(manageProductEntity.getItemReg())
+                .itemName(manageProductEntity.getItemName())
                 .product_type(manageProductEntity.getProduct_type())
                 .remain_date((manageProductEntity.getRemain_date()))
                 .build();

@@ -16,34 +16,34 @@ public class ManageProductEntity {
 
     private String email;
     private String barcode;  //String이 나을듯?
-    private String product_name;
+    private String itemName;
     private String product_type ;
-    private Integer product_num;
-    private String exp_date;   // 유통기한 직접 입력 데이터 타입 수정 해야함.
-    private String input_date; //  오늘 local 날짜로 지정
+    private Integer itemAmount;
+    private String itemExp;   // 유통기한 직접 입력 데이터 타입 수정 해야함.
+    private String itemReg; //  오늘 local 날짜로 지정
     private Integer remain_date;
 
     @Builder
-    public ManageProductEntity(Long id, String email, String barcode, String product_name, String product_type, String exp_date, String input_date, Integer product_num, Integer remain_date){
+    public ManageProductEntity(Long id, String email, String barcode, String itemName, String product_type, String itemExp, String itemReg, Integer itemAmount, Integer remain_date){
         this.id = id;
         this.email=email;
         this.barcode = barcode;
-        this.product_name = product_name;
-        this.product_num = product_num;
+        this.itemName = itemName;
+        this.itemAmount = itemAmount;
         this.product_type = product_type;
-        this.exp_date = exp_date;
-        this.input_date = input_date;
+        this.itemExp = itemExp;
+        this.itemReg = itemReg;
         this.remain_date = remain_date;
     }
 
     public void update(ManageProductDto dto) {
         this.email = dto.getEmail();
         this.barcode = dto.getBarcode();
-        this.product_name = dto.getProduct_name();
+        this.itemName = dto.getItemName();
         this.product_type = dto.getProduct_type();
-        this.product_num = dto.getProduct_num();
-        this.exp_date = dto.getExp_date();
-        this.input_date = dto.getInput_date();
+        this.itemAmount = dto.getItemAmount();
+        this.itemExp = dto.getItemExp();
+        this.itemReg = dto.getItemReg();
         this.remain_date = dto.getRemain_date();
     }
 

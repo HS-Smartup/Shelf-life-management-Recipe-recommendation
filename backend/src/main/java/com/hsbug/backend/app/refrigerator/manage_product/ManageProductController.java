@@ -21,7 +21,7 @@ public class ManageProductController {
     public JSONObject AddProduct(@RequestBody ManageProductDto addProductDto) throws ParseException {
         JSONObject obj = new JSONObject();
         String email = findEmail();
-        int remain_date = remainDate(addProductDto.getExp_date());
+        int remain_date = remainDate(addProductDto.getItemExp());
         addProductDto.setRemain_date(remain_date);
         addProductDto.setEmail(email);
         obj.put("obj",addProductDto);
