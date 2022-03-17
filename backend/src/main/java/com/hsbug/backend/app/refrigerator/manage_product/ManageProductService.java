@@ -23,7 +23,7 @@ public class ManageProductService {
                 .itemReg(manageProductEntity.getItemReg())
                 .itemName(manageProductEntity.getItemName())
                 .product_type(manageProductEntity.getProduct_type())
-                .remain_date((manageProductEntity.getRemain_date()))
+                .itemRemainingDate((manageProductEntity.getItemRemainingDate()))
                 .build();
     }
 
