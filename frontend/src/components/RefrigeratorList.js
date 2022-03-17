@@ -37,7 +37,7 @@ const RefrigeratorList = ({refrigeratorItem, onScrolledToBottom}) => {
           itemRemainingDate={item.itemRemainingDate}
         />
       )}
-      keyExtractor={item => item.id.toString()}
+      // keyExtractor={item => item.id.toString()}
       onScroll={onScroll}
     />
   );

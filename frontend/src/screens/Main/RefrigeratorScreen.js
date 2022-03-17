@@ -30,20 +30,20 @@ const RefrigeratorScreen = ({navigation}) => {
   });
 
   const [refrigeratorItem, setRefrigeratorItem] = useState([
-    {
-      id: 1,
-      itemImage: '',
-      itemName: '비비고 군만두',
-      itemAmount: '3',
-      itemReg: '2022.03.02',
-      itemExp: '2022.03.05',
-      itemRemainingDate: '1',
-    },
+    // {
+    //   id: 1,
+    //   itemImage: '',
+    //   itemName: '비비고 군만두',
+    //   itemAmount: '3',
+    //   itemReg: '2022.03.02',
+    //   itemExp: '2022.03.05',
+    //   itemRemainingDate: '1',
+    // },
   ]);
 
-  useEffect(() => {
-    const readItem = async () => {
-      const token = AsyncStorage.getItem('user_token');
+  const readItem = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/readProduct', {
         method: 'GET',
         headers: {
@@ -53,8 +53,9 @@ const RefrigeratorScreen = ({navigation}) => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log('aaaaa', responseJson);
+          console.log(responseJson);
           if (responseJson.status === 200) {
+            setRefrigeratorItem([...responseJson.refrigeratorItem]);
           } else {
             console.log('error');
           }
@@ -62,7 +63,12 @@ const RefrigeratorScreen = ({navigation}) => {
         .catch(error => {
           console.error(error);
         });
-    };
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
     readItem();
   }, []);
 
@@ -133,10 +139,6 @@ const RefrigeratorScreen = ({navigation}) => {
     requestCameraPermission();
   };
 
-  // useEffect(() => {
-  //   return () => RefrigeratorScreen;
-  // }, []);
-
   return (
     <View style={styles.fullscreen}>
       {openScanner ? (
@@ -192,6 +194,7 @@ const RefrigeratorScreen = ({navigation}) => {
                 setModalVisible={setModalVisible}
                 input={input}
                 setInput={setInput}
+                readItem={readItem}
               />
             </Modal>
             <AddButton

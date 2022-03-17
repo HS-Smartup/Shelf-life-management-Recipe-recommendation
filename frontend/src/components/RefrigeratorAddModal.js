@@ -11,6 +11,7 @@ import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 const RefrigeratorAddModal = ({
   qrValue,
@@ -19,6 +20,7 @@ const RefrigeratorAddModal = ({
   setModalVisible,
   input,
   setInput,
+  readItem,
 }) => {
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
@@ -31,12 +33,6 @@ const RefrigeratorAddModal = ({
 
   const formattedRegDate = moment(regDate).format('YYYY-MM-DD');
   const formattedExpDate = moment(expDate).format('YYYY-MM-DD');
-
-  // console.log(11111111, formattedRegDate);
-  // console.log(2, formattedExpDate);
-  // console.log(3, input);
-  // console.log(4444, JSON.stringify(formattedRegDate, formattedExpDate));
-  // console.log(5555, JSON.stringify(formattedExpDate));
 
   useEffect(() => {
     setInput({
@@ -52,6 +48,8 @@ const RefrigeratorAddModal = ({
       ...input,
       ['itemName']: '',
       ['itemAmount']: '',
+      ['itemReg']: formattedRegDate,
+      ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalVisible]);
@@ -78,7 +76,6 @@ const RefrigeratorAddModal = ({
       );
       return;
     }
-
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/addProduct', {
@@ -94,6 +91,7 @@ const RefrigeratorAddModal = ({
           console.log(responseJson);
           if (responseJson.status === 200) {
             setModalVisible(!modalVisible);
+            readItem();
           } else {
             console.log('error');
           }
