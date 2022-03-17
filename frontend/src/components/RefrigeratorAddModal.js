@@ -1,13 +1,15 @@
 import {
-  Alert,
   Image,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
+  ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
+import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -77,13 +79,13 @@ const RefrigeratorAddModal = ({
       return;
     }
     try {
-      const token = await AsyncStorage.getItem('user_token');
+      const value = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/addProduct', {
         method: 'POST',
         body: JSON.stringify(input),
         headers: {
           'Content-Type': 'application/json',
-          token: token,
+          token: value,
         },
       })
         .then(response => response.json())
@@ -104,6 +106,15 @@ const RefrigeratorAddModal = ({
     }
   };
 
+  AsyncStorage.getAllKeys((err, keys) => {
+    AsyncStorage.multiGet(keys, (error, stores) => {
+      stores.map((result, i, store) => {
+        console.log({[store[i][0]]: store[i][1]});
+        return true;
+      });
+    });
+  });
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -119,7 +130,6 @@ const RefrigeratorAddModal = ({
             style={styles.itemName}
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
-            value={input.itemName}
           />
           <TextInput
             style={styles.itemAmount}
@@ -153,6 +163,7 @@ const RefrigeratorAddModal = ({
                 }}
               />
             </View>
+
             <View style={styles.itemExpWrapper}>
               <Text style={styles.itemRegTitle}>유통기한</Text>
               <Pressable
@@ -203,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(52,52,52, 0.8)',
   },
   modalView: {
-    width: '85%',
+    width: '80%',
     height: 450,
     marginTop: 20,
     backgroundColor: '#f2f3f4',
@@ -316,7 +327,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     marginLeft: 5,
-    elevation: 5,
   },
   successBtn: {
     width: '47%',
@@ -326,7 +336,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     marginLeft: 15,
-    elevation: 5,
   },
   cancelText: {
     fontFamily: 'NanumSquareRoundOTFB',

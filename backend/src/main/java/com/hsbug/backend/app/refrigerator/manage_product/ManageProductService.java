@@ -24,6 +24,7 @@ public class ManageProductService {
                 .itemName(manageProductEntity.getItemName())
                 .product_type(manageProductEntity.getProduct_type())
                 .itemRemainingDate((manageProductEntity.getItemRemainingDate()))
+                .img((manageProductEntity.getImg()))
                 .build();
     }
 

@@ -10,9 +10,8 @@ import React from 'react';
 
 const RefrigeratorItem = ({
   id,
-  itemImage,
   itemName,
-  itemAmount,
+  itemNumber,
   itemReg,
   itemExp,
   itemRemainingDate,
@@ -28,7 +27,6 @@ const RefrigeratorItem = ({
         <View style={styles.topWrapper}>
           <View style={styles.topTextWrapper}>
             <Text style={styles.itemName}>{itemName}</Text>
-            <Text style={styles.itemAmount}>수량: {itemAmount}개</Text>
           </View>
           <View style={styles.expCircleWrapper}>
             <ImageBackground
@@ -40,8 +38,8 @@ const RefrigeratorItem = ({
           </View>
         </View>
         <View style={styles.bottomWrapper}>
-          <View style={styles.bottomTextWrapper}>
-            <Text style={styles.itemReg}>등록일: {itemReg}</Text>
+          <View style={styles.expWrapper}>
+            <Text style={styles.itemRegistration}>등록일: {itemReg}</Text>
             <Text style={styles.itemExp}>유통기한: {itemExp}</Text>
           </View>
         </View>
@@ -95,20 +93,13 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginLeft: 10,
   },
-  itemAmount: {
-    width: '90%',
-    fontFamily: 'NanumSquareRoundOTFR',
-    fontSize: 16,
-    color: '#000000',
-    marginLeft: 10,
-  },
   bottomWrapper: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: '40%',
   },
-  bottomTextWrapper: {
+  expWrapper: {
     width: '70%',
     height: '100%',
     justifyContent: 'flex-end',
@@ -116,14 +107,14 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 5,
   },
-  itemReg: {
+  itemRegistration: {
     width: '100%',
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 13,
     color: '#000000',
   },
   itemExp: {
-    width: '100%',
+    width: '70%',
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 16,
     color: '#000000',

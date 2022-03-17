@@ -82,34 +82,9 @@ const RefrigeratorScreen = ({navigation}) => {
   const [openScanner, setOpenScanner] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const onBarcodeScan = async scanValue => {
+  const onBarcodeScan = scanValue => {
     // Called after te successful scanning of QRCode/Barcode
     setQrValue(scanValue);
-    await fetch(
-      'http://localhost:8080/user/barcode/call?bar_code=' + scanValue,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-        if (responseJson.status === 200) {
-          setModalVisible(!modalVisible);
-          setInput({
-            ...input,
-            ['itemName']: responseJson.information.itemName,
-          });
-        } else {
-          console.log('error');
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
     setOpenScanner(false);
     setModalVisible(!modalVisible);
   };
@@ -166,9 +141,6 @@ const RefrigeratorScreen = ({navigation}) => {
               <Icon name="notifications-none" size={32} color={'#ff8527'} />
             </Pressable>
           </View>
-          {/* <View style={styles.searchFilterWrapper}>
-            <Text>searchfilter</Text>
-          </View> */}
           <View style={styles.listWrapper}>
             {refrigeratorItem.length === 0 ? (
               <RefrigeratorEmpty />
@@ -249,10 +221,6 @@ const styles = StyleSheet.create({
   notification: {
     marginLeft: 20,
   },
-  // searchFilterWrapper: {
-  //   height: '8%',
-  //   backgroundColor: '#636773',
-  // },
   listWrapper: {
     height: '87%',
   },
