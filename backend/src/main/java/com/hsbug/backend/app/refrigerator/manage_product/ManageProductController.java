@@ -24,13 +24,13 @@ public class ManageProductController {
         JSONObject obj = new JSONObject();
         String email = findEmail();
         int remain_date = remainDate(addProductDto.getItemExp());
-        addProductDto.setRemain_date(remain_date);
+        addProductDto.setItemRemainingDate(remain_date);
         addProductDto.setEmail(email);
         obj.put("obj",addProductDto);
         obj.put("status",200);
         manageProductService.save(addProductDto);
 
-        System.out.println(addProductDto.getRemain_date());
+        System.out.println(addProductDto.getItemRemainingDate());
         return obj;
     }
 
