@@ -86,7 +86,7 @@ const RefrigeratorScreen = ({navigation}) => {
     // Called after te successful scanning of QRCode/Barcode
     setQrValue(scanValue);
     await fetch(
-      'http://localhost:8080/user/barcode/crawling?barcode=' + scanValue,
+      'http://localhost:8080/user/barcode/info?barcode=' + scanValue,
       {
         method: 'GET',
         headers: {
@@ -101,7 +101,7 @@ const RefrigeratorScreen = ({navigation}) => {
           setModalVisible(!modalVisible);
           setInput({
             ...input,
-            ['itemName']: responseJson.information.itemName,
+            ['itemName']: responseJson.info.itemName,
           });
         } else {
           console.log('error');
