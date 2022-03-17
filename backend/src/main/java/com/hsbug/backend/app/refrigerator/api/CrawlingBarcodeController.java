@@ -18,12 +18,12 @@ public class CrawlingBarcodeController {
 
     private final CrawlingService crawlingService;
 
-    @GetMapping("/crawling")
+    @GetMapping("/info")
     public JSONObject crawlingBarcode(@RequestParam String barcode) throws IOException {
         JSONObject obj = new JSONObject();
         ManageProductDto searchResult = crawlingService.barcodeCrawling(barcode);
         obj.put("status", 200);
-        obj.put("information", searchResult);
+        obj.put("info", searchResult);
         return obj;
     }
 }
