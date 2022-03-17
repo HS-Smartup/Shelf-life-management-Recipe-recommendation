@@ -86,7 +86,7 @@ const RefrigeratorScreen = ({navigation}) => {
     // Called after te successful scanning of QRCode/Barcode
     setQrValue(scanValue);
     await fetch(
-      'http://localhost:8080/user/barcode/call?bar_code=' + scanValue,
+      'http://localhost:8080/user/barcode/crawling?barcode=' + scanValue,
       {
         method: 'GET',
         headers: {
