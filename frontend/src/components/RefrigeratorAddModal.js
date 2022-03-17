@@ -41,18 +41,19 @@ const RefrigeratorAddModal = ({
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formattedRegDate, formattedExpDate]);
+  }, [formattedRegDate, formattedExpDate, input.itemAmount]);
 
   useEffect(() => {
     setInput({
       ...input,
       ['itemName']: '',
       ['itemAmount']: '',
+      ['itemImage']: '',
       ['itemReg']: formattedRegDate,
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalVisible]);
+  }, [setModalVisible]);
 
   const onPressCancel = () => {
     setModalVisible(!modalVisible);
@@ -77,6 +78,7 @@ const RefrigeratorAddModal = ({
       return;
     }
     try {
+      console.log('111', input);
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/addProduct', {
         method: 'POST',
@@ -109,7 +111,7 @@ const RefrigeratorAddModal = ({
       <View style={styles.modalView}>
         <Text style={styles.title}>상품 등록</Text>
         <Image
-          source={require('../assets/images/logo.png')}
+          source={`${input.itemImage}` ? {uri: `${input.itemImage}`} : null}
           style={styles.image}
           resizeMode="center"
         />

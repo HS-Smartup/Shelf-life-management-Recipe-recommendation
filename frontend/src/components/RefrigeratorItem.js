@@ -20,7 +20,7 @@ const RefrigeratorItem = ({
   return (
     <Pressable style={styles.itemWrapper} onPress={() => console.log('hi')}>
       <Image
-        source={require('../assets/images/logo.png')}
+        source={`${itemImage}` ? {uri: `${itemImage}`} : null}
         style={styles.itemImage}
         resizeMode="contain"
       />

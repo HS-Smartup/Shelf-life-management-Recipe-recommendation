@@ -27,6 +27,8 @@ const RefrigeratorScreen = ({navigation}) => {
   const [input, setInput] = useState({
     itemName: '',
     itemAmount: '',
+    itemReg: '',
+    itemExp: '',
   });
 
   const [refrigeratorItem, setRefrigeratorItem] = useState([
@@ -96,12 +98,13 @@ const RefrigeratorScreen = ({navigation}) => {
     )
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
+        // console.log(responseJson);
         if (responseJson.status === 200) {
           setModalVisible(!modalVisible);
           setInput({
             ...input,
             ['itemName']: responseJson.info.itemName,
+            ['itemImage']: responseJson.info.itemImage,
           });
         } else {
           console.log('error');
