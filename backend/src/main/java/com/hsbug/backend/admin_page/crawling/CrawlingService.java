@@ -94,8 +94,13 @@ public class CrawlingService {
         Elements productImg = docs.select("img[id=detailImage]");
         String name = productName.text();
         String img = productImg.attr("abs:src");
+        //name 슬라이싱
+        name = name.replaceFirst(" ", "/");
+        int idx = name.indexOf("/");
+        String iName = name.substring(idx + 1);
 
-        dto.setItemName(name);
+        dto.setBarcode(barcode);
+        dto.setItemName(iName);
         dto.setItemImage(img);
         return dto;
     }
