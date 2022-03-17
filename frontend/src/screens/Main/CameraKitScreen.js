@@ -26,9 +26,6 @@ const CameraKitScreen = ({onBarcodeScan, setOpenScanner}) => {
           onPress={() => setOpenScanner(false)}>
           <Text style={styles.cameraCancelText}>취소</Text>
         </Pressable>
-        <Pressable style={styles.cameraSuccessBtn}>
-          <Text style={styles.cameraSuccessText}>완료</Text>
-        </Pressable>
       </View>
     </View>
   );
@@ -51,23 +48,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cameraCancelBtn: {
-    width: '47%',
+    width: '94%',
     height: '100%',
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    marginLeft: 5,
+    marginHorizontal: 12,
   },
-  cameraSuccessBtn: {
-    width: '47%',
-    height: '100%',
-    backgroundColor: '#ffb856',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    marginLeft: 15,
-  },
+  // cameraSuccessBtn: {
+  //   width: '47%',
+  //   height: '100%',
+  //   backgroundColor: '#ffb856',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   borderRadius: 15,
+  //   marginLeft: 15,
+  // },
   cameraCancelText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 24,
