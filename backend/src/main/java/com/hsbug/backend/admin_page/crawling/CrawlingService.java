@@ -1,5 +1,6 @@
 package com.hsbug.backend.admin_page.crawling;
 
+import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,7 +30,8 @@ public class CrawlingService {
         Elements elements = docs.select(requestDto.getCssQuery());
 
         for (Element e : elements) {
-            searchList.add(e.text());
+//            searchList.add(e.text());
+            searchList.add(e.attr("abs:src"));
         }
 
         foodIngredientsMap.put("foodIngredients", searchList);
@@ -79,4 +81,25 @@ public class CrawlingService {
         }
     }
 
+
+    public ManageProductDto barcodeCrawling(String barcode) throws IOException {
+//        HashMap<String, List> productInfoList = new HashMap<>();
+//        List<String> searchList = new ArrayList<>();
+        ManageProductDto dto = new ManageProductDto();
+        String url = "http://www.koreannet.or.kr/home/hpisSrchGtin.gs1?gtin="+barcode;
+
+        //connection
+        Document docs = Jsoup.connect(url).get();
+        //select productName
+        Elements productName = docs.select("div[class=productTit]");
+        //select productImg
+        Elements productImg = docs.select("img[id=detailImage]");
+        String name = productName.text();
+        String img = productImg.attr("abs:src");
+//        searchList.add(name);
+//        searchList.add(img);
+        dto.setItemName(name);
+        dto.setImg(img);
+        return dto;
+    }
 }
