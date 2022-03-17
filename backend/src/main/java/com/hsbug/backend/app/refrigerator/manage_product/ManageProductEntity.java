@@ -22,10 +22,10 @@ public class ManageProductEntity {
     private String itemExp;   // 유통기한 직접 입력 데이터 타입 수정 해야함.
     private String itemReg; //  오늘 local 날짜로 지정
     private Integer itemRemainingDate;
-    private String img;
+    private String itemImage;
 
     @Builder
-    public ManageProductEntity(Long id, String email, String barcode, String itemName, String product_type, String itemExp, String itemReg, Integer itemAmount, Integer itemRemainingDate, String img){
+    public ManageProductEntity(Long id, String email, String barcode, String itemName, String product_type, String itemExp, String itemReg, Integer itemAmount, Integer itemRemainingDate, String itemImage){
         this.id = id;
         this.email=email;
         this.barcode = barcode;
@@ -35,7 +35,7 @@ public class ManageProductEntity {
         this.itemExp = itemExp;
         this.itemReg = itemReg;
         this.itemRemainingDate = itemRemainingDate;
-        this.img = img;
+        this.itemImage = itemImage;
     }
 
     public void update(ManageProductDto dto) {
@@ -47,7 +47,7 @@ public class ManageProductEntity {
         this.itemExp = dto.getItemExp();
         this.itemReg = dto.getItemReg();
         this.itemRemainingDate = dto.getItemRemainingDate();
-        this.img = dto.getImg();
+        this.itemImage = dto.getItemImage();
     }
 
 }

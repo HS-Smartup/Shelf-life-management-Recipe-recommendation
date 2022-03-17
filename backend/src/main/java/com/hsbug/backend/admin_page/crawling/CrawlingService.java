@@ -83,8 +83,6 @@ public class CrawlingService {
 
 
     public ManageProductDto barcodeCrawling(String barcode) throws IOException {
-//        HashMap<String, List> productInfoList = new HashMap<>();
-//        List<String> searchList = new ArrayList<>();
         ManageProductDto dto = new ManageProductDto();
         String url = "http://www.koreannet.or.kr/home/hpisSrchGtin.gs1?gtin="+barcode;
 
@@ -96,10 +94,9 @@ public class CrawlingService {
         Elements productImg = docs.select("img[id=detailImage]");
         String name = productName.text();
         String img = productImg.attr("abs:src");
-//        searchList.add(name);
-//        searchList.add(img);
+
         dto.setItemName(name);
-        dto.setImg(img);
+        dto.setItemImage(img);
         return dto;
     }
 }
