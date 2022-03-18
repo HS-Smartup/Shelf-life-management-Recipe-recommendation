@@ -50,4 +50,20 @@ public class ManageProductEntity {
         this.itemImage = dto.getItemImage();
     }
 
+    public ManageProductDto toDto() {
+        ManageProductDto dto = ManageProductDto.builder()
+                .id(this.id)
+                .email(this.email)
+                .barcode(this.barcode)
+                .itemName(this.itemName)
+                .product_type(this.product_type)
+                .itemAmount(this.itemAmount)
+                .itemExp(this.itemExp)
+                .itemReg(this.itemReg)
+                .itemRemainingDate(this.itemRemainingDate)
+                .itemImage(this.itemImage)
+                .build();
+        return dto;
+    }
+
 }
