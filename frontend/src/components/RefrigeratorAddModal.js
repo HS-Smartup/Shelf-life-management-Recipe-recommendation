@@ -13,7 +13,6 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RefrigeratorAddModal = ({
-  qrValue,
   setQrValue,
   addModalVisible,
   setAddModalVisible,

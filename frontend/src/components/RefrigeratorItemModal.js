@@ -23,14 +23,17 @@ const RefrigeratorItemModal = ({
   setRefrigeratorItem,
   id,
   detailItem,
+  setDetailItem,
 }) => {
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
   };
 
-  const [regDate, setRegDate] = useState(new Date());
+  const [name, setName] = useState('');
+
+  const [regDate, setRegDate] = useState(new Date(detailItem.itemReg));
   const [regOpen, setRegOpen] = useState(false);
-  const [expDate, setExpDate] = useState(new Date());
+  const [expDate, setExpDate] = useState(new Date(detailItem.itemExp));
   const [expOpen, setExpOpen] = useState(false);
 
   const formattedRegDate = moment(regDate).format('YYYY-MM-DD');
@@ -48,17 +51,17 @@ const RefrigeratorItemModal = ({
   console.log('\n\nid\n\n', id);
   console.log('\n\ndetail\n\n', detailItem);
 
-  useEffect(() => {
-    setInput({
-      ...input,
-      ['itemName']: detailItem.itemName,
-      ['itemAmount']: detailItem.itemAmount,
-      ['itemImage']: detailItem.itemImage,
-      ['itemReg']: detailItem.itemReg,
-      ['itemExp']: detailItem.itemExp,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setItemModalVisible]);
+  // useEffect(() => {
+  //   setInput({
+  //     ...input,
+  //     ['itemName']: detailItem.itemName,
+  //     ['itemAmount']: detailItem.itemAmount,
+  //     ['itemImage']: detailItem.itemImage,
+  //     ['itemReg']: detailItem.itemReg,
+  //     ['itemExp']: detailItem.itemExp,
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [setItemModalVisible]);
 
   const onPressCancel = () => {
     setItemModalVisible(!itemModalVisible);
@@ -86,7 +89,7 @@ const RefrigeratorItemModal = ({
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/updateProduct', {
         method: 'POST',
-        body: JSON.stringify(input),
+        body: JSON.stringify(id, input),
         headers: {
           'Content-Type': 'application/json',
           token: token,
@@ -138,14 +141,14 @@ const RefrigeratorItemModal = ({
             style={styles.itemName}
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
-            value={detailItem.itemName}
+            defaultValue={detailItem.itemName}
           />
           <TextInput
             style={styles.itemAmount}
             onChangeText={createChangeTextHandler('itemAmount')}
             placeholder={'수량'}
             keyboardType="number-pad"
-            value={detailItem.itemAmount.toString()}
+            defaultValue={detailItem.itemAmount.toString()}
           />
           <View style={styles.itemRegExpWrapper}>
             <View style={styles.itemRegWrapper}>
@@ -153,7 +156,7 @@ const RefrigeratorItemModal = ({
               <Pressable
                 onPress={() => setRegOpen(true)}
                 style={styles.itemReg}>
-                <Text style={styles.itemRegText}>{detailItem.itemReg}</Text>
+                <Text style={styles.itemRegText}>{formattedRegDate}</Text>
               </Pressable>
               <DatePicker
                 modal
@@ -178,7 +181,7 @@ const RefrigeratorItemModal = ({
               <Pressable
                 onPress={() => setExpOpen(true)}
                 style={styles.itemExp}>
-                <Text style={styles.itemRegText}>{detailItem.itemExp}</Text>
+                <Text style={styles.itemRegText}>{formattedExpDate}</Text>
               </Pressable>
               <DatePicker
                 modal

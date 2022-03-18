@@ -25,10 +25,10 @@ const RefrigeratorScreen = ({navigation}) => {
   const [hidden, setHidden] = useState(false);
 
   const [input, setInput] = useState({
-    itemName: '',
-    itemAmount: '',
-    itemReg: '',
-    itemExp: '',
+    // itemName: '',
+    // itemAmount: '',
+    // itemReg: '',
+    // itemExp: '',
   });
 
   const [refrigeratorItem, setRefrigeratorItem] = useState([
@@ -227,6 +227,7 @@ const RefrigeratorScreen = ({navigation}) => {
                 setRefrigeratorItem={setRefrigeratorItem}
                 id={id}
                 detailItem={detailItem}
+                setDetailItem={setDetailItem}
               />
             </Modal>
             <AddButton
