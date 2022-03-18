@@ -82,7 +82,7 @@ const RefrigeratorScreen = ({navigation}) => {
 
   const [qrValue, setQrValue] = useState('');
   const [openScanner, setOpenScanner] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [addModalVisible, setAddModalVisible] = useState(false);
   const [itemModalVisible, setItemModalVisible] = useState(false);
 
   const onBarcodeScan = async scanValue => {
@@ -101,7 +101,7 @@ const RefrigeratorScreen = ({navigation}) => {
       .then(responseJson => {
         // console.log(responseJson);
         if (responseJson.status === 200) {
-          setModalVisible(!modalVisible);
+          setAddModalVisible(!addModalVisible);
           setInput({
             ...input,
             ['itemName']: responseJson.info.itemName,
@@ -115,7 +115,7 @@ const RefrigeratorScreen = ({navigation}) => {
         console.error(error);
       });
     setOpenScanner(false);
-    setModalVisible(!modalVisible);
+    setAddModalVisible(!addModalVisible);
   };
 
   const onOpenScanner = () => {
@@ -188,15 +188,15 @@ const RefrigeratorScreen = ({navigation}) => {
               avoidKeyboard={true}
               animationType="slide"
               transparent={true}
-              visible={modalVisible}
+              visible={addModalVisible}
               onRequestClose={() => {
-                setModalVisible(!modalVisible);
+                setAddModalVisible(!addModalVisible);
               }}>
               <RefrigeratorAddModal
                 qrValue={qrValue}
                 setQrValue={setQrValue}
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
+                addModalVisible={addModalVisible}
+                setAddModalVisible={setAddModalVisible}
                 input={input}
                 setInput={setInput}
                 readItem={readItem}
@@ -226,8 +226,8 @@ const RefrigeratorScreen = ({navigation}) => {
               onOpenScanner={onOpenScanner}
               setQrValue={setQrValue}
               setOpenScanner={setOpenScanner}
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
+              addModalVisible={addModalVisible}
+              setAddModalVisible={setAddModalVisible}
             />
           </View>
         </View>

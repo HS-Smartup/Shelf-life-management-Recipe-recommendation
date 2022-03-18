@@ -15,8 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const RefrigeratorAddModal = ({
   qrValue,
   setQrValue,
-  modalVisible,
-  setModalVisible,
+  addModalVisible,
+  setAddModalVisible,
   input,
   setInput,
   readItem,
@@ -52,10 +52,10 @@ const RefrigeratorAddModal = ({
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setModalVisible]);
+  }, [setAddModalVisible]);
 
   const onPressCancel = () => {
-    setModalVisible(!modalVisible);
+    setAddModalVisible(!addModalVisible);
     setQrValue('');
   };
 
@@ -91,7 +91,7 @@ const RefrigeratorAddModal = ({
         .then(responseJson => {
           console.log(responseJson);
           if (responseJson.status === 200) {
-            setModalVisible(!modalVisible);
+            setAddModalVisible(!addModalVisible);
             readItem();
           } else {
             console.log('error');

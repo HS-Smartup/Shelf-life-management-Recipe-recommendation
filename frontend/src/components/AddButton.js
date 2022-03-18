@@ -9,13 +9,13 @@ const AddButton = ({
   setQrValue,
   setOpenScanner,
   onOpenScanner,
-  modalVisible,
-  setModalVisible,
+  addModalVisible,
+  setAddModalVisible,
 }) => {
   const [mainPress, setMainPress] = useState(false);
 
   const onPressSelfAddBtn = () => {
-    setModalVisible(!modalVisible);
+    setAddModalVisible(!addModalVisible);
   };
 
   const onToggle = () => {
