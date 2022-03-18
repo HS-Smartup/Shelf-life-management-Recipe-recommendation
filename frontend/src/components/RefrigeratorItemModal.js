@@ -12,11 +12,11 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const RefrigeratorAddModal = ({
+const RefrigeratorItemModal = ({
   qrValue,
   setQrValue,
-  modalVisible,
-  setModalVisible,
+  itemModalVisible,
+  setItemModalVisible,
   input,
   setInput,
   readItem,
@@ -52,10 +52,10 @@ const RefrigeratorAddModal = ({
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setModalVisible]);
+  }, [setItemModalVisible]);
 
   const onPressCancel = () => {
-    setModalVisible(!modalVisible);
+    setItemModalVisible(!itemModalVisible);
     setQrValue('');
   };
 
@@ -91,7 +91,7 @@ const RefrigeratorAddModal = ({
         .then(responseJson => {
           console.log(responseJson);
           if (responseJson.status === 200) {
-            setModalVisible(!modalVisible);
+            setItemModalVisible(!itemModalVisible);
             readItem();
           } else {
             console.log('error');
@@ -194,7 +194,7 @@ const RefrigeratorAddModal = ({
   );
 };
 
-export default RefrigeratorAddModal;
+export default RefrigeratorItemModal;
 
 const styles = StyleSheet.create({
   centeredView: {

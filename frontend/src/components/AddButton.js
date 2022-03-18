@@ -12,8 +12,6 @@ const AddButton = ({
   modalVisible,
   setModalVisible,
 }) => {
-  const navigation = useNavigation();
-
   const [mainPress, setMainPress] = useState(false);
 
   const onPressSelfAddBtn = () => {

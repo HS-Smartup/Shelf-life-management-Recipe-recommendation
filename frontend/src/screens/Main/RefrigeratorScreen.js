@@ -17,8 +17,8 @@ import RefrigeratorList from 'components/RefrigeratorList';
 import AddButton from 'components/AddButton';
 import CameraKitScreen from './CameraKitScreen';
 import RefrigeratorAddModal from 'components/RefrigeratorAddModal';
-import ReactNativeModal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RefrigeratorItemModal from 'components/RefrigeratorItemModal';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
@@ -55,7 +55,7 @@ const RefrigeratorScreen = ({navigation}) => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
+          // console.log(responseJson);
           if (responseJson.status === 200) {
             setRefrigeratorItem([...responseJson.refrigeratorItem]);
           } else {
@@ -83,6 +83,7 @@ const RefrigeratorScreen = ({navigation}) => {
   const [qrValue, setQrValue] = useState('');
   const [openScanner, setOpenScanner] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [itemModalVisible, setItemModalVisible] = useState(false);
 
   const onBarcodeScan = async scanValue => {
     // Called after te successful scanning of QRCode/Barcode
@@ -179,10 +180,11 @@ const RefrigeratorScreen = ({navigation}) => {
               <RefrigeratorList
                 refrigeratorItem={refrigeratorItem}
                 onScrolledToBottom={onScrolledToBottom}
+                itemModalVisible={itemModalVisible}
+                setItemModalVisible={setItemModalVisible}
               />
             )}
             <Modal
-              propagateSwipe={true}
               avoidKeyboard={true}
               animationType="slide"
               transparent={true}
@@ -195,6 +197,25 @@ const RefrigeratorScreen = ({navigation}) => {
                 setQrValue={setQrValue}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
+                input={input}
+                setInput={setInput}
+                readItem={readItem}
+              />
+            </Modal>
+            {/* 냉장고 항목 모달 */}
+            <Modal
+              avoidKeyboard={true}
+              animationType="slide"
+              transparent={true}
+              visible={itemModalVisible}
+              onRequestClose={() => {
+                setItemModalVisible(!itemModalVisible);
+              }}>
+              <RefrigeratorItemModal
+                qrValue={qrValue}
+                setQrValue={setQrValue}
+                itemModalVisible={itemModalVisible}
+                setItemModalVisible={setItemModalVisible}
                 input={input}
                 setInput={setInput}
                 readItem={readItem}

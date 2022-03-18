@@ -16,9 +16,15 @@ const RefrigeratorItem = ({
   itemReg,
   itemExp,
   itemRemainingDate,
+  itemModalVisible,
+  setItemModalVisible,
 }) => {
+  const onPressItem = () => {
+    setItemModalVisible(!itemModalVisible);
+  };
+
   return (
-    <Pressable style={styles.itemWrapper} onPress={() => console.log('hi')}>
+    <Pressable style={styles.itemWrapper} onPress={onPressItem}>
       <Image
         source={`${itemImage}` ? {uri: `${itemImage}`} : null}
         style={styles.itemImage}

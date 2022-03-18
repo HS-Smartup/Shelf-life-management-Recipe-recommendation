@@ -2,7 +2,12 @@ import {FlatList, StyleSheet} from 'react-native';
 import React from 'react';
 import RefrigeratorItem from './RefrigeratorItem';
 
-const RefrigeratorList = ({refrigeratorItem, onScrolledToBottom}) => {
+const RefrigeratorList = ({
+  refrigeratorItem,
+  onScrolledToBottom,
+  itemModalVisible,
+  setItemModalVisible,
+}) => {
   const onScroll = e => {
     if (!onScrolledToBottom) {
       return;
@@ -35,6 +40,8 @@ const RefrigeratorList = ({refrigeratorItem, onScrolledToBottom}) => {
           itemReg={item.itemReg}
           itemExp={item.itemExp}
           itemRemainingDate={item.itemRemainingDate}
+          itemModalVisible={itemModalVisible}
+          setItemModalVisible={setItemModalVisible}
         />
       )}
       // keyExtractor={item => item.id.toString()}
