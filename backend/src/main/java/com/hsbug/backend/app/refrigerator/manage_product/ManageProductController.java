@@ -69,6 +69,12 @@ public class ManageProductController {
         return obj;
     }
 
+    @PostMapping("/readProduct/detail")
+    public ManageProductDto readProductDetail(@RequestParam Long id) {
+        ManageProductDto findProductDetail = manageProductService.findById(id);
+        return findProductDetail;
+    }
+
     private String findEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return email;
