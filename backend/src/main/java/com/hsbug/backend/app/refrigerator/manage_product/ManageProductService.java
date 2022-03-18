@@ -54,4 +54,11 @@ public class ManageProductService {
     public void save(ManageProductDto addProductDto) {
         manageProductRepository.save(addProductDto.toEntity());
     }
+
+
+    public ManageProductDto findById(Long id) {
+        ManageProductEntity findEntity = manageProductRepository.findById(id).get();
+        ManageProductDto dto = findEntity.toDto();
+        return dto;
+    }
 }
