@@ -10,23 +10,38 @@ import React from 'react';
 
 const RefrigeratorItem = ({
   id,
-  itemImage,
   itemName,
+  itemImage,
   itemAmount,
   itemReg,
   itemExp,
   itemRemainingDate,
   itemModalVisible,
   setItemModalVisible,
+  setId,
+  detailItem,
+  setDetailItem,
 }) => {
   const onPressItem = () => {
     setItemModalVisible(!itemModalVisible);
+    setId(id);
+    setDetailItem({
+      ['itemName']: itemName,
+      ['itemImage']: itemImage,
+      ['itemAmount']: itemAmount,
+      ['itemReg']: itemReg,
+      ['itemExp']: itemExp,
+    });
   };
 
   return (
     <Pressable style={styles.itemWrapper} onPress={onPressItem}>
       <Image
-        source={`${itemImage}` ? {uri: `${itemImage}`} : null}
+        source={
+          `${itemImage}`
+            ? {uri: `${itemImage}`}
+            : require('../assets/images/logo.png')
+        }
         style={styles.itemImage}
         resizeMode="contain"
       />

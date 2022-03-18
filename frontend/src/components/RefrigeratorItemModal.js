@@ -11,15 +11,18 @@ import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const RefrigeratorItemModal = ({
-  qrValue,
-  setQrValue,
   itemModalVisible,
   setItemModalVisible,
   input,
   setInput,
   readItem,
+  refrigeratorItem,
+  setRefrigeratorItem,
+  id,
+  detailItem,
 }) => {
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
@@ -42,24 +45,26 @@ const RefrigeratorItemModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedRegDate, formattedExpDate, input.itemAmount]);
 
+  console.log('\n\nid\n\n', id);
+  console.log('\n\ndetail\n\n', detailItem);
+
   useEffect(() => {
     setInput({
       ...input,
-      ['itemName']: '',
-      ['itemAmount']: '',
-      ['itemImage']: '',
-      ['itemReg']: formattedRegDate,
-      ['itemExp']: formattedExpDate,
+      ['itemName']: detailItem.itemName,
+      ['itemAmount']: detailItem.itemAmount,
+      ['itemImage']: detailItem.itemImage,
+      ['itemReg']: detailItem.itemReg,
+      ['itemExp']: detailItem.itemExp,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setItemModalVisible]);
 
   const onPressCancel = () => {
     setItemModalVisible(!itemModalVisible);
-    setQrValue('');
   };
 
-  const onPressSubmit = async () => {
+  const onPressUpdate = async () => {
     if (!input.itemName) {
       Alert.alert('상품명을 입력해주세요.');
       return;
@@ -77,9 +82,9 @@ const RefrigeratorItemModal = ({
       return;
     }
     try {
-      console.log('111', input);
+      console.log('input\n\n\n', input);
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/refrig/addProduct', {
+      await fetch('http://localhost:8080/user/refrig/updateProduct', {
         method: 'POST',
         body: JSON.stringify(input),
         headers: {
@@ -89,7 +94,7 @@ const RefrigeratorItemModal = ({
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
+          console.log('update', responseJson);
           if (responseJson.status === 200) {
             setItemModalVisible(!itemModalVisible);
             readItem();
@@ -108,25 +113,39 @@ const RefrigeratorItemModal = ({
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <Text style={styles.title}>상품 등록</Text>
-        <Image
-          source={`${input.itemImage}` ? {uri: `${input.itemImage}`} : null}
+        <View style={styles.modalHeader}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>상품 정보</Text>
+          </View>
+          <Pressable
+            style={styles.deleteBtnWrapper}
+            onPress={() => console.log('hi')}>
+            <Icon name="delete-forever" size={36} color={'#ff8527'} />
+          </Pressable>
+        </View>
+        {/* <Image
+          source={
+            `${input.itemImage}`
+              ? {uri: `${detailItem.itemImage}`}
+              : require('../assets/images/logo.png')
+          }
           style={styles.image}
           resizeMode="center"
-        />
+        /> */}
 
         <View style={styles.textWrapper}>
           <TextInput
             style={styles.itemName}
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
-            value={input.itemName}
+            value={detailItem.itemName}
           />
           <TextInput
             style={styles.itemAmount}
             onChangeText={createChangeTextHandler('itemAmount')}
             placeholder={'수량'}
             keyboardType="number-pad"
+            value={detailItem.itemAmount.toString()}
           />
           <View style={styles.itemRegExpWrapper}>
             <View style={styles.itemRegWrapper}>
@@ -134,7 +153,7 @@ const RefrigeratorItemModal = ({
               <Pressable
                 onPress={() => setRegOpen(true)}
                 style={styles.itemReg}>
-                <Text style={styles.itemRegText}>{formattedRegDate}</Text>
+                <Text style={styles.itemRegText}>{detailItem.itemReg}</Text>
               </Pressable>
               <DatePicker
                 modal
@@ -159,7 +178,7 @@ const RefrigeratorItemModal = ({
               <Pressable
                 onPress={() => setExpOpen(true)}
                 style={styles.itemExp}>
-                <Text style={styles.itemRegText}>{formattedExpDate}</Text>
+                <Text style={styles.itemRegText}>{detailItem.itemExp}</Text>
               </Pressable>
               <DatePicker
                 modal
@@ -185,8 +204,8 @@ const RefrigeratorItemModal = ({
           <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.successBtn} onPress={onPressSubmit}>
-            <Text style={styles.successText}>등록</Text>
+          <Pressable style={styles.successBtn} onPress={onPressUpdate}>
+            <Text style={styles.successText}>수정</Text>
           </Pressable>
         </View>
       </View>
@@ -213,11 +232,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
+  modalHeader: {
+    flexDirection: 'row',
+    width: '100%',
+  },
+  titleWrapper: {
+    width: '85%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
     fontFamily: 'NanumSquareRoundOTFEB',
     fontSize: 26,
     color: '#000000',
     marginVertical: 10,
+    marginLeft: '18%',
+  },
+  deleteBtnWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   image: {
     width: '40%',

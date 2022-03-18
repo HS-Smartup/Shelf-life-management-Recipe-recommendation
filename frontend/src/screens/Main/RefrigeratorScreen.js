@@ -55,7 +55,7 @@ const RefrigeratorScreen = ({navigation}) => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          // console.log(responseJson);
+          // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRefrigeratorItem([...responseJson.refrigeratorItem]);
           } else {
@@ -84,6 +84,8 @@ const RefrigeratorScreen = ({navigation}) => {
   const [openScanner, setOpenScanner] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [itemModalVisible, setItemModalVisible] = useState(false);
+  const [id, setId] = useState('');
+  const [detailItem, setDetailItem] = useState('');
 
   const onBarcodeScan = async scanValue => {
     // Called after te successful scanning of QRCode/Barcode
@@ -182,6 +184,10 @@ const RefrigeratorScreen = ({navigation}) => {
                 onScrolledToBottom={onScrolledToBottom}
                 itemModalVisible={itemModalVisible}
                 setItemModalVisible={setItemModalVisible}
+                id={id}
+                setId={setId}
+                detailItem={detailItem}
+                setDetailItem={setDetailItem}
               />
             )}
             <Modal
@@ -212,13 +218,15 @@ const RefrigeratorScreen = ({navigation}) => {
                 setItemModalVisible(!itemModalVisible);
               }}>
               <RefrigeratorItemModal
-                qrValue={qrValue}
-                setQrValue={setQrValue}
                 itemModalVisible={itemModalVisible}
                 setItemModalVisible={setItemModalVisible}
                 input={input}
                 setInput={setInput}
                 readItem={readItem}
+                refrigeratorItem={refrigeratorItem}
+                setRefrigeratorItem={setRefrigeratorItem}
+                id={id}
+                detailItem={detailItem}
               />
             </Modal>
             <AddButton

@@ -59,7 +59,7 @@ const HomeScreen = ({navigation}) => {
           />
         </Pressable>
         <Pressable
-          style={styles.searchWarpper}
+          style={styles.searchWrapper}
           onPress={() => navigation.navigate('SearchScreen')}>
           <View style={styles.search}>
             <Icon name="search" size={24} color={'#ff8527'} />
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 10,
   },
-  searchWarpper: {
+  searchWrapper: {
     flexDirection: 'row',
     width: '69%',
     height: 48,

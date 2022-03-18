@@ -7,6 +7,10 @@ const RefrigeratorList = ({
   onScrolledToBottom,
   itemModalVisible,
   setItemModalVisible,
+  id,
+  setId,
+  detailItem,
+  setDetailItem,
 }) => {
   const onScroll = e => {
     if (!onScrolledToBottom) {
@@ -42,6 +46,9 @@ const RefrigeratorList = ({
           itemRemainingDate={item.itemRemainingDate}
           itemModalVisible={itemModalVisible}
           setItemModalVisible={setItemModalVisible}
+          setId={setId}
+          detailItem={detailItem}
+          setDetailItem={setDetailItem}
         />
       )}
       // keyExtractor={item => item.id.toString()}
