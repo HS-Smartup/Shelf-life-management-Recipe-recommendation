@@ -19,11 +19,8 @@ const RefrigeratorItemModal = ({
   input,
   setInput,
   readItem,
-  refrigeratorItem,
-  setRefrigeratorItem,
   id,
   detailItem,
-  setDetailItem,
 }) => {
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
@@ -48,21 +45,6 @@ const RefrigeratorItemModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedRegDate, formattedExpDate, input.itemAmount]);
 
-  console.log('\n\nid\n\n', id);
-  console.log('\n\ndetail\n\n', detailItem);
-
-  // useEffect(() => {
-  //   setInput({
-  //     ...input,
-  //     ['itemName']: detailItem.itemName,
-  //     ['itemAmount']: detailItem.itemAmount,
-  //     ['itemImage']: detailItem.itemImage,
-  //     ['itemReg']: detailItem.itemReg,
-  //     ['itemExp']: detailItem.itemExp,
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [setItemModalVisible]);
-
   const onPressCancel = () => {
     setItemModalVisible(!itemModalVisible);
   };
@@ -85,11 +67,13 @@ const RefrigeratorItemModal = ({
       return;
     }
     try {
-      console.log('input\n\n\n', input);
+      console.log(JSON.parse(id, input));
+      input.id = id;
+      console.log('\n\ninput\n\n\n', input);
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/updateProduct', {
         method: 'POST',
-        body: JSON.stringify(id, input),
+        body: JSON.stringify(input),
         headers: {
           'Content-Type': 'application/json',
           token: token,
@@ -126,7 +110,7 @@ const RefrigeratorItemModal = ({
             <Icon name="delete-forever" size={36} color={'#ff8527'} />
           </Pressable>
         </View>
-        {/* <Image
+        <Image
           source={
             `${input.itemImage}`
               ? {uri: `${detailItem.itemImage}`}
@@ -134,8 +118,7 @@ const RefrigeratorItemModal = ({
           }
           style={styles.image}
           resizeMode="center"
-        /> */}
-
+        />
         <View style={styles.textWrapper}>
           <TextInput
             style={styles.itemName}

@@ -150,9 +150,9 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   expCircleWrapper: {
-    width: '13%',
+    width: '18%',
     height: '80%',
-    marginLeft: 20,
+    marginLeft: 10,
   },
   expCircle: {
     height: '100%',

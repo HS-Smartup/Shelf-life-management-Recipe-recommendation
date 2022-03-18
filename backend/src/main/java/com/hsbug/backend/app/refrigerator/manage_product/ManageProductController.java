@@ -61,8 +61,11 @@ public class ManageProductController {
       // dto를 read하여 수정후에 dto를 수정한다
 
     @PostMapping("/updateProduct")
-    public JSONObject UpdateProduct(@RequestBody ManageProductDto dto) {
+    public JSONObject UpdateProduct(@RequestBody ManageProductDto dto) throws ParseException {
         JSONObject obj = new JSONObject();
+        dto.setEmail(findEmail());
+        int remain_date = remainDate(dto.getItemExp());
+        dto.setItemRemainingDate(remain_date);
         manageProductService.updateProduct(dto);
         obj.put("message"," 업데이트 완료");
         obj.put("status",200);
