@@ -36,8 +36,9 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/myRefrig/selectProduct")
-    public JSONObject searchFromList(@RequestParam List<Long> id, boolean check){
+    public JSONObject searchFromList(@RequestParam List<Long> id){
         String email = getEmail();
+        JSONObject obj = new JSONObject();
         ArrayList<String> product_list = new ArrayList<>();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         System.out.println(productDtoList);
@@ -49,23 +50,17 @@ public class SearchRecipeRefrigController {
                 }
             }
         }
-        System.out.println(product_list);
-        JSONObject obj = searchRecipeRefrigService.findProduct(product_list);
-        return obj;
-        //this.searchFromSelectProduct(product_list, check); 뒤에 이거 주석 풀기
-    }
+        ArrayList productList = searchRecipeRefrigService.findProduct(product_list);
 
-    public Map<Long, Integer> searchFromSelectProduct(ArrayList<String> product_list, boolean check) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
         Map<Long, Integer> map;
-        if (check) {
-            map = searchRecipeRefrigService.findIdFromPart(product_list);
-        }else {
-            map = searchRecipeRefrigService.findIdFromAll(product_list);
-            //sort 할 필요 없는데 map -> json obj 때문에
-        }
-        return this.ValueSortRecipe(map);
-    }
+        map = searchRecipeRefrigService.findRecipeFromRefrig(productList);
 
+        ArrayList list = new ArrayList<>(map.keySet());
+        obj.put("searchResult",list);
+
+        //return this.ValueSortRecipe(map);
+        return obj;
+    }
 
     public String getEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -73,7 +68,6 @@ public class SearchRecipeRefrigController {
     }
 
     // 관련 = 오름차순, 조회수 get 오름차순,
-
     public Map<Long, Integer> ValueSortRecipe(Map<Long, Integer> map) {   // 레시피 내림차순
         List<Entry<Long, Integer>> entryList = new ArrayList<>(map.entrySet());
         Map<Long, Integer> sorted_map = new LinkedHashMap<>();

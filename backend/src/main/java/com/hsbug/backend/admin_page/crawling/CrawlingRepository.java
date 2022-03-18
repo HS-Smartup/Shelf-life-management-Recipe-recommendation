@@ -1,6 +1,5 @@
 package com.hsbug.backend.admin_page.crawling;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

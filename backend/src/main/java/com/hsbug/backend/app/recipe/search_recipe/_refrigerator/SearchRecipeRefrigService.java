@@ -8,13 +8,7 @@ import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
 import com.hsbug.backend.app.manage_user_info.my_recipe.MyRecipeService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.sql.Array;
 import java.util.*;
 
 @Service
@@ -25,11 +19,10 @@ public class SearchRecipeRefrigService {
     private final CrawlingRepository crawlingRepository;
     private final MyRecipeService myRecipeService;
 
-    public Map<Long, Integer> findIdFromPart(ArrayList product_list) {
+    public Map<Long, Integer> findRecipeFromRefrig(ArrayList product_list) {
         HashMap<Long, Integer> map = new HashMap<>();
         for (int i = 0; i < product_list.size(); i++) {
             String product = product_list.get(i).toString();
-            System.out.println(product);
 
             List<ManageRecipeEntity> manageRecipeEntityList = manageRecipeRepository.findByRCPPARTSDTLSContains(product);
             List<ManageRecipeDto> manageRecipeDtoList = new ArrayList<>();
@@ -46,42 +39,10 @@ public class SearchRecipeRefrigService {
                             map.get(manageRecipeDtoList.get(j).getRCP_ID()) + 1);
                 }
             }
-            System.out.println(map);
         }
         return map;
     }
 
-    public Map<Long, Integer> findIdFromAll(ArrayList product_list) {
-        HashMap<Long, Integer> map = new HashMap<>();
-        HashMap<Long, Integer> choice_only_map = new HashMap<>();
-        for (int i = 0; i < product_list.size(); i++) {
-            String product = product_list.get(i).toString();
-            //System.out.println(product);
-
-            List<ManageRecipeEntity> manageRecipeEntityList = manageRecipeRepository.findByRCPPARTSDTLSContains(product);
-            List<ManageRecipeDto> manageRecipeDtoList = new ArrayList<>();
-
-            for (ManageRecipeEntity manageRecipeEntity : manageRecipeEntityList) {
-                manageRecipeDtoList.add(this.myRecipeService.convertEntityToDto(manageRecipeEntity));
-            }
-
-            for (int j = 0; j < manageRecipeDtoList.size(); j++) {
-                if (!map.containsKey(manageRecipeDtoList.get(j).getRCP_ID())) {
-                    map.put(manageRecipeDtoList.get(j).getRCP_ID(), 1);
-                } else {
-                    map.put(manageRecipeDtoList.get(j).getRCP_ID(),
-                            map.get(manageRecipeDtoList.get(j).getRCP_ID()) + 1);
-                }
-            }
-        }
-
-        for (Map.Entry<Long, Integer> entry : map.entrySet()) {
-            if (entry.getValue() == product_list.size()) {
-                choice_only_map.put(entry.getKey(), product_list.size());
-            }
-        }
-        return choice_only_map;
-    }
 
     public CrawlingDto convertEntityToDto(CrawlingEntity crawlingEntity) {
         return CrawlingDto.builder()
@@ -90,43 +51,60 @@ public class SearchRecipeRefrigService {
                 .build();
     }
 
-    public JSONObject findProduct(ArrayList<String> refrigList) {
-        JSONObject obj = new JSONObject();
+    public ArrayList findProduct(ArrayList<String> refrigList) {
+        ArrayList productList = new ArrayList<>();
         for (int i = 0; i < refrigList.size(); i++) {           // 냉장고에서 대파, 양파, 고구마 가져옴
             HashMap<String, Integer> map = new HashMap<>();
-            String[] keyword = refrigList.get(i).replace(" ","").split("");
-            for (int j =0; j<keyword.length;j++) {               // 대, 파       양, 파       고, 구, 마  for문 돌아줌
-                List<CrawlingEntity> crawlingEntityList = crawlingRepository.findByMenuContains(keyword[j]);
-                List<CrawlingDto> crawlingDtoList = new ArrayList<>();
+            String keyword_all = refrigList.get(i);
+            String[] keyword_slice = refrigList.get(i).split(" ");
+            String[] keyword = refrigList.get(i).replace(" ", "").split("");
 
-                for (CrawlingEntity crawlingEntity : crawlingEntityList) {
-                    crawlingDtoList.add(this.convertEntityToDto(crawlingEntity));
+            if (!crawlingRepository.findByMenu(keyword_all).isEmpty()) {  // 키워드 재료테이블과 일치하는지 확인
+                productList.add(keyword_all);
+            } else {
+                for (int j = 0; j < keyword.length; j++) {               // 대, 파       양, 파       고, 구, 마  for문 돌아줌
+                    List<CrawlingEntity> crawlingEntityList = crawlingRepository.findByMenuContains(keyword[j]);
+                    List<CrawlingDto> crawlingDtoList = new ArrayList<>();
 
-                }
-                System.out.println("11111111" + crawlingDtoList);
-                for (int k = 0; k < crawlingDtoList.size(); k++) {
-                    if (!map.containsKey(crawlingDtoList.get(k).getMenu())) {
-                        map.put(crawlingDtoList.get(k).getMenu(), 1);
-                    } else {
-                        map.put(crawlingDtoList.get(k).getMenu(), map.get(crawlingDtoList.get(k).getMenu()) + 1);
+                    for (CrawlingEntity crawlingEntity : crawlingEntityList) {  // entity to dto
+                        crawlingDtoList.add(this.convertEntityToDto(crawlingEntity));
+                    }
+
+                    for (int k = 0; k < crawlingDtoList.size(); k++) {          // 레시피 관련도 점수 부여
+                        if (!map.containsKey(crawlingDtoList.get(k).getMenu())) {
+                            map.put(crawlingDtoList.get(k).getMenu(), 1);
+                        } else {
+                            map.put(crawlingDtoList.get(k).getMenu(), map.get(crawlingDtoList.get(k).getMenu()) + 1);
+                        }
                     }
                 }
-                System.out.println("ㅁㅁㅁㅁ"+keyword[j]+"ㅁㅁㅁㅁㅁㅁ");
-                System.out.println(map);
-            }
-            Map<String, Integer> sorted_map = ValueSortProduct(map);
-            obj.put(refrigList.get(i), sorted_map);
-        }
-        return obj;
-    }
+                for (int l = 0; l < keyword_slice.length; l++) {               // 맛있는, 돼지고기, 삼겹살  for문 돌아줌
+                    List<CrawlingEntity> crawlingEntityList = crawlingRepository.findByMenuContains(keyword_slice[l]);
+                    List<CrawlingDto> crawlingDtoList = new ArrayList<>();
 
-    public Map<String, Integer> ValueSortProduct(Map<String, Integer> map) {
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(map.entrySet());
-        Map<String, Integer> sorted_map = new LinkedHashMap<>();
-        Collections.sort(entryList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
-        for (int i = 0; i < entryList.size(); i++) {
-            sorted_map.put(entryList.get(i).getKey(), entryList.get(i).getValue());
+                    for (CrawlingEntity crawlingEntity : crawlingEntityList) {
+                        crawlingDtoList.add(this.convertEntityToDto(crawlingEntity));
+
+                    }
+                    for (int m = 0; m < crawlingDtoList.size(); m++) {          // 레시피 관련도 점수 부여
+                        if (!map.containsKey(crawlingDtoList.get(m).getMenu())) {
+                            map.put(crawlingDtoList.get(m).getMenu(), 1);
+                        } else {
+                            map.put(crawlingDtoList.get(m).getMenu(), map.get(crawlingDtoList.get(m).getMenu()) + 1);
+                        }
+                    }
+
+                }
+
+                Integer maxValue = Collections.max(map.values());
+                for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                    if (entry.getValue() == maxValue) {
+                        productList.add(entry.getKey());
+                    }
+                }
+            }
+            System.out.println(productList);
         }
-        return sorted_map;
+        return productList;
     }
 }
