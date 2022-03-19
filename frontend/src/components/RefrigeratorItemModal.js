@@ -26,8 +26,6 @@ const RefrigeratorItemModal = ({
     setInput({...input, [name]: value});
   };
 
-  const [name, setName] = useState('');
-
   const [regDate, setRegDate] = useState(new Date(detailItem.itemReg));
   const [regOpen, setRegOpen] = useState(false);
   const [expDate, setExpDate] = useState(new Date(detailItem.itemExp));
@@ -67,9 +65,7 @@ const RefrigeratorItemModal = ({
       return;
     }
     try {
-      console.log(JSON.parse(id, input));
       input.id = id;
-      console.log('\n\ninput\n\n\n', input);
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/updateProduct', {
         method: 'POST',
@@ -81,7 +77,7 @@ const RefrigeratorItemModal = ({
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log('update', responseJson);
+          // console.log('update', responseJson);
           if (responseJson.status === 200) {
             setItemModalVisible(!itemModalVisible);
             readItem();
@@ -97,6 +93,34 @@ const RefrigeratorItemModal = ({
     }
   };
 
+  const onPressDelete = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/refrig/deleteProduct=?' + id, {
+        method: 'POST',
+        body: JSON.stringify(id),
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.status === 200) {
+            setItemModalVisible(!itemModalVisible);
+            readItem();
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -104,9 +128,7 @@ const RefrigeratorItemModal = ({
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>상품 정보</Text>
           </View>
-          <Pressable
-            style={styles.deleteBtnWrapper}
-            onPress={() => console.log('hi')}>
+          <Pressable style={styles.deleteBtnWrapper} onPress={onPressDelete}>
             <Icon name="delete-forever" size={36} color={'#ff8527'} />
           </Pressable>
         </View>

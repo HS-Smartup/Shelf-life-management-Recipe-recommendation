@@ -76,7 +76,6 @@ const RefrigeratorAddModal = ({
       return;
     }
     try {
-      console.log('111', input);
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/refrig/addProduct', {
         method: 'POST',
@@ -88,7 +87,7 @@ const RefrigeratorAddModal = ({
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
+          // console.log(responseJson);
           if (responseJson.status === 200) {
             setAddModalVisible(!addModalVisible);
             readItem();
