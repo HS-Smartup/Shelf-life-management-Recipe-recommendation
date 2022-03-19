@@ -96,9 +96,8 @@ const RefrigeratorItemModal = ({
   const onPressDelete = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/refrig/deleteProduct=?' + id, {
+      await fetch('http://localhost:8080/user/refrig/deleteProduct?id=' + id, {
         method: 'POST',
-        body: JSON.stringify(id),
         headers: {
           'Content-Type': 'application/json',
           token: token,
