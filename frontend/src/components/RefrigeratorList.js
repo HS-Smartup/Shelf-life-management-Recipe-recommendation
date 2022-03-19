@@ -7,7 +7,6 @@ const RefrigeratorList = ({
   onScrolledToBottom,
   itemModalVisible,
   setItemModalVisible,
-  id,
   setId,
   detailItem,
   setDetailItem,

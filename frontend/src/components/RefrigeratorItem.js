@@ -19,7 +19,6 @@ const RefrigeratorItem = ({
   itemModalVisible,
   setItemModalVisible,
   setId,
-  detailItem,
   setDetailItem,
 }) => {
   const onPressItem = () => {

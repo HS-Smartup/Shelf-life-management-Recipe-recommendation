@@ -7,7 +7,6 @@ import {
   PermissionsAndroid,
   Alert,
   Modal,
-  ScrollView,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -24,24 +23,9 @@ const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
   const [hidden, setHidden] = useState(false);
 
-  const [input, setInput] = useState({
-    // itemName: '',
-    // itemAmount: '',
-    // itemReg: '',
-    // itemExp: '',
-  });
+  const [input, setInput] = useState({});
 
-  const [refrigeratorItem, setRefrigeratorItem] = useState([
-    // {
-    //   id: 1,
-    //   itemImage: '',
-    //   itemName: '비비고 군만두',
-    //   itemAmount: '3',
-    //   itemReg: '2022.03.02',
-    //   itemExp: '2022.03.05',
-    //   itemRemainingDate: '1',
-    // },
-  ]);
+  const [refrigeratorItem, setRefrigeratorItem] = useState([]);
 
   const readItem = async () => {
     try {
@@ -184,7 +168,6 @@ const RefrigeratorScreen = ({navigation}) => {
                 onScrolledToBottom={onScrolledToBottom}
                 itemModalVisible={itemModalVisible}
                 setItemModalVisible={setItemModalVisible}
-                id={id}
                 setId={setId}
                 detailItem={detailItem}
                 setDetailItem={setDetailItem}
@@ -199,7 +182,6 @@ const RefrigeratorScreen = ({navigation}) => {
                 setAddModalVisible(!addModalVisible);
               }}>
               <RefrigeratorAddModal
-                qrValue={qrValue}
                 setQrValue={setQrValue}
                 addModalVisible={addModalVisible}
                 setAddModalVisible={setAddModalVisible}
@@ -223,11 +205,8 @@ const RefrigeratorScreen = ({navigation}) => {
                 input={input}
                 setInput={setInput}
                 readItem={readItem}
-                refrigeratorItem={refrigeratorItem}
-                setRefrigeratorItem={setRefrigeratorItem}
                 id={id}
                 detailItem={detailItem}
-                setDetailItem={setDetailItem}
               />
             </Modal>
             <AddButton

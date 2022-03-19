@@ -2,7 +2,6 @@ import {Animated, Platform, Pressable, StyleSheet, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
 
 const AddButton = ({
   hidden,
