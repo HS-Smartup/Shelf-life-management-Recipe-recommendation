@@ -5,7 +5,7 @@ const RefrigeratorEmpty = () => {
   return (
     <View style={styles.block}>
       <Image
-        source={require('../assets/images/refrigeratorEmpty.png')}
+        source={require('../../assets/images/refrigeratorEmpty.png')}
         style={styles.image}
         resizeMode="contain"
       />

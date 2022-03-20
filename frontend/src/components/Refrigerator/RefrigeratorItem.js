@@ -39,7 +39,7 @@ const RefrigeratorItem = ({
         source={
           `${itemImage}`
             ? {uri: `${itemImage}`}
-            : require('../assets/images/refrigeratorDefault.png')
+            : require('../../assets/images/refrigeratorDefault.png')
         }
         style={styles.itemImage}
         resizeMode="contain"
@@ -52,7 +52,7 @@ const RefrigeratorItem = ({
           </View>
           <View style={styles.expCircleWrapper}>
             <ImageBackground
-              source={require('../assets/images/expCircle.png')}
+              source={require('../../assets/images/expCircle.png')}
               style={styles.expCircle}
               resizeMode="center">
               <Text style={styles.expCircleText}>{itemRemainingDate}</Text>

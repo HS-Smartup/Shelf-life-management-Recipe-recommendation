@@ -1,7 +1,6 @@
 import {
   Alert,
   Image,
-  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -12,26 +11,22 @@ import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import RefrigeratorCancelConfirmModal from './RefrigeratorDeleteConfirmModal';
-import RefrigeratorUpdateConfirmModal from './RefrigeratorUpdateConfirmModal';
 
-const RefrigeratorItemModal = ({
-  itemModalVisible,
-  setItemModalVisible,
+const RefrigeratorAddModal = ({
+  setQrValue,
+  addModalVisible,
+  setAddModalVisible,
   input,
   setInput,
   readItem,
-  id,
-  detailItem,
 }) => {
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
   };
 
-  const [regDate, setRegDate] = useState(new Date(detailItem.itemReg));
+  const [regDate, setRegDate] = useState(new Date());
   const [regOpen, setRegOpen] = useState(false);
-  const [expDate, setExpDate] = useState(new Date(detailItem.itemExp));
+  const [expDate, setExpDate] = useState(new Date());
   const [expOpen, setExpOpen] = useState(false);
 
   const formattedRegDate = moment(regDate).format('YYYY-MM-DD');
@@ -44,76 +39,96 @@ const RefrigeratorItemModal = ({
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formattedRegDate, formattedExpDate, input.itemAmount]);
+  }, [formattedRegDate, formattedExpDate, input.itemName]);
+
+  useEffect(() => {
+    setInput({
+      ...input,
+      ['itemName']: '',
+      ['itemAmount']: '',
+      ['itemImage']: '',
+      ['itemReg']: formattedRegDate,
+      ['itemExp']: formattedExpDate,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setAddModalVisible]);
 
   const onPressCancel = () => {
-    setItemModalVisible(!itemModalVisible);
+    setAddModalVisible(!addModalVisible);
+    setQrValue('');
   };
 
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
-  const [updateConfirm, setUpdateConfirm] = useState(false);
+  const onPressSubmit = async () => {
+    if (!input.itemName) {
+      Alert.alert('상품명을 입력해주세요.');
+      return;
+    }
 
-  const onPressDeleteConfirm = () => {
-    setDeleteConfirm(!deleteConfirm);
-  };
+    if (!input.itemAmount) {
+      Alert.alert('수량을 입력해주세요.');
+      return;
+    }
 
-  const onPressUpdateConfirm = () => {
-    setUpdateConfirm(!updateConfirm);
+    if (input.itemReg > input.itemExp) {
+      Alert.alert(
+        '유통기한을 다시 설정해주세요.\n유통기한이 등록일자보다 커야 합니다.',
+      );
+      return;
+    }
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/refrig/addProduct', {
+        method: 'POST',
+        body: JSON.stringify(input),
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log(responseJson);
+          if (responseJson.status === 200) {
+            setAddModalVisible(!addModalVisible);
+            readItem();
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <View style={styles.modalHeader}>
-          <View style={styles.titleWrapper}>
-            <Text style={styles.title}>상품 정보</Text>
-          </View>
-          <Pressable
-            style={styles.deleteBtnWrapper}
-            onPress={onPressDeleteConfirm}>
-            <Icon name="delete-forever" size={36} color={'#ff8527'} />
-          </Pressable>
-          {/* 삭제 확인 모달 */}
-          <Modal
-            avoidKeyboard={true}
-            animationType="fade"
-            transparent={true}
-            visible={deleteConfirm}
-            onRequestClose={() => {
-              setDeleteConfirm(!deleteConfirm);
-            }}>
-            <RefrigeratorCancelConfirmModal
-              deleteConfirm={deleteConfirm}
-              setDeleteConfirm={setDeleteConfirm}
-              id={id}
-              itemModalVisible={itemModalVisible}
-              setItemModalVisible={setItemModalVisible}
-              readItem={readItem}
-            />
-          </Modal>
-        </View>
+        <Text style={styles.title}>상품 등록</Text>
         <Image
           source={
-            `${detailItem.itemImage}`
-              ? {uri: `${detailItem.itemImage}`}
-              : require('../assets/images/refrigeratorDefault.png')
+            `${input.itemImage}`
+              ? {uri: `${input.itemImage}`}
+              : require('../../assets/images/refrigeratorDefault.png')
           }
           style={styles.image}
           resizeMode="center"
         />
+
         <View style={styles.textWrapper}>
           <TextInput
             style={styles.itemName}
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
-            defaultValue={detailItem.itemName}
+            value={input.itemName}
           />
           <TextInput
             style={styles.itemAmount}
             onChangeText={createChangeTextHandler('itemAmount')}
             placeholder={'수량'}
             keyboardType="number-pad"
-            defaultValue={detailItem.itemAmount.toString()}
           />
           <View style={styles.itemRegExpWrapper}>
             <View style={styles.itemRegWrapper}>
@@ -172,35 +187,16 @@ const RefrigeratorItemModal = ({
           <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.successBtn} onPress={onPressUpdateConfirm}>
-            <Text style={styles.successText}>수정</Text>
+          <Pressable style={styles.successBtn} onPress={onPressSubmit}>
+            <Text style={styles.successText}>등록</Text>
           </Pressable>
-          {/* 수정 확인 모달 */}
-          <Modal
-            avoidKeyboard={true}
-            animationType="fade"
-            transparent={true}
-            visible={updateConfirm}
-            onRequestClose={() => {
-              setUpdateConfirm(!updateConfirm);
-            }}>
-            <RefrigeratorUpdateConfirmModal
-              updateConfirm={updateConfirm}
-              setUpdateConfirm={setUpdateConfirm}
-              input={input}
-              id={id}
-              itemModalVisible={itemModalVisible}
-              setItemModalVisible={setItemModalVisible}
-              readItem={readItem}
-            />
-          </Modal>
         </View>
       </View>
     </View>
   );
 };
 
-export default RefrigeratorItemModal;
+export default RefrigeratorAddModal;
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -219,26 +215,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
-  modalHeader: {
-    flexDirection: 'row',
-    width: '100%',
-  },
-  titleWrapper: {
-    width: '85%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   title: {
     fontFamily: 'NanumSquareRoundOTFEB',
     fontSize: 26,
     color: '#000000',
     marginVertical: 10,
-    marginLeft: '18%',
-  },
-  deleteBtnWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 10,
   },
   image: {
     width: '40%',

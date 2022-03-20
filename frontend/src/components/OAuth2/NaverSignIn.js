@@ -83,7 +83,7 @@ const NaverSignIn = ({navigation}) => {
     <View style={styles.snsButtonWrapper}>
       <Pressable onPress={naverSignInButtonPress}>
         <Image
-          source={require('../assets/images/naverBtn.png')}
+          source={require('../../assets/images/naverBtn.png')}
           style={styles.naverButton}
         />
       </Pressable>

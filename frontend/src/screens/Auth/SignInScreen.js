@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NaverSignIn from 'components/NaverSignIn';
-import GoogleSignIn from 'components/GoogleSignIn';
-import KaKaoSignIn from 'components/KaKaoSignIn';
+import NaverSignIn from 'components/OAuth2/NaverSignIn';
+import GoogleSignIn from 'components/OAuth2/GoogleSignIn';
+import KaKaoSignIn from 'components/OAuth2/KaKaoSignIn';
 
 const SignInScreen = ({navigation}) => {
   const [form, setForm] = useState({

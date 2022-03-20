@@ -10,14 +10,16 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {UserNameContext} from 'contexts/UserNameContext';
-import RefrigeratorEmpty from 'components/RefrigeratorEmpty';
-import RefrigeratorList from 'components/RefrigeratorList';
-import AddButton from 'components/AddButton';
-import CameraKitScreen from './CameraKitScreen';
-import RefrigeratorAddModal from 'components/RefrigeratorAddModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RefrigeratorItemModal from 'components/RefrigeratorItemModal';
+
+import CameraKitScreen from './CameraKitScreen';
+
+import {UserNameContext} from 'contexts/UserNameContext';
+import RefrigeratorEmpty from 'components/Refrigerator/RefrigeratorEmpty';
+import RefrigeratorList from 'components/Refrigerator/RefrigeratorList';
+import AddButton from 'components/Refrigerator/AddButton';
+import RefrigeratorAddModal from 'components/Refrigerator/RefrigeratorAddModal';
+import RefrigeratorItemModal from 'components/Refrigerator/RefrigeratorItemModal';
 
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
