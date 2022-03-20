@@ -5,11 +5,14 @@ const RefrigeratorEmpty = () => {
   return (
     <View style={styles.block}>
       <Image
-        source={require('../assets/images/logo.png')}
+        source={require('../assets/images/refrigeratorEmpty.png')}
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.description}>냉장고가 비었습니다.</Text>
+      <Text
+        style={
+          styles.description
+        }>{`냉장고에 식재료를\n    추가해보세요!`}</Text>
     </View>
   );
 };
@@ -23,13 +26,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 240,
-    height: 179,
+    width: 260,
+    height: 200,
     marginBottom: 16,
   },
   description: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 30,
     color: '#636773',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

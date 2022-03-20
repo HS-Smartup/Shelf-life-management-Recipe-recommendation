@@ -108,7 +108,11 @@ const RefrigeratorAddModal = ({
       <View style={styles.modalView}>
         <Text style={styles.title}>상품 등록</Text>
         <Image
-          source={`${input.itemImage}` ? {uri: `${input.itemImage}`} : null}
+          source={
+            `${input.itemImage}`
+              ? {uri: `${input.itemImage}`}
+              : require('../assets/images/refrigeratorDefault.png')
+          }
           style={styles.image}
           resizeMode="center"
         />

@@ -39,7 +39,7 @@ const RefrigeratorItem = ({
         source={
           `${itemImage}`
             ? {uri: `${itemImage}`}
-            : require('../assets/images/logo.png')
+            : require('../assets/images/refrigeratorDefault.png')
         }
         style={styles.itemImage}
         resizeMode="contain"

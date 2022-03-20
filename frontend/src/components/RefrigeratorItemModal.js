@@ -120,6 +120,8 @@ const RefrigeratorItemModal = ({
     }
   };
 
+  console.log(detailItem.itemImage);
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -133,9 +135,9 @@ const RefrigeratorItemModal = ({
         </View>
         <Image
           source={
-            `${input.itemImage}`
+            `${detailItem.itemImage}`
               ? {uri: `${detailItem.itemImage}`}
-              : require('../assets/images/logo.png')
+              : require('../assets/images/refrigeratorDefault.png')
           }
           style={styles.image}
           resizeMode="center"
