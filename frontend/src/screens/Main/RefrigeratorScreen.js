@@ -56,6 +56,7 @@ const RefrigeratorScreen = ({navigation}) => {
 
   useEffect(() => {
     readItem();
+    return () => {};
   }, []);
 
   const onScrolledToBottom = isBottom => {
