@@ -1,6 +1,7 @@
 import {
   Alert,
   Image,
+  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -12,6 +13,8 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import RefrigeratorCancelConfirmModal from './RefrigeratorDeleteConfirmModal';
+import RefrigeratorUpdateConfirmModal from './RefrigeratorUpdateConfirmModal';
 
 const RefrigeratorItemModal = ({
   itemModalVisible,
@@ -47,80 +50,16 @@ const RefrigeratorItemModal = ({
     setItemModalVisible(!itemModalVisible);
   };
 
-  const onPressUpdate = async () => {
-    if (!input.itemName) {
-      Alert.alert('상품명을 입력해주세요.');
-      return;
-    }
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [updateConfirm, setUpdateConfirm] = useState(false);
 
-    if (!input.itemAmount) {
-      Alert.alert('수량을 입력해주세요.');
-      return;
-    }
-
-    if (input.itemReg > input.itemExp) {
-      Alert.alert(
-        '유통기한을 다시 설정해주세요.\n유통기한이 등록일자보다 커야 합니다.',
-      );
-      return;
-    }
-    try {
-      input.id = id;
-      const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/refrig/updateProduct', {
-        method: 'POST',
-        body: JSON.stringify(input),
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          // console.log('update', responseJson);
-          if (responseJson.status === 200) {
-            setItemModalVisible(!itemModalVisible);
-            readItem();
-          } else {
-            console.log('error');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+  const onPressDeleteConfirm = () => {
+    setDeleteConfirm(!deleteConfirm);
   };
 
-  const onPressDelete = async () => {
-    try {
-      const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/refrig/deleteProduct?id=' + id, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          if (responseJson.status === 200) {
-            setItemModalVisible(!itemModalVisible);
-            readItem();
-          } else {
-            console.log('error');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  const onPressUpdateConfirm = () => {
+    setUpdateConfirm(!updateConfirm);
   };
-
-  console.log(detailItem.itemImage);
 
   return (
     <View style={styles.centeredView}>
@@ -129,9 +68,29 @@ const RefrigeratorItemModal = ({
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>상품 정보</Text>
           </View>
-          <Pressable style={styles.deleteBtnWrapper} onPress={onPressDelete}>
+          <Pressable
+            style={styles.deleteBtnWrapper}
+            onPress={onPressDeleteConfirm}>
             <Icon name="delete-forever" size={36} color={'#ff8527'} />
           </Pressable>
+          {/* 삭제 확인 모달 */}
+          <Modal
+            avoidKeyboard={true}
+            animationType="fade"
+            transparent={true}
+            visible={deleteConfirm}
+            onRequestClose={() => {
+              setDeleteConfirm(!deleteConfirm);
+            }}>
+            <RefrigeratorCancelConfirmModal
+              deleteConfirm={deleteConfirm}
+              setDeleteConfirm={setDeleteConfirm}
+              id={id}
+              itemModalVisible={itemModalVisible}
+              setItemModalVisible={setItemModalVisible}
+              readItem={readItem}
+            />
+          </Modal>
         </View>
         <Image
           source={
@@ -213,9 +172,28 @@ const RefrigeratorItemModal = ({
           <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.successBtn} onPress={onPressUpdate}>
+          <Pressable style={styles.successBtn} onPress={onPressUpdateConfirm}>
             <Text style={styles.successText}>수정</Text>
           </Pressable>
+          {/* 수정 확인 모달 */}
+          <Modal
+            avoidKeyboard={true}
+            animationType="fade"
+            transparent={true}
+            visible={updateConfirm}
+            onRequestClose={() => {
+              setUpdateConfirm(!updateConfirm);
+            }}>
+            <RefrigeratorUpdateConfirmModal
+              updateConfirm={updateConfirm}
+              setUpdateConfirm={setUpdateConfirm}
+              input={input}
+              id={id}
+              itemModalVisible={itemModalVisible}
+              setItemModalVisible={setItemModalVisible}
+              readItem={readItem}
+            />
+          </Modal>
         </View>
       </View>
     </View>
