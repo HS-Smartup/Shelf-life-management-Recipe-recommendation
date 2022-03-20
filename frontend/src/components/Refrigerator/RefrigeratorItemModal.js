@@ -13,8 +13,8 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import RefrigeratorCancelConfirmModal from './RefrigeratorDeleteConfirmModal';
-import RefrigeratorUpdateConfirmModal from './RefrigeratorUpdateConfirmModal';
+import DeleteConfirmModal from './DeleteConfirmModal';
+import UpdateConfirmModal from './UpdateConfirmModal';
 
 const RefrigeratorItemModal = ({
   itemModalVisible,
@@ -44,7 +44,19 @@ const RefrigeratorItemModal = ({
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formattedRegDate, formattedExpDate, input.itemAmount]);
+  }, [formattedRegDate, formattedExpDate, input.itemName]);
+
+  useEffect(() => {
+    setInput({
+      ...input,
+      ['itemName']: detailItem.itemName,
+      ['itemAmount']: detailItem.itemAmount,
+      ['itemImage']: detailItem.itemImage,
+      ['itemReg']: formattedRegDate,
+      ['itemExp']: formattedExpDate,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setItemModalVisible]);
 
   const onPressCancel = () => {
     setItemModalVisible(!itemModalVisible);
@@ -71,7 +83,12 @@ const RefrigeratorItemModal = ({
           <Pressable
             style={styles.deleteBtnWrapper}
             onPress={onPressDeleteConfirm}>
-            <Icon name="delete-forever" size={36} color={'#ff8527'} />
+            <Icon
+              name="delete-forever"
+              size={36}
+              color={'#ff8527'}
+              android_ripple={{color: '#f2f3f4'}}
+            />
           </Pressable>
           {/* 삭제 확인 모달 */}
           <Modal
@@ -82,7 +99,7 @@ const RefrigeratorItemModal = ({
             onRequestClose={() => {
               setDeleteConfirm(!deleteConfirm);
             }}>
-            <RefrigeratorCancelConfirmModal
+            <DeleteConfirmModal
               deleteConfirm={deleteConfirm}
               setDeleteConfirm={setDeleteConfirm}
               id={id}
@@ -104,6 +121,7 @@ const RefrigeratorItemModal = ({
         <View style={styles.textWrapper}>
           <TextInput
             style={styles.itemName}
+            autoCapitalize="none"
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
             defaultValue={detailItem.itemName}
@@ -120,7 +138,8 @@ const RefrigeratorItemModal = ({
               <Text style={styles.itemRegTitle}>등록일자</Text>
               <Pressable
                 onPress={() => setRegOpen(true)}
-                style={styles.itemReg}>
+                style={styles.itemReg}
+                android_ripple={{color: '#b3b4ba'}}>
                 <Text style={styles.itemRegText}>{formattedRegDate}</Text>
               </Pressable>
               <DatePicker
@@ -145,7 +164,8 @@ const RefrigeratorItemModal = ({
               <Text style={styles.itemRegTitle}>유통기한</Text>
               <Pressable
                 onPress={() => setExpOpen(true)}
-                style={styles.itemExp}>
+                style={styles.itemExp}
+                android_ripple={{color: '#b3b4ba'}}>
                 <Text style={styles.itemRegText}>{formattedExpDate}</Text>
               </Pressable>
               <DatePicker
@@ -169,10 +189,16 @@ const RefrigeratorItemModal = ({
           </View>
         </View>
         <View style={styles.btnWrapper}>
-          <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
+          <Pressable
+            style={styles.cancelBtn}
+            onPress={onPressCancel}
+            android_ripple={{color: '#f2f3f4'}}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.successBtn} onPress={onPressUpdateConfirm}>
+          <Pressable
+            style={styles.successBtn}
+            onPress={onPressUpdateConfirm}
+            android_ripple={{color: '#f2f3f4'}}>
             <Text style={styles.successText}>수정</Text>
           </Pressable>
           {/* 수정 확인 모달 */}
@@ -184,7 +210,7 @@ const RefrigeratorItemModal = ({
             onRequestClose={() => {
               setUpdateConfirm(!updateConfirm);
             }}>
-            <RefrigeratorUpdateConfirmModal
+            <UpdateConfirmModal
               updateConfirm={updateConfirm}
               setUpdateConfirm={setUpdateConfirm}
               input={input}
@@ -339,6 +365,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 5,
     elevation: 5,
+    overflow: 'hidden',
   },
   successBtn: {
     width: '47%',
@@ -349,6 +376,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 15,
     elevation: 5,
+    overflow: 'hidden',
   },
   cancelText: {
     fontFamily: 'NanumSquareRoundOTFB',

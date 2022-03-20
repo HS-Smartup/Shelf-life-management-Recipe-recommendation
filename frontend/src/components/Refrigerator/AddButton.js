@@ -59,9 +59,9 @@ const AddButton = ({
               onPress={() => {
                 setOpenScanner(false);
                 setQrValue(false);
-                setMainPress(false);
                 setTimeout(() => {
                   onOpenScanner();
+                  setMainPress(false);
                 }, 10);
               }}>
               <CommunityIcon
@@ -74,15 +74,18 @@ const AddButton = ({
           <View style={styles.selfAddBtnWrapper}>
             <Pressable
               style={({pressed}) => [styles.selfAddBtn]}
-              android_ripple={{color: '#fff'}}
-              onPress={onPressSelfAddBtn}>
+              android_ripple={{color: '#f2f3f4'}}
+              onPress={() => {
+                setMainPress(false);
+                onPressSelfAddBtn();
+              }}>
               <CommunityIcon name="pencil-plus" size={20} style={styles.icon} />
             </Pressable>
           </View>
           <View style={styles.mainBtnWrapper}>
             <Pressable
               style={({pressed}) => [styles.mainBtn]}
-              android_ripple={{color: '#fff'}}
+              android_ripple={{color: '#f2f3f4'}}
               onPress={onToggle}>
               <Icon name="close" size={32} style={styles.icon} />
             </Pressable>
@@ -93,7 +96,7 @@ const AddButton = ({
           <View style={styles.mainBtnWrapper}>
             <Pressable
               style={({pressed}) => [styles.mainBtn]}
-              android_ripple={{color: '#fff'}}
+              android_ripple={{color: '#f2f3f4'}}
               onPress={onToggle}>
               <Icon name="add" size={32} style={styles.icon} />
             </Pressable>

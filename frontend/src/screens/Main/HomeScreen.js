@@ -51,7 +51,9 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
-        <Pressable onPress={() => navigation.navigate('HomeScreen')}>
+        <Pressable
+          onPress={() => navigation.navigate('HomeScreen')}
+          android_ripple={{color: '#f2f3f4'}}>
           <Image
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
@@ -60,13 +62,16 @@ const HomeScreen = ({navigation}) => {
         </Pressable>
         <Pressable
           style={styles.searchWrapper}
-          onPress={() => navigation.navigate('SearchScreen')}>
+          onPress={() => navigation.navigate('SearchScreen')}
+          android_ripple={{color: '#f2f3f4'}}>
           <View style={styles.search}>
             <Icon name="search" size={24} color={'#ff8527'} />
             <Text style={styles.searchText}>레시피 검색</Text>
           </View>
         </Pressable>
-        <Pressable style={styles.notification}>
+        <Pressable
+          style={styles.notification}
+          android_ripple={{color: '#f2f3f4'}}>
           <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
       </View>
@@ -77,7 +82,8 @@ const HomeScreen = ({navigation}) => {
             <View style={styles.content}>
               <Pressable
                 style={styles.myRefrigerator}
-                onPress={() => navigation.navigate('RefrigeratorScreen')}>
+                onPress={() => navigation.navigate('RefrigeratorScreen')}
+                android_ripple={{color: '#f2f3f4'}}>
                 <Image
                   source={require('../../assets/images/logo.png')}
                   style={styles.logo}

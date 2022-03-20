@@ -34,7 +34,10 @@ const RefrigeratorItem = ({
   };
 
   return (
-    <Pressable style={styles.itemWrapper} onPress={onPressItem}>
+    <Pressable
+      style={styles.itemWrapper}
+      onPress={onPressItem}
+      android_ripple={{color: '#f2f3f4'}}>
       <Image
         source={
           `${itemImage}`
@@ -55,7 +58,11 @@ const RefrigeratorItem = ({
               source={require('../../assets/images/expCircle.png')}
               style={styles.expCircle}
               resizeMode="center">
-              <Text style={styles.expCircleText}>{itemRemainingDate}</Text>
+              {itemRemainingDate <= 3 ? (
+                <Text style={styles.expCircleTextRed}>{itemRemainingDate}</Text>
+              ) : (
+                <Text style={styles.expCircleText}>{itemRemainingDate}</Text>
+              )}
             </ImageBackground>
           </View>
         </View>
@@ -162,5 +169,10 @@ const styles = StyleSheet.create({
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 16,
     color: '#000000',
+  },
+  expCircleTextRed: {
+    fontFamily: 'NanumSquareRoundOTFEB',
+    fontSize: 18,
+    color: '#d50000',
   },
 });

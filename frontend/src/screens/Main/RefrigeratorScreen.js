@@ -142,7 +142,9 @@ const RefrigeratorScreen = ({navigation}) => {
       ) : (
         <View>
           <View style={styles.header}>
-            <Pressable onPress={() => navigation.navigate('HomeScreen')}>
+            <Pressable
+              onPress={() => navigation.navigate('HomeScreen')}
+              android_ripple={{color: '#f2f3f4'}}>
               <Image
                 source={require('../../assets/images/logo.png')}
                 style={styles.logo}
@@ -155,7 +157,9 @@ const RefrigeratorScreen = ({navigation}) => {
                 님의 냉장고
               </Text>
             </View>
-            <Pressable style={styles.notification}>
+            <Pressable
+              style={styles.notification}
+              android_ripple={{color: '#f2f3f4'}}>
               <Icon name="notifications-none" size={32} color={'#ff8527'} />
             </Pressable>
           </View>

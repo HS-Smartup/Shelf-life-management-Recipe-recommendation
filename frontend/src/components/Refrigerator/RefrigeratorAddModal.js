@@ -120,6 +120,7 @@ const RefrigeratorAddModal = ({
         <View style={styles.textWrapper}>
           <TextInput
             style={styles.itemName}
+            autoCapitalize="none"
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
             value={input.itemName}
@@ -184,10 +185,16 @@ const RefrigeratorAddModal = ({
           </View>
         </View>
         <View style={styles.btnWrapper}>
-          <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
+          <Pressable
+            style={styles.cancelBtn}
+            onPress={onPressCancel}
+            android_ripple={{color: '#f2f3f4'}}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.successBtn} onPress={onPressSubmit}>
+          <Pressable
+            style={styles.successBtn}
+            onPress={onPressSubmit}
+            android_ripple={{color: '#f2f3f4'}}>
             <Text style={styles.successText}>등록</Text>
           </Pressable>
         </View>

@@ -49,10 +49,16 @@ const RefrigeratorDeleteConfirmModal = ({
           <Text style={styles.titleText}>삭제하시겠습니까?</Text>
         </View>
         <View style={styles.btnWrapper}>
-          <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
+          <Pressable
+            style={styles.cancelBtn}
+            onPress={onPressCancel}
+            android_ripple={{color: '#f2f3f4'}}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.confirmBtn} onPress={onPressDelete}>
+          <Pressable
+            style={styles.confirmBtn}
+            onPress={onPressDelete}
+            android_ripple={{color: '#f2f3f4'}}>
             <Text style={styles.confirmText}>확인</Text>
           </Pressable>
         </View>
