@@ -2,7 +2,6 @@ package com.hsbug.backend.app.recipe.search_recipe._refrigerator;
 
 import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
 import com.hsbug.backend.app.refrigerator.manage_product.ManageProductService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Map.Entry;
 @RestController
@@ -36,7 +34,7 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/myRefrig/selectProduct")
-    public Map<Long, Integer> searchFromSelectProduct(@RequestParam List<Long> id, boolean check) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
+    public Map<Long, Integer> searchFromSelectProduct(@RequestParam List<Long> id) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
         String email = getEmail();
         JSONObject obj = new JSONObject();
         ArrayList<String> product_list = new ArrayList<>();
@@ -45,18 +43,18 @@ public class SearchRecipeRefrigController {
         for (int i = 0; i < id.size(); i++) {
             for (int j = 0; j < productDtoList.size(); j++) {
                 if (id.get(i) == productDtoList.get(j).getId()) {
+                    //문제점 발견 여기 안들어감    //DBsetting
                     product_list.add(productDtoList.get(j).getItemName());
                 }
             }
         }
         System.out.println(product_list);
         Map<Long, Integer> map;
-        if (check) {
-            map = searchRecipeRefrigService.findIdFromPart(product_list);
-        }else {
-            map = searchRecipeRefrigService.findIdFromAll(product_list);
-            //sort 할 필요 없는데 map -> json obj 때문에
-        }
+
+        map = searchRecipeRefrigService.findIdFromPart(product_list);
+        map = searchRecipeRefrigService.findIdFromAll(product_list);
+        //sort 할 필요 없는데 map -> json obj 때문에
+
         return this.ValueSort(map);
     }
 
