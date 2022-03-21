@@ -39,7 +39,7 @@ public class MyRecipeService {
 
     public ManageRecipeDto convertEntityToDto(ManageRecipeEntity manageRecipeEntity){
         return ManageRecipeDto.builder()
-                .id(manageRecipeEntity.getId())
+                .RCP_ID(manageRecipeEntity.getId())
                 .WRITER(manageRecipeEntity.getWRITER())
                 .RCP_SEQ(manageRecipeEntity.getRCP_SEQ())
                 .RCP_NM(manageRecipeEntity.getRCP_NM())
