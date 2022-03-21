@@ -1,6 +1,5 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,11 @@ public class ManageRecipeService {
 
         // 값 없으면 저장
         manageRecipeRepository.save(recipeDto.toEntity());
+    }
+
+    public ManageRecipeDto findById(Long id) {
+        ManageRecipeEntity manageRecipeEntity = manageRecipeRepository.findById(id).get();
+        return manageRecipeEntity.toDto();
     }
 
 
