@@ -39,7 +39,7 @@ const HomeScreen = ({navigation}) => {
     return (
       <View style={styles.card}>
         <Image
-          source={img ? img : null}
+          source={img ? img : require('../../assets/images/defaultRecipe.png')}
           style={styles.recipeImage}
           resizeMode="stretch"
         />
