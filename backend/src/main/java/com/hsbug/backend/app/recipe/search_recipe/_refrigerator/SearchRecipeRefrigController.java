@@ -1,10 +1,10 @@
 package com.hsbug.backend.app.recipe.search_recipe._refrigerator;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeService;
 import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
 import com.hsbug.backend.app.refrigerator.manage_product.ManageProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+@Slf4j
 @RestController
 @RequestMapping("/user/search")
 @RequiredArgsConstructor
@@ -43,7 +44,7 @@ public class SearchRecipeRefrigController {
         ArrayList<String> product_list = new ArrayList<>();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         int searchResultCount = 30;
-        ArrayList<ManageRecipeDto> returnSearchResultList = new ArrayList<>();
+        ArrayList<SearchRecipeRefrigDto> returnSearchResultList = new ArrayList<>();
         JSONObject obj = new JSONObject();
 
         for (int i = 0; i < id.size(); i++) {
@@ -53,25 +54,25 @@ public class SearchRecipeRefrigController {
                 }
             }
         }
-        System.out.println(product_list);
+        log.info("product_list={}",product_list);
 //        map = searchRecipeRefrigService.findIdFromPart(product_list);
         Map<Long, Integer> searchResultMap = searchRecipeRefrigService.findIdFromAll(product_list);
 //        searchResultMap.forEach((key, valu) -> manageRecipeService.findById(key));
         Iterator<Long> keys = searchResultMap.keySet().iterator();
         while (keys.hasNext()) {
             Long key = keys.next();
-            ManageRecipeDto recipeDto = manageRecipeService.findById(key);
+            SearchRecipeRefrigDto recipeDto = manageRecipeService.findById(key);
             returnSearchResultList.add(recipeDto);
             searchResultCount--;
             if (searchResultCount==0)
                 break;
         }
         obj.put("return",returnSearchResultList);
+        log.info("returnSearchResultList={}",returnSearchResultList);
         return obj;
     }
 
     public String getEmail() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
-
 }
