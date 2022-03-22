@@ -23,6 +23,24 @@ public class CrawlingService {
         return docs.text();
     }
 
+    //쿼리를 바탕으로 스타트포인트와 피니시포인트 집어서 그사이에 있는 문자 추출
+    public HashMap<String,List> findTextByCssQueryNotABS(CrawlingRequestDto requestDto) throws IOException {
+        HashMap<String, List> foodIngredientsMap = new HashMap<>();
+        List<String> searchList = new ArrayList<>();
+
+        Document docs = Jsoup.connect(requestDto.getUrl()).get();
+        Elements elements = docs.select(requestDto.getCssQuery());
+        System.out.println(elements);
+
+        for (Element e : elements) {
+            searchList.add(getFoodName(e, requestDto.getStartingTag(), requestDto.getFinishingTag()));
+        }
+        log.info("searchList = {}", searchList);
+        foodIngredientsMap.put("foodIngredients", searchList);
+        return foodIngredientsMap;
+    }
+
+    //절대경로의 속성값 추출
     public HashMap<String,List> findTextByCssQuery(CrawlingRequestDto requestDto) throws IOException {
         HashMap<String, List> foodIngredientsMap = new HashMap<>();
         List<String> searchList = new ArrayList<>();
@@ -33,11 +51,10 @@ public class CrawlingService {
 //            searchList.add(e.text());
             searchList.add(e.attr("abs:src"));
         }
-
         foodIngredientsMap.put("foodIngredients", searchList);
         return foodIngredientsMap;
     }
-
+    //기본텍스트기반 검색
     public void findTextByCssQueryUserCustom(String url, String cssQuery,List<String> searchList) throws IOException {
         Document docs = Jsoup.connect(url).get();
         Elements elements = docs.select(cssQuery);
@@ -48,7 +65,6 @@ public class CrawlingService {
     }
 
     public List<String> kfoodtechCrawling() throws IOException {
-
         // 71 10p, 975 2p, 971 2p,  961 4p, 963 3p, 967 2p, 959 2p, 734 2p
         Integer[] pageList = {71,975,971,961,963,967,959,734,973,977,969,965,957,951,953,955,943,945,947,949,734,737,739,741,69};
         String url = "http://kfoodtech.com/?page_id=";
@@ -79,6 +95,13 @@ public class CrawlingService {
         for (int j = start; j<=last; j++){
               this.findTextByCssQueryUserCustom(url + page+"&paged="+j, cssQuery, searchList);
         }
+    }
+
+    private String getFoodName(Element e, String startTagName ,String finishTagName) {
+        int startTag = e.toString().lastIndexOf(startTagName) + startTagName.length();
+        int finishTag = e.toString().indexOf(finishTagName);
+        String findName = e.toString().substring(startTag, finishTag);
+        return findName;
     }
 
 
