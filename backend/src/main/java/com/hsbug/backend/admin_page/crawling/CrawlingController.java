@@ -23,12 +23,20 @@ public class CrawlingController{
      *             "cssQuery" : "h2[class=blog-shortcode-post-title entry-title]"
      *     }
      */
-    @ResponseBody
     @PostMapping("/crawling")
     public Map<String, List> crawlingPageFix(@RequestBody CrawlingRequestDto requestDto) throws IOException {
         Map<String, List> searchResult = crawlingService.findTextByCssQuery(requestDto);
         return searchResult;
     }
+
+    @ResponseBody
+    @PostMapping("/crawlingText")
+    public Map<String, List> crawlingPageText(@RequestBody CrawlingRequestDto requestDto) throws IOException {
+        Map<String, List> searchResult = crawlingService.findTextByCssQueryNotABS(requestDto);
+        return searchResult;
+    }
+
+
 
     /**
      * Method : Get

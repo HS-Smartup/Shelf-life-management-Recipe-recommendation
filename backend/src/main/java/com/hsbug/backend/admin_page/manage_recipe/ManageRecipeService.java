@@ -39,8 +39,6 @@ public class ManageRecipeService {
                 .views(manageRecipeEntity.getViews())
                 .stars(manageRecipeEntity.getStars())
                 .build();
-
         return dto;
     }
-
 }
