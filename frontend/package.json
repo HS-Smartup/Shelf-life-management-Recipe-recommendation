@@ -26,6 +26,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal": "^13.0.1",
     "react-native-password-strength-meter": "^0.0.5",
+    "react-native-ratings": "^8.1.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1",
     "react-native-vector-icons": "^9.0.0"
