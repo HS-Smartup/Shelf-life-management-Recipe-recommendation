@@ -1,6 +1,6 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
-import lombok.Data;
+import com.hsbug.backend.app.recipe.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +30,17 @@ public class ManageRecipeService {
         manageRecipeRepository.save(recipeDto.toEntity());
     }
 
+    public SearchRecipeRefrigDto findById(Long id) {
+        ManageRecipeEntity manageRecipeEntity = manageRecipeRepository.findById(id).get();
+        SearchRecipeRefrigDto dto = SearchRecipeRefrigDto.builder()
+                .id(manageRecipeEntity.getId())
+                .recipeName(manageRecipeEntity.getRCP_NM())
+                .recipeImg(manageRecipeEntity.getATT_FILE_NO_MAIN())
+                .views(manageRecipeEntity.getViews())
+                .stars(manageRecipeEntity.getStars())
+                .build();
 
+        return dto;
+    }
 
 }
