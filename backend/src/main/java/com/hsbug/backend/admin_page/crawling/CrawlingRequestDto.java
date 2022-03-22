@@ -8,4 +8,6 @@ import lombok.Setter;
 public class CrawlingRequestDto {
     private String url;
     private String cssQuery;
+    private String startingTag;
+    private String finishingTag;
 }
