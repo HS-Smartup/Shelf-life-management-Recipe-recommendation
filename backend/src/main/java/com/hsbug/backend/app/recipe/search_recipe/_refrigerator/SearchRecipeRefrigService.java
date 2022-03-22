@@ -71,7 +71,6 @@ public class SearchRecipeRefrigService {
 
         return sorted_map;
     }
-
     
     /*
     for (int i = 0; i < product_list.size(); i++) {
