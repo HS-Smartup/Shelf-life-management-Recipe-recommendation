@@ -10,4 +10,6 @@ public class CrawlingRequestDto {
     private String cssQuery;
     private String startingTag;
     private String finishingTag;
+    private String urlStartRange;
+    private String urlFinishRange;
 }
