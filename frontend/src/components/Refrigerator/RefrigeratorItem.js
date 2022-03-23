@@ -80,9 +80,6 @@ const RefrigeratorItem = ({
 export default RefrigeratorItem;
 
 const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-  },
   itemWrapper: {
     width: 390,
     height: 130,

@@ -12,17 +12,63 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Rating} from 'react-native-ratings';
+import IngredientList from 'components/Recipe/IngredientList';
+import StepList from 'components/Recipe/StepList';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();
 
-  const DATA = [
+  // const DATA = [
+  //   {
+  //     id: '1',
+  //     name: 'recipe',
+  //     image: 'image',
+  //   },
+  // ];
+
+  const [recipe, setRecipe] = useState([
     {
-      id: '1',
-      name: 'recipe',
-      image: 'image',
+      id: 1,
+      recipeName: '콤비네이션 피자',
+      recipeNumber: '123',
+      recipeWriter: 'ssh',
+      recipeMainImage: '',
+      recipeLikes: '100',
+      recipeViews: '200',
+      recipeRatings: '4.5',
+      recipeRatingsCount: '50',
+      recipeTime: '100',
+      recipeLevel: '어려움',
+      recipeServes: '3',
+      recipeDescription: '요리 설명 피자먹고싶다 피자먹고싶다.',
+      recipeIngredients: [
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '대파', ingredientAmount: '200g'},
+        {ingredientName: '쪽파', ingredientAmount: '300g'},
+      ],
+      recipeStep: [
+        {
+          stepImage:
+            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+          stepDescription:
+            '피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~',
+        },
+        {
+          stepImage:
+            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+          stepDescription: '피자는 시켜먹어야지~',
+        },
+        {
+          stepImage:
+            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+          stepDescription: '피자는 시켜먹어야지~',
+        },
+      ],
     },
-  ];
+  ]);
 
   const [showRating, setShowRating] = useState('');
 
@@ -48,7 +94,7 @@ const RecipeScreen = () => {
       </View>
       <View style={styles.listWrapper}>
         <FlatList
-          data={DATA}
+          data={recipe}
           renderItem={({item}) => (
             <View>
               <View style={styles.titleWrapper}>
@@ -57,9 +103,7 @@ const RecipeScreen = () => {
                   style={styles.image}
                   resizeMode="stretch">
                   <View style={styles.nameWrapper}>
-                    <Text style={styles.recipeName}>
-                      피자 불고기피자 콤비네이션 피자
-                    </Text>
+                    <Text style={styles.recipeName}>{item.recipeName}</Text>
                   </View>
                 </ImageBackground>
                 <View style={styles.infoWrapper}>
@@ -70,11 +114,13 @@ const RecipeScreen = () => {
                       color={'#ff8527'}
                     />
                     {/* 좋아요 참여자 수 */}
-                    <Text style={styles.likeText}>2500</Text>
+                    <Text style={styles.likeText}>{item.recipeLikes}</Text>
                     {/* 조회 수 */}
-                    <Text style={styles.viewsText}>조회수 1500</Text>
+                    <Text style={styles.viewsText}>
+                      조회수 {item.recipeViews}
+                    </Text>
                   </View>
-                  <View style={styles.ratingWrapper}>
+                  <View style={styles.ratingShowWrapper}>
                     <Rating
                       type="custom"
                       ratingCount={5}
@@ -82,12 +128,15 @@ const RecipeScreen = () => {
                       readonly
                       ratingColor="#ff8527"
                       ratingBackgroundColor="#fff"
-                      startingValue={3}
+                      startingValue={item.recipeRatings}
+                      jumpValue={0.5}
                       onStartRating={ratingStart}
                       onFinishRating={ratingCompleted}
                     />
                     {/* 평점 참여자 수 */}
-                    <Text style={styles.ratingText}>(1000)</Text>
+                    <Text style={styles.ratingText}>
+                      ({item.recipeRatingsCount})
+                    </Text>
                   </View>
                 </View>
                 <View style={styles.iconWrapper}>
@@ -97,37 +146,40 @@ const RecipeScreen = () => {
                       size={32}
                       color={'#ff8527'}
                     />
-                    <Text style={styles.clockText}>1시간 40분</Text>
+                    <Text style={styles.clockText}>{item.recipeTime}분</Text>
                   </View>
-                  <View style={styles.difficultyWrapper}>
+                  <View style={styles.levelWrapper}>
                     <CommunityIcon
                       name="chef-hat"
                       size={32}
                       color={'#ff8527'}
                     />
-                    <Text style={styles.difficultyText}>어려움</Text>
+                    <Text style={styles.levelText}>{item.recipeLevel}</Text>
                   </View>
                   <View style={styles.servesWrapper}>
                     <Icon name="local-dining" size={32} color={'#ff8527'} />
-                    <Text style={styles.servesText}>3 인분</Text>
+                    <Text style={styles.servesText}>
+                      {item.recipeServes} 인분
+                    </Text>
                   </View>
                 </View>
               </View>
               <View style={styles.descriptionWrapper}>
-                <Text style={styles.description}>요리 설명</Text>
+                <Text style={styles.description}>{item.recipeDescription}</Text>
               </View>
               <View style={styles.ingredientWrapper}>
                 <Text style={styles.ingredientTitle}>[재료]</Text>
                 {/* 재료 리스트 컴포넌트 */}
-                <Text style={styles.ingredient}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-                  ad ipsa libero quos assumenda aliquid magni porro modi
-                  consequatur velit!
-                </Text>
+                <IngredientList recipe={recipe} setRecipe={setRecipe} />
+                {/* <IngredientList recipeIngredients={recipe.recipeIngredients} /> */}
               </View>
               <View style={styles.recipeWrapper}>
                 {/* 레시피 리스트 컴포넌트 */}
-                <Text style={styles.recipe}>
+                <StepList recipe={recipe} setRecipe={setRecipe} />
+              </View>
+              <View style={styles.ratingWrapper}>
+                {/* 평점 컴포넌트 */}
+                <Text style={styles.rating}>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
                   ad ipsa libero quos assumenda aliquid magni porro modi
                   consequatur velit!
@@ -195,6 +247,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     elevation: 3,
+    justifyContent: 'center',
   },
   likeWrapper: {
     flexDirection: 'row',
@@ -218,7 +271,7 @@ const styles = StyleSheet.create({
     color: '#636773',
     marginLeft: 10,
   },
-  ratingWrapper: {
+  ratingShowWrapper: {
     backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
@@ -255,7 +308,7 @@ const styles = StyleSheet.create({
     color: '#000',
     marginTop: 10,
   },
-  difficultyWrapper: {
+  levelWrapper: {
     width: '30%',
     height: '80%',
     justifyContent: 'center',
@@ -265,7 +318,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderRightColor: '#636773',
   },
-  difficultyText: {
+  levelText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 16,
     color: '#000',
@@ -302,7 +355,7 @@ const styles = StyleSheet.create({
   },
   ingredientWrapper: {
     width: '90%',
-    height: 300,
+    // height: 300,
     backgroundColor: '#fff',
     borderRadius: 20,
     marginTop: 10,
@@ -318,7 +371,18 @@ const styles = StyleSheet.create({
   },
   recipeWrapper: {
     width: '90%',
-    height: 900,
+    // height: 900,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    marginTop: 10,
+    marginLeft: 20,
+    elevation: 3,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  ratingWrapper: {
+    width: '90%',
+    // height: 900,
     backgroundColor: '#fff',
     borderRadius: 20,
     marginTop: 10,
