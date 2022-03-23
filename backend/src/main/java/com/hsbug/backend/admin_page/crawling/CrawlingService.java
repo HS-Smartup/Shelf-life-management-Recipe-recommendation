@@ -24,20 +24,28 @@ public class CrawlingService {
     }
 
     //쿼리를 바탕으로 스타트포인트와 피니시포인트 집어서 그사이에 있는 문자 추출
-    public HashMap<String,List> findTextByCssQueryNotABS(CrawlingRequestDto requestDto) throws IOException {
-        HashMap<String, List> foodIngredientsMap = new HashMap<>();
+    public List<String> findTextByCssQueryNotABS(CrawlingRequestDto requestDto) throws IOException {
         List<String> searchList = new ArrayList<>();
+        int startRange = Integer.parseInt(requestDto.getUrlStartRange());
+        int finishRange = Integer.parseInt(requestDto.getUrlFinishRange());
 
-        Document docs = Jsoup.connect(requestDto.getUrl()).get();
-        Elements elements = docs.select(requestDto.getCssQuery());
-        System.out.println(elements);
-
-        for (Element e : elements) {
-            searchList.add(getFoodName(e, requestDto.getStartingTag(), requestDto.getFinishingTag()));
+        for (int i=startRange; i<=finishRange; i++) {
+            try {
+                Document docs = Jsoup.connect((requestDto.getUrl() + String.valueOf(i))).get();
+                Elements elements = docs.select(requestDto.getCssQuery());
+                for (Element e : elements) {
+                    String foodName = getFoodName(e, requestDto.getStartingTag(), requestDto.getFinishingTag());
+//                    if (recipeRepository.findByRCPPARTSDTLS(foodName).isEmpty()) {
+                        searchList.add(foodName);
+//                    }
+                }
+            } catch (StringIndexOutOfBoundsException e) {
+                continue;
+            }
+            log.info("searchList = {}", searchList);
         }
         log.info("searchList = {}", searchList);
-        foodIngredientsMap.put("foodIngredients", searchList);
-        return foodIngredientsMap;
+        return searchList;
     }
 
     //절대경로의 속성값 추출
@@ -97,11 +105,10 @@ public class CrawlingService {
         }
     }
 
-    private String getFoodName(Element e, String startTagName ,String finishTagName) {
+    private String getFoodName(Element e, String startTagName ,String finishTagName) throws StringIndexOutOfBoundsException{
         int startTag = e.toString().lastIndexOf(startTagName) + startTagName.length();
         int finishTag = e.toString().indexOf(finishTagName);
-        String findName = e.toString().substring(startTag, finishTag);
-        return findName;
+        return e.toString().substring(startTag, finishTag);
     }
 
 
