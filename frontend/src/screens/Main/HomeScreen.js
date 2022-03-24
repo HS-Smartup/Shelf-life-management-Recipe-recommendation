@@ -91,7 +91,9 @@ const HomeScreen = ({navigation}) => {
                 <Text style={styles.myRefrigeratorText}>내 냉장고 </Text>
               </Pressable>
               <View style={styles.recipeSearch}>
-                <Pressable style={styles.recipeSearchBtn}>
+                <Pressable
+                  style={styles.recipeSearchBtn}
+                  onPress={() => navigation.navigate('RecipeAddScreen')}>
                   <Image
                     source={require('../../assets/images/refrigeratorSearchBtn.png')}
                     style={styles.recipeSearchImage}
