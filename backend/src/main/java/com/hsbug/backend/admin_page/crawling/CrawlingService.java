@@ -1,6 +1,9 @@
 package com.hsbug.backend.admin_page.crawling;
 
+import com.hsbug.backend.admin_page.food_ingredients.FoodIngredientsDto;
+import com.hsbug.backend.admin_page.food_ingredients.FoodIngredientsService;
 import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,8 +18,10 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CrawlingService {
 
+    private final FoodIngredientsService foodIngredientsService;
     //url 바탕으로 텍스트로 자료 가져오기
     public String findText(String url) throws IOException {
         Document docs = Jsoup.connect(url).get();
@@ -25,9 +30,12 @@ public class CrawlingService {
 
     //쿼리를 바탕으로 스타트포인트와 피니시포인트 집어서 그사이에 있는 문자 추출
     public List<String> findTextByCssQueryNotABS(CrawlingRequestDto requestDto) throws IOException {
+
         List<String> searchList = new ArrayList<>();
         int startRange = Integer.parseInt(requestDto.getUrlStartRange());
         int finishRange = Integer.parseInt(requestDto.getUrlFinishRange());
+        FoodIngredientsDto dto = new FoodIngredientsDto();
+        int searchUrlCount = 0;
 
         for (int i=startRange; i<=finishRange; i++) {
             try {
@@ -35,9 +43,12 @@ public class CrawlingService {
                 Elements elements = docs.select(requestDto.getCssQuery());
                 for (Element e : elements) {
                     String foodName = getFoodName(e, requestDto.getStartingTag(), requestDto.getFinishingTag());
-//                    if (recipeRepository.findByRCPPARTSDTLS(foodName).isEmpty()) {
+
+                    if (foodIngredientsService.alreadyHasFoodIngredients(foodName)) {
+                        dto.setFoodIngredientsName(foodName);
+                        foodIngredientsService.save(dto);
                         searchList.add(foodName);
-//                    }
+                    }
                 }
             } catch (StringIndexOutOfBoundsException e) {
                 continue;
