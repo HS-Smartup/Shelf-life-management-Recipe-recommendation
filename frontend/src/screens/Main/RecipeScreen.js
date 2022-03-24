@@ -7,24 +7,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Rating} from 'react-native-ratings';
 import IngredientList from 'components/Recipe/IngredientList';
 import StepList from 'components/Recipe/StepList';
+import {UserNameContext} from 'contexts/UserNameContext';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();
-
-  // const DATA = [
-  //   {
-  //     id: '1',
-  //     name: 'recipe',
-  //     image: 'image',
-  //   },
-  // ];
+  const {recipeWriter, setRecipeWriter} = useContext(UserNameContext);
 
   const [recipe, setRecipe] = useState([
     {
@@ -70,7 +64,14 @@ const RecipeScreen = () => {
     },
   ]);
 
+  const [like, setLike] = useState(false);
+
+  const onToggle = () => {
+    setLike(!like);
+  };
+
   const [showRating, setShowRating] = useState('');
+  const [userRating, setUserRating] = useState('');
 
   const ratingStart = rating => {
     setShowRating(rating);
@@ -80,6 +81,10 @@ const RecipeScreen = () => {
     setShowRating(rating);
   };
 
+  const userRatingCompleted = rating => {
+    setUserRating(rating);
+  };
+
   return (
     <View style={styles.fullScreen}>
       <View style={styles.header}>
@@ -87,8 +92,12 @@ const RecipeScreen = () => {
           <Icon name="arrow-back" size={32} color={'#ff8527'} />
         </Pressable>
         <View style={styles.btnWrapper}>
-          <Pressable onPress={() => console.log('hi')}>
-            <CommunityIcon name="heart-outline" size={32} color={'#ff8527'} />
+          <Pressable onPress={onToggle}>
+            {like ? (
+              <CommunityIcon name="heart" size={32} color={'#ff8527'} />
+            ) : (
+              <CommunityIcon name="heart-outline" size={32} color={'#ff8527'} />
+            )}
           </Pressable>
         </View>
       </View>
@@ -104,6 +113,9 @@ const RecipeScreen = () => {
                   resizeMode="stretch">
                   <View style={styles.nameWrapper}>
                     <Text style={styles.recipeName}>{item.recipeName}</Text>
+                    <Text style={styles.recipeWriter}>
+                      작성자: {item.recipeWriter}
+                    </Text>
                   </View>
                 </ImageBackground>
                 <View style={styles.infoWrapper}>
@@ -179,11 +191,17 @@ const RecipeScreen = () => {
               </View>
               <View style={styles.ratingWrapper}>
                 {/* 평점 컴포넌트 */}
-                <Text style={styles.rating}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-                  ad ipsa libero quos assumenda aliquid magni porro modi
-                  consequatur velit!
-                </Text>
+                <Rating
+                  type="custom"
+                  ratingCount={5}
+                  imageSize={40}
+                  ratingColor="#ff8527"
+                  ratingBackgroundColor="#fff"
+                  startingValue={3}
+                  jumpValue={0.5}
+                  showRating
+                  onFinishRating={userRatingCompleted}
+                />
               </View>
             </View>
           )}
@@ -225,7 +243,7 @@ const styles = StyleSheet.create({
   nameWrapper: {
     width: '90%',
     height: '40%',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     padding: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -235,6 +253,13 @@ const styles = StyleSheet.create({
   recipeName: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 26,
+    color: '#000',
+    marginTop: 15,
+    marginHorizontal: 15,
+  },
+  recipeWriter: {
+    fontFamily: 'NanumSquareRoundOTFR',
+    fontSize: 15,
     color: '#000',
     marginTop: 15,
     marginHorizontal: 15,
