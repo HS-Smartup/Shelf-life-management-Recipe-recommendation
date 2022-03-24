@@ -62,7 +62,7 @@ const AddButton = ({
                 setTimeout(() => {
                   onOpenScanner();
                   setMainPress(false);
-                }, 10);
+                }, 100);
               }}>
               <CommunityIcon
                 name="barcode-scan"

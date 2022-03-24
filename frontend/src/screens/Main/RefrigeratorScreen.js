@@ -12,7 +12,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import CameraKitScreen from './CameraKitScreen';
+import BarcodeCameraKitScreen from './BarcodeCameraKitScreen';
 
 import {UserNameContext} from 'contexts/UserNameContext';
 import RefrigeratorEmpty from 'components/Refrigerator/RefrigeratorEmpty';
@@ -57,8 +57,11 @@ const RefrigeratorScreen = ({navigation}) => {
   };
 
   useEffect(() => {
+    let isComponentMounted = true;
     readItem();
-    return () => {};
+    return () => {
+      isComponentMounted = false;
+    };
   }, []);
 
   const onScrolledToBottom = isBottom => {
@@ -135,7 +138,7 @@ const RefrigeratorScreen = ({navigation}) => {
   return (
     <View style={styles.fullscreen}>
       {openScanner ? (
-        <CameraKitScreen
+        <BarcodeCameraKitScreen
           onBarcodeScan={onBarcodeScan}
           setOpenScanner={setOpenScanner}
         />
