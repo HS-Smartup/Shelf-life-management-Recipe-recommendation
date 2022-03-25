@@ -3,6 +3,7 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  Modal,
   PermissionsAndroid,
   Platform,
   Pressable,
@@ -15,9 +16,8 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
-import {Camera, CameraType} from 'react-native-camera-kit';
-import CameraKitCameraScreen from 'react-native-camera-kit';
-import CameraKitScreen from './BarcodeCameraKitScreen';
+import {launchImageLibrary} from 'react-native-image-picker';
+import ImageSelectModal from 'components/Recipe/ImageSelectModal';
 
 const RecipeAddScreen = () => {
   const navigation = useNavigation();
@@ -28,80 +28,98 @@ const RecipeAddScreen = () => {
     setInput({...input, [name]: value});
   };
 
-  const [imagePress, setImagePress] = useState(false);
-  const [openCamera, setOpenCamera] = useState(false);
+  const [response, setResponse] = useState(null);
 
-  const onOpenCamera = () => {
-    async function requestCameraPermission() {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // If CAMERA Permission is granted
-          setOpenCamera(true);
-        } else {
-          Alert.alert(
-            '카메라 사용권한 거부',
-            '카메라 사용권한이 거부되었습니다.',
-            [{text: '확인'}],
-          );
+  const onSelectImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 1,
+        includeBase64: Platform.OS === 'android',
+      },
+      res => {
+        if (res.didCancel) {
+          return;
         }
-      } catch (error) {
-        Alert.alert('카메라 권한 에러', error);
-        console.error(error);
-      }
-    }
-    requestCameraPermission();
+        setResponse(res);
+        console.log(res);
+      },
+    );
   };
+
+  const [selectModalVisible, setSelectModalVisible] = useState(false);
 
   return (
     <View style={styles.fullScreen}>
-      {openCamera ? (
-        <View style={{flex: 1}}>
-          <CameraKitScreen />
-        </View>
-      ) : (
-        <View>
-          <View style={styles.header}>
-            <Pressable onPress={() => navigation.goBack()}>
-              <Icon name="arrow-back" size={32} color={'#ff8527'} />
+      <View>
+        <View style={styles.header}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" size={32} color={'#ff8527'} />
+          </Pressable>
+          <View style={styles.btnWrapper}>
+            <Pressable onPress={onSelectImage} android_ripple={'#f2f3f4'}>
+              <Text style={styles.saveText}>저장</Text>
             </Pressable>
-            <View style={styles.btnWrapper}>
-              <Pressable onPress={onOpenCamera} android_ripple={'#f2f3f4'}>
-                <Text style={styles.saveText}>저장</Text>
-              </Pressable>
-            </View>
           </View>
-          <View style={styles.listWrapper}>
-            <KeyboardAwareFlatList
-              enableOnAndroid={true}
-              enableAutomaticScroll={true}
-              data={[{id: 1}]}
-              renderItem={({item}) => (
-                <View style={styles.list}>
-                  <View style={styles.nameWrapper}>
-                    <Text style={styles.recipeName}>레시피 제목</Text>
-                    <TextInput
-                      style={styles.inputName}
-                      autoCapitalize="none"
-                      onChangeText={createChangeTextHandler('recipeName')}
-                      placeholder={'레시피 제목'}
+        </View>
+        <View style={styles.listWrapper}>
+          <KeyboardAwareFlatList
+            enableOnAndroid={true}
+            enableAutomaticScroll={true}
+            data={[{id: 1}]}
+            renderItem={({item}) => (
+              <View style={styles.list}>
+                <View style={styles.nameWrapper}>
+                  <Text style={styles.recipeName}>레시피 제목</Text>
+                  <TextInput
+                    style={styles.inputName}
+                    autoCapitalize="none"
+                    onChangeText={createChangeTextHandler('recipeName')}
+                    placeholder={'레시피 제목'}
+                  />
+                </View>
+                <Modal
+                  avoidKeyboard={true}
+                  animationType="fade"
+                  transparent={true}
+                  visible={selectModalVisible}
+                  onRequestClose={() => {
+                    setSelectModalVisible(!selectModalVisible);
+                  }}>
+                  <ImageSelectModal
+                    setSelectModalVisible={setSelectModalVisible}
+                    setResponse={setResponse}
+                  />
+                </Modal>
+                {response ? (
+                  <Pressable
+                    style={styles.imageWrapper}
+                    onPress={() => setSelectModalVisible(true)}>
+                    <Image
+                      style={styles.imageFull}
+                      source={{uri: response?.assets[0]?.uri}}
+                      resizeMode="cover"
                     />
-                  </View>
-                  <View style={styles.imageWrapper}>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    style={styles.imageWrapper}
+                    onPress={() => setSelectModalVisible(true)}>
                     <Image
                       style={styles.image}
-                      source={require('../../assets/images/pizza.jpg')}
+                      source={require('../../assets/images/recipeAddDefault.png')}
                       resizeMode="stretch"
                     />
-                  </View>
-                </View>
-              )}
-            />
-          </View>
+                    <Text style={styles.imageText}>
+                      레시피 대표 사진을 등록해주세요
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
+            )}
+          />
         </View>
-      )}
+      </View>
     </View>
   );
 };
@@ -154,15 +172,30 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: '100%',
-    height: 320,
+    height: 500,
     marginTop: 15,
     marginLeft: 10,
     borderRadius: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#f2f3f4',
+    alignItems: 'center',
+    borderColor: '#636773',
+    borderWidth: 0.5,
+    elevation: 5,
   },
-  image: {
+  imageFull: {
     width: '100%',
     height: '100%',
     borderRadius: 10,
+  },
+  image: {
+    width: '100%',
+    height: '85%',
+    borderRadius: 10,
+  },
+  imageText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 22,
+    color: '#000000',
+    marginBottom: 5,
   },
 });
