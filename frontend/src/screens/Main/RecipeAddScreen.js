@@ -1,10 +1,6 @@
 import {
-  Alert,
-  FlatList,
   Image,
-  KeyboardAvoidingView,
   Modal,
-  PermissionsAndroid,
   Platform,
   Pressable,
   StyleSheet,
@@ -18,6 +14,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImageSelectModal from 'components/Recipe/ImageSelectModal';
+import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
 
 const RecipeAddScreen = () => {
   const navigation = useNavigation();
@@ -48,6 +46,10 @@ const RecipeAddScreen = () => {
   };
 
   const [selectModalVisible, setSelectModalVisible] = useState(false);
+
+  const [category, setCategory] = useState();
+
+  const [selectTime, setSelectTime] = useState();
 
   return (
     <View style={styles.fullScreen}>
@@ -115,6 +117,45 @@ const RecipeAddScreen = () => {
                     </Text>
                   </Pressable>
                 )}
+                <View style={styles.categoryWrapper}>
+                  <Text style={styles.categoryText}>카테고리</Text>
+                  <Picker
+                    style={styles.categoryPicker}
+                    mode={'dropdown'}
+                    selectedValue={category}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setCategory(itemValue)
+                    }>
+                    <Picker.Item label="한식" value="한식" />
+                    <Picker.Item label="양식" value="양식" />
+                    <Picker.Item label="중식" value="중식" />
+                    <Picker.Item label="일식" value="일식" />
+                    <Picker.Item label="분식" value="분식" />
+                  </Picker>
+                </View>
+                {/* <View style={styles.timeWrapper}>
+                  <Text style={styles.timeText}>요리 시간</Text>
+                  <Picker
+                    mode={'dropdown'}
+                    selectedValue={selectTime}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setSelectTime(itemValue)
+                    }>
+                    <Picker.Item label="10분" value="10" />
+                    <Picker.Item label="20분" value="20" />
+                    <Picker.Item label="30분" value="30" />
+                    <Picker.Item label="40분" value="40" />
+                    <Picker.Item label="50분" value="50" />
+                    <Picker.Item label="1시간" value="60" />
+                    <Picker.Item label="1시간 10분" value="70" />
+                    <Picker.Item label="1시간 20분" value="80" />
+                    <Picker.Item label="1시간 30분" value="90" />
+                    <Picker.Item label="1시간 40분" value="100" />
+                    <Picker.Item label="1시간 50분" value="110" />
+                    <Picker.Item label="2시간" value="120" />
+                    <Picker.Item label="2시간 이상" value="130" />
+                  </Picker>
+                </View> */}
               </View>
             )}
           />
@@ -178,9 +219,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#f2f3f4',
     alignItems: 'center',
-    borderColor: '#636773',
-    borderWidth: 0.5,
+    // borderColor: '#636773',
+    // borderWidth: 0.5,
     elevation: 5,
+    marginBottom: 10,
   },
   imageFull: {
     width: '100%',
@@ -197,5 +239,23 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: '#000000',
     marginBottom: 5,
+  },
+  categoryWrapper: {
+    width: '100%',
+    marginLeft: 30,
+    marginVertical: 10,
+  },
+  categoryText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 18,
+    color: '#636773',
+  },
+  categoryPicker: {
+    width: '90%',
+  },
+  timeWrapper: {
+    width: '100%',
+    height: 200,
+    backgroundColor: '#ff8527',
   },
 });
