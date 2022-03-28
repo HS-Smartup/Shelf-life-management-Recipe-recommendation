@@ -73,9 +73,9 @@ public class ManageRecipeDto {
     private String INFO_NA;  // 나트륨
 
     private String HASH_TAG;  // 해쉬태그
-    private Integer views=0;
-    private Integer likes=0;
-    private Integer stars=0;
+    private Integer views;
+    private Integer likes;
+    private Integer stars;
     private String ADD_TIME = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
     @Builder
@@ -98,7 +98,7 @@ public class ManageRecipeDto {
         this.MANUAL13=MANUAL13;this.MANUAL14=MANUAL14;this.MANUAL15=MANUAL15; 
         this.ADD_TIME=ADD_TIME; 
         this.WRITER=WRITER;
-        this.stars=stars; 
+        this.stars=stars;
         this.likes=likes;// this.views=views;
         //this.MANUAL16=MANUAL16;this.MANUAL17=MANUAL17;this.MANUAL18=MANUAL18;this.MANUAL19=MANUAL19;this.MANUAL20=MANUAL20;this.INFO_WGT=INFO_WGT;
         //this.MANUAL_IMG12=MANUAL_IMG12; this.MANUAL_IMG13=MANUAL_IMG13;this.MANUAL_IMG14=MANUAL_IMG14;this.MANUAL_IMG15=MANUAL_IMG15;this.MANUAL_IMG16=MANUAL_IMG16;this.MANUAL_IMG17=MANUAL_IMG17;this.MANUAL_IMG18=MANUAL_IMG18;this.MANUAL_IMG19=MANUAL_IMG19;this.MANUAL_IMG20=MANUAL_IMG20;
@@ -169,7 +169,6 @@ public class ManageRecipeDto {
                 .INFO_NA(INFO_NA)
                 .HASH_TAG(HASH_TAG)
                 .ADD_TIME(ADD_TIME)
-                .likes(likes)
                 .build();
     }
 

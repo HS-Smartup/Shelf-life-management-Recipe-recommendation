@@ -43,7 +43,16 @@ public class ManageRecipeService {
     }
 
 
-
-
-
+    public void inceaseNum(Long id) {
+        Optional<ManageRecipeEntity> manageRecipeEntity = manageRecipeRepository.findById(id);
+        Integer book = manageRecipeEntity.get().getLikes();
+        if (book == null){
+            manageRecipeEntity.get().setLikes(1);
+        }
+        else{
+            book = book + 1;
+            manageRecipeEntity.get().setLikes(book);
+        }
+        manageRecipeRepository.save(manageRecipeEntity.get());
+    }
 }

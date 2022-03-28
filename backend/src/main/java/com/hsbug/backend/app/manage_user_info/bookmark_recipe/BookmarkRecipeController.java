@@ -23,6 +23,8 @@ public class BookmarkRecipeController {
         String email = findEmail();
         JSONObject obj = new JSONObject();
         bookmarkSaveValidation(id, email, obj);
+        //dto에 해당 음식 likes +1
+        manageRecipeService.inceaseNum(id);
         return obj;
     }
 
@@ -38,13 +40,14 @@ public class BookmarkRecipeController {
         String email = findEmail();
         JSONObject obj = new JSONObject();
         bookmarkRecipeService.deleteBookmark(email, id);
+        //dto에 해당 음식 likes -1
         obj.put("message", "해당 북마크의 삭제가 완료되었습니다.");
         obj.put("status",200);
         return obj;
 
     }
 
-    private String findEmail() {
+        private String findEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return email;
     }

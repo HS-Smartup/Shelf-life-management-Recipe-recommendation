@@ -80,7 +80,7 @@ public class ManageRecipeEntity {
     private Integer views;
     @Column(updatable = false)
     private Integer stars;
-    @Column(updatable = false)
+    //@Column(updatable = false)
     private Integer likes;
     private String ADD_TIME;
 
@@ -183,9 +183,5 @@ public class ManageRecipeEntity {
                 .build();
     }
 
-    /*
-    public void countLikes(ManageRecipeDto dto){
-        this.id =id;
 
-    }*/
 }
