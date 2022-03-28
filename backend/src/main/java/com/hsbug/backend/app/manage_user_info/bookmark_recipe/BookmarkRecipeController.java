@@ -1,5 +1,7 @@
 package com.hsbug.backend.app.manage_user_info.bookmark_recipe;
 
+import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
+import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,12 +16,15 @@ import java.util.List;
 public class BookmarkRecipeController {
 
     private final BookmarkRecipeService bookmarkRecipeService;
+    private final ManageRecipeService manageRecipeService;
 
     @PostMapping("/addBookmark")
     public JSONObject addBookmark(@RequestParam Long id) {
         String email = findEmail();
         JSONObject obj = new JSONObject();
         bookmarkSaveValidation(id, email, obj);
+        manageRecipeService.inceaseNum(id);
+
         return obj;
     }
 
@@ -35,6 +40,7 @@ public class BookmarkRecipeController {
         String email = findEmail();
         JSONObject obj = new JSONObject();
         bookmarkRecipeService.deleteBookmark(email, id);
+        manageRecipeService.decreaseNum(id);
         obj.put("message", "해당 북마크의 삭제가 완료되었습니다.");
         obj.put("status",200);
         return obj;
