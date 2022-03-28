@@ -3,6 +3,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeTab from './HomeTab';
 import SearchScreen from './SearchScreen';
 import {UserNameContextProvider} from 'contexts/UserNameContext';
+import RecipeScreen from './RecipeScreen';
+import RecipeAddScreen from './RecipeAddScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +20,16 @@ const MainStack = () => {
         <Stack.Screen
           name="SearchScreen"
           component={SearchScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RecipeScreen"
+          component={RecipeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RecipeAddScreen"
+          component={RecipeAddScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

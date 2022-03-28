@@ -39,7 +39,7 @@ const HomeScreen = ({navigation}) => {
     return (
       <View style={styles.card}>
         <Image
-          source={img ? img : null}
+          source={img ? img : require('../../assets/images/defaultRecipe.png')}
           style={styles.recipeImage}
           resizeMode="stretch"
         />
@@ -51,7 +51,9 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
-        <Pressable onPress={() => navigation.navigate('HomeScreen')}>
+        <Pressable
+          onPress={() => navigation.navigate('HomeScreen')}
+          android_ripple={{color: '#f2f3f4'}}>
           <Image
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
@@ -59,14 +61,17 @@ const HomeScreen = ({navigation}) => {
           />
         </Pressable>
         <Pressable
-          style={styles.searchWarpper}
-          onPress={() => navigation.navigate('SearchScreen')}>
+          style={styles.searchWrapper}
+          onPress={() => navigation.navigate('SearchScreen')}
+          android_ripple={{color: '#f2f3f4'}}>
           <View style={styles.search}>
             <Icon name="search" size={24} color={'#ff8527'} />
             <Text style={styles.searchText}>레시피 검색</Text>
           </View>
         </Pressable>
-        <Pressable style={styles.notification}>
+        <Pressable
+          style={styles.notification}
+          android_ripple={{color: '#f2f3f4'}}>
           <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
       </View>
@@ -77,7 +82,8 @@ const HomeScreen = ({navigation}) => {
             <View style={styles.content}>
               <Pressable
                 style={styles.myRefrigerator}
-                onPress={() => navigation.navigate('RefrigeratorScreen')}>
+                onPress={() => navigation.navigate('RefrigeratorScreen')}
+                android_ripple={{color: '#f2f3f4'}}>
                 <Image
                   source={require('../../assets/images/logo.png')}
                   style={styles.logo}
@@ -85,7 +91,9 @@ const HomeScreen = ({navigation}) => {
                 <Text style={styles.myRefrigeratorText}>내 냉장고 </Text>
               </Pressable>
               <View style={styles.recipeSearch}>
-                <Pressable style={styles.recipeSearchBtn}>
+                <Pressable
+                  style={styles.recipeSearchBtn}
+                  onPress={() => navigation.navigate('RecipeAddScreen')}>
                   <Image
                     source={require('../../assets/images/refrigeratorSearchBtn.png')}
                     style={styles.recipeSearchImage}
@@ -143,7 +151,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 10,
   },
-  searchWarpper: {
+  searchWrapper: {
     flexDirection: 'row',
     width: '69%',
     height: 48,

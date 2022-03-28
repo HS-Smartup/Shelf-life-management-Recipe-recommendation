@@ -164,5 +164,5 @@ gradle-app.setting
 
 ### IntelliJ IDEA ###
 application-mysql.properties
-
+/build/resources/application.properties
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij

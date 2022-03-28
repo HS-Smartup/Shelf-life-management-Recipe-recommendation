@@ -10,17 +10,40 @@ import React from 'react';
 
 const RefrigeratorItem = ({
   id,
-  itemImage,
   itemName,
+  itemImage,
   itemAmount,
   itemReg,
   itemExp,
   itemRemainingDate,
+  itemModalVisible,
+  setItemModalVisible,
+  setId,
+  setDetailItem,
 }) => {
+  const onPressItem = () => {
+    setItemModalVisible(!itemModalVisible);
+    setId(id);
+    setDetailItem({
+      ['itemName']: itemName,
+      ['itemImage']: itemImage,
+      ['itemAmount']: itemAmount,
+      ['itemReg']: itemReg,
+      ['itemExp']: itemExp,
+    });
+  };
+
   return (
-    <Pressable style={styles.itemWrapper} onPress={() => console.log('hi')}>
+    <Pressable
+      style={styles.itemWrapper}
+      onPress={onPressItem}
+      android_ripple={{color: '#f2f3f4'}}>
       <Image
-        source={`${itemImage}` ? {uri: `${itemImage}`} : null}
+        source={
+          `${itemImage}`
+            ? {uri: `${itemImage}`}
+            : require('../../assets/images/refrigeratorDefault.png')
+        }
         style={styles.itemImage}
         resizeMode="contain"
       />
@@ -32,10 +55,14 @@ const RefrigeratorItem = ({
           </View>
           <View style={styles.expCircleWrapper}>
             <ImageBackground
-              source={require('../assets/images/expCircle.png')}
+              source={require('../../assets/images/expCircle.png')}
               style={styles.expCircle}
               resizeMode="center">
-              <Text style={styles.expCircleText}>{itemRemainingDate}</Text>
+              {itemRemainingDate <= 3 ? (
+                <Text style={styles.expCircleTextRed}>{itemRemainingDate}</Text>
+              ) : (
+                <Text style={styles.expCircleText}>{itemRemainingDate}</Text>
+              )}
             </ImageBackground>
           </View>
         </View>
@@ -53,9 +80,6 @@ const RefrigeratorItem = ({
 export default RefrigeratorItem;
 
 const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-  },
   itemWrapper: {
     width: 390,
     height: 130,
@@ -129,9 +153,9 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   expCircleWrapper: {
-    width: '13%',
+    width: '18%',
     height: '80%',
-    marginLeft: 20,
+    marginLeft: 10,
   },
   expCircle: {
     height: '100%',
@@ -142,5 +166,10 @@ const styles = StyleSheet.create({
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 16,
     color: '#000000',
+  },
+  expCircleTextRed: {
+    fontFamily: 'NanumSquareRoundOTFEB',
+    fontSize: 18,
+    color: '#d50000',
   },
 });

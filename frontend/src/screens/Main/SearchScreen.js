@@ -16,7 +16,7 @@ const SearchScreen = ({navigation}) => {
         </Pressable>
         <Pressable
           style={styles.searchWrapper}
-          onPress={() => navigation.navigate('SearchScreen')}>
+          onPress={() => navigation.navigate('RecipeScreen')}>
           <View style={styles.search}>
             <Icon name="search" size={24} color={'#636773'} />
             <Text style={styles.searchText}>레시피 검색</Text>
@@ -28,7 +28,7 @@ const SearchScreen = ({navigation}) => {
           source={require('../../assets/images/searchContent.png')}
           style={styles.contentImage}
         />
-        <Text style={styles.contnetText}>궁금한 레시피를 검색해보세요.</Text>
+        <Text style={styles.contentText}>궁금한 레시피를 검색해보세요.</Text>
       </View>
     </View>
   );
@@ -75,9 +75,9 @@ const styles = StyleSheet.create({
     height: 130,
     margin: 20,
   },
-  contnetText: {
+  contentText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 30,
-    color: '#000000',
+    color: '#636773',
   },
 });

@@ -3,7 +3,7 @@ import React from 'react';
 import {Pressable} from 'react-native';
 import {CameraScreen} from 'react-native-camera-kit';
 
-const CameraKitScreen = ({onBarcodeScan, setOpenScanner}) => {
+const BarcodeCameraKitScreen = ({onBarcodeScan, setOpenScanner}) => {
   return (
     <View style={styles.fullScreen}>
       <CameraScreen
@@ -31,7 +31,7 @@ const CameraKitScreen = ({onBarcodeScan, setOpenScanner}) => {
   );
 };
 
-export default CameraKitScreen;
+export default BarcodeCameraKitScreen;
 
 const styles = StyleSheet.create({
   fullScreen: {

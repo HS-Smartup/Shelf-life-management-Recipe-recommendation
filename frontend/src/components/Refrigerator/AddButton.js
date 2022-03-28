@@ -2,22 +2,19 @@ import {Animated, Platform, Pressable, StyleSheet, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
 
 const AddButton = ({
   hidden,
   setQrValue,
   setOpenScanner,
   onOpenScanner,
-  modalVisible,
-  setModalVisible,
+  addModalVisible,
+  setAddModalVisible,
 }) => {
-  const navigation = useNavigation();
-
   const [mainPress, setMainPress] = useState(false);
 
   const onPressSelfAddBtn = () => {
-    setModalVisible(!modalVisible);
+    setAddModalVisible(!addModalVisible);
   };
 
   const onToggle = () => {
@@ -62,10 +59,10 @@ const AddButton = ({
               onPress={() => {
                 setOpenScanner(false);
                 setQrValue(false);
-                setMainPress(false);
                 setTimeout(() => {
                   onOpenScanner();
-                }, 10);
+                  setMainPress(false);
+                }, 100);
               }}>
               <CommunityIcon
                 name="barcode-scan"
@@ -77,15 +74,18 @@ const AddButton = ({
           <View style={styles.selfAddBtnWrapper}>
             <Pressable
               style={({pressed}) => [styles.selfAddBtn]}
-              android_ripple={{color: '#fff'}}
-              onPress={onPressSelfAddBtn}>
+              android_ripple={{color: '#f2f3f4'}}
+              onPress={() => {
+                setMainPress(false);
+                onPressSelfAddBtn();
+              }}>
               <CommunityIcon name="pencil-plus" size={20} style={styles.icon} />
             </Pressable>
           </View>
           <View style={styles.mainBtnWrapper}>
             <Pressable
               style={({pressed}) => [styles.mainBtn]}
-              android_ripple={{color: '#fff'}}
+              android_ripple={{color: '#f2f3f4'}}
               onPress={onToggle}>
               <Icon name="close" size={32} style={styles.icon} />
             </Pressable>
@@ -96,7 +96,7 @@ const AddButton = ({
           <View style={styles.mainBtnWrapper}>
             <Pressable
               style={({pressed}) => [styles.mainBtn]}
-              android_ripple={{color: '#fff'}}
+              android_ripple={{color: '#f2f3f4'}}
               onPress={onToggle}>
               <Icon name="add" size={32} style={styles.icon} />
             </Pressable>

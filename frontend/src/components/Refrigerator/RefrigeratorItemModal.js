@@ -1,6 +1,7 @@
 import {
   Alert,
   Image,
+  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -11,24 +12,26 @@ import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import DeleteConfirmModal from './DeleteConfirmModal';
+import UpdateConfirmModal from './UpdateConfirmModal';
 
-const RefrigeratorAddModal = ({
-  qrValue,
-  setQrValue,
-  modalVisible,
-  setModalVisible,
+const RefrigeratorItemModal = ({
+  itemModalVisible,
+  setItemModalVisible,
   input,
   setInput,
   readItem,
+  id,
+  detailItem,
 }) => {
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
   };
 
-  const [regDate, setRegDate] = useState(new Date());
+  const [regDate, setRegDate] = useState(new Date(detailItem.itemReg));
   const [regOpen, setRegOpen] = useState(false);
-  const [expDate, setExpDate] = useState(new Date());
+  const [expDate, setExpDate] = useState(new Date(detailItem.itemExp));
   const [expOpen, setExpOpen] = useState(false);
 
   const formattedRegDate = moment(regDate).format('YYYY-MM-DD');
@@ -41,100 +44,102 @@ const RefrigeratorAddModal = ({
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formattedRegDate, formattedExpDate, input.itemAmount]);
+  }, [formattedRegDate, formattedExpDate, input.itemName]);
 
   useEffect(() => {
     setInput({
       ...input,
-      ['itemName']: '',
-      ['itemAmount']: '',
-      ['itemImage']: '',
+      ['itemName']: detailItem.itemName,
+      ['itemAmount']: detailItem.itemAmount,
+      ['itemImage']: detailItem.itemImage,
       ['itemReg']: formattedRegDate,
       ['itemExp']: formattedExpDate,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setModalVisible]);
+  }, [setItemModalVisible]);
 
   const onPressCancel = () => {
-    setModalVisible(!modalVisible);
-    setQrValue('');
+    setItemModalVisible(!itemModalVisible);
   };
 
-  const onPressSubmit = async () => {
-    if (!input.itemName) {
-      Alert.alert('상품명을 입력해주세요.');
-      return;
-    }
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [updateConfirm, setUpdateConfirm] = useState(false);
 
-    if (!input.itemAmount) {
-      Alert.alert('수량을 입력해주세요.');
-      return;
-    }
+  const onPressDeleteConfirm = () => {
+    setDeleteConfirm(!deleteConfirm);
+  };
 
-    if (input.itemReg > input.itemExp) {
-      Alert.alert(
-        '유통기한을 다시 설정해주세요.\n유통기한이 등록일자보다 커야 합니다.',
-      );
-      return;
-    }
-    try {
-      console.log('111', input);
-      const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/refrig/addProduct', {
-        method: 'POST',
-        body: JSON.stringify(input),
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          console.log(responseJson);
-          if (responseJson.status === 200) {
-            setModalVisible(!modalVisible);
-            readItem();
-          } else {
-            console.log('error');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+  const onPressUpdateConfirm = () => {
+    setUpdateConfirm(!updateConfirm);
   };
 
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <Text style={styles.title}>상품 등록</Text>
+        <View style={styles.modalHeader}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>상품 정보</Text>
+          </View>
+          <Pressable
+            style={styles.deleteBtnWrapper}
+            onPress={onPressDeleteConfirm}>
+            <Icon
+              name="delete-forever"
+              size={36}
+              color={'#ff8527'}
+              android_ripple={{color: '#f2f3f4'}}
+            />
+          </Pressable>
+          {/* 삭제 확인 모달 */}
+          <Modal
+            avoidKeyboard={true}
+            animationType="fade"
+            transparent={true}
+            visible={deleteConfirm}
+            onRequestClose={() => {
+              setDeleteConfirm(!deleteConfirm);
+            }}>
+            <DeleteConfirmModal
+              deleteConfirm={deleteConfirm}
+              setDeleteConfirm={setDeleteConfirm}
+              id={id}
+              itemModalVisible={itemModalVisible}
+              setItemModalVisible={setItemModalVisible}
+              readItem={readItem}
+            />
+          </Modal>
+        </View>
         <Image
-          source={`${input.itemImage}` ? {uri: `${input.itemImage}`} : null}
+          source={
+            `${detailItem.itemImage}`
+              ? {uri: `${detailItem.itemImage}`}
+              : require('../../assets/images/refrigeratorDefault.png')
+          }
           style={styles.image}
           resizeMode="center"
         />
-
         <View style={styles.textWrapper}>
           <TextInput
             style={styles.itemName}
+            autoCapitalize="none"
             onChangeText={createChangeTextHandler('itemName')}
             placeholder={'상품명'}
-            value={input.itemName}
+            defaultValue={detailItem.itemName}
           />
           <TextInput
             style={styles.itemAmount}
             onChangeText={createChangeTextHandler('itemAmount')}
             placeholder={'수량'}
             keyboardType="number-pad"
+            defaultValue={detailItem.itemAmount.toString()}
           />
           <View style={styles.itemRegExpWrapper}>
             <View style={styles.itemRegWrapper}>
               <Text style={styles.itemRegTitle}>등록일자</Text>
               <Pressable
                 onPress={() => setRegOpen(true)}
-                style={styles.itemReg}>
+                style={styles.itemReg}
+                android_ripple={{color: '#b3b4ba'}}>
                 <Text style={styles.itemRegText}>{formattedRegDate}</Text>
               </Pressable>
               <DatePicker
@@ -159,7 +164,8 @@ const RefrigeratorAddModal = ({
               <Text style={styles.itemRegTitle}>유통기한</Text>
               <Pressable
                 onPress={() => setExpOpen(true)}
-                style={styles.itemExp}>
+                style={styles.itemExp}
+                android_ripple={{color: '#b3b4ba'}}>
                 <Text style={styles.itemRegText}>{formattedExpDate}</Text>
               </Pressable>
               <DatePicker
@@ -183,19 +189,44 @@ const RefrigeratorAddModal = ({
           </View>
         </View>
         <View style={styles.btnWrapper}>
-          <Pressable style={styles.cancelBtn} onPress={onPressCancel}>
+          <Pressable
+            style={styles.cancelBtn}
+            onPress={onPressCancel}
+            android_ripple={{color: '#f2f3f4'}}>
             <Text style={styles.cancelText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.successBtn} onPress={onPressSubmit}>
-            <Text style={styles.successText}>등록</Text>
+          <Pressable
+            style={styles.successBtn}
+            onPress={onPressUpdateConfirm}
+            android_ripple={{color: '#f2f3f4'}}>
+            <Text style={styles.successText}>수정</Text>
           </Pressable>
+          {/* 수정 확인 모달 */}
+          <Modal
+            avoidKeyboard={true}
+            animationType="fade"
+            transparent={true}
+            visible={updateConfirm}
+            onRequestClose={() => {
+              setUpdateConfirm(!updateConfirm);
+            }}>
+            <UpdateConfirmModal
+              updateConfirm={updateConfirm}
+              setUpdateConfirm={setUpdateConfirm}
+              input={input}
+              id={id}
+              itemModalVisible={itemModalVisible}
+              setItemModalVisible={setItemModalVisible}
+              readItem={readItem}
+            />
+          </Modal>
         </View>
       </View>
     </View>
   );
 };
 
-export default RefrigeratorAddModal;
+export default RefrigeratorItemModal;
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -214,11 +245,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
+  modalHeader: {
+    flexDirection: 'row',
+    width: '100%',
+  },
+  titleWrapper: {
+    width: '85%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
     fontFamily: 'NanumSquareRoundOTFEB',
     fontSize: 26,
     color: '#000000',
     marginVertical: 10,
+    marginLeft: '18%',
+  },
+  deleteBtnWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   image: {
     width: '40%',
@@ -319,6 +365,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 5,
     elevation: 5,
+    overflow: 'hidden',
   },
   successBtn: {
     width: '47%',
@@ -329,6 +376,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 15,
     elevation: 5,
+    overflow: 'hidden',
   },
   cancelText: {
     fontFamily: 'NanumSquareRoundOTFB',

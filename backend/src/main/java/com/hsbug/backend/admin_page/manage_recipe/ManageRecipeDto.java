@@ -79,7 +79,7 @@ public class ManageRecipeDto {
     private String ADD_TIME = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
     @Builder
-    public ManageRecipeDto(Long id, String RCP_SEQ, String RCP_NM,String RCP_PAT2, String RCP_PARTS_DTLS, String RCP_WAY2
+    public ManageRecipeDto(Long RCP_ID, String RCP_SEQ, String RCP_NM,String RCP_PAT2, String RCP_PARTS_DTLS, String RCP_WAY2
             , String ATT_FILE_NO_MAIN, String ATT_FILE_NO_MK, String MANUAL01, String MANUAL02, String MANUAL03, String MANUAL04
             , String MANUAL05, String MANUAL06, String MANUAL07, String MANUAL08, String MANUAL09, String MANUAL10, String MANUAL11
             , String MANUAL12, String MANUAL_IMG01, String MANUAL_IMG02, String MANUAL_IMG03, String MANUAL_IMG04, String MANUAL_IMG05
@@ -88,7 +88,7 @@ public class ManageRecipeDto {
             , String MANUAL13, String MANUAL14, String MANUAL15, String WRITER,Integer views, Integer stars, Integer likes, String ADD_TIME) {
         //String MANUAL16, String MANUAL17, String MANUAL18, String MANUAL19, String MANUAL20, String INFO_WGT, String MANUAL_IMG12, String MANUAL_IMG13,
         //String MANUAL_IMG14, String MANUAL_IMG15, String MANUAL_IMG16, String MANUAL_IMG17, String MANUAL_IMG18, String MANUAL_IMG19, String MANUAL_IMG20
-        this.RCP_ID=id;
+        this.RCP_ID=RCP_ID;
         this.RCP_SEQ=RCP_SEQ;
         this.RCP_NM=RCP_NM; this.RCP_PAT2=RCP_PAT2; this.RCP_WAY2=RCP_WAY2;
         this.ATT_FILE_NO_MAIN=ATT_FILE_NO_MAIN; this.ATT_FILE_NO_MK=ATT_FILE_NO_MK; this.RCP_PARTS_DTLS = RCP_PARTS_DTLS; this.MANUAL01=MANUAL01;

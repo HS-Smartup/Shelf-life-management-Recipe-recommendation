@@ -18,3 +18,5 @@
 /backend/.gradle/buildOutputCleanup/outputFiles.bin
 /backend/.gradle/buildOutputCleanup/cache.properties
 /backend/src/main/resources/application-mysql.properties
+/backend/build/resources/main/application.properties
+/backend/build/resources/main/application-mysql.properties

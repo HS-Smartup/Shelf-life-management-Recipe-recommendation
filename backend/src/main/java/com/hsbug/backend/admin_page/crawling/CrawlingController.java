@@ -16,26 +16,19 @@ import java.util.Map;
 public class CrawlingController{
     private final CrawlingService crawlingService;
 
-    /**
-     * post input값 예시
-     *     {
-     *         "url": "http://kfoodtech.com/?page_id=734",
-     *             "cssQuery" : "h2[class=blog-shortcode-post-title entry-title]"
-     *     }
-     */
-    @ResponseBody
     @PostMapping("/crawling")
     public Map<String, List> crawlingPageFix(@RequestBody CrawlingRequestDto requestDto) throws IOException {
         Map<String, List> searchResult = crawlingService.findTextByCssQuery(requestDto);
         return searchResult;
     }
 
-    /**
-     * Method : Get
-     * kfoodtech 사이트의 다중 페이지를 한번에 검색함 (id 기반)
-     * @return
-     * @throws IOException
-     */
+    @ResponseBody
+    @PostMapping("/crawlingText")
+    public List<String> crawlingPageText(@RequestBody CrawlingRequestDto requestDto) throws IOException {
+        List<String> searchResult = searchResult = crawlingService.findTextByCssQueryNotABS(requestDto);
+        return searchResult;
+    }
+
     @GetMapping("/crawling2")
     public JSONObject crawlingPageFix2() throws IOException {
         JSONObject obj = new JSONObject();

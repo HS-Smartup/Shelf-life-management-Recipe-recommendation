@@ -58,7 +58,7 @@ const KaKaoSignIn = ({navigation}) => {
     <View style={styles.snsButtonWrapper}>
       <Pressable onPress={kakaoSignIn}>
         <Image
-          source={require('../assets/images/kakaoBtn.png')}
+          source={require('../../assets/images/kakaoBtn.png')}
           style={styles.kakaoButton}
         />
       </Pressable>
