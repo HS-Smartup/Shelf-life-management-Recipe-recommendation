@@ -14,7 +14,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImageSelectModal from 'components/Recipe/ImageSelectModal';
-import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
 
 const RecipeAddScreen = () => {
@@ -47,9 +46,14 @@ const RecipeAddScreen = () => {
 
   const [selectModalVisible, setSelectModalVisible] = useState(false);
 
-  const [category, setCategory] = useState();
+  const [typeCategory, setTypeCategory] = useState();
+  const [situationCategory, setSituationCategory] = useState();
+  const [ingredientCategory, setIngredientCategory] = useState();
+  const [methodCategory, setMethodCategory] = useState();
 
-  const [selectTime, setSelectTime] = useState();
+  const [cookTime, setCookTime] = useState();
+  const [level, setLevel] = useState();
+  const [serve, setServe] = useState();
 
   return (
     <View style={styles.fullScreen}>
@@ -118,44 +122,180 @@ const RecipeAddScreen = () => {
                   </Pressable>
                 )}
                 <View style={styles.categoryWrapper}>
-                  <Text style={styles.categoryText}>카테고리</Text>
-                  <Picker
-                    style={styles.categoryPicker}
-                    mode={'dropdown'}
-                    selectedValue={category}
-                    onValueChange={(itemValue, itemIndex) =>
-                      setCategory(itemValue)
-                    }>
-                    <Picker.Item label="한식" value="한식" />
-                    <Picker.Item label="양식" value="양식" />
-                    <Picker.Item label="중식" value="중식" />
-                    <Picker.Item label="일식" value="일식" />
-                    <Picker.Item label="분식" value="분식" />
-                  </Picker>
+                  <Text style={styles.titleText}>카테고리</Text>
+                  <View style={styles.categoryInnerWrapper}>
+                    <Picker
+                      style={styles.categoryPicker}
+                      mode={'dropdown'}
+                      selectedValue={typeCategory}
+                      dropdownIconColor={'#ff8527'}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setTypeCategory(itemValue)
+                      }>
+                      <Picker.Item label="---종류별---" value="---종류별---" />
+                      <Picker.Item label="밑반찬" value="밑반찬" />
+                      <Picker.Item label="메인반찬" value="메인반찬" />
+                      <Picker.Item label="국/탕/찌개" value="국/탕/찌개" />
+                      <Picker.Item label="면/만두" value="면/만두" />
+                      <Picker.Item label="밥/떡/죽" value="밥/떡/죽" />
+                      <Picker.Item label="양식" value="양식" />
+                      <Picker.Item label="중식" value="중식" />
+                      <Picker.Item label="일식" value="일식" />
+                      <Picker.Item label="김치/젓갈/장" value="김치/젓갈/장" />
+                      <Picker.Item label="양념/소스/잼" value="양념/소스/잼" />
+                      <Picker.Item label="디저트" value="디저트" />
+                      <Picker.Item label="차/음료/술" value="차/음료/술" />
+                      <Picker.Item label="기타" value="기타" />
+                    </Picker>
+                    <Picker
+                      style={styles.categoryPicker}
+                      mode={'dropdown'}
+                      selectedValue={situationCategory}
+                      dropdownIconColor={'#ff8527'}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setSituationCategory(itemValue)
+                      }>
+                      <Picker.Item label="---상황별---" value="---상황별---" />
+                      <Picker.Item label="일상" value="일상" />
+                      <Picker.Item label="간식" value="간식" />
+                      <Picker.Item label="야식" value="야식" />
+                      <Picker.Item label="간단요리" value="간단요리" />
+                      <Picker.Item label="손님접대" value="손님접대" />
+                      <Picker.Item label="술안주" value="술안주" />
+                      <Picker.Item label="다이어트" value="다이어트" />
+                      <Picker.Item label="건강식" value="건강식" />
+                      <Picker.Item label="비건" value="비건" />
+                      <Picker.Item label="도시락" value="도시락" />
+                      <Picker.Item label="해장" value="해장" />
+                      <Picker.Item label="명절" value="명절" />
+                      <Picker.Item label="이유식" value="이유식" />
+                      <Picker.Item label="기타" value="기타" />
+                    </Picker>
+                  </View>
+                  <View style={styles.categoryInnerWrapper}>
+                    <Picker
+                      style={styles.categoryPicker}
+                      mode={'dropdown'}
+                      selectedValue={ingredientCategory}
+                      dropdownIconColor={'#ff8527'}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setIngredientCategory(itemValue)
+                      }>
+                      <Picker.Item label="---재료별---" value="---재료별---" />
+                      <Picker.Item label="육류" value="육류" />
+                      <Picker.Item label="소고기" value="소고기" />
+                      <Picker.Item label="돼지고기" value="돼지고기" />
+                      <Picker.Item label="닭고기" value="닭고기" />
+                      <Picker.Item label="채소류" value="채소류" />
+                      <Picker.Item label="해물류" value="해물류" />
+                      <Picker.Item label="달걀/유제품" value="달걀/유제품" />
+                      <Picker.Item label="가공식품" value="가공식품" />
+                      <Picker.Item label="쌀/곡류" value="쌀/곡류" />
+                      <Picker.Item label="밀가루" value="밀가루" />
+                      <Picker.Item label="건어물류" value="건어물류" />
+                      <Picker.Item label="버섯류" value="버섯류" />
+                      <Picker.Item label="과일류" value="과일류" />
+                      <Picker.Item label="콩/견과류" value="콩/견과류" />
+                      <Picker.Item label="기타" value="기타" />
+                    </Picker>
+                    <Picker
+                      style={styles.categoryPicker}
+                      mode={'dropdown'}
+                      selectedValue={methodCategory}
+                      dropdownIconColor={'#ff8527'}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setMethodCategory(itemValue)
+                      }>
+                      <Picker.Item label="---방법별---" value="---방법별---" />
+                      <Picker.Item label="볶음" value="볶음" />
+                      <Picker.Item label="끓이기" value="끓이기" />
+                      <Picker.Item label="부침" value="부침" />
+                      <Picker.Item label="조림" value="조림" />
+                      <Picker.Item label="무침" value="무침" />
+                      <Picker.Item label="비빔" value="비빔" />
+                      <Picker.Item label="찜" value="찜" />
+                      <Picker.Item label="절임" value="절임" />
+                      <Picker.Item label="튀김" value="튀김" />
+                      <Picker.Item label="삶기" value="삶기" />
+                      <Picker.Item label="굽기" value="굽기" />
+                      <Picker.Item label="데치기" value="데치기" />
+                      <Picker.Item label="회" value="회" />
+                      <Picker.Item label="기타" value="기타" />
+                    </Picker>
+                  </View>
                 </View>
-                {/* <View style={styles.timeWrapper}>
-                  <Text style={styles.timeText}>요리 시간</Text>
-                  <Picker
-                    mode={'dropdown'}
-                    selectedValue={selectTime}
-                    onValueChange={(itemValue, itemIndex) =>
-                      setSelectTime(itemValue)
-                    }>
-                    <Picker.Item label="10분" value="10" />
-                    <Picker.Item label="20분" value="20" />
-                    <Picker.Item label="30분" value="30" />
-                    <Picker.Item label="40분" value="40" />
-                    <Picker.Item label="50분" value="50" />
-                    <Picker.Item label="1시간" value="60" />
-                    <Picker.Item label="1시간 10분" value="70" />
-                    <Picker.Item label="1시간 20분" value="80" />
-                    <Picker.Item label="1시간 30분" value="90" />
-                    <Picker.Item label="1시간 40분" value="100" />
-                    <Picker.Item label="1시간 50분" value="110" />
-                    <Picker.Item label="2시간" value="120" />
-                    <Picker.Item label="2시간 이상" value="130" />
-                  </Picker>
-                </View> */}
+                <View style={styles.infoWrapper}>
+                  <View style={styles.infoInnerWrapper}>
+                    <Text style={styles.infoText}>요리 시간</Text>
+                    <Picker
+                      style={styles.infoPicker}
+                      mode={'dropdown'}
+                      selectedValue={cookTime}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setCookTime(itemValue)
+                      }>
+                      <Picker.Item label="10분" value="10" />
+                      <Picker.Item label="20분" value="20" />
+                      <Picker.Item label="30분" value="30" />
+                      <Picker.Item label="40분" value="40" />
+                      <Picker.Item label="50분" value="50" />
+                      <Picker.Item label="1시간" value="60" />
+                      <Picker.Item label="1시간 10분" value="70" />
+                      <Picker.Item label="1시간 20분" value="80" />
+                      <Picker.Item label="1시간 30분" value="90" />
+                      <Picker.Item label="1시간 40분" value="100" />
+                      <Picker.Item label="1시간 50분" value="110" />
+                      <Picker.Item label="2시간" value="120" />
+                      <Picker.Item label="2시간 이상" value="130" />
+                    </Picker>
+                  </View>
+                  <View style={styles.infoInnerWrapper}>
+                    <Text style={styles.infoText}>난이도</Text>
+                    <Picker
+                      style={styles.infoPicker}
+                      mode={'dropdown'}
+                      selectedValue={level}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setLevel(itemValue)
+                      }>
+                      <Picker.Item label="쉬움" value="쉬움" />
+                      <Picker.Item label="보통" value="보통" />
+                      <Picker.Item label="어려움" value="어려움" />
+                    </Picker>
+                  </View>
+                  <View style={styles.infoInnerWrapper}>
+                    <Text style={styles.infoText}>인원</Text>
+                    <Picker
+                      style={styles.infoPicker}
+                      mode={'dropdown'}
+                      selectedValue={serve}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setServe(itemValue)
+                      }>
+                      <Picker.Item label="1인분" value="1인분" />
+                      <Picker.Item label="2인분" value="2인분" />
+                      <Picker.Item label="3인분" value="3인분" />
+                      <Picker.Item label="4인분" value="4인분" />
+                      <Picker.Item label="5인분 이상" value="5인분 이상" />
+                    </Picker>
+                  </View>
+                </View>
+                <View style={styles.descriptionWrapper}>
+                  <Text style={styles.titleText}>요리 설명</Text>
+                  <TextInput
+                    style={styles.descriptionText}
+                    multiline={true}
+                    caretHidden={true}
+                    underlineColorAndroid="transparent"
+                    placeholder="요리 설명을 입력해주세요"
+                  />
+                </View>
+                <View style={styles.ingredientWrapper}>
+                  <Text style={styles.titleText}>재료</Text>
+                </View>
+                <View style={styles.stepWrapper}>
+                  <Text style={styles.titleText}>요리 순서</Text>
+                </View>
               </View>
             )}
           />
@@ -196,7 +336,8 @@ const styles = StyleSheet.create({
   },
   nameWrapper: {
     width: '100%',
-    marginLeft: 30,
+    marginLeft: 10,
+    padding: 10,
   },
   recipeName: {
     fontFamily: 'NanumSquareRoundOTFB',
@@ -204,7 +345,7 @@ const styles = StyleSheet.create({
     color: '#636773',
   },
   inputName: {
-    width: '90%',
+    width: '100%',
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 16,
     color: '#000000',
@@ -219,8 +360,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#f2f3f4',
     alignItems: 'center',
-    // borderColor: '#636773',
-    // borderWidth: 0.5,
     elevation: 5,
     marginBottom: 10,
   },
@@ -242,20 +381,85 @@ const styles = StyleSheet.create({
   },
   categoryWrapper: {
     width: '100%',
-    marginLeft: 30,
+    marginLeft: 10,
     marginVertical: 10,
+    backgroundColor: '#f2f3f4',
+    padding: 10,
+    elevation: 5,
+    borderRadius: 10,
   },
-  categoryText: {
+  titleText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 20,
+    color: '#636773',
+  },
+  categoryInnerWrapper: {
+    width: '95%',
+    flexDirection: 'row',
+  },
+  categoryPicker: {
+    width: '50%',
+    marginHorizontal: 5,
+  },
+  infoWrapper: {
+    width: '100%',
+    marginLeft: 10,
+    marginVertical: 10,
+    backgroundColor: '#f2f3f4',
+    padding: 10,
+    elevation: 5,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  infoInnerWrapper: {
+    width: '100%',
+    marginLeft: 10,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  infoText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 18,
     color: '#636773',
   },
-  categoryPicker: {
-    width: '90%',
+  infoPicker: {
+    width: '50%',
+    marginHorizontal: 5,
   },
-  timeWrapper: {
+  descriptionWrapper: {
     width: '100%',
-    height: 200,
-    backgroundColor: '#ff8527',
+    marginLeft: 10,
+    marginVertical: 10,
+    backgroundColor: '#f2f3f4',
+    padding: 10,
+    elevation: 5,
+    borderRadius: 10,
+  },
+  descriptionText: {
+    width: '90%',
+    fontFamily: 'NanumSquareRoundOTFR',
+    fontSize: 15,
+    color: '#000',
+  },
+  ingredientWrapper: {
+    width: '100%',
+    marginLeft: 10,
+    marginVertical: 10,
+    backgroundColor: '#f2f3f4',
+    padding: 10,
+    elevation: 5,
+    borderRadius: 10,
+  },
+  stepWrapper: {
+    width: '100%',
+    marginBottom: 100,
+    marginLeft: 10,
+    marginVertical: 10,
+    backgroundColor: '#f2f3f4',
+    padding: 10,
+    elevation: 5,
+    borderRadius: 10,
   },
 });
