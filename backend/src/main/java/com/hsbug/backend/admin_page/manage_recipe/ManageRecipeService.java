@@ -41,4 +41,31 @@ public class ManageRecipeService {
                 .build();
         return dto;
     }
+    public void inceaseNum(Long id) {
+        Optional<ManageRecipeEntity> manageRecipeEntity = manageRecipeRepository.findById(id);
+        Integer book = manageRecipeEntity.get().getLikes();
+        if (book == null){
+            manageRecipeEntity.get().setLikes(1);
+        }
+        else{
+            book = book + 1;
+            manageRecipeEntity.get().setLikes(book);
+        }
+        manageRecipeRepository.save(manageRecipeEntity.get());
+    }
+
+    public void decreaseNum(long id) {
+        Optional<ManageRecipeEntity> manageRecipeEntity = manageRecipeRepository.findById(id);
+        Integer book = manageRecipeEntity.get().getLikes();
+        if(book == 1){
+            manageRecipeEntity.get().setLikes(null);
+        }else{
+            book = book -1;
+            manageRecipeEntity.get().setLikes(book);
+        }
+
+        manageRecipeRepository.save(manageRecipeEntity.get());
+
+    }
+
 }

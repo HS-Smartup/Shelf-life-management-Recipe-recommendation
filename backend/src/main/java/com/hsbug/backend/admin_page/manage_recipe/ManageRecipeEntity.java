@@ -80,7 +80,7 @@ public class ManageRecipeEntity {
     private Integer views;
     @Column(updatable = false)
     private Integer stars;
-    @Column(updatable = false)
+
     private Integer likes;
     private String ADD_TIME;
 
