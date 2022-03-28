@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.manage_user_info.bookmark_recipe;
 
+import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import java.util.List;
 public class BookmarkRecipeService {
 
     private final BookmarkRecipeRepository bookmarkRecipeRepository;
+    private final ManageRecipeDto manageRecipeDto;
+
 
     private BookmarkRecipeDto convertEntityToDto(BookmarkRecipeEntity bookmarkRecipeEntity){
         return BookmarkRecipeDto.builder()
@@ -33,7 +36,7 @@ public class BookmarkRecipeService {
             obj.put("status",200);
             return obj;
         } catch(Exception e){
-            obj.put("message","아무 값이 음슴");
+            obj.put("message","아무 값이 없음");
             obj.put("status",200);
             return obj;
         }

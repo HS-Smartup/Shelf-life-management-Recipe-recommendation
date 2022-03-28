@@ -58,7 +58,6 @@ public class ManageProductController {
         return obj;
     }
 
-      // dto를 read하여 수정후에 dto를 수정한다
 
     @PostMapping("/updateProduct")
     public JSONObject UpdateProduct(@RequestBody ManageProductDto dto) throws ParseException {

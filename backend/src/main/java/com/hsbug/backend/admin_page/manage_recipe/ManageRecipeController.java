@@ -131,6 +131,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                 recipeDto.setINFO_FAT(((String) jsonObject.get("INFO_FAT")));
                 recipeDto.setINFO_NA(((String) jsonObject.get("INFO_NA")));
                 recipeDto.setHASH_TAG(((String) jsonObject.get("HASH_TAG")));
+                recipeDto.setLikes(((int)jsonObject.get("likes")));
 
                 //if (!manageRecipeService.checkRecipe((String) jsonObject.get("RCP_SEQ"))){
                     System.out.println("업데이트를 진행합니다.");
@@ -205,6 +206,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                 recipeDto.setINFO_FAT(((String) jsonObject.get("INFO_FAT")));
                 recipeDto.setINFO_NA(((String) jsonObject.get("INFO_NA")));
                 recipeDto.setHASH_TAG(((String) jsonObject.get("HASH_TAG")));
+                recipeDto.setLikes(((int)jsonObject.get("likes")));
                 // 660
                  manageRecipeService.saveRecipe((long) (j+660),recipeDto);
 
