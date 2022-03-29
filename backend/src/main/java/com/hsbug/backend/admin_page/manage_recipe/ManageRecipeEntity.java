@@ -1,26 +1,43 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredients;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
 @Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
 public class ManageRecipeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "RECIPE_ID")
     private Long id;
     private String WRITER;
     private String RCP_SEQ;  // 레시피 번호
     private String RCP_NM;    // 레시피 이름
     private String RCP_PAT2;  // 요리 종류
-    @Column(length=600)
+
     private String RCPPARTSDTLS;  // 재료 정보
+
+    @OneToMany(mappedBy = "recipeEntityId",cascade = CascadeType.ALL)
+    private List<RecipeIngredients> recipeIngredientsList = new ArrayList<>();
+
+    public void addRecipeIngredientsList(RecipeIngredients recipeIngredients) {
+        this.recipeIngredientsList.add(recipeIngredients);
+        if (recipeIngredients.getRecipeEntityId() != this) {
+            recipeIngredients.changeRecipeEntityId(this);
+        }
+    }
+
     private String RCP_WAY2;      // 조리 방법 (끓이기, 굽기, 찌기 등)
 
     private String ATT_FILE_NO_MAIN;  // 메인 이미지 (소)
@@ -173,4 +190,6 @@ public class ManageRecipeEntity {
                 .ADD_TIME(ADD_TIME)
                 .build();
     }
+
+
 }
