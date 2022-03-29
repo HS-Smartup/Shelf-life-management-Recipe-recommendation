@@ -1,5 +1,6 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
+import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredients;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +21,7 @@ public class ManageRecipeDto {
     private String RCP_NM;    // 레시피 이름
     private String RCP_PAT2;  // 요리 종류
     private String RCP_PARTS_DTLS;  // 재료 정보
+    private List<RecipeIngredients> recipeIngredientsList = new ArrayList<>();
     private String RCP_WAY2;      // 조리 방법 (끓이기, 굽기, 찌기 등)
 
     private String ATT_FILE_NO_MAIN;  // 메인 이미지 (소)
