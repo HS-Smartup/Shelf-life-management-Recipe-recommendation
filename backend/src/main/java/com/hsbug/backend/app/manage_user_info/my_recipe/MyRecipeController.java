@@ -1,9 +1,10 @@
 package com.hsbug.backend.app.manage_user_info.my_recipe;
 
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
+import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredients;
+import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredientsService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class MyRecipeController {
 
     private final MyRecipeService myRecipeService;
+    private final RecipeIngredientsService recipeIngredientsService;
+
 
     @GetMapping("/read")
     public JSONObject readMyRecipe() {
@@ -33,15 +36,23 @@ public class MyRecipeController {
     }
 
     @PostMapping("/add")
-    public JSONObject addMyRecipe(@RequestBody ManageRecipeDto manageRecipeDto){
+    public List addMyRecipe(@RequestBody ManageRecipeDto manageRecipeDto){
         String email = findEmail();
         JSONObject obj = new JSONObject();
         manageRecipeDto.setWRITER(email);
+        Long id = recipeIngredientsService.saveRecipe(manageRecipeDto);
+        List ingredientsList = recipeIngredientsService.findIngredientsList(id);
+        System.out.println("=====================================");
+        List<RecipeIngredients> result = recipeIngredientsService.findIngredientsList(id);
+        for ( RecipeIngredients recipeIngredients: result) {
+            System.out.println(recipeIngredients.getRecipeEntityId().getId());
+        }
+        //반환값을 바꿔서 나가게 작업이 추가로 필요함
+        System.out.println("=====================================");
 
-        myRecipeService.saveRecipe(manageRecipeDto);
-        obj.put("message","저장");
-        obj.put("content : ",manageRecipeDto);
-        return obj;
+        return result;
+
+
     }
 
     @PostMapping("/delete")
