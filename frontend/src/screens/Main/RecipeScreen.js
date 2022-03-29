@@ -183,7 +183,6 @@ const RecipeScreen = () => {
                 <Text style={styles.ingredientTitle}>[재료]</Text>
                 {/* 재료 리스트 컴포넌트 */}
                 <IngredientList recipe={recipe} setRecipe={setRecipe} />
-                {/* <IngredientList recipeIngredients={recipe.recipeIngredients} /> */}
               </View>
               <View style={styles.recipeWrapper}>
                 {/* 레시피 리스트 컴포넌트 */}
