@@ -2,12 +2,14 @@ package com.hsbug.backend.app.manage_user_info.my_recipe;
 
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredients;
+import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredientsDTO;
 import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredientsService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,17 +42,21 @@ public class MyRecipeController {
         String email = findEmail();
         JSONObject obj = new JSONObject();
         manageRecipeDto.setWRITER(email);
+        List<RecipeIngredientsDTO> resultList = new ArrayList<>();
         Long id = recipeIngredientsService.saveRecipe(manageRecipeDto);
         List ingredientsList = recipeIngredientsService.findIngredientsList(id);
         System.out.println("=====================================");
         List<RecipeIngredients> result = recipeIngredientsService.findIngredientsList(id);
         for ( RecipeIngredients recipeIngredients: result) {
-            System.out.println(recipeIngredients.getRecipeEntityId().getId());
+            int count = 0;
+            System.out.println("제료 리스트 = " + recipeIngredients.getRecipeEntityId().getRecipeIngredientsList().get(count).toString());
+            resultList.add(recipeIngredients.toDto());
+            count++;
         }
         //반환값을 바꿔서 나가게 작업이 추가로 필요함
         System.out.println("=====================================");
 
-        return result;
+        return resultList;
 
 
     }
