@@ -21,13 +21,13 @@ public class RecipeIngredients {
     @JoinColumn(name = "RECIPE_ID")
     private ManageRecipeEntity recipeEntityId;
 
-    public void changeRecipeEntityId(ManageRecipeEntity recipeEntityId) {
-        if (this.recipeEntityId != null) {
-            this.recipeEntityId.getRecipeIngredientsList().remove(this);
-        }
-        this.recipeEntityId = recipeEntityId;
-        recipeEntityId.getRecipeIngredientsList().add(this);
-    }
+//    public void changeRecipeEntityId(ManageRecipeEntity recipeEntityId) {
+//        if (this.recipeEntityId != null) {
+//            this.recipeEntityId.getRecipeIngredientsList().remove(this);
+//        }
+//        this.recipeEntityId = recipeEntityId;
+//        recipeEntityId.getRecipeIngredientsList().add(this);
+//    }
 
     private String ingredientName;
     private String ingredientAmount;
