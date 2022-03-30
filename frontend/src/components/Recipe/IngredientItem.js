@@ -19,7 +19,7 @@ export default IngredientItem;
 const styles = StyleSheet.create({
   itemWrapper: {
     width: '95%',
-    height: 40,
+    // height: 40,
     flexDirection: 'row',
     borderBottomWidth: 0.6,
     borderBottomColor: '#636773',
