@@ -1,5 +1,6 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
+import com.hsbug.backend.admin_page.recipeStep.RecipeStepEntity;
 import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredients;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class ManageRecipeDto {
     private String RCP_PAT2;  // 요리 종류
     private String RCP_PARTS_DTLS;  // 재료 정보
     private List<RecipeIngredients> recipeIngredientsList = new ArrayList<>();
+    private List<RecipeStepEntity> recipeStepEntityList = new ArrayList<>();
     private String RCP_WAY2;      // 조리 방법 (끓이기, 굽기, 찌기 등)
 
     private String ATT_FILE_NO_MAIN;  // 메인 이미지 (소)
