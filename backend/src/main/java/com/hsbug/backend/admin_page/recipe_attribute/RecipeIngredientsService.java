@@ -25,9 +25,8 @@ public class RecipeIngredientsService {
             System.out.println("ingredients = " + ingredients);
             recipe.addRecipeIngredientsList(ingredients);
         }
-        manageRecipeRepository.save(recipe);
+        manageRecipeRepository.save(recipe);    //재료 저장하기
 
-        //레시피 저장하기
         return recipe.getId();
     }
 
