@@ -37,4 +37,11 @@ public class RecipeIngredients {
         this.ingredientAmount = ingredientAmount;
     }
 
+    public RecipeIngredientsDTO toDto() {
+        RecipeIngredientsDTO dto = new RecipeIngredientsDTO();
+        dto.setIngredientName(this.ingredientName);
+        dto.setIngredientAmount(this.ingredientAmount);
+        return dto;
+    }
+
 }
