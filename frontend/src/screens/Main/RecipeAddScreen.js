@@ -15,17 +15,95 @@ import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImageSelectModal from 'components/Recipe/ImageSelectModal';
 import {Picker} from '@react-native-picker/picker';
+import InputIngredientList from 'components/Recipe/InputIngredientList';
 
 const RecipeAddScreen = () => {
   const navigation = useNavigation();
 
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({
+    recipeName: '',
+    recipeMainImage: '',
+    typeCategory: '',
+    situationCategory: '',
+    ingredientCategory: '',
+    methodCategory: '',
+    recipeTime: '',
+    recipeLevel: '',
+    recipeServes: '',
+    recipeDescription: '',
+    recipeIngredients: [
+      {ingredientName: '', ingredientAmount: ''},
+      {ingredientName: '', ingredientAmount: ''},
+      {ingredientName: '', ingredientAmount: ''},
+    ],
+  });
 
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
   };
 
-  const [response, setResponse] = useState(null);
+  const handleIngredientNameChange = ({name, value, ingredientIndex}) => {
+    setInput(prev => {
+      return {
+        ...input,
+        recipeIngredients: prev.recipeIngredients.map((ingredient, index) => {
+          if (index == ingredientIndex) {
+            return {...ingredient, ingredientName: value};
+          }
+          return ingredient;
+        }),
+      };
+    });
+  };
+
+  const handleIngredientAmountChange = ({name, value, ingredientIndex}) => {
+    setInput(prev => {
+      return {
+        ...input,
+        recipeIngredients: prev.recipeIngredients.map((ingredient, index) => {
+          if (index == ingredientIndex) {
+            return {...ingredient, ingredientAmount: value};
+          }
+          return ingredient;
+        }),
+      };
+    });
+  };
+
+  const addIngredientInputs = () => {
+    setInput(prev => {
+      return {
+        ...prev,
+        recipeIngredients: [
+          ...prev.recipeIngredients,
+          {ingredientName: '', ingredientAmount: ''},
+        ],
+      };
+    });
+  };
+
+  const removeIngredientInput = ingredientIndex => {
+    setInput({
+      ...input,
+      recipeIngredients: input.recipeIngredients.filter(
+        (recipeIngredients, removedIngredient) =>
+          removedIngredient !== ingredientIndex,
+      ),
+    });
+  };
+
+  const [recipeImage, setRecipeImage] = useState(null);
+
+  const [selectModalVisible, setSelectModalVisible] = useState(false);
+
+  const [typeCategory, setTypeCategory] = useState();
+  const [situationCategory, setSituationCategory] = useState();
+  const [ingredientCategory, setIngredientCategory] = useState();
+  const [methodCategory, setMethodCategory] = useState();
+
+  const [recipeTime, setRecipeTime] = useState();
+  const [recipeLevel, setRecipeLevel] = useState();
+  const [recipeServes, setRecipeServes] = useState();
 
   const onSelectImage = () => {
     launchImageLibrary(
@@ -38,22 +116,10 @@ const RecipeAddScreen = () => {
         if (res.didCancel) {
           return;
         }
-        setResponse(res);
-        console.log(res);
+        setRecipeImage(res);
       },
     );
   };
-
-  const [selectModalVisible, setSelectModalVisible] = useState(false);
-
-  const [typeCategory, setTypeCategory] = useState();
-  const [situationCategory, setSituationCategory] = useState();
-  const [ingredientCategory, setIngredientCategory] = useState();
-  const [methodCategory, setMethodCategory] = useState();
-
-  const [cookTime, setCookTime] = useState();
-  const [level, setLevel] = useState();
-  const [serve, setServe] = useState();
 
   return (
     <View style={styles.fullScreen}>
@@ -94,16 +160,16 @@ const RecipeAddScreen = () => {
                   }}>
                   <ImageSelectModal
                     setSelectModalVisible={setSelectModalVisible}
-                    setResponse={setResponse}
+                    setRecipeImage={setRecipeImage}
                   />
                 </Modal>
-                {response ? (
+                {recipeImage ? (
                   <Pressable
                     style={styles.imageWrapper}
                     onPress={() => setSelectModalVisible(true)}>
                     <Image
                       style={styles.imageFull}
-                      source={{uri: response?.assets[0]?.uri}}
+                      source={{uri: recipeImage?.assets[0]?.uri}}
                       resizeMode="cover"
                     />
                   </Pressable>
@@ -230,9 +296,9 @@ const RecipeAddScreen = () => {
                     <Picker
                       style={styles.infoPicker}
                       mode={'dropdown'}
-                      selectedValue={cookTime}
+                      selectedValue={recipeTime}
                       onValueChange={(itemValue, itemIndex) =>
-                        setCookTime(itemValue)
+                        setRecipeTime(itemValue)
                       }>
                       <Picker.Item label="10분" value="10" />
                       <Picker.Item label="20분" value="20" />
@@ -254,9 +320,9 @@ const RecipeAddScreen = () => {
                     <Picker
                       style={styles.infoPicker}
                       mode={'dropdown'}
-                      selectedValue={level}
+                      selectedValue={recipeLevel}
                       onValueChange={(itemValue, itemIndex) =>
-                        setLevel(itemValue)
+                        setRecipeLevel(itemValue)
                       }>
                       <Picker.Item label="쉬움" value="쉬움" />
                       <Picker.Item label="보통" value="보통" />
@@ -268,9 +334,9 @@ const RecipeAddScreen = () => {
                     <Picker
                       style={styles.infoPicker}
                       mode={'dropdown'}
-                      selectedValue={serve}
+                      selectedValue={recipeServes}
                       onValueChange={(itemValue, itemIndex) =>
-                        setServe(itemValue)
+                        setRecipeServes(itemValue)
                       }>
                       <Picker.Item label="1인분" value="1인분" />
                       <Picker.Item label="2인분" value="2인분" />
@@ -283,15 +349,31 @@ const RecipeAddScreen = () => {
                 <View style={styles.descriptionWrapper}>
                   <Text style={styles.titleText}>요리 설명</Text>
                   <TextInput
-                    style={styles.descriptionText}
+                    style={styles.inputDescription}
                     multiline={true}
-                    caretHidden={true}
+                    autoCapitalize="none"
+                    onChangeText={createChangeTextHandler('recipeDescription')}
                     underlineColorAndroid="transparent"
                     placeholder="요리 설명을 입력해주세요"
                   />
                 </View>
                 <View style={styles.ingredientWrapper}>
                   <Text style={styles.titleText}>재료</Text>
+                  <InputIngredientList
+                    input={input}
+                    setInput={setInput}
+                    handleIngredientNameChange={handleIngredientNameChange}
+                    handleIngredientAmountChange={handleIngredientAmountChange}
+                    removeIngredientInput={removeIngredientInput}
+                  />
+                  <View style={styles.addBtnWrapper}>
+                    <Pressable
+                      onPress={addIngredientInputs}
+                      style={styles.addBtn}>
+                      <Icon name="add-circle" size={44} color={'#ff8527'} />
+                      <Text style={styles.ingredientAddText}>재료 추가</Text>
+                    </Pressable>
+                  </View>
                 </View>
                 <View style={styles.stepWrapper}>
                   <Text style={styles.titleText}>요리 순서</Text>
@@ -437,7 +519,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
   },
-  descriptionText: {
+  inputDescription: {
     width: '90%',
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 15,
@@ -451,6 +533,21 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 5,
     borderRadius: 10,
+  },
+  addBtnWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ingredientAddText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 22,
+    color: '#000',
+    marginLeft: 10,
   },
   stepWrapper: {
     width: '100%',
