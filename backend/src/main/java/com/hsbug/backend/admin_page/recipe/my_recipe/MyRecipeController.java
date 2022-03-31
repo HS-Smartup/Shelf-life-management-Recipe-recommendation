@@ -1,12 +1,15 @@
-package com.hsbug.backend.app.manage_user_info.my_recipe;
+package com.hsbug.backend.admin_page.recipe.my_recipe;
 
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeJsonDTO;
+import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredientsDTO;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -15,6 +18,8 @@ import java.util.List;
 public class MyRecipeController {
 
     private final MyRecipeService myRecipeService;
+    private final RecipeService recipeService;
+
 
     @GetMapping("/read")
     public JSONObject readMyRecipe() {
@@ -33,15 +38,23 @@ public class MyRecipeController {
     }
 
     @PostMapping("/add")
-    public JSONObject addMyRecipe(@RequestBody ManageRecipeDto manageRecipeDto){
+    public List addMyRecipe(@RequestBody RecipeJsonDTO dto){
         String email = findEmail();
         JSONObject obj = new JSONObject();
-        manageRecipeDto.setWRITER(email);
+        dto.setRecipeWriter(email);
+        List<RecipeIngredientsDTO> resultList = new ArrayList<>();
+        System.out.println(dto.getRecipeIngredients());
+        System.out.println(dto.getRecipeStep());
+        Long id = recipeService.saveRecipe(dto);
 
-        myRecipeService.saveRecipe(manageRecipeDto);
-        obj.put("message","저장");
-        obj.put("content : ",manageRecipeDto);
-        return obj;
+
+        System.out.println("=====================================");
+
+        System.out.println("=====================================");
+
+        return resultList;
+
+
     }
 
     @PostMapping("/delete")
