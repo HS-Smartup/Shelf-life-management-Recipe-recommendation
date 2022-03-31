@@ -1,4 +1,4 @@
-package com.hsbug.backend.app.manage_user_info.my_recipe;
+package com.hsbug.backend.admin_page.recipe.my_recipe;
 
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
