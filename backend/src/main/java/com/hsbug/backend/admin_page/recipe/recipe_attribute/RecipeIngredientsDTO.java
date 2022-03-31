@@ -1,4 +1,4 @@
-package com.hsbug.backend.admin_page.recipe_attribute;
+package com.hsbug.backend.admin_page.recipe.recipe_attribute;
 
 import lombok.Data;
 
