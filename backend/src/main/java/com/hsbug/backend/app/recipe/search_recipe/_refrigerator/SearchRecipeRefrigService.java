@@ -3,7 +3,7 @@ package com.hsbug.backend.app.recipe.search_recipe._refrigerator;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
-import com.hsbug.backend.app.manage_user_info.my_recipe.MyRecipeService;
+import com.hsbug.backend.admin_page.recipe.my_recipe.MyRecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

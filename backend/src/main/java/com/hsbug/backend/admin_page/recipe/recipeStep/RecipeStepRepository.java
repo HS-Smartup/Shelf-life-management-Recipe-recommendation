@@ -1,4 +1,4 @@
-package com.hsbug.backend.admin_page.recipeStep;
+package com.hsbug.backend.admin_page.recipe.recipeStep;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
