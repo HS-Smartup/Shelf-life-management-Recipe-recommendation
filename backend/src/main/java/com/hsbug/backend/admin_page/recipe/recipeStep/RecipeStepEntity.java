@@ -1,6 +1,6 @@
-package com.hsbug.backend.admin_page.recipeStep;
+package com.hsbug.backend.admin_page.recipe.recipeStep;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +11,12 @@ import javax.persistence.*;
 @Setter
 public class RecipeStepEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "RECIPE_ID")
-    private ManageRecipeEntity manageRecipeEntity;
+    private RecipeEntity recipeEntity;
 
     private String stepImage;
     private String stepDescription;
