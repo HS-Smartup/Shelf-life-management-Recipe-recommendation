@@ -1,6 +1,6 @@
-package com.hsbug.backend.admin_page.recipe_attribute;
+package com.hsbug.backend.admin_page.recipe.recipe_attribute;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,15 +19,7 @@ public class RecipeIngredients {
 
     @ManyToOne
     @JoinColumn(name = "RECIPE_ID")
-    private ManageRecipeEntity recipeEntityId;
-
-//    public void changeRecipeEntityId(ManageRecipeEntity recipeEntityId) {
-//        if (this.recipeEntityId != null) {
-//            this.recipeEntityId.getRecipeIngredientsList().remove(this);
-//        }
-//        this.recipeEntityId = recipeEntityId;
-//        recipeEntityId.getRecipeIngredientsList().add(this);
-//    }
+    private RecipeEntity recipeEntityId;
 
     private String ingredientName;
     private String ingredientAmount;
