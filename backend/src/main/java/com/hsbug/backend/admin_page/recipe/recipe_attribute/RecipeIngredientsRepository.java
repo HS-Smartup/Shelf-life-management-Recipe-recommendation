@@ -1,4 +1,4 @@
-package com.hsbug.backend.admin_page.recipe_attribute;
+package com.hsbug.backend.admin_page.recipe.recipe_attribute;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
