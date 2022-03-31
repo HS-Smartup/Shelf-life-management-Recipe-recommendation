@@ -1,10 +1,9 @@
-package com.hsbug.backend.admin_page.recipe_attribute;
+package com.hsbug.backend.admin_page.recipe.recipe;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
-import com.hsbug.backend.admin_page.recipeStep.RecipeStepEntity;
-import com.hsbug.backend.admin_page.recipeStep.RecipeStepRepository;
+import com.hsbug.backend.admin_page.recipe.recipeStep.RecipeStepEntity;
+import com.hsbug.backend.admin_page.recipe.recipeStep.RecipeStepRepository;
+import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredients;
+import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredientsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +12,20 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RecipeIngredientsService {
+public class RecipeService {
 
     private final RecipeIngredientsRepository recipeIngredientsRepository;
-    private final ManageRecipeRepository manageRecipeRepository;
+    private final RecipeRepository recipeRepository;
     private final RecipeStepRepository recipeStepRepository;
 
     @Transactional
-    public Long saveRecipe(ManageRecipeDto dto) {
+    public Long saveRecipe(RecipeJsonDTO dto) {
         //레시피 객체생성
-        ManageRecipeEntity recipe = dto.toEntity();
-        List<RecipeIngredients> dtoRecipeIngredientsList = dto.getRecipeIngredientsList();
-        List<RecipeStepEntity> recipeStepEntityList = dto.getRecipeStepEntityList();
+        RecipeEntity recipe = dto.toEntity();
+        List<RecipeIngredients> dtoRecipeIngredientsList = dto.getRecipeIngredients();
+        List<RecipeStepEntity> recipeStepEntityList = dto.getRecipeStep();
         //레시피 저장
-        manageRecipeRepository.save(recipe);
+        recipeRepository.save(recipe);
         //재료 저장
         for (RecipeIngredients ingredients:dtoRecipeIngredientsList) {
             ingredients.setRecipeEntityId(recipe);
@@ -34,7 +33,7 @@ public class RecipeIngredientsService {
         recipeIngredientsRepository.saveAll(dtoRecipeIngredientsList);
         //recipeStep 저장
         for (RecipeStepEntity recipeStepEntity : recipeStepEntityList) {
-           recipeStepEntity.setManageRecipeEntity(recipe);
+           recipeStepEntity.setRecipeEntity(recipe);
         }
         recipeStepRepository.saveAll(recipeStepEntityList);
 
