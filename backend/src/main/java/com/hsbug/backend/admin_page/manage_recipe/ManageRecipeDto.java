@@ -1,7 +1,7 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
-import com.hsbug.backend.admin_page.recipeStep.RecipeStepEntity;
-import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredients;
+import com.hsbug.backend.admin_page.recipe.recipeStep.RecipeStepEntity;
+import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredients;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
