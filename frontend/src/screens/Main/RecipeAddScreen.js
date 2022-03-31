@@ -16,6 +16,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import ImageSelectModal from 'components/Recipe/ImageSelectModal';
 import {Picker} from '@react-native-picker/picker';
 import InputIngredientList from 'components/Recipe/InputIngredientList';
+import InputStepList from 'components/Recipe/InputStepList';
 
 const RecipeAddScreen = () => {
   const navigation = useNavigation();
@@ -35,6 +36,11 @@ const RecipeAddScreen = () => {
       {ingredientName: '', ingredientAmount: ''},
       {ingredientName: '', ingredientAmount: ''},
       {ingredientName: '', ingredientAmount: ''},
+    ],
+    recipeStep: [
+      {stepImage: '', stepDescription: ''},
+      {stepImage: '', stepDescription: ''},
+      {stepImage: '', stepDescription: ''},
     ],
   });
 
@@ -377,6 +383,7 @@ const RecipeAddScreen = () => {
                 </View>
                 <View style={styles.stepWrapper}>
                   <Text style={styles.titleText}>요리 순서</Text>
+                  <InputStepList input={input} setInput={setInput} />
                 </View>
               </View>
             )}
