@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const InputIngredientItem = ({
   ingredientIndex,
-  recipeIngredients,
   handleIngredientNameChange,
   handleIngredientAmountChange,
   removeIngredientInput,

@@ -26,7 +26,6 @@ const InputIngredientList = ({
             <InputIngredientItem
               key={ingredientIndex}
               ingredientIndex={ingredientIndex}
-              recipeIngredients={item}
               handleIngredientNameChange={handleIngredientNameChange}
               handleIngredientAmountChange={handleIngredientAmountChange}
               removeIngredientInput={removeIngredientInput}
