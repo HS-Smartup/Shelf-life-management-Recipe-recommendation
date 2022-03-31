@@ -68,4 +68,12 @@ public class ManageRecipeService {
 
     }
 
+    public void setstars(long id){
+        Optional<ManageRecipeEntity> manageRecipeEntity = manageRecipeRepository.findById(id);
+        Integer star = manageRecipeEntity.get().getStars();
+        if(star == null){
+            manageRecipeEntity.get().getStars(1);
+        }
+    }
+
 }
