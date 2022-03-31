@@ -1,6 +1,7 @@
-package com.hsbug.backend.app.manage_user_info.my_recipe;
+package com.hsbug.backend.admin_page.recipe.recipe;
 
-import com.hsbug.backend.admin_page.recipe_attribute.RecipeIngredients;
+import com.hsbug.backend.admin_page.recipe.recipeStep.RecipeStepEntity;
+import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredients;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ public class RecipeJsonDTO {
 
     private Long id;
     private String recipeName;
-    private int recipeNumber;
     private String recipeWriter;
     private String recipeMainImage;
     private int recipeLikes;
@@ -20,10 +20,29 @@ public class RecipeJsonDTO {
     private int recipeRatingCount;
     private String recipeTime;
     private String recipeLevel;
-    private int recipeServes;
+    private String recipeServes;
     private String recipeDescription;
-    private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
-    private List recpieStep = new ArrayList<>();
+    private List<RecipeIngredients> recipeIngredients = new ArrayList<>();  //ok
+    private List<RecipeStepEntity> recipeStep = new ArrayList<>();    //ok
+
+
+
+    public RecipeEntity toEntity() {
+        return RecipeEntity.builder()
+                .id(this.id)
+                .recipeName(this.recipeName)
+                .recipeWriter(this.recipeWriter)
+                .recipeMainImage(this.recipeMainImage)
+                .recipeLikes(this.recipeLikes)
+                .recipeViews(this.recipeViews)
+                .recipeStar(this.recipeStar)
+                .recipeRatingCount(this.recipeRatingCount)
+                .recipeTime(this.recipeTime)
+                .recipeLevel(this.recipeLevel)
+                .recipeServes(this.recipeServes)
+                .recipeDescription(this.recipeDescription)
+                .build();
+    }
 }
 
 /*  데이터 형식 예제
