@@ -22,7 +22,7 @@ public class ManageRecipeEntity {
     private String RCP_SEQ;  // 레시피 번호
     private String RCP_NM;    // 레시피 이름
     private String RCP_PAT2;  // 요리 종류
-
+    @Column(length=600)
     private String RCPPARTSDTLS;  // 재료 정보
 
     private String RCP_WAY2;      // 조리 방법 (끓이기, 굽기, 찌기 등)
