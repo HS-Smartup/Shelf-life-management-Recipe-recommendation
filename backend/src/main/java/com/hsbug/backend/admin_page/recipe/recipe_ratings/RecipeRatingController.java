@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user/rating")
 @RequiredArgsConstructor
 public class RecipeRatingController {
-    private final RecipeRatingRepository recipeRatingRepository;
+    private final RecipeRatingService recipeRatingService;
 
     @PostMapping("/add")
     public void addRating(@RequestBody RecipeRatingDto dto) {
         log.info("recipe_id = {}", dto.getRecipeId());
-        recipeRatingRepository.save(dto.toEntity());
+        recipeRatingService.saveRating(dto.toEntity());
     }
 }
