@@ -3,11 +3,12 @@ package com.hsbug.backend.admin_page.recipe.my_recipe;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeEntity;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,20 +16,16 @@ import java.util.List;
 public class MyRecipeService {
 
     private final ManageRecipeRepository manageRecipeRepository;
+    private final RecipeRepository recipeRepository;
 
     @Transactional
     public void saveRecipe(ManageRecipeDto manageRecipeDto){
         manageRecipeRepository.save(manageRecipeDto.toEntity());
     }
 
-    public List<ManageRecipeDto> readRecipe(String email){
-        List<ManageRecipeEntity> manageRecipeEntities = manageRecipeRepository.findAllByWRITER(email);
-        List<ManageRecipeDto> manageRecipeDtos = new ArrayList<>();
-
-        for(ManageRecipeEntity manageRecipeEntity : manageRecipeEntities) {
-            manageRecipeDtos.add(this.convertEntityToDto(manageRecipeEntity));
-        }
-        return manageRecipeDtos;
+    public List<RecipeEntity> readRecipe(String email){
+        List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeWriter(email);
+        return myRecipe;
     }
 
     @Transactional
