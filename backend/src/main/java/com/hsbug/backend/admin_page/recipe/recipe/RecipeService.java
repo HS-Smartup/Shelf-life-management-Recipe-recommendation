@@ -14,25 +14,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecipeService {
 
-    private final RecipeIngredientsRepository recipeIngredientsRepository;
     private final RecipeRepository recipeRepository;
+    private final RecipeIngredientsRepository recipeIngredientsRepository;
     private final RecipeStepRepository recipeStepRepository;
 
     @Transactional
     public Long saveRecipe(RecipeJsonDTO dto) {
-        //레시피 객체생성
-        RecipeEntity recipe = dto.toEntity();
+        RecipeEntity recipe = dto.toEntity();       //레시피 객체생성
         List<RecipeIngredients> dtoRecipeIngredientsList = dto.getRecipeIngredients();
         List<RecipeStepEntity> recipeStepEntityList = dto.getRecipeStep();
-        //레시피 저장
-        recipeRepository.save(recipe);
-        //재료 저장
-        for (RecipeIngredients ingredients:dtoRecipeIngredientsList) {
+        recipeRepository.save(recipe);          //레시피 저장
+        for (RecipeIngredients ingredients:dtoRecipeIngredientsList) {      //재료 저장
             ingredients.setRecipeEntityId(recipe);
         }
         recipeIngredientsRepository.saveAll(dtoRecipeIngredientsList);
-        //recipeStep 저장
-        for (RecipeStepEntity recipeStepEntity : recipeStepEntityList) {
+
+        for (RecipeStepEntity recipeStepEntity : recipeStepEntityList) {    //recipeStep 저장
            recipeStepEntity.setRecipeEntity(recipe);
         }
         recipeStepRepository.saveAll(recipeStepEntityList);
@@ -40,7 +37,13 @@ public class RecipeService {
         return recipe.getId();
     }
 
-    public List findIngredientsList(Long id) {
-        return recipeIngredientsRepository.findAllByRecipeEntityId_Id(id);
+
+    public RecipeJsonDTO findDetail(Long id) {
+        RecipeJsonDTO dto = recipeRepository.findById(id).get().toDto();
+        List<RecipeIngredients> ingredientsList = recipeIngredientsRepository.findAllByRecipeEntityId_Id(id);
+        List<RecipeStepEntity> stepEntityList = recipeStepRepository.findAllByRecipeEntityId(id);
+        dto.setRecipeIngredients(ingredientsList);
+        dto.setRecipeStep(stepEntityList);
+        return dto;
     }
 }
