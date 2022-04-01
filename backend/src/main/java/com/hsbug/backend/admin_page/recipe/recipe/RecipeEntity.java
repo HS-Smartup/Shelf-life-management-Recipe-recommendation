@@ -15,7 +15,6 @@ public class RecipeEntity {
     @Column(name = "RECIPE_ID")
     private Long id;
     private String recipeName;
-    private int recipeNumber;
     private String recipeWriter;
     private String recipeMainImage;
     private int recipeLikes;
