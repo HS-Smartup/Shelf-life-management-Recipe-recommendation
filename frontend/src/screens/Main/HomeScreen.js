@@ -19,6 +19,7 @@ const HomeScreen = ({navigation}) => {
         .then(response => response.json())
         .then(responseJson => {
           // Successful response from the API Call
+          // console.log(responseJson);
           if (responseJson.recipe.length > 0) {
             // After the response increasing the offset
             setDataSource([...dataSource, ...responseJson.recipe]);
