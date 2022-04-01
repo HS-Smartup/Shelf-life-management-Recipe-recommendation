@@ -1,5 +1,7 @@
 package com.hsbug.backend.admin_page.recipe.recipe_ratings;
 
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeEntity;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +12,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecipeRatingService {
     private final RecipeRatingRepository recipeRatingRepository;
+    private final RecipeRepository recipeRepository;
 
-    public float ratingAverage(Long recipeId) {
+    @Transactional
+    public void ratingAverage(Long recipeId) {
         float total = 0;
         List<RecipeRatingsEntity> recipeRatings = recipeRatingRepository.findAllByRecipeId(recipeId);
         for (RecipeRatingsEntity recipeRating:recipeRatings) {
             total += recipeRating.getStarPoint();
         }
-        return total / recipeRatings.size();
+        float starPoint =total / recipeRatings.size();
+        RecipeEntity recipe = recipeRepository.findById(recipeId).get();
+        recipe.setRecipeStar(starPoint);
+        recipe.setRecipeRatingCount(recipeRatings.size());
     }
 
     public void saveRating(RecipeRatingsEntity recipeRatingsEntity) {
