@@ -40,7 +40,6 @@ const RecipeAddScreen = () => {
     recipeStep: [
       {stepImage: '', stepDescription: ''},
       {stepImage: '', stepDescription: ''},
-      {stepImage: '', stepDescription: ''},
     ],
   });
 
@@ -95,6 +94,20 @@ const RecipeAddScreen = () => {
         (recipeIngredients, removedIngredient) =>
           removedIngredient !== ingredientIndex,
       ),
+    });
+  };
+
+  const handleStepDescriptionChange = ({name, value, stepIndex}) => {
+    setInput(prev => {
+      return {
+        ...input,
+        recipeStep: prev.recipeStep.map((step, index) => {
+          if (index == stepIndex) {
+            return {...step, stepDescription: value};
+          }
+          return step;
+        }),
+      };
     });
   };
 
@@ -383,7 +396,11 @@ const RecipeAddScreen = () => {
                 </View>
                 <View style={styles.stepWrapper}>
                   <Text style={styles.titleText}>요리 순서</Text>
-                  <InputStepList input={input} setInput={setInput} />
+                  <InputStepList
+                    input={input}
+                    setInput={setInput}
+                    handleStepDescriptionChange={handleStepDescriptionChange}
+                  />
                 </View>
               </View>
             )}

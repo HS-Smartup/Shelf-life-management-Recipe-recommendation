@@ -2,7 +2,8 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import InputStepItem from './InputStepItem';
 
-const InputStepList = ({input}) => {
+const InputStepList = ({input, setInput, handleStepDescriptionChange}) => {
+  console.log('\n\n', input);
   return (
     <FlatList
       style={styles.list}
@@ -13,9 +14,10 @@ const InputStepList = ({input}) => {
           return (
             <InputStepItem
               key={stepIndex}
+              input={input}
+              setInput={setInput}
               stepIndex={stepIndex}
-              stepImage={i.stepImage}
-              stepDescription={i.stepDescription}
+              handleStepDescriptionChange={handleStepDescriptionChange}
             />
           );
         })

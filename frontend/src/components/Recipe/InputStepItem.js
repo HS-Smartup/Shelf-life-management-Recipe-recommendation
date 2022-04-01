@@ -7,26 +7,48 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import StepImageModal from './StepImageModal';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const InputStepItem = ({stepIndex, stepDescription}) => {
+const InputStepItem = ({
+  input,
+  setInput,
+  stepIndex,
+  handleStepDescriptionChange,
+}) => {
   const [stepImage, setStepImage] = useState(null);
   const [stepImageModalVisible, setStepImageModalVisible] = useState(false);
+
+  useEffect(() => {
+    setInput({
+      ...input,
+      recipeStep: input.recipeStep.map((step, index) => {
+        if (index == stepIndex) {
+          return {...step, stepImage: stepImage?.assets[0]?.uri};
+        }
+        return step;
+      }),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepImage]);
 
   return (
     <View style={styles.itemWrapper}>
       <View style={styles.imageWrapper}>
-        <Pressable onPress={() => setStepImageModalVisible(true)}>
-          <Image
-            style={styles.stepImage}
-            source={
-              `${stepImage}`
-                ? {uri: stepImage?.assets[0]?.uri}
-                : require('../../assets/images/defaultRecipe.png')
-            }
-            resizeMode="cover"
-          />
+        <Pressable
+          onPress={() => {
+            setStepImageModalVisible(true);
+          }}>
+          {stepImage ? (
+            <Image
+              style={styles.stepImage}
+              source={`${stepImage}` ? {uri: stepImage?.assets[0]?.uri} : null}
+              resizeMode="cover"
+            />
+          ) : (
+            <Icon name="add-photo-alternate" size={60} color={'#ffb856'} />
+          )}
         </Pressable>
         <Modal
           avoidKeyboard={true}
@@ -48,6 +70,13 @@ const InputStepItem = ({stepIndex, stepDescription}) => {
           style={styles.description}
           multiline={true}
           placeholder={'설명을 입력해주세요.'}
+          onChangeText={value =>
+            handleStepDescriptionChange({
+              name: 'stepDescription',
+              value,
+              stepIndex: stepIndex,
+            })
+          }
         />
       </View>
     </View>
@@ -68,13 +97,15 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   imageWrapper: {
-    width: '39%',
+    width: '35%',
     borderRadius: 10,
-    marginRight: 5,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   stepImage: {
     width: 130,
-    height: 130,
+    height: 120,
     borderRadius: 10,
   },
   descriptionWrapper: {

@@ -9,7 +9,6 @@ const InputIngredientList = ({
   handleIngredientAmountChange,
   removeIngredientInput,
 }) => {
-  console.log(input);
   return (
     <FlatList
       style={styles.list}
