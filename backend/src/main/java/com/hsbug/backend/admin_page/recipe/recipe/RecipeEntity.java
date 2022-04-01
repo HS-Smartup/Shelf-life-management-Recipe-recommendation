@@ -25,4 +25,22 @@ public class RecipeEntity {
     private String recipeLevel;
     private String recipeServes;
     private String recipeDescription;
+
+    public RecipeJsonDTO toDto(){
+        return RecipeJsonDTO.builder()
+                .id(this.id)
+                .recipeName(this.recipeName)
+                .recipeWriter(this.recipeWriter)
+                .recipeMainImage(this.recipeMainImage)
+                .recipeLikes(this.recipeLikes)
+                .recipeViews(this.recipeViews)
+                .recipeStar(this.recipeStar)
+                .recipeRatingCount(this.recipeRatingCount)
+                .recipeTime(this.recipeTime)
+                .recipeLevel(this.recipeLevel)
+                .recipeServes(this.recipeServes)
+                .recipeDescription(this.recipeDescription)
+                .build();
+    }
+
 }
