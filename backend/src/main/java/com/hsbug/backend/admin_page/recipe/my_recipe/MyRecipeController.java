@@ -1,15 +1,14 @@
 package com.hsbug.backend.admin_page.recipe.my_recipe;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
+import com.hsbug.backend.admin_page.recipe.recipe.RecipeEntity;
 import com.hsbug.backend.admin_page.recipe.recipe.RecipeJsonDTO;
-import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredientsDTO;
 import com.hsbug.backend.admin_page.recipe.recipe.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,36 +24,28 @@ public class MyRecipeController {
     public JSONObject readMyRecipe() {
         String email = findEmail();
         JSONObject obj = new JSONObject();
-        List<ManageRecipeDto> manageRecipeDtoList = myRecipeService.readRecipe(email);
-        obj.put("message","리드 완료");
-
+        List<RecipeEntity> recipeDtoList = myRecipeService.readRecipe(email);
         myRecipeService.readRecipe(email);
 
-        for (int i = 0; i< manageRecipeDtoList.size(); i++){
-            obj.put((i+1),manageRecipeDtoList.get(i));
+        obj.put("message","리드 완료");
+        for (int i = 0; i< recipeDtoList.size(); i++){
+            obj.put((i+1),recipeDtoList.get(i));
         }
-
         return obj;
     }
 
     @PostMapping("/add")
-    public List addMyRecipe(@RequestBody RecipeJsonDTO dto){
+    public JSONObject addMyRecipe(@RequestBody RecipeJsonDTO dto){
         String email = findEmail();
         JSONObject obj = new JSONObject();
         dto.setRecipeWriter(email);
-        List<RecipeIngredientsDTO> resultList = new ArrayList<>();
+
         System.out.println(dto.getRecipeIngredients());
         System.out.println(dto.getRecipeStep());
         Long id = recipeService.saveRecipe(dto);
-
-
-        System.out.println("=====================================");
-
-        System.out.println("=====================================");
-
-        return resultList;
-
-
+        obj.put("networkStatus", HttpStatus.OK);
+        obj.put("status", "저장되었습니다.");
+        return obj;
     }
 
     @PostMapping("/delete")
