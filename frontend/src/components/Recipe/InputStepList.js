@@ -2,7 +2,12 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import InputStepItem from './InputStepItem';
 
-const InputStepList = ({input, setInput, handleStepDescriptionChange}) => {
+const InputStepList = ({
+  input,
+  setInput,
+  handleStepDescriptionChange,
+  removeStepInput,
+}) => {
   console.log('\n\n', input);
   return (
     <FlatList
@@ -18,6 +23,7 @@ const InputStepList = ({input, setInput, handleStepDescriptionChange}) => {
               setInput={setInput}
               stepIndex={stepIndex}
               handleStepDescriptionChange={handleStepDescriptionChange}
+              removeStepInput={removeStepInput}
             />
           );
         })

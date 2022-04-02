@@ -39,7 +39,6 @@ const InputIngredientItem = ({
       <View style={styles.deleteBtnWrapper}>
         <Pressable
           onPress={() => removeIngredientInput(ingredientIndex)}
-          // onPress={() => console.log(ingredientIndex)}
           style={styles.deleteBtn}>
           <Icon name="delete-outline" size={32} color={'#ff8527'} />
         </Pressable>
@@ -79,9 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#000',
   },
-  deleteBtnWrapper: {
-    // backgroundColor: '#000',
-  },
+  deleteBtnWrapper: {},
   deleteBtn: {
     marginRight: 10,
   },

@@ -16,6 +16,7 @@ const InputStepItem = ({
   setInput,
   stepIndex,
   handleStepDescriptionChange,
+  removeStepInput,
 }) => {
   const [stepImage, setStepImage] = useState(null);
   const [stepImageModalVisible, setStepImageModalVisible] = useState(false);
@@ -79,6 +80,13 @@ const InputStepItem = ({
           }
         />
       </View>
+      <View style={styles.deleteBtnWrapper}>
+        <Pressable
+          onPress={() => removeStepInput(stepIndex)}
+          style={styles.deleteBtn}>
+          <Icon name="delete-outline" size={32} color={'#ff8527'} />
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -109,7 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   descriptionWrapper: {
-    width: '60%',
+    width: '55%',
   },
   stepText: {
     fontFamily: 'NanumSquareRoundOTFEB',
@@ -120,5 +128,11 @@ const styles = StyleSheet.create({
     fontFamily: 'NanumSquareRoundOTFR',
     fontSize: 18,
     color: '#000',
+  },
+  deleteBtnWrapper: {
+    // backgroundColor: '#000',
+  },
+  deleteBtn: {
+    marginRight: 10,
   },
 });

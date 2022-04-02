@@ -111,6 +111,24 @@ const RecipeAddScreen = () => {
     });
   };
 
+  const addStepInputs = () => {
+    setInput(prev => {
+      return {
+        ...prev,
+        recipeStep: [...prev.recipeStep, {stepImage: '', stepDescription: ''}],
+      };
+    });
+  };
+
+  const removeStepInput = stepIndex => {
+    setInput({
+      ...input,
+      recipeStep: input.recipeStep.filter(
+        (recipeStep, removedStep) => removedStep !== stepIndex,
+      ),
+    });
+  };
+
   const [recipeImage, setRecipeImage] = useState(null);
 
   const [selectModalVisible, setSelectModalVisible] = useState(false);
@@ -389,7 +407,7 @@ const RecipeAddScreen = () => {
                     <Pressable
                       onPress={addIngredientInputs}
                       style={styles.addBtn}>
-                      <Icon name="add-circle" size={44} color={'#ff8527'} />
+                      <Icon name="add-circle" size={44} color={'#ffa856'} />
                       <Text style={styles.ingredientAddText}>재료 추가</Text>
                     </Pressable>
                   </View>
@@ -400,7 +418,16 @@ const RecipeAddScreen = () => {
                     input={input}
                     setInput={setInput}
                     handleStepDescriptionChange={handleStepDescriptionChange}
+                    removeStepInput={removeStepInput}
                   />
+                  <View style={styles.addBtnWrapper}>
+                    <Pressable onPress={addStepInputs} style={styles.addBtn}>
+                      <Icon name="add-circle" size={44} color={'#ffa856'} />
+                      <Text style={styles.ingredientAddText}>
+                        요리순서 추가
+                      </Text>
+                    </Pressable>
+                  </View>
                 </View>
               </View>
             )}
