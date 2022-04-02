@@ -84,7 +84,7 @@ const InputStepItem = ({
         <Pressable
           onPress={() => removeStepInput(stepIndex)}
           style={styles.deleteBtn}>
-          <Icon name="delete-outline" size={32} color={'#ff8527'} />
+          <Icon name="delete-outline" size={36} color={'#ff8527'} />
         </Pressable>
       </View>
     </View>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   descriptionWrapper: {
-    width: '55%',
+    width: '50%',
   },
   stepText: {
     fontFamily: 'NanumSquareRoundOTFEB',
@@ -129,10 +129,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#000',
   },
-  deleteBtnWrapper: {
-    // backgroundColor: '#000',
-  },
   deleteBtn: {
-    marginRight: 10,
+    margin: 10,
   },
 });

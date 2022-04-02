@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
@@ -35,13 +35,49 @@ const RecipeAddScreen = () => {
     recipeIngredients: [
       {ingredientName: '', ingredientAmount: ''},
       {ingredientName: '', ingredientAmount: ''},
-      {ingredientName: '', ingredientAmount: ''},
     ],
     recipeStep: [
       {stepImage: '', stepDescription: ''},
       {stepImage: '', stepDescription: ''},
     ],
   });
+
+  const [recipeImage, setRecipeImage] = useState(null);
+
+  const [selectModalVisible, setSelectModalVisible] = useState(false);
+
+  const [typeCategory, setTypeCategory] = useState();
+  const [situationCategory, setSituationCategory] = useState();
+  const [ingredientCategory, setIngredientCategory] = useState();
+  const [methodCategory, setMethodCategory] = useState();
+
+  const [recipeTime, setRecipeTime] = useState();
+  const [recipeLevel, setRecipeLevel] = useState();
+  const [recipeServes, setRecipeServes] = useState();
+
+  useEffect(() => {
+    setInput({
+      ...input,
+      recipeMainImage: recipeImage?.assets[0]?.uri,
+      typeCategory: typeCategory,
+      situationCategory: situationCategory,
+      ingredientCategory: ingredientCategory,
+      methodCategory: methodCategory,
+      recipeTime: recipeTime,
+      recipeLevel: recipeLevel,
+      recipeServes: recipeServes,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    recipeImage,
+    typeCategory,
+    situationCategory,
+    ingredientCategory,
+    methodCategory,
+    recipeTime,
+    recipeLevel,
+    recipeServes,
+  ]);
 
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
@@ -128,19 +164,6 @@ const RecipeAddScreen = () => {
       ),
     });
   };
-
-  const [recipeImage, setRecipeImage] = useState(null);
-
-  const [selectModalVisible, setSelectModalVisible] = useState(false);
-
-  const [typeCategory, setTypeCategory] = useState();
-  const [situationCategory, setSituationCategory] = useState();
-  const [ingredientCategory, setIngredientCategory] = useState();
-  const [methodCategory, setMethodCategory] = useState();
-
-  const [recipeTime, setRecipeTime] = useState();
-  const [recipeLevel, setRecipeLevel] = useState();
-  const [recipeServes, setRecipeServes] = useState();
 
   const onSelectImage = () => {
     launchImageLibrary(
@@ -602,7 +625,7 @@ const styles = StyleSheet.create({
   },
   stepWrapper: {
     width: '100%',
-    marginBottom: 100,
+    marginBottom: 50,
     marginLeft: 10,
     marginVertical: 10,
     backgroundColor: '#f2f3f4',

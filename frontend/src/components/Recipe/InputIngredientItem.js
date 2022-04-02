@@ -40,7 +40,7 @@ const InputIngredientItem = ({
         <Pressable
           onPress={() => removeIngredientInput(ingredientIndex)}
           style={styles.deleteBtn}>
-          <Icon name="delete-outline" size={32} color={'#ff8527'} />
+          <Icon name="delete-outline" size={36} color={'#ff8527'} />
         </Pressable>
       </View>
     </View>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   amountWrapper: {
-    width: '40%',
+    width: '37%',
   },
   ingredientAmount: {
     fontFamily: 'NanumSquareRoundOTFR',
@@ -80,6 +80,6 @@ const styles = StyleSheet.create({
   },
   deleteBtnWrapper: {},
   deleteBtn: {
-    marginRight: 10,
+    margin: 10,
   },
 });
