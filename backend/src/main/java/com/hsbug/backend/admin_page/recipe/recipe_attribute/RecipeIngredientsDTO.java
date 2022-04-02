@@ -6,4 +6,12 @@ import lombok.Data;
 public class RecipeIngredientsDTO {
     private String ingredientName;
     private String ingredientAmount;
+
+    public RecipeIngredients toEntity() {
+        return RecipeIngredients.builder()
+                .ingredientName(this.ingredientName)
+                .ingredientAmount(this.ingredientAmount)
+                .build();
+    }
+
 }

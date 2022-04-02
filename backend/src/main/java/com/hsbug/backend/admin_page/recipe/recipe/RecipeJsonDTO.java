@@ -1,7 +1,7 @@
 package com.hsbug.backend.admin_page.recipe.recipe;
 
-import com.hsbug.backend.admin_page.recipe.recipeStep.RecipeStepEntity;
-import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredients;
+import com.hsbug.backend.admin_page.recipe.recipeStep.RecipeStepDTO;
+import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredientsDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,8 +27,8 @@ public class RecipeJsonDTO {
     private String recipeLevel;
     private String recipeServes;
     private String recipeDescription;
-    private List<RecipeIngredients> recipeIngredients = new ArrayList<>();  //ok
-    private List<RecipeStepEntity> recipeStep = new ArrayList<>();    //ok
+    private List<RecipeIngredientsDTO> recipeIngredients = new ArrayList<>();  //ok
+    private List<RecipeStepDTO> recipeStep = new ArrayList<>();    //ok
 
 
 
