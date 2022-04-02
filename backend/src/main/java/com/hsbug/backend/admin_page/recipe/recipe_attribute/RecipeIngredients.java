@@ -1,9 +1,7 @@
 package com.hsbug.backend.admin_page.recipe.recipe_attribute;
 
 import com.hsbug.backend.admin_page.recipe.recipe.RecipeEntity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +9,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class RecipeIngredients {
 
     @Id
