@@ -14,6 +14,7 @@ public class RecipeDetailController {
 
     @GetMapping("/detail")
     public RecipeJsonDTO recipeDetail(@RequestParam Long id) {
+        recipeService.recipeCount(id);
         return recipeService.findDetail(id);
     }
 }
