@@ -21,7 +21,7 @@ public class RecipeRatingService {
         for (RecipeRatingsEntity recipeRating:recipeRatings) {
             total += recipeRating.getStarPoint();
         }
-        float starPoint =total / recipeRatings.size();
+        float starPoint = (float) (Math.round((total / recipeRatings.size())*10)/10.0);
         RecipeEntity recipe = recipeRepository.findById(recipeId).get();
         recipe.setRecipeStar(starPoint);
         recipe.setRecipeRatingCount(recipeRatings.size());
