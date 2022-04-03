@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface RecipeRatingRepository extends JpaRepository<RecipeRatingsEntity, Long> {
     List<RecipeRatingsEntity> findAllByRecipeId(Long id);
+    RecipeRatingsEntity findByRecipeIdAndUser(Long id, String user);
 }
