@@ -33,8 +33,16 @@ public class RecipeRatingService {
 
     @Transactional
     public void editRating(RecipeRatingDto dto) {
-        RecipeRatingsEntity ratingEntity = recipeRatingRepository.findById(dto.getId()).get();
+        RecipeRatingsEntity ratingEntity = recipeRatingRepository.findByRecipeIdAndUser(dto.getRecipeId(), dto.getUser());
         ratingEntity.setStarPoint(dto.getStarPoint());
+    }
+
+    public boolean isAlreadyHasRecipe(RecipeRatingDto dto) {
+        if (recipeRatingRepository.findByRecipeIdAndUser(dto.getRecipeId(), dto.getUser())==null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }
