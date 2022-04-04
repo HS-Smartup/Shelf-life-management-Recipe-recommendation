@@ -1,9 +1,9 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
-import com.hsbug.backend.admin_page.recipe.recipe.RecipeEntity;
-import com.hsbug.backend.admin_page.recipe.recipe.RecipeRepository;
-import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredients;
-import com.hsbug.backend.admin_page.recipe.recipe_attribute.RecipeIngredientsRepository;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeRepository;
+import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredients;
+import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

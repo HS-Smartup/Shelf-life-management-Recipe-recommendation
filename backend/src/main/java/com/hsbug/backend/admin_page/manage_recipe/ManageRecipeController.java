@@ -1,5 +1,8 @@
 package com.hsbug.backend.admin_page.manage_recipe;
 
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeJsonDTO;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeService;
+import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepDTO;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,12 +18,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class ManageRecipeController { //10초 정도 걸리는 듯.
-
+    private final RecipeService recipeService;
     private final ManageRecipeService manageRecipeService;
 
     @GetMapping("/recipe/update_call")
@@ -96,6 +101,27 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                 recipeDto.setRCP_WAY2((String) jsonObject.get("RCP_WAY2"));
                 recipeDto.setATT_FILE_NO_MAIN((String) jsonObject.get("ATT_FILE_NO_MAIN"));
                 recipeDto.setATT_FILE_NO_MK((String) jsonObject.get("ATT_FILE_NO_MK"));
+
+
+                RecipeJsonDTO dto = new RecipeJsonDTO();
+//                dto.setId((Long) jsonObject.get("RCP_SEQ"));
+                dto.setRecipeName((String) jsonObject.get("RCP_NM"));
+                dto.setRecipeWriter("admin");
+                dto.setTypeCategory((String) jsonObject.get("RCP_PAT2"));
+//                재료 짤라서 넣기 구현해야함
+//                StringTokenizer stringTokenizer = (String) jsonObject.get("RCP_PARTS_DTLS")
+//                dto.setRecipeIngredients();
+                dto.setMethodCategory((String) jsonObject.get("RCP_WAY2"));
+                dto.setRecipeMainImage((String) jsonObject.get("ATT_FILE_NO_MAIN"));
+                List<RecipeStepDTO> recipeStepDTOList = new ArrayList<>();
+                for (int recipeStepCount = 0; recipeStepCount< 16; recipeStepCount++) {
+                    RecipeStepDTO recipeStepDTO = new RecipeStepDTO(
+                            (String) jsonObject.get("MANUAL"+String.format("%02d",recipeStepCount)),
+                            (String) jsonObject.get("MANUAL_IMG"+String.format("%02d",recipeStepCount)));
+                    recipeStepDTOList.add(recipeStepDTO);
+                }
+                dto.setRecipeStep(recipeStepDTOList);
+
                 recipeDto.setMANUAL01((String) jsonObject.get("MANUAL01"));
                 recipeDto.setMANUAL02((String) jsonObject.get("MANUAL02"));
                 recipeDto.setMANUAL03((String) jsonObject.get("MANUAL03"));
@@ -139,6 +165,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
                  //   System.out.println("저장을 진행합니다.");
                     manageRecipeService.saveRecipe((long) (i+1),recipeDto);
 
+                    recipeService.saveAPIRecipe((long)(i+1),dto);
                 //}
                 //manageRecipeService.saveRecipe(recipeDto);
             }
