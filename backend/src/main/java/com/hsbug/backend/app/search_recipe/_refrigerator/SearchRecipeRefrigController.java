@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @Slf4j
 @RestController
 @RequestMapping("/user/search")
@@ -25,27 +23,70 @@ public class SearchRecipeRefrigController {
     private final SearchRecipeRefrigService searchRecipeRefrigService;
     private final ManageProductService manageProductService;
     private final ManageRecipeService manageRecipeService;
+
     @GetMapping("/myRefrig")
-    public JSONObject searchAaa(){
+    public JSONObject searchAaa() {
         String email = getEmail();
         JSONObject obj = new JSONObject();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
-        obj.put("message","read완료");
-        for (int i = 0; i < productDtoList.size();i++){
-            obj.put((i+1),productDtoList.get(i));
+        obj.put("message", "read완료");
+        for (int i = 0; i < productDtoList.size(); i++) {
+            obj.put((i + 1), productDtoList.get(i));
         }
-        obj.put("status",200);
+        obj.put("status", 200);
         return obj;
     }
 
     @GetMapping("/myRefrig/selectProduct")
+    public JSONObject searchFromList(@RequestParam List<Long> id) {
+        String email = getEmail();
+        JSONObject obj = new JSONObject();
+        ArrayList<String> product_list = new ArrayList<>();
+        List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
+        System.out.println(productDtoList);
+
+        for (int i = 0; i < id.size(); i++) {
+            for (int j = 0; j < productDtoList.size(); j++) {
+                if (id.get(i) == productDtoList.get(j).getId()) {
+                    product_list.add(productDtoList.get(j).getItemName());
+                }
+            }
+        }
+        ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(product_list);
+
+        Map<Long, Integer> map;
+        map = searchRecipeRefrigService.findProductFromRefrig(productList);
+
+        ArrayList list = new ArrayList<>(map.keySet());
+        obj.put("searchResult", list);
+
+        //return this.ValueSortRecipe(map);
+        return obj;
+    }
+
+    // 관련 = 오름차순, 조회수 get 오름차순,
+    public Map<Long, Integer> ValueSortRecipe(Map<Long, Integer> map) {   // 레시피 내림차순
+        List<Map.Entry<Long, Integer>> entryList = new ArrayList<>(map.entrySet());
+        Map<Long, Integer> sorted_map = new LinkedHashMap<>();
+        Collections.sort(entryList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        for (int i = 0; i < entryList.size(); i++) {
+            sorted_map.put(entryList.get(i).getKey(), entryList.get(i).getValue());
+        }
+        return sorted_map;
+    }
+
+    public String getEmail() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    /*@GetMapping("/myRefrig/selectProduct")
     public JSONObject searchFromSelectProduct(@RequestParam List<Long> id) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
         String email = getEmail();
+        JSONObject obj = new JSONObject();
         ArrayList<String> product_list = new ArrayList<>();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         int searchResultCount = 30;
         ArrayList<SearchRecipeRefrigDto> returnSearchResultList = new ArrayList<>();
-        JSONObject obj = new JSONObject();
 
         for (int i = 0; i < id.size(); i++) {
             for (int j = 0; j < productDtoList.size(); j++) {
@@ -55,9 +96,9 @@ public class SearchRecipeRefrigController {
             }
         }
         log.info("product_list={}",product_list);
-//        map = searchRecipeRefrigService.findIdFromPart(product_list);
+//      map = searchRecipeRefrigService.findIdFromPart(product_list);
         Map<Long, Integer> searchResultMap = searchRecipeRefrigService.findIdFromAll(product_list);
-//        searchResultMap.forEach((key, valu) -> manageRecipeService.findById(key));
+//      searchResultMap.forEach((key, valu) -> manageRecipeService.findById(key));
         Iterator<Long> keys = searchResultMap.keySet().iterator();
         while (keys.hasNext()) {
             Long key = keys.next();
@@ -70,9 +111,7 @@ public class SearchRecipeRefrigController {
         obj.put("return",returnSearchResultList);
         log.info("returnSearchResultList={}",returnSearchResultList);
         return obj;
-    }
+    }*/
 
-    public String getEmail() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
+
 }

@@ -11,4 +11,6 @@ public class SearchRecipeRefrigDto {
     private String recipeImg;
     private Integer views;
     private Integer stars;
+
+
 }

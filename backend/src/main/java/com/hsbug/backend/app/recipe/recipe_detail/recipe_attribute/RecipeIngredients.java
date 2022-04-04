@@ -20,7 +20,6 @@ public class RecipeIngredients {
     @ManyToOne
     @JoinColumn(name = "RECIPE_ID")
     private RecipeEntity recipeEntityId;
-
     private String ingredientName;
     private String ingredientAmount;
 
@@ -31,6 +30,14 @@ public class RecipeIngredients {
 
     public RecipeIngredientsDTO toDto() {
         RecipeIngredientsDTO dto = new RecipeIngredientsDTO();
+        dto.setIngredientName(this.ingredientName);
+        dto.setIngredientAmount(this.ingredientAmount);
+        return dto;
+    }
+
+    public RecipeIngredientsCheckDto EntitytoDto() {
+        RecipeIngredientsCheckDto dto = new RecipeIngredientsCheckDto();
+        dto.setRecipeEntityId(this.recipeEntityId);
         dto.setIngredientName(this.ingredientName);
         dto.setIngredientAmount(this.ingredientAmount);
         return dto;

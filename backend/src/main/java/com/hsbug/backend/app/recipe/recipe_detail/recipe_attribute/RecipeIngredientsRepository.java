@@ -4,9 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RecipeIngredientsRepository extends JpaRepository<RecipeIngredients,Long> {
-    RecipeIngredients findByIngredientName(String ingredientName);
+    Optional<RecipeIngredients> findByIngredientName(String ingredientName);
+    List<RecipeIngredients> findAllByIngredientNameContains(String ingredientName);
 
     List<RecipeIngredients> findAllByRecipeEntityId_Id(@Param(value = "RECIPE_ID")Long id);
 }
