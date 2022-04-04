@@ -34,7 +34,7 @@ public class ManageProductController {
     }
 
     @GetMapping("/readProduct")
-    public JSONObject ReadProduct(){
+    public JSONObject ReadProduct() throws ParseException {
         String email = findEmail();
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         JSONObject obj = new JSONObject();
@@ -43,6 +43,7 @@ public class ManageProductController {
         obj.put("message","read 완료");
         obj.put("status",200);
         for (int i = 0; i< productDtoList.size(); i++){
+            productDtoList.get(i).setItemRemainingDate(remainDate(productDtoList.get(i).getItemExp()));
             list.add(productDtoList.get(i));
         }
         obj.put("refrigeratorItem",list);
