@@ -23,27 +23,33 @@ const InputStepItem = ({
   const [stepImage, setStepImage] = useState(null);
   const [stepImageModalVisible, setStepImageModalVisible] = useState(false);
 
-  useEffect(() => {
-    setInput({
-      ...input,
-      recipeStep: input.recipeStep.map((step, index) => {
-        if (index == stepIndex) {
-          return {
-            ...step,
-            stepImage:
-              stepImage?.assets[0]?.uri === undefined
-                ? null
-                : stepImage?.assets[0]?.uri,
-          };
-          // return {...step, stepImage: stepImage?.assets[0]?.uri};
-        }
-        return step;
-      }),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepImage]);
+  // useEffect(() => {
+  //   setInput({
+  //     ...input,
+  //     recipeStep: input.recipeStep.map((step, index) => {
+  //       if (index == stepIndex) {
+  //         return {
+  //           ...step,
+  //           stepImage:
+  //             stepImage?.assets[0]?.uri === undefined
+  //               ? null
+  //               : stepImage?.assets[0]?.uri,
+  //         };
+  //         // return {...step, stepImage: stepImage?.assets[0]?.uri};
+  //       }
+  //       return step;
+  //     }),
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [stepImage]);
 
-  console.log(stepImage);
+  console.log(
+    '\n-------------------------------------\n',
+    stepImage1,
+    '\n-------------------------------------\n',
+  );
+
+  console.log(stepImage?.assets[0]?.uri);
 
   return (
     <View style={styles.itemWrapper}>
@@ -110,9 +116,6 @@ const InputStepItem = ({
       <View style={styles.deleteBtnWrapper}>
         <Pressable
           onPress={() => {
-            setStepImage(
-              Object.values(stepImage).filter(item => item !== stepIndex),
-            );
             removeStepInput(stepIndex);
           }}
           style={styles.deleteBtn}>

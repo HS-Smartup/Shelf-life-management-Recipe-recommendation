@@ -3,7 +3,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-const ImageSelectModal = ({setRecipeImage, setSelectModalVisible}) => {
+const ImageSelectModal = ({setRecipeMainImage, setSelectModalVisible}) => {
   const onPressCameraBtn = () => {
     launchCamera(
       {
@@ -16,7 +16,7 @@ const ImageSelectModal = ({setRecipeImage, setSelectModalVisible}) => {
           setSelectModalVisible(false);
           return;
         }
-        setRecipeImage(res);
+        setRecipeMainImage(res);
         setSelectModalVisible(false);
       },
     );
@@ -34,7 +34,7 @@ const ImageSelectModal = ({setRecipeImage, setSelectModalVisible}) => {
           setSelectModalVisible(false);
           return;
         }
-        setRecipeImage(res);
+        setRecipeMainImage(res);
         setSelectModalVisible(false);
       },
     );

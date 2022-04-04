@@ -42,7 +42,7 @@ const RecipeAddScreen = () => {
     ],
   });
 
-  const [recipeImage, setRecipeImage] = useState(null);
+  const [recipeMainImage, setRecipeMainImage] = useState(null);
 
   const [selectModalVisible, setSelectModalVisible] = useState(false);
 
@@ -58,7 +58,7 @@ const RecipeAddScreen = () => {
   useEffect(() => {
     setInput({
       ...input,
-      recipeMainImage: recipeImage?.assets[0]?.uri,
+      recipeMainImage: recipeMainImage?.assets[0]?.uri,
       typeCategory: typeCategory,
       situationCategory: situationCategory,
       ingredientCategory: ingredientCategory,
@@ -69,7 +69,7 @@ const RecipeAddScreen = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    recipeImage,
+    recipeMainImage,
     typeCategory,
     situationCategory,
     ingredientCategory,
@@ -151,7 +151,10 @@ const RecipeAddScreen = () => {
     setInput(prev => {
       return {
         ...prev,
-        recipeStep: [...prev.recipeStep, {stepImage: '', stepDescription: ''}],
+        recipeStep: [
+          ...prev.recipeStep,
+          {stepImage: null, stepDescription: ''},
+        ],
       };
     });
   };
@@ -176,12 +179,12 @@ const RecipeAddScreen = () => {
         if (res.didCancel) {
           return;
         }
-        setRecipeImage(res);
+        setRecipeMainImage(res);
       },
     );
   };
 
-  console.log('\n\n', input);
+  console.log('\n\n', input.recipeStep);
 
   return (
     <View style={styles.fullScreen}>
@@ -222,16 +225,16 @@ const RecipeAddScreen = () => {
                   }}>
                   <ImageSelectModal
                     setSelectModalVisible={setSelectModalVisible}
-                    setRecipeImage={setRecipeImage}
+                    setRecipeMainImage={setRecipeMainImage}
                   />
                 </Modal>
-                {recipeImage ? (
+                {recipeMainImage ? (
                   <Pressable
                     style={styles.imageWrapper}
                     onPress={() => setSelectModalVisible(true)}>
                     <Image
                       style={styles.imageFull}
-                      source={{uri: recipeImage?.assets[0]?.uri}}
+                      source={{uri: recipeMainImage?.assets[0]?.uri}}
                       resizeMode="cover"
                     />
                   </Pressable>
