@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepRepository;
@@ -92,6 +93,32 @@ public class RecipeService {
             recipeStepDTOList.add(dto);
         }
         return recipeStepDTOList;
+    }
+
+    public  void decreaseNum(Long id){
+        Optional<RecipeEntity> recipeEntity = recipeRepository.findById(id);
+        int book = recipeEntity.get().getRecipeLikes();
+        if(book == 1){
+            recipeEntity.get().setRecipeLikes(0);
+        }else{
+            book = book -1;
+            recipeEntity.get().setRecipeLikes(book);
+        }
+
+        recipeRepository.save(recipeEntity.get());
+    }
+
+    public void inceaseNum(Long id) {
+        Optional<RecipeEntity> recipeEntity = recipeRepository.findById(id);
+        int book = recipeEntity.get().getRecipeLikes();
+        if (book == 0){
+            recipeEntity.get().setRecipeLikes(1);
+        }
+        else{
+            book = book + 1;
+            recipeEntity.get().setRecipeLikes(book);
+        }
+        recipeRepository.save(recipeEntity.get());
     }
 
 }
