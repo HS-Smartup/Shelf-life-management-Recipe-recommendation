@@ -4,6 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const InputIngredientItem = ({
   ingredientIndex,
+  ingredientName,
+  ingredientAmount,
   handleIngredientNameChange,
   handleIngredientAmountChange,
   removeIngredientInput,
@@ -21,6 +23,7 @@ const InputIngredientItem = ({
               ingredientIndex: ingredientIndex,
             })
           }
+          value={ingredientName}
         />
       </View>
       <View style={styles.amountWrapper}>
@@ -34,6 +37,7 @@ const InputIngredientItem = ({
               ingredientIndex: ingredientIndex,
             })
           }
+          value={ingredientAmount}
         />
       </View>
       <View style={styles.deleteBtnWrapper}>

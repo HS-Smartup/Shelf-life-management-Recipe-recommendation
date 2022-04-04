@@ -15,6 +15,8 @@ const InputStepItem = ({
   input,
   setInput,
   stepIndex,
+  stepImage1,
+  stepDescription,
   handleStepDescriptionChange,
   removeStepInput,
 }) => {
@@ -26,13 +28,22 @@ const InputStepItem = ({
       ...input,
       recipeStep: input.recipeStep.map((step, index) => {
         if (index == stepIndex) {
-          return {...step, stepImage: stepImage?.assets[0]?.uri};
+          return {
+            ...step,
+            stepImage:
+              stepImage?.assets[0]?.uri === undefined
+                ? null
+                : stepImage?.assets[0]?.uri,
+          };
+          // return {...step, stepImage: stepImage?.assets[0]?.uri};
         }
         return step;
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepImage]);
+
+  console.log(stepImage);
 
   return (
     <View style={styles.itemWrapper}>
@@ -41,15 +52,30 @@ const InputStepItem = ({
           onPress={() => {
             setStepImageModalVisible(true);
           }}>
-          {stepImage ? (
+          {stepImage1 === null ? (
+            <Icon name="add-photo-alternate" size={60} color={'#ffb856'} />
+          ) : (
             <Image
               style={styles.stepImage}
-              source={`${stepImage}` ? {uri: stepImage?.assets[0]?.uri} : null}
+              // source={`${stepImage}` ? {uri: stepImage?.assets[0]?.uri} : null}
+              source={`${stepImage1}` ? {uri: stepImage1} : null}
+              resizeMode="cover"
+            />
+          )}
+          {/* {stepImage === null ? (
+            <Image
+              style={styles.stepImage}
+              // source={`${stepImage}` ? {uri: stepImage?.assets[0]?.uri} : null}
+              source={
+                `${stepImage1}`
+                  ? {uri: stepImage1}
+                  : require('../../assets/images/logo.png')
+              }
               resizeMode="cover"
             />
           ) : (
             <Icon name="add-photo-alternate" size={60} color={'#ffb856'} />
-          )}
+          )} */}
         </Pressable>
         <Modal
           avoidKeyboard={true}
@@ -78,11 +104,17 @@ const InputStepItem = ({
               stepIndex: stepIndex,
             })
           }
+          value={stepDescription}
         />
       </View>
       <View style={styles.deleteBtnWrapper}>
         <Pressable
-          onPress={() => removeStepInput(stepIndex)}
+          onPress={() => {
+            setStepImage(
+              Object.values(stepImage).filter(item => item !== stepIndex),
+            );
+            removeStepInput(stepIndex);
+          }}
           style={styles.deleteBtn}>
           <Icon name="delete-outline" size={36} color={'#ff8527'} />
         </Pressable>

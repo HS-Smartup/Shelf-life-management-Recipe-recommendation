@@ -37,8 +37,8 @@ const RecipeAddScreen = () => {
       {ingredientName: '', ingredientAmount: ''},
     ],
     recipeStep: [
-      {stepImage: '', stepDescription: ''},
-      {stepImage: '', stepDescription: ''},
+      {stepImage: null, stepDescription: ''},
+      {stepImage: null, stepDescription: ''},
     ],
   });
 
@@ -46,14 +46,14 @@ const RecipeAddScreen = () => {
 
   const [selectModalVisible, setSelectModalVisible] = useState(false);
 
-  const [typeCategory, setTypeCategory] = useState();
-  const [situationCategory, setSituationCategory] = useState();
-  const [ingredientCategory, setIngredientCategory] = useState();
-  const [methodCategory, setMethodCategory] = useState();
+  const [typeCategory, setTypeCategory] = useState(null);
+  const [situationCategory, setSituationCategory] = useState(null);
+  const [ingredientCategory, setIngredientCategory] = useState(null);
+  const [methodCategory, setMethodCategory] = useState(null);
 
-  const [recipeTime, setRecipeTime] = useState();
-  const [recipeLevel, setRecipeLevel] = useState();
-  const [recipeServes, setRecipeServes] = useState();
+  const [recipeTime, setRecipeTime] = useState(null);
+  const [recipeLevel, setRecipeLevel] = useState(null);
+  const [recipeServes, setRecipeServes] = useState(null);
 
   useEffect(() => {
     setInput({
@@ -180,6 +180,8 @@ const RecipeAddScreen = () => {
       },
     );
   };
+
+  console.log('\n\n', input);
 
   return (
     <View style={styles.fullScreen}>

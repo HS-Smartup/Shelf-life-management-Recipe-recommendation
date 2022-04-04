@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import InputIngredientItem from './InputIngredientItem';
 
 const InputIngredientList = ({
@@ -9,22 +9,22 @@ const InputIngredientList = ({
   handleIngredientAmountChange,
   removeIngredientInput,
 }) => {
+  useEffect(() => {
+    InputIngredientItem;
+  }, [removeIngredientInput]);
+
   return (
     <FlatList
       style={styles.list}
       data={[input]}
-      // renderItem={({item}) => (
-      //   <InputIngredientItem
-      //     recipeIngredients={item}
-      //     handleIngredientNameChange={handleIngredientNameChange}
-      //   />
-      // )}
       renderItem={({item}) =>
         item.recipeIngredients.map((i, ingredientIndex) => {
           return (
             <InputIngredientItem
               key={ingredientIndex}
               ingredientIndex={ingredientIndex}
+              ingredientName={i.ingredientName}
+              ingredientAmount={i.ingredientAmount}
               handleIngredientNameChange={handleIngredientNameChange}
               handleIngredientAmountChange={handleIngredientAmountChange}
               removeIngredientInput={removeIngredientInput}

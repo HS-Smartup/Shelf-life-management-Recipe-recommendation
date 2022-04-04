@@ -21,6 +21,8 @@ const InputStepList = ({
               input={input}
               setInput={setInput}
               stepIndex={stepIndex}
+              stepImage1={i.stepImage}
+              stepDescription={i.stepDescription}
               handleStepDescriptionChange={handleStepDescriptionChange}
               removeStepInput={removeStepInput}
             />
