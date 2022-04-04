@@ -184,7 +184,7 @@ const RecipeAddScreen = () => {
     );
   };
 
-  console.log('\n\n', input.recipeStep);
+  console.log('\n\n', input);
 
   return (
     <View style={styles.fullScreen}>
@@ -365,6 +365,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setRecipeTime(itemValue)
                       }>
+                      <Picker.Item label="요리 시간" value="0" />
                       <Picker.Item label="10분" value="10" />
                       <Picker.Item label="20분" value="20" />
                       <Picker.Item label="30분" value="30" />
@@ -389,6 +390,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setRecipeLevel(itemValue)
                       }>
+                      <Picker.Item label="난이도" value="0" />
                       <Picker.Item label="쉬움" value="쉬움" />
                       <Picker.Item label="보통" value="보통" />
                       <Picker.Item label="어려움" value="어려움" />
@@ -403,6 +405,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setRecipeServes(itemValue)
                       }>
+                      <Picker.Item label="인원" value="0" />
                       <Picker.Item label="1인분" value="1인분" />
                       <Picker.Item label="2인분" value="2인분" />
                       <Picker.Item label="3인분" value="3인분" />

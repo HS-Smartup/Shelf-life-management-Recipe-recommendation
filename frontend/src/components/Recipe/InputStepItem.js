@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import StepImageModal from './StepImageModal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -15,41 +15,12 @@ const InputStepItem = ({
   input,
   setInput,
   stepIndex,
-  stepImage1,
+  stepImage,
   stepDescription,
   handleStepDescriptionChange,
   removeStepInput,
 }) => {
-  const [stepImage, setStepImage] = useState(null);
   const [stepImageModalVisible, setStepImageModalVisible] = useState(false);
-
-  // useEffect(() => {
-  //   setInput({
-  //     ...input,
-  //     recipeStep: input.recipeStep.map((step, index) => {
-  //       if (index == stepIndex) {
-  //         return {
-  //           ...step,
-  //           stepImage:
-  //             stepImage?.assets[0]?.uri === undefined
-  //               ? null
-  //               : stepImage?.assets[0]?.uri,
-  //         };
-  //         // return {...step, stepImage: stepImage?.assets[0]?.uri};
-  //       }
-  //       return step;
-  //     }),
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [stepImage]);
-
-  console.log(
-    '\n-------------------------------------\n',
-    stepImage1,
-    '\n-------------------------------------\n',
-  );
-
-  console.log(stepImage?.assets[0]?.uri);
 
   return (
     <View style={styles.itemWrapper}>
@@ -58,30 +29,15 @@ const InputStepItem = ({
           onPress={() => {
             setStepImageModalVisible(true);
           }}>
-          {stepImage1 === null ? (
+          {stepImage === null ? (
             <Icon name="add-photo-alternate" size={60} color={'#ffb856'} />
           ) : (
             <Image
               style={styles.stepImage}
-              // source={`${stepImage}` ? {uri: stepImage?.assets[0]?.uri} : null}
-              source={`${stepImage1}` ? {uri: stepImage1} : null}
+              source={`${stepImage}` ? {uri: stepImage} : null}
               resizeMode="cover"
             />
           )}
-          {/* {stepImage === null ? (
-            <Image
-              style={styles.stepImage}
-              // source={`${stepImage}` ? {uri: stepImage?.assets[0]?.uri} : null}
-              source={
-                `${stepImage1}`
-                  ? {uri: stepImage1}
-                  : require('../../assets/images/logo.png')
-              }
-              resizeMode="cover"
-            />
-          ) : (
-            <Icon name="add-photo-alternate" size={60} color={'#ffb856'} />
-          )} */}
         </Pressable>
         <Modal
           avoidKeyboard={true}
@@ -92,8 +48,10 @@ const InputStepItem = ({
             setStepImageModalVisible(!stepImageModalVisible);
           }}>
           <StepImageModal
+            input={input}
+            setInput={setInput}
+            stepIndex={stepIndex}
             setStepImageModalVisible={setStepImageModalVisible}
-            setStepImage={setStepImage}
           />
         </Modal>
       </View>

@@ -3,7 +3,13 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-const StepImageModal = ({setStepImage, setStepImageModalVisible}) => {
+const StepImageModal = ({
+  input,
+  setInput,
+  stepIndex,
+  setStepImage,
+  setStepImageModalVisible,
+}) => {
   const onPressCameraBtn = () => {
     launchCamera(
       {
@@ -16,7 +22,15 @@ const StepImageModal = ({setStepImage, setStepImageModalVisible}) => {
           setStepImageModalVisible(false);
           return;
         }
-        setStepImage(res);
+        setInput({
+          ...input,
+          recipeStep: input.recipeStep.map((recipeStep, index) => {
+            if (index == stepIndex) {
+              return {...recipeStep, stepImage: res.assets[0].uri};
+            }
+            return recipeStep;
+          }),
+        });
         setStepImageModalVisible(false);
       },
     );
@@ -34,7 +48,16 @@ const StepImageModal = ({setStepImage, setStepImageModalVisible}) => {
           setStepImageModalVisible(false);
           return;
         }
-        setStepImage(res);
+        // setStepImage(res);
+        setInput({
+          ...input,
+          recipeStep: input.recipeStep.map((recipeStep, index) => {
+            if (index == stepIndex) {
+              return {...recipeStep, stepImage: res.assets[0].uri};
+            }
+            return recipeStep;
+          }),
+        });
         setStepImageModalVisible(false);
       },
     );
