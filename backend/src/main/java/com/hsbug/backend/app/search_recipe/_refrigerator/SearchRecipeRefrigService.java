@@ -16,60 +16,14 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class SearchRecipeRefrigService {
-    private final ManageRecipeRepository manageRecipeRepository;
-    private final MyRecipeService myRecipeService;
+
     private final RecipeIngredientsRepository recipeIngredientsRepository;
-
-    public Map<Long, Integer> findIdFromPart(ArrayList<String> product_list){
-        return selectCounting(product_list);
-    }
-
-    public Map<Long, Integer> findIdFromAll(ArrayList<String> product_list) {
-        HashMap<Long, Integer> idCountMap = selectCounting(product_list);
-        HashMap<Long, Integer> choice_only_map = new HashMap<>();
-
-        //가장 많이 포함하고 있는 순서대로 choice_only_map에 넣기 위함
-        for (Map.Entry<Long,Integer> entry : idCountMap.entrySet()){
-            for (int i = 0; i < product_list.size(); i++) {
-                if (entry.getValue() == product_list.size()-i){
-                    choice_only_map.put(entry.getKey(), product_list.size()-i);
-                }
-            }
-        }
-        //sort 할 필요 없는데 map -> json obj 때문에
-        return mapValueSort(choice_only_map);
-    }
-
-    private HashMap<Long, Integer> selectCounting(ArrayList<String> product_list) {
-        HashMap<Long, Integer> map = new HashMap<>();
-        for ( Object product : product_list) {
-            String productName = product.toString();
-
-            List<RecipeIngredients> manageRecipeEntityList = recipeIngredientsRepository.findAllByIngredientNameContains(productName);
-            List<RecipeIngredientsCheckDto> manageRecipeDtoList = new ArrayList<>();
-
-            for (RecipeIngredients manageRecipeEntity : manageRecipeEntityList) {
-                manageRecipeDtoList.add(this.ToDto(manageRecipeEntity));
-            }
-
-            for (RecipeIngredientsCheckDto manageRecipeDto : manageRecipeDtoList) {
-                if (!map.containsKey(manageRecipeDto)) {
-                    map.put(manageRecipeDto.getRecipeEntityId().getId(), 1);
-                } else {
-                    map.put(manageRecipeDto.getRecipeEntityId().getId(),
-                            map.get(manageRecipeDto.getRecipeEntityId()) + 1);
-                }
-            }
-        }
-        return map;
-    }
 
     public Map<Long, Integer> findProductFromRefrig(ArrayList product_list) {
         HashMap<Long, Integer> map = new HashMap<>();
         for (int i = 0; i < product_list.size(); i++) {
             String product = product_list.get(i).toString();
 
-            //List<ManageRecipeEntity> manageRecipeEntityList = manageRecipeRepository.findByRCPPARTSDTLSContains(product);
             List<RecipeIngredients> manageRecipeEntityList = recipeIngredientsRepository.findAllByIngredientNameContains(product);
             List<RecipeIngredientsCheckDto> manageRecipeDtoList = new ArrayList<>();
 
@@ -106,13 +60,13 @@ public class SearchRecipeRefrigService {
             String keyword_all = refrigList.get(i);
             String[] keyword_slice = refrigList.get(i).split(" ");
             String[] keyword = refrigList.get(i).replace(" ", "").split("");
-            if (!recipeIngredientsRepository.findByIngredientName(keyword_all).isEmpty()) {  // 키워드 재료테이블과 일치하는지 확인
+            if (recipeIngredientsRepository.existsByIngredientName(keyword_all)) {  // 키워드 재료테이블과 일치하는지 확인
                 productList.add(keyword_all);
+
             } else {
                 for (int j = 0; j < keyword.length; j++) {               // 대, 파       양, 파       고, 구, 마  for문 돌아줌
                     List<RecipeIngredients> ingredientsList = recipeIngredientsRepository.findAllByIngredientNameContains(keyword[j]);
                     List<RecipeIngredientsDTO> ingredientsDtoList = new ArrayList<>();
-
                     for (RecipeIngredients crawlingEntity : ingredientsList) {  // entity to dto
                         ingredientsDtoList.add(this.convertEntityToDto(crawlingEntity));
                     }

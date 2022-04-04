@@ -52,9 +52,11 @@ public class SearchRecipeRefrigController {
                 }
             }
         }
+        System.out.println("findrecipefromrefrig");
         ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(product_list);
 
         Map<Long, Integer> map;
+        System.out.println("findproductfromrefrig");
         map = searchRecipeRefrigService.findProductFromRefrig(productList);
 
         ArrayList list = new ArrayList<>(map.keySet());
@@ -78,40 +80,4 @@ public class SearchRecipeRefrigController {
     public String getEmail() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
-
-    /*@GetMapping("/myRefrig/selectProduct")
-    public JSONObject searchFromSelectProduct(@RequestParam List<Long> id) { //check는 선택 요소 포함 검색, 선택 요소 만으로 검색
-        String email = getEmail();
-        JSONObject obj = new JSONObject();
-        ArrayList<String> product_list = new ArrayList<>();
-        List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
-        int searchResultCount = 30;
-        ArrayList<SearchRecipeRefrigDto> returnSearchResultList = new ArrayList<>();
-
-        for (int i = 0; i < id.size(); i++) {
-            for (int j = 0; j < productDtoList.size(); j++) {
-                if (id.get(i) == productDtoList.get(j).getId()) {
-                    product_list.add(productDtoList.get(j).getItemName());
-                }
-            }
-        }
-        log.info("product_list={}",product_list);
-//      map = searchRecipeRefrigService.findIdFromPart(product_list);
-        Map<Long, Integer> searchResultMap = searchRecipeRefrigService.findIdFromAll(product_list);
-//      searchResultMap.forEach((key, valu) -> manageRecipeService.findById(key));
-        Iterator<Long> keys = searchResultMap.keySet().iterator();
-        while (keys.hasNext()) {
-            Long key = keys.next();
-            SearchRecipeRefrigDto recipeDto = manageRecipeService.findById(key);
-            returnSearchResultList.add(recipeDto);
-            searchResultCount--;
-            if (searchResultCount==0)
-                break;
-        }
-        obj.put("return",returnSearchResultList);
-        log.info("returnSearchResultList={}",returnSearchResultList);
-        return obj;
-    }*/
-
-
 }
