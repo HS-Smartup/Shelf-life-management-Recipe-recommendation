@@ -25,7 +25,7 @@ public class RecipeJsonDTO {
     private String situationCategory;
     private String ingredientCategory;
     private String methodCategory;
-    private int recipeLikes;
+    private int recipeLikes; //OK
     private int recipeViews;
     private float recipeStar; //recipeRationgs
     private int recipeRatingCount;

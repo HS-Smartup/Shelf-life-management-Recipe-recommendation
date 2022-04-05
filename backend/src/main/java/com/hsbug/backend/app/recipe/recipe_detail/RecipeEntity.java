@@ -23,8 +23,8 @@ public class RecipeEntity {
     private String situationCategory;
     private String ingredientCategory;
     private String methodCategory;
-    private int recipeLikes;
-    private int recipeViews;
+    private int recipeLikes; // 좋아요 OK
+    private int recipeViews; // 방문자수
     private float recipeStar; //recipeRationgs
     private int recipeRatingCount;
     private String recipeTime;
