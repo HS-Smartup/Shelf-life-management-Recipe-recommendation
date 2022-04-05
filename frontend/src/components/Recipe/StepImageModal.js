@@ -29,7 +29,7 @@ const StepImageModal = ({
           launchCamera(
             {
               mediaType: 'photo',
-              quality: 1,
+              quality: 0.4,
               includeBase64: Platform.OS === 'android',
             },
             res => {
@@ -41,7 +41,7 @@ const StepImageModal = ({
                 ...input,
                 recipeStep: input.recipeStep.map((recipeStep, index) => {
                   if (index == stepIndex) {
-                    return {...recipeStep, stepImage: res.assets[0].uri};
+                    return {...recipeStep, stepImage: res.assets[0].base64};
                   }
                   return recipeStep;
                 }),
@@ -68,7 +68,7 @@ const StepImageModal = ({
     launchImageLibrary(
       {
         mediaType: 'photo',
-        quality: 1,
+        quality: 0.4,
         includeBase64: Platform.OS === 'android',
       },
       res => {
@@ -81,7 +81,7 @@ const StepImageModal = ({
           ...input,
           recipeStep: input.recipeStep.map((recipeStep, index) => {
             if (index == stepIndex) {
-              return {...recipeStep, stepImage: res.assets[0].uri};
+              return {...recipeStep, stepImage: res.assets[0].base64};
             }
             return recipeStep;
           }),

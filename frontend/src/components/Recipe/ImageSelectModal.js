@@ -23,7 +23,7 @@ const ImageSelectModal = ({setRecipeMainImage, setSelectModalVisible}) => {
           launchCamera(
             {
               mediaType: 'photo',
-              quality: 1,
+              quality: 0.4,
               includeBase64: Platform.OS === 'android',
             },
             res => {
@@ -54,7 +54,7 @@ const ImageSelectModal = ({setRecipeMainImage, setSelectModalVisible}) => {
     launchImageLibrary(
       {
         mediaType: 'photo',
-        quality: 1,
+        quality: 0.4,
         includeBase64: Platform.OS === 'android',
       },
       res => {

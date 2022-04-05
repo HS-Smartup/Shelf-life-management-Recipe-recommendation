@@ -7,8 +7,9 @@ const StepItem = ({stepIndex, stepImage, stepDescription}) => {
       <View style={styles.imageWrapper}>
         <Image
           style={styles.stepImage}
-          source={{uri: `${stepImage}`}}
+          source={{uri: `data:image/jpg;base64,${stepImage}`}}
           resizeMode="cover"
+          resizeMethod="scale"
         />
       </View>
       <View style={styles.descriptionWrapper}>

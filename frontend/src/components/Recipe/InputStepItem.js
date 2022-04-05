@@ -34,7 +34,11 @@ const InputStepItem = ({
           ) : (
             <Image
               style={styles.stepImage}
-              source={`${stepImage}` ? {uri: stepImage} : null}
+              source={
+                `${stepImage}`
+                  ? {uri: `data:image/jpg;base64,${stepImage}`}
+                  : null
+              }
               resizeMode="cover"
             />
           )}

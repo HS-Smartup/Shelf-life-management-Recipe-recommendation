@@ -8,6 +8,7 @@ const StepList = ({recipe, setRecipe}) => {
       style={styles.list}
       data={recipe}
       listKey={(item2, index) => index.toString()}
+      initialNumToRender={2}
       renderItem={({item}) =>
         item.recipeStep.map((i, stepIndex) => {
           return (

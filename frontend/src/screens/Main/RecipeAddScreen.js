@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   Modal,
   Platform,
@@ -59,8 +60,7 @@ const RecipeAddScreen = () => {
   useEffect(() => {
     setInput({
       ...input,
-      recipeMainImage: null,
-      // recipeMainImage: recipeMainImage?.assets[0]?.uri,
+      recipeMainImage: recipeMainImage?.assets[0]?.base64,
       typeCategory: typeCategory,
       situationCategory: situationCategory,
       ingredientCategory: ingredientCategory,
@@ -170,23 +170,66 @@ const RecipeAddScreen = () => {
     });
   };
 
-  // const onSelectImage = () => {
-  //   launchImageLibrary(
-  //     {
-  //       mediaType: 'photo',
-  //       quality: 1,
-  //       includeBase64: Platform.OS === 'android',
-  //     },
-  //     res => {
-  //       if (res.didCancel) {
-  //         return;
-  //       }
-  //       setRecipeMainImage(res);
-  //     },
-  //   );
-  // };
-
   const onPressSubmit = async () => {
+    if (!input.recipeName) {
+      Alert.alert('레시피 제목을 입력해주세요.');
+      return;
+    }
+    if (!input.recipeMainImage) {
+      Alert.alert('레시피 대표 사진을 추가해주세요.');
+      return;
+    }
+    if (!input.typeCategory) {
+      Alert.alert('종류별 카테고리를 선택해주세요.');
+      return;
+    }
+    if (!input.situationCategory) {
+      Alert.alert('상황별 카테고리를 선택해주세요.');
+      return;
+    }
+    if (!input.ingredientCategory) {
+      Alert.alert('재료별 카테고리를 선택해주세요.');
+      return;
+    }
+    if (!input.methodCategory) {
+      Alert.alert('방법별 카테고리를 선택해주세요.');
+      return;
+    }
+    if (!input.recipeTime) {
+      Alert.alert('요리 시간을 선택해주세요.');
+      return;
+    }
+    if (!input.recipeLevel) {
+      Alert.alert('난이도를 선택해주세요.');
+      return;
+    }
+    if (!input.recipeServes) {
+      Alert.alert('인원을 선택해주세요.');
+      return;
+    }
+    if (!input.recipeDescription) {
+      Alert.alert('요리 설명을 입력해주세요.');
+      return;
+    }
+    for (let i = 0; i < input.recipeIngredients.length; i++) {
+      if (
+        !input.recipeIngredients[i].ingredientName ||
+        !input.recipeIngredients[i].ingredientAmount
+      ) {
+        Alert.alert('재료에 비어있는 항목이 있습니다.');
+        return;
+      }
+    }
+    for (let i = 0; i < input.recipeStep.length; i++) {
+      if (
+        !input.recipeStep[i].stepImage ||
+        !input.recipeStep[i].stepDescription
+      ) {
+        Alert.alert('요리 순서에 비어있는 항목이 있습니다.');
+        return;
+      }
+    }
+
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/myRecipe/add', {
@@ -201,7 +244,8 @@ const RecipeAddScreen = () => {
         .then(responseJson => {
           // console.log(responseJson);
           if (responseJson.status === 200) {
-            console.log('hi');
+            Alert.alert('레시피가 등록되었습니다.');
+            navigation.navigate('HomeScreen');
           } else {
             console.log('error');
           }
@@ -214,6 +258,11 @@ const RecipeAddScreen = () => {
     }
   };
 
+  // console.log(input);
+  // for (let i = 0; i < input.recipeStep.length; i++) {
+  //   console.log(input.recipeStep[i].stepImage);
+  // }
+
   return (
     <View style={styles.fullScreen}>
       <View>
@@ -223,7 +272,7 @@ const RecipeAddScreen = () => {
           </Pressable>
           <View style={styles.btnWrapper}>
             <Pressable onPress={onPressSubmit} android_ripple={'#f2f3f4'}>
-              <Text style={styles.saveText}>저장</Text>
+              <Text style={styles.saveText}>등록</Text>
             </Pressable>
           </View>
         </View>
@@ -291,7 +340,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setTypeCategory(itemValue)
                       }>
-                      <Picker.Item label="---종류별---" value="---종류별---" />
+                      <Picker.Item label="---종류별---" value="" />
                       <Picker.Item label="밑반찬" value="밑반찬" />
                       <Picker.Item label="메인반찬" value="메인반찬" />
                       <Picker.Item label="국/탕/찌개" value="국/탕/찌개" />
@@ -314,7 +363,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setSituationCategory(itemValue)
                       }>
-                      <Picker.Item label="---상황별---" value="---상황별---" />
+                      <Picker.Item label="---상황별---" value="" />
                       <Picker.Item label="일상" value="일상" />
                       <Picker.Item label="간식" value="간식" />
                       <Picker.Item label="야식" value="야식" />
@@ -340,7 +389,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setIngredientCategory(itemValue)
                       }>
-                      <Picker.Item label="---재료별---" value="---재료별---" />
+                      <Picker.Item label="---재료별---" value="" />
                       <Picker.Item label="육류" value="육류" />
                       <Picker.Item label="소고기" value="소고기" />
                       <Picker.Item label="돼지고기" value="돼지고기" />
@@ -365,7 +414,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setMethodCategory(itemValue)
                       }>
-                      <Picker.Item label="---방법별---" value="---방법별---" />
+                      <Picker.Item label="---방법별---" value="" />
                       <Picker.Item label="볶음" value="볶음" />
                       <Picker.Item label="끓이기" value="끓이기" />
                       <Picker.Item label="부침" value="부침" />
@@ -393,7 +442,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setRecipeTime(itemValue)
                       }>
-                      <Picker.Item label="요리 시간" value="0" />
+                      <Picker.Item label="요리 시간" value="" />
                       <Picker.Item label="10분" value="10" />
                       <Picker.Item label="20분" value="20" />
                       <Picker.Item label="30분" value="30" />
@@ -418,7 +467,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setRecipeLevel(itemValue)
                       }>
-                      <Picker.Item label="난이도" value="0" />
+                      <Picker.Item label="난이도" value="" />
                       <Picker.Item label="쉬움" value="쉬움" />
                       <Picker.Item label="보통" value="보통" />
                       <Picker.Item label="어려움" value="어려움" />
@@ -433,7 +482,7 @@ const RecipeAddScreen = () => {
                       onValueChange={(itemValue, itemIndex) =>
                         setRecipeServes(itemValue)
                       }>
-                      <Picker.Item label="인원" value="0" />
+                      <Picker.Item label="인원" value="" />
                       <Picker.Item label="1인분" value="1인분" />
                       <Picker.Item label="2인분" value="2인분" />
                       <Picker.Item label="3인분" value="3인분" />
