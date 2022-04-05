@@ -17,6 +17,7 @@ import ImageSelectModal from 'components/Recipe/ImageSelectModal';
 import {Picker} from '@react-native-picker/picker';
 import InputIngredientList from 'components/Recipe/InputIngredientList';
 import InputStepList from 'components/Recipe/InputStepList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RecipeAddScreen = () => {
   const navigation = useNavigation();
@@ -184,7 +185,33 @@ const RecipeAddScreen = () => {
     );
   };
 
-  console.log('\n\n', input);
+  const onPressSubmit = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/myRecipe/add', {
+        method: 'POST',
+        body: JSON.stringify(input),
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+          if (responseJson.status === 200) {
+            console.log('hi');
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={styles.fullScreen}>
@@ -194,7 +221,7 @@ const RecipeAddScreen = () => {
             <Icon name="arrow-back" size={32} color={'#ff8527'} />
           </Pressable>
           <View style={styles.btnWrapper}>
-            <Pressable onPress={onSelectImage} android_ripple={'#f2f3f4'}>
+            <Pressable onPress={onPressSubmit} android_ripple={'#f2f3f4'}>
               <Text style={styles.saveText}>저장</Text>
             </Pressable>
           </View>
