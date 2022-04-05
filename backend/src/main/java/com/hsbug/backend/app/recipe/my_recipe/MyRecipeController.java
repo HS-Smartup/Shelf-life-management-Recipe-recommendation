@@ -43,8 +43,8 @@ public class MyRecipeController {
         System.out.println(dto.getRecipeIngredients());
         System.out.println(dto.getRecipeStep());
         Long id = recipeService.saveRecipe(dto);
-        obj.put("networkStatus", HttpStatus.OK);
-        obj.put("status", "저장되었습니다.");
+        obj.put("status", HttpStatus.OK);
+        obj.put("resultstatus", "저장되었습니다.");
         return obj;
     }
 
