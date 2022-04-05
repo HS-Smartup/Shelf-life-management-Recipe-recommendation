@@ -112,7 +112,7 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
 //                StringTokenizer stringTokenizer = (String) jsonObject.get("RCP_PARTS_DTLS")
 //                dto.setRecipeIngredients();
                 dto.setMethodCategory((String) jsonObject.get("RCP_WAY2"));
-                dto.setRecipeMainImage((String) jsonObject.get("ATT_FILE_NO_MAIN"));
+//                dto.setRecipeMainImage((String) jsonObject.get("ATT_FILE_NO_MAIN"));
                 List<RecipeStepDTO> recipeStepDTOList = new ArrayList<>();
                 for (int recipeStepCount = 0; recipeStepCount< 16; recipeStepCount++) {
                     RecipeStepDTO recipeStepDTO = new RecipeStepDTO(

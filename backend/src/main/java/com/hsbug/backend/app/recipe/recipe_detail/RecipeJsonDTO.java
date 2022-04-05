@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class RecipeJsonDTO {
     private Long id;
     private String recipeName;
     private String recipeWriter;
-    private String recipeMainImage;
+    private Blob recipeMainImage;
     private String typeCategory;
     private String situationCategory;
     private String ingredientCategory;
