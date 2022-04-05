@@ -78,7 +78,6 @@ public class MyRecipeService {
                 .INFO_NA(manageRecipeEntity.getINFO_NA())
                 .HASH_TAG(manageRecipeEntity.getHASH_TAG())
                 .views(manageRecipeEntity.getViews())
-                .likes(manageRecipeEntity.getLikes())
                 .stars(manageRecipeEntity.getStars())
                 .ADD_TIME(manageRecipeEntity.getADD_TIME())
                 .build();

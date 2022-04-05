@@ -95,6 +95,7 @@ public class RecipeService {
         return recipeStepDTOList;
     }
 
+    // 좋아요 빼기
     public  void decreaseNum(Long id){
         Optional<RecipeEntity> recipeEntity = recipeRepository.findById(id);
         int book = recipeEntity.get().getRecipeLikes();
@@ -107,7 +108,7 @@ public class RecipeService {
 
         recipeRepository.save(recipeEntity.get());
     }
-
+    //좋아요 더하기
     public void inceaseNum(Long id) {
         Optional<RecipeEntity> recipeEntity = recipeRepository.findById(id);
         int book = recipeEntity.get().getRecipeLikes();
