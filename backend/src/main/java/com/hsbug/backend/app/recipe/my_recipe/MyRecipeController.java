@@ -5,7 +5,6 @@ import com.hsbug.backend.app.recipe.recipe_detail.RecipeJsonDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +42,7 @@ public class MyRecipeController {
         System.out.println(dto.getRecipeIngredients());
         System.out.println(dto.getRecipeStep());
         Long id = recipeService.saveRecipe(dto);
-        obj.put("status", HttpStatus.OK);
+        obj.put("status", 200);
         obj.put("resultstatus", "저장되었습니다.");
         return obj;
     }

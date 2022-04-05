@@ -1,6 +1,7 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,8 +14,11 @@ public class RecipeDetailController {
     private final RecipeService recipeService;
 
     @GetMapping("/detail")
-    public RecipeJsonDTO recipeDetail(@RequestParam Long id) {
+    public JSONObject recipeDetail(@RequestParam Long id) {
+        JSONObject obj = new JSONObject();
         recipeService.recipeCount(id);
-        return recipeService.findDetail(id);
+        obj.put("recipe_detail",recipeService.findDetail(id));
+        obj.put("status", 200);
+        return obj;
     }
 }
