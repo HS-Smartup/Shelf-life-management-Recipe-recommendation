@@ -68,7 +68,7 @@ const RecipeScreen = () => {
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/recipe/detail?id=1', {
+      await fetch('http://localhost:8080/user/recipe/detail?id=5', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ const RecipeScreen = () => {
         .then(responseJson => {
           console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            setRecipe(responseJson);
+            setRecipe([responseJson.recipe_detail]);
           } else {
             console.log('error');
           }
@@ -98,8 +98,6 @@ const RecipeScreen = () => {
       isComponentMounted = false;
     };
   }, []);
-
-  console.log(recipe);
 
   const [like, setLike] = useState(false);
 
@@ -145,7 +143,9 @@ const RecipeScreen = () => {
             <View>
               <View style={styles.titleWrapper}>
                 <ImageBackground
-                  source={require('../../assets/images/pizza.jpg')}
+                  source={{
+                    uri: `data:image/jpg;base64,${item.recipeMainImage}`,
+                  }}
                   style={styles.image}
                   resizeMode="stretch">
                   <View style={styles.nameWrapper}>
@@ -273,6 +273,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '70%',
+    // width: 300,
+    // height: 300,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },

@@ -24,7 +24,7 @@ const RecipeAddScreen = () => {
 
   const [input, setInput] = useState({
     recipeName: '',
-    recipeMainImage: '',
+    recipeMainImage: null,
     typeCategory: '',
     situationCategory: '',
     ingredientCategory: '',
@@ -59,7 +59,8 @@ const RecipeAddScreen = () => {
   useEffect(() => {
     setInput({
       ...input,
-      recipeMainImage: recipeMainImage?.assets[0]?.uri,
+      recipeMainImage: null,
+      // recipeMainImage: recipeMainImage?.assets[0]?.uri,
       typeCategory: typeCategory,
       situationCategory: situationCategory,
       ingredientCategory: ingredientCategory,
@@ -169,21 +170,21 @@ const RecipeAddScreen = () => {
     });
   };
 
-  const onSelectImage = () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        quality: 1,
-        includeBase64: Platform.OS === 'android',
-      },
-      res => {
-        if (res.didCancel) {
-          return;
-        }
-        setRecipeMainImage(res);
-      },
-    );
-  };
+  // const onSelectImage = () => {
+  //   launchImageLibrary(
+  //     {
+  //       mediaType: 'photo',
+  //       quality: 1,
+  //       includeBase64: Platform.OS === 'android',
+  //     },
+  //     res => {
+  //       if (res.didCancel) {
+  //         return;
+  //       }
+  //       setRecipeMainImage(res);
+  //     },
+  //   );
+  // };
 
   const onPressSubmit = async () => {
     try {
@@ -198,7 +199,7 @@ const RecipeAddScreen = () => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
+          // console.log(responseJson);
           if (responseJson.status === 200) {
             console.log('hi');
           } else {
