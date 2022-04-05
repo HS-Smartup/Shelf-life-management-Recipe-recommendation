@@ -1,4 +1,12 @@
-import {Platform, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  PermissionsAndroid,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -11,29 +19,49 @@ const StepImageModal = ({
   setStepImageModalVisible,
 }) => {
   const onPressCameraBtn = () => {
-    launchCamera(
-      {
-        mediaType: 'photo',
-        quality: 1,
-        includeBase64: Platform.OS === 'android',
-      },
-      res => {
-        if (res.didCancel) {
-          setStepImageModalVisible(false);
-          return;
+    async function requestCameraPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // If CAMERA Permission is granted
+          launchCamera(
+            {
+              mediaType: 'photo',
+              quality: 1,
+              includeBase64: Platform.OS === 'android',
+            },
+            res => {
+              if (res.didCancel) {
+                setStepImageModalVisible(false);
+                return;
+              }
+              setInput({
+                ...input,
+                recipeStep: input.recipeStep.map((recipeStep, index) => {
+                  if (index == stepIndex) {
+                    return {...recipeStep, stepImage: res.assets[0].uri};
+                  }
+                  return recipeStep;
+                }),
+              });
+              setStepImageModalVisible(false);
+            },
+          );
+        } else {
+          Alert.alert(
+            '카메라 사용권한 거부',
+            '카메라 사용권한이 거부되었습니다.',
+            [{text: '확인'}],
+          );
         }
-        setInput({
-          ...input,
-          recipeStep: input.recipeStep.map((recipeStep, index) => {
-            if (index == stepIndex) {
-              return {...recipeStep, stepImage: res.assets[0].uri};
-            }
-            return recipeStep;
-          }),
-        });
-        setStepImageModalVisible(false);
-      },
-    );
+      } catch (error) {
+        Alert.alert('카메라 권한 에러', error);
+        console.error(error);
+      }
+    }
+    requestCameraPermission();
   };
 
   const onPressGalleryBtn = () => {
