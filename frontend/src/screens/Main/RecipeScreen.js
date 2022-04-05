@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,54 +15,91 @@ import {Rating} from 'react-native-ratings';
 import IngredientList from 'components/Recipe/IngredientList';
 import StepList from 'components/Recipe/StepList';
 import {UserNameContext} from 'contexts/UserNameContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();
   const {recipeWriter, setRecipeWriter} = useContext(UserNameContext);
 
   const [recipe, setRecipe] = useState([
-    {
-      id: 1,
-      recipeName: '콤비네이션 피자',
-      recipeNumber: '123',
-      recipeWriter: 'ssh',
-      recipeMainImage: '',
-      recipeLikes: '100',
-      recipeViews: '200',
-      recipeRatings: '4.5',
-      recipeRatingsCount: '50',
-      recipeTime: '100',
-      recipeLevel: '어려움',
-      recipeServes: '3',
-      recipeDescription: '요리 설명 피자먹고싶다 피자먹고싶다.',
-      recipeIngredients: [
-        {ingredientName: '양파', ingredientAmount: '100g'},
-        {ingredientName: '양파', ingredientAmount: '100g'},
-        {ingredientName: '양파', ingredientAmount: '100g'},
-        {ingredientName: '양파', ingredientAmount: '100g'},
-        {ingredientName: '대파', ingredientAmount: '200g'},
-        {ingredientName: '쪽파', ingredientAmount: '300g'},
-      ],
-      recipeStep: [
-        {
-          stepImage:
-            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-          stepDescription:
-            '피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~',
-        },
-        {
-          stepImage:
-            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-          stepDescription: '피자는 시켜먹어야지~',
-        },
-        {
-          stepImage:
-            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-          stepDescription: '피자는 시켜먹어야지~',
-        },
-      ],
-    },
+    // {
+    //   id: 1,
+    //   recipeName: '콤비네이션 피자',
+    //   recipeNumber: '123',
+    //   recipeWriter: 'ssh',
+    //   recipeMainImage: '',
+    //   recipeLikes: '100',
+    //   recipeViews: '200',
+    //   recipeRatings: '4.5',
+    //   recipeRatingsCount: '50',
+    //   recipeTime: '100',
+    //   recipeLevel: '어려움',
+    //   recipeServes: '3',
+    //   recipeDescription: '요리 설명 피자먹고싶다 피자먹고싶다.',
+    //   recipeIngredients: [
+    //     {ingredientName: '양파', ingredientAmount: '100g'},
+    //     {ingredientName: '양파', ingredientAmount: '100g'},
+    //     {ingredientName: '양파', ingredientAmount: '100g'},
+    //     {ingredientName: '양파', ingredientAmount: '100g'},
+    //     {ingredientName: '대파', ingredientAmount: '200g'},
+    //     {ingredientName: '쪽파', ingredientAmount: '300g'},
+    //   ],
+    //   recipeStep: [
+    //     {
+    //       stepImage:
+    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+    //       stepDescription:
+    //         '피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~',
+    //     },
+    //     {
+    //       stepImage:
+    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+    //       stepDescription: '피자는 시켜먹어야지~',
+    //     },
+    //     {
+    //       stepImage:
+    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+    //       stepDescription: '피자는 시켜먹어야지~',
+    //     },
+    //   ],
+    // },
   ]);
+
+  const readItem = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/recipe/detail?id=1', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            setRecipe(responseJson);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    let isComponentMounted = true;
+    readItem();
+    return () => {
+      isComponentMounted = false;
+    };
+  }, []);
+
+  console.log(recipe);
 
   const [like, setLike] = useState(false);
 
