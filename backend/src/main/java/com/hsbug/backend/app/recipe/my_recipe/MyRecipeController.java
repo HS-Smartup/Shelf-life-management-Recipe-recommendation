@@ -30,6 +30,7 @@ public class MyRecipeController {
         for (int i = 0; i< recipeDtoList.size(); i++){
             obj.put((i+1),recipeDtoList.get(i));
         }
+        obj.put("status", 200);
         return obj;
     }
 
@@ -52,7 +53,7 @@ public class MyRecipeController {
         JSONObject obj = new JSONObject();
         myRecipeService.deleteRecipe(id);
         obj.put("message",id + " 삭제 완료");
-
+        obj.put("status", 200);
         return obj;
     }
 
