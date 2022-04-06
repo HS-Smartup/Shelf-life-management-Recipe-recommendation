@@ -262,11 +262,15 @@ const RecipeAddScreen = () => {
     <View style={styles.fullScreen}>
       <View>
         <View style={styles.header}>
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable
+            onPress={() => navigation.goBack()}
+            android_ripple={{color: '#e1e2e3'}}>
             <Icon name="arrow-back" size={32} color={'#ff8527'} />
           </Pressable>
           <View style={styles.btnWrapper}>
-            <Pressable onPress={onPressSubmit} android_ripple={'#f2f3f4'}>
+            <Pressable
+              onPress={onPressSubmit}
+              android_ripple={{color: '#e1e2e3'}}>
               <Text style={styles.saveText}>등록</Text>
             </Pressable>
           </View>
@@ -510,7 +514,8 @@ const RecipeAddScreen = () => {
                   <View style={styles.addBtnWrapper}>
                     <Pressable
                       onPress={addIngredientInputs}
-                      style={styles.addBtn}>
+                      style={styles.addBtn}
+                      android_ripple={{color: '#e1e2e3'}}>
                       <Icon name="add-circle" size={44} color={'#ffa856'} />
                       <Text style={styles.ingredientAddText}>재료 추가</Text>
                     </Pressable>
@@ -525,7 +530,10 @@ const RecipeAddScreen = () => {
                     removeStepInput={removeStepInput}
                   />
                   <View style={styles.addBtnWrapper}>
-                    <Pressable onPress={addStepInputs} style={styles.addBtn}>
+                    <Pressable
+                      onPress={addStepInputs}
+                      style={styles.addBtn}
+                      android_ripple={{color: '#e1e2e3'}}>
                       <Icon name="add-circle" size={44} color={'#ffa856'} />
                       <Text style={styles.ingredientAddText}>
                         요리순서 추가

@@ -10,9 +10,9 @@ const AddButton = ({
   onOpenScanner,
   addModalVisible,
   setAddModalVisible,
+  mainPress,
+  setMainPress,
 }) => {
-  const [mainPress, setMainPress] = useState(false);
-
   const onPressSelfAddBtn = () => {
     setAddModalVisible(!addModalVisible);
   };
@@ -29,7 +29,7 @@ const AddButton = ({
       useNativeDriver: true,
     }).start();
     return () => setMainPress(false);
-  }, [animation, hidden]);
+  }, [animation, hidden, setMainPress]);
 
   return (
     <Animated.View

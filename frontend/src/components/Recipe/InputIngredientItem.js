@@ -43,7 +43,8 @@ const InputIngredientItem = ({
       <View style={styles.deleteBtnWrapper}>
         <Pressable
           onPress={() => removeIngredientInput(ingredientIndex)}
-          style={styles.deleteBtn}>
+          style={styles.deleteBtn}
+          android_ripple={{color: '#e1e2e3'}}>
           <Icon name="delete-outline" size={36} color={'#ff8527'} />
         </Pressable>
       </View>

@@ -101,11 +101,17 @@ const StepImageModal = ({
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <Pressable style={styles.cameraBtn} onPress={onPressCameraBtn}>
+        <Pressable
+          style={styles.cameraBtn}
+          onPress={onPressCameraBtn}
+          android_ripple={{color: '#e1e2e3'}}>
           <Icon name="camera-alt" size={28} color={'#636773'} />
           <Text style={styles.cameraText}>카메라로 촬영하기</Text>
         </Pressable>
-        <Pressable style={styles.galleryBtn} onPress={onPressGalleryBtn}>
+        <Pressable
+          style={styles.galleryBtn}
+          onPress={onPressGalleryBtn}
+          android_ripple={{color: '#e1e2e3'}}>
           <Icon name="image" size={28} color={'#636773'} />
           <Text style={styles.galleryText}>사진 선택하기</Text>
         </Pressable>

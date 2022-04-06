@@ -24,6 +24,7 @@ import RefrigeratorItemModal from 'components/Refrigerator/RefrigeratorItemModal
 const RefrigeratorScreen = ({navigation}) => {
   const {username, setUsername} = useContext(UserNameContext);
   const [hidden, setHidden] = useState(false);
+  const [mainPress, setMainPress] = useState(false);
 
   const [input, setInput] = useState({});
 
@@ -226,6 +227,8 @@ const RefrigeratorScreen = ({navigation}) => {
               setOpenScanner={setOpenScanner}
               addModalVisible={addModalVisible}
               setAddModalVisible={setAddModalVisible}
+              mainPress={mainPress}
+              setMainPress={setMainPress}
             />
           </View>
         </View>
