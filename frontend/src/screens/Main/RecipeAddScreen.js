@@ -258,21 +258,6 @@ const RecipeAddScreen = () => {
     }
   };
 
-  // console.log(input);
-  // for (let i = 0; i < input.recipeStep.length; i++) {
-  //   console.log(input.recipeStep[i].stepImage);
-  // }
-  console.log(recipeMainImage);
-
-  // const data = new FormData();
-  // data.append('mainImage', {
-  //   uri: recipeMainImage?.assets[0]?.uri,
-  //   name: 'mainImage.jpg',
-  //   type: 'image/jpg',
-  // });
-
-  // console.log(data._parts[0][1].name);
-
   return (
     <View style={styles.fullScreen}>
       <View>
