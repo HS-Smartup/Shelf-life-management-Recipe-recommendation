@@ -31,6 +31,9 @@ const UserScreen = () => {
           <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
       </View>
+      <View style={styles.userNameWrapper}>
+        <Text style={styles.userNameText}>{username}</Text>
+      </View>
     </View>
   );
 };
@@ -73,5 +76,8 @@ const styles = StyleSheet.create({
   },
   notification: {
     marginLeft: 20,
+  },
+  userNameWrapper: {
+    width: '100%',
   },
 });

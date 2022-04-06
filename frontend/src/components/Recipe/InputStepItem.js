@@ -28,7 +28,8 @@ const InputStepItem = ({
         <Pressable
           onPress={() => {
             setStepImageModalVisible(true);
-          }}>
+          }}
+          android_ripple={{color: '#e1e2e3'}}>
           {stepImage === null ? (
             <Icon name="add-photo-alternate" size={60} color={'#ffb856'} />
           ) : (

@@ -307,18 +307,19 @@ const RecipeAddScreen = () => {
                 {recipeMainImage ? (
                   <Pressable
                     style={styles.imageWrapper}
-                    onPress={() => setSelectModalVisible(true)}>
+                    onPress={() => setSelectModalVisible(true)}
+                    android_ripple={{color: '#e1e2e3'}}>
                     <Image
                       style={styles.imageFull}
                       source={{uri: recipeMainImage?.assets[0]?.uri}}
-                      // source={{uri: data._parts[0][1].uri}}
                       resizeMode="cover"
                     />
                   </Pressable>
                 ) : (
                   <Pressable
                     style={styles.imageWrapper}
-                    onPress={() => setSelectModalVisible(true)}>
+                    onPress={() => setSelectModalVisible(true)}
+                    android_ripple={{color: '#e1e2e3'}}>
                     <Image
                       style={styles.image}
                       source={require('../../assets/images/recipeAddDefault.png')}
