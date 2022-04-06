@@ -29,7 +29,9 @@ const StepImageModal = ({
           launchCamera(
             {
               mediaType: 'photo',
-              quality: 0.4,
+              maxWidth: 1000,
+              maxHeight: 1000,
+              quality: 1,
               includeBase64: Platform.OS === 'android',
             },
             res => {
@@ -68,7 +70,9 @@ const StepImageModal = ({
     launchImageLibrary(
       {
         mediaType: 'photo',
-        quality: 0.4,
+        maxWidth: 1000,
+        maxHeight: 1000,
+        quality: 1,
         includeBase64: Platform.OS === 'android',
       },
       res => {

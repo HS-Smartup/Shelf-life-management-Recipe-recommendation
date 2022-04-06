@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   stepImage: {
     width: 130,
-    height: 120,
+    height: 130,
     borderRadius: 10,
   },
   descriptionWrapper: {

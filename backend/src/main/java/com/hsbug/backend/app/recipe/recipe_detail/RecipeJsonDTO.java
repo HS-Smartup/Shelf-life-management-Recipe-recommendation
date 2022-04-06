@@ -20,7 +20,7 @@ public class RecipeJsonDTO {
     private Long id;
     private String recipeName;
     private String recipeWriter;
-    private Blob recipeMainImage;
+    private String recipeMainImage;
     private String typeCategory;
     private String situationCategory;
     private String ingredientCategory;

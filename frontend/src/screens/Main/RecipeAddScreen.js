@@ -171,64 +171,64 @@ const RecipeAddScreen = () => {
   };
 
   const onPressSubmit = async () => {
-    if (!input.recipeName) {
-      Alert.alert('레시피 제목을 입력해주세요.');
-      return;
-    }
-    if (!input.recipeMainImage) {
-      Alert.alert('레시피 대표 사진을 추가해주세요.');
-      return;
-    }
-    if (!input.typeCategory) {
-      Alert.alert('종류별 카테고리를 선택해주세요.');
-      return;
-    }
-    if (!input.situationCategory) {
-      Alert.alert('상황별 카테고리를 선택해주세요.');
-      return;
-    }
-    if (!input.ingredientCategory) {
-      Alert.alert('재료별 카테고리를 선택해주세요.');
-      return;
-    }
-    if (!input.methodCategory) {
-      Alert.alert('방법별 카테고리를 선택해주세요.');
-      return;
-    }
-    if (!input.recipeTime) {
-      Alert.alert('요리 시간을 선택해주세요.');
-      return;
-    }
-    if (!input.recipeLevel) {
-      Alert.alert('난이도를 선택해주세요.');
-      return;
-    }
-    if (!input.recipeServes) {
-      Alert.alert('인원을 선택해주세요.');
-      return;
-    }
-    if (!input.recipeDescription) {
-      Alert.alert('요리 설명을 입력해주세요.');
-      return;
-    }
-    for (let i = 0; i < input.recipeIngredients.length; i++) {
-      if (
-        !input.recipeIngredients[i].ingredientName ||
-        !input.recipeIngredients[i].ingredientAmount
-      ) {
-        Alert.alert('재료에 비어있는 항목이 있습니다.');
-        return;
-      }
-    }
-    for (let i = 0; i < input.recipeStep.length; i++) {
-      if (
-        !input.recipeStep[i].stepImage ||
-        !input.recipeStep[i].stepDescription
-      ) {
-        Alert.alert('요리 순서에 비어있는 항목이 있습니다.');
-        return;
-      }
-    }
+    // if (!input.recipeName) {
+    //   Alert.alert('레시피 제목을 입력해주세요.');
+    //   return;
+    // }
+    // if (!input.recipeMainImage) {
+    //   Alert.alert('레시피 대표 사진을 추가해주세요.');
+    //   return;
+    // }
+    // if (!input.typeCategory) {
+    //   Alert.alert('종류별 카테고리를 선택해주세요.');
+    //   return;
+    // }
+    // if (!input.situationCategory) {
+    //   Alert.alert('상황별 카테고리를 선택해주세요.');
+    //   return;
+    // }
+    // if (!input.ingredientCategory) {
+    //   Alert.alert('재료별 카테고리를 선택해주세요.');
+    //   return;
+    // }
+    // if (!input.methodCategory) {
+    //   Alert.alert('방법별 카테고리를 선택해주세요.');
+    //   return;
+    // }
+    // if (!input.recipeTime) {
+    //   Alert.alert('요리 시간을 선택해주세요.');
+    //   return;
+    // }
+    // if (!input.recipeLevel) {
+    //   Alert.alert('난이도를 선택해주세요.');
+    //   return;
+    // }
+    // if (!input.recipeServes) {
+    //   Alert.alert('인원을 선택해주세요.');
+    //   return;
+    // }
+    // if (!input.recipeDescription) {
+    //   Alert.alert('요리 설명을 입력해주세요.');
+    //   return;
+    // }
+    // for (let i = 0; i < input.recipeIngredients.length; i++) {
+    //   if (
+    //     !input.recipeIngredients[i].ingredientName ||
+    //     !input.recipeIngredients[i].ingredientAmount
+    //   ) {
+    //     Alert.alert('재료에 비어있는 항목이 있습니다.');
+    //     return;
+    //   }
+    // }
+    // for (let i = 0; i < input.recipeStep.length; i++) {
+    //   if (
+    //     !input.recipeStep[i].stepImage ||
+    //     !input.recipeStep[i].stepDescription
+    //   ) {
+    //     Alert.alert('요리 순서에 비어있는 항목이 있습니다.');
+    //     return;
+    //   }
+    // }
 
     try {
       const token = await AsyncStorage.getItem('user_token');
@@ -262,6 +262,16 @@ const RecipeAddScreen = () => {
   // for (let i = 0; i < input.recipeStep.length; i++) {
   //   console.log(input.recipeStep[i].stepImage);
   // }
+  console.log(recipeMainImage);
+
+  // const data = new FormData();
+  // data.append('mainImage', {
+  //   uri: recipeMainImage?.assets[0]?.uri,
+  //   name: 'mainImage.jpg',
+  //   type: 'image/jpg',
+  // });
+
+  // console.log(data._parts[0][1].name);
 
   return (
     <View style={styles.fullScreen}>
@@ -312,6 +322,7 @@ const RecipeAddScreen = () => {
                     <Image
                       style={styles.imageFull}
                       source={{uri: recipeMainImage?.assets[0]?.uri}}
+                      // source={{uri: data._parts[0][1].uri}}
                       resizeMode="cover"
                     />
                   </Pressable>

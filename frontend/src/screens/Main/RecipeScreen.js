@@ -68,7 +68,7 @@ const RecipeScreen = () => {
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/recipe/detail?id=16', {
+      await fetch('http://localhost:8080/user/recipe/detail?id=1', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ const RecipeScreen = () => {
               <View style={styles.titleWrapper}>
                 <ImageBackground
                   source={{
-                    uri: `${item.recipeMainImage}`,
+                    uri: `data:image/jpg;base64,${item.recipeMainImage}`,
                   }}
                   style={styles.image}
                   resizeMode="stretch">
