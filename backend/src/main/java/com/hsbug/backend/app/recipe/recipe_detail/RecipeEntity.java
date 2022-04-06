@@ -1,9 +1,9 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Entity
 @Getter
@@ -52,4 +52,13 @@ public class RecipeEntity {
                 .build();
     }
 
+    public SearchRecipeRefrigDto toSearchResultDto() {
+        return SearchRecipeRefrigDto.builder()
+                .id(this.id)
+                .recipeName(this.recipeName)
+                .recipeImg(this.recipeMainImage)
+                .views(this.recipeViews)
+                .stars(this.recipeStar)
+                .build();
+    }
 }
