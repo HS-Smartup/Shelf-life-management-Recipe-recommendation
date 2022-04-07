@@ -107,11 +107,11 @@ public class ManageRecipeController { //10초 정도 걸리는 듯.
 //                dto.setId((Long) jsonObject.get("RCP_SEQ"));
                 dto.setRecipeName((String) jsonObject.get("RCP_NM"));
                 dto.setRecipeWriter("admin");
-                dto.setTypeCategory((String) jsonObject.get("RCP_PAT2"));
+//                dto.setTypeCategory((String) jsonObject.get("RCP_PAT2"));
 //                재료 짤라서 넣기 구현해야함
 //                StringTokenizer stringTokenizer = (String) jsonObject.get("RCP_PARTS_DTLS")
 //                dto.setRecipeIngredients();
-                dto.setMethodCategory((String) jsonObject.get("RCP_WAY2"));
+//                dto.setMethodCategory((String) jsonObject.get("RCP_WAY2"));
 //                dto.setRecipeMainImage((String) jsonObject.get("ATT_FILE_NO_MAIN"));
                 List<RecipeStepDTO> recipeStepDTOList = new ArrayList<>();
                 for (int recipeStepCount = 0; recipeStepCount< 16; recipeStepCount++) {
