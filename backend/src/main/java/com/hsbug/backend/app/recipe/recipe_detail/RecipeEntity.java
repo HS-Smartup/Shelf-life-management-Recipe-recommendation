@@ -1,5 +1,9 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.recipe.recipe_detail.category.IngredientsCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.MethodCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.SituationCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.TypeCategory;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import lombok.*;
 
@@ -18,10 +22,14 @@ public class RecipeEntity {
     private String recipeName;
     private String recipeWriter;
     private String recipeMainImage;
-    private String typeCategory;
-    private String situationCategory;
-    private String ingredientCategory;
-    private String methodCategory;
+    @Enumerated(EnumType.STRING)
+    private TypeCategory typeCategory;
+    @Enumerated(EnumType.STRING)
+    private SituationCategory situationCategory;
+    @Enumerated(EnumType.STRING)
+    private IngredientsCategory ingredientCategory;
+    @Enumerated(EnumType.STRING)
+    private MethodCategory methodCategory;
     private int recipeLikes; // 좋아요 OK
     private int recipeViews; // 방문자수
     private float recipeStar; //recipeRationgs

@@ -1,5 +1,9 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.recipe.recipe_detail.category.IngredientsCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.MethodCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.SituationCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.TypeCategory;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsDTO;
 import lombok.AllArgsConstructor;
@@ -7,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +24,10 @@ public class RecipeJsonDTO {
     private String recipeName;
     private String recipeWriter;
     private String recipeMainImage;
-    private String typeCategory;
-    private String situationCategory;
-    private String ingredientCategory;
-    private String methodCategory;
+    private TypeCategory typeCategory;
+    private SituationCategory situationCategory;
+    private IngredientsCategory ingredientCategory;
+    private MethodCategory methodCategory;
     private int recipeLikes; //OK
     private int recipeViews;
     private float recipeStar; //recipeRationgs
