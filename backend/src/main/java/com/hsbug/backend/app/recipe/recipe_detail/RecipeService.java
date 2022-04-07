@@ -1,6 +1,5 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepRepository;
@@ -121,5 +120,9 @@ public class RecipeService {
         }
         recipeRepository.save(recipeEntity.get());
     }
+
+//    public List<SearchRecipeRefrigDto> findCategoryRecipe(CategorySetDto dto) {
+//        dto.
+//    }
 
 }

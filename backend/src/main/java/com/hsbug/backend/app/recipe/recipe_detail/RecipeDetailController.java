@@ -21,4 +21,9 @@ public class RecipeDetailController {
         obj.put("status", 200);
         return obj;
     }
+
+//    @PostMapping("/category")
+//    public List<SearchRecipeRefrigDto> categoryList(@RequestBody CategorySetDto category) {
+////        recipeService
+//    }
 }
