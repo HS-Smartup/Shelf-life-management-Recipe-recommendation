@@ -31,6 +31,7 @@ dependencies {
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
     implementation 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
 
     compileOnly 'org.projectlombok:lombok'
