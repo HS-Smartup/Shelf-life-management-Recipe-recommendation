@@ -1,0 +1,56 @@
+
+<!--관리자 페이지-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin_Page</title>
+
+
+</head>
+
+<body>
+
+<div style="text-align: right">
+    <li> 아이디 : </li>
+    <p th:text="${admin.id}"></p>
+
+</div>
+
+<hr>
+
+
+<div>
+    <li>
+    <a th:href="">회원관리</a>
+    <!-- 회원 조회 -->
+    </li>
+    <li>
+    <a th:href="">관리자 관리</a>
+    <!-- 관리자 번호 추가-->
+    <!-- 관리자 번호 삭제-->
+    <!-- 관리자 번호 변경-->
+    </li>
+    <li>
+    <a th:href="">레시피 관리</a>
+    <!-- AdminRecipe_Page
+           1 Admin 레시피 조회
+           2 Admin 레시피 수정
+           3 Admin 레시피 삭제 -->
+    <!-- UserRecipe_Page
+           1 User 레시피 조회
+           2 User 레시피 수정
+           3 User 레시피 삭제 -->
+    </li>
+    <li>
+    <a th:href="">문의 답변 관리</a>
+    <!-- 1.답변 필요 - User 문의 조회
+         2.답변 완료 - User 문의 조회 -->
+    </li>
+
+</div>
+
+</body>
+</html>
