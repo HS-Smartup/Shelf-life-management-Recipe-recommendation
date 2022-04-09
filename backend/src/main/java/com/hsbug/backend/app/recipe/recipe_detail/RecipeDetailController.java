@@ -1,11 +1,11 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +22,8 @@ public class RecipeDetailController {
         return obj;
     }
 
-//    @PostMapping("/category")
-//    public List<SearchRecipeRefrigDto> categoryList(@RequestBody CategorySetDto category) {
-////        recipeService
-//    }
+    @PostMapping("/search/category")
+    public List<SearchRecipeRefrigDto> categoryList(@RequestBody CategorySetDto category) {
+        return recipeService.findCategoryRecipe(category);
+    }
 }
