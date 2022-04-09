@@ -1,11 +1,16 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.recipe.recipe_detail.category.IngredientsCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.MethodCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.SituationCategory;
+import com.hsbug.backend.app.recipe.recipe_detail.category.TypeCategory;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepRepository;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredients;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsRepository;
+import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -121,8 +126,46 @@ public class RecipeService {
         recipeRepository.save(recipeEntity.get());
     }
 
-//    public List<SearchRecipeRefrigDto> findCategoryRecipe(CategorySetDto dto) {
-//        dto.
-//    }
+    public List<SearchRecipeRefrigDto> findCategoryRecipe(CategorySetDto dto) {
+        IngredientsCategory ingredientCategory = dto.getIngredientCategory();
+        MethodCategory methodCategory = dto.getMethodCategory();
+        TypeCategory typeCategory = dto.getTypeCategory();
+        SituationCategory situationCategory = dto.getSituationCategory();
+
+        List<RecipeEntity> recipeCategoryList = new ArrayList<>();
+
+        if (!(ingredientCategory ==null)) {
+            List<RecipeEntity> ingredientCategoryList = recipeRepository.findAllByIngredientCategory(ingredientCategory);
+            recipeCategoryList.addAll(ingredientCategoryList);
+        }
+        else if (!(methodCategory == null)) {
+            List<RecipeEntity> methodCategoryList = recipeRepository.findAllByMethodCategory(methodCategory);
+            recipeCategoryList.addAll(methodCategoryList);
+        }
+        else if (!(typeCategory == null)) {
+            List<RecipeEntity> typeCategoryList = recipeRepository.findAllByTypeCategory(typeCategory);
+            recipeCategoryList.addAll(typeCategoryList);
+        }
+        else if (!(situationCategory == null)) {
+            List<RecipeEntity> situationCategoryList = recipeRepository.findAllBySituationCategory(situationCategory);
+            recipeCategoryList.addAll(situationCategoryList);
+        }
+        return toSearchRecipeRefrigDto(recipeCategoryList);
+    }
+
+    public List<SearchRecipeRefrigDto> toSearchRecipeRefrigDto(List<RecipeEntity> recipeEntityList) {
+        List<SearchRecipeRefrigDto> refrigDtos = new ArrayList<>();
+        for (RecipeEntity recipe: recipeEntityList) {
+            refrigDtos.add(SearchRecipeRefrigDto.builder()
+                    .id(recipe.getId())
+                    .recipeName(recipe.getRecipeName())
+                    .recipeImg(recipe.getRecipeMainImage())
+                    .views(recipe.getRecipeViews())
+                    .stars(recipe.getRecipeStar())
+                    .build()
+            );
+        }
+        return refrigDtos;
+    }
 
 }
