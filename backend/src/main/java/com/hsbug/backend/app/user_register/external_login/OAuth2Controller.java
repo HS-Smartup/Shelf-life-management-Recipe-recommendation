@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -117,8 +115,9 @@ public class OAuth2Controller {
     }
 
     private String getToken(String token){
-        List<String> role = new ArrayList<>();
-        role.add("ROLE_USER");
+//        List<String> role = new ArrayList<>();
+//        role.add("ROLE_USER");
+        String role = "ROLE_USER";
         return jwtTokenProvider.createToken(token,role);
     }
 }
