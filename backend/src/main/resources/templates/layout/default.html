@@ -1,29 +1,18 @@
 <!--기본 레이아웃탭-->
 
 <!DOCTYPE html>
-<html lagn="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!-- 공통 헤더-->
 <th:block th:replace="fragments/head :: headFragment"></th:block>
 
-<body id="page-top">
-<div id="wrapper">
-    <!-- 사이드바-->
-    <th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
-
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-            <!-- 상단바-->
-            <th:block th:replace="fragments/topbar :: topbarFragment"></th:block>
-            <!-- 본문-->
-            <th:block layout:fragment="content"></th:block>
-        </div>
-        <!-- 공통 하단-->
-        <th:block th:replace="fragments/footer :: footerFragment"></th:block>
+<body>
+    <div>
+        <div layout:fragment="header">1</div>
+        <div layout:fragment="content">2</div>
+        <div layout:fragment="footer">3</div>
     </div>
-</div>
 
-<!-- 공통 스크립트-->
-<th:block th:replace="fragments/script :: scriptFragment"></th:block>
 </body>
 </html>
