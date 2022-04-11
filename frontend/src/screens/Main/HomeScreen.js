@@ -81,17 +81,38 @@ const HomeScreen = ({navigation}) => {
           data={[{id: '1'}]}
           renderItem={() => (
             <View style={styles.content}>
-              <Pressable
-                style={styles.myRefrigerator}
-                onPress={() => navigation.navigate('RefrigeratorScreen')}
-                android_ripple={{color: '#f2f3f4'}}>
-                <Image
-                  source={require('../../assets/images/logo.png')}
-                  style={styles.logo}
-                />
-                <Text style={styles.myRefrigeratorText}>내 냉장고 </Text>
-              </Pressable>
+              <View style={styles.firstWrapper}>
+                <Pressable
+                  style={styles.refrigeratorBtn}
+                  onPress={() => navigation.navigate('RefrigeratorScreen')}
+                  android_ripple={{color: '#f2f3f4'}}>
+                  <Text style={styles.refrigeratorBtnText}>냉장고</Text>
+                  <Image
+                    source={require('../../assets/images/logo.png')}
+                    style={styles.refrigeratorBtnIcon}
+                  />
+                </Pressable>
+                <Pressable
+                  style={styles.recipeBtn}
+                  android_ripple={{color: '#f2f3f4'}}>
+                  <Text style={styles.recipeBtnText}>레시피</Text>
+                  <Image
+                    source={require('../../assets/images/defaultRecipe.png')}
+                    style={styles.recipeBtnIcon}
+                  />
+                </Pressable>
+              </View>
               <View style={styles.recipeSearch}>
+                <Pressable
+                  style={styles.recipeSearchBtn}
+                  onPress={() => navigation.navigate('SearchScreen')}>
+                  <Image
+                    source={require('../../assets/images/searchBtn.png')}
+                    style={styles.recipeSearchImage}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.recipeSearchText}>레시피 검색</Text>
+                </Pressable>
                 <Pressable
                   style={styles.recipeSearchBtn}
                   onPress={() => navigation.navigate('RecipeAddScreen')}>
@@ -101,7 +122,7 @@ const HomeScreen = ({navigation}) => {
                     resizeMode="contain"
                   />
                   <Text style={styles.recipeSearchText}>
-                    냉장고 재료로 {'\n'} 레시피 검색
+                    냉장고 재료{'\n'}레시피 검색
                   </Text>
                 </Pressable>
                 <Pressable style={styles.recipeSearchBtn}>
@@ -111,7 +132,7 @@ const HomeScreen = ({navigation}) => {
                     resizeMode="contain"
                   />
                   <Text style={styles.recipeSearchText}>
-                    카메라 인식으로 {'\n'} 레시피 검색
+                    카메라 인식{'\n'}레시피 검색
                   </Text>
                 </Pressable>
               </View>
@@ -176,39 +197,69 @@ const styles = StyleSheet.create({
   contentWrapper: {
     flex: 1,
   },
-  myRefrigerator: {
-    width: '95%',
-    height: 150,
+  firstWrapper: {
     flexDirection: 'row',
+  },
+  refrigeratorBtn: {
+    width: '46%',
+    height: 180,
     backgroundColor: '#fff',
     borderRadius: 10,
     marginVertical: 10,
-    marginHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 5,
+    padding: 15,
+    justifyContent: 'space-between',
     elevation: 5,
   },
-  myRefrigeratorText: {
+  refrigeratorBtnText: {
     fontFamily: 'NanumSquareRoundOTFB',
-    fontSize: 48,
+    fontSize: 36,
     color: '#000000',
   },
+  refrigeratorBtnIcon: {
+    width: 100,
+    height: 100,
+    marginLeft: 50,
+  },
+  recipeBtn: {
+    width: '46%',
+    height: 180,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginVertical: 10,
+    marginLeft: 10,
+    marginRight: 5,
+    padding: 15,
+    elevation: 5,
+  },
+  recipeBtnText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 36,
+    color: '#000000',
+  },
+  recipeBtnIcon: {
+    width: 120,
+    height: 120,
+    marginLeft: 50,
+  },
   recipeSearch: {
-    width: '98%',
-    height: 130,
+    width: '100%',
+    height: 150,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   recipeSearchBtn: {
-    width: '45%',
+    width: '32%',
     height: '90%',
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 5,
     borderRadius: 10,
-    marginHorizontal: 10,
-    elevation: 10,
+    elevation: 5,
   },
   recipeSearchImage: {
     width: '60%',
