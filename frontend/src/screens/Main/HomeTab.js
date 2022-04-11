@@ -13,32 +13,24 @@ const HomeTab = () => {
   return (
     <Tab.Navigator
       initialRouteName="HomeScreen"
+      // backBehavior="none"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#ff8527',
       }}>
       <Tab.Screen
-        name="CategoryScreen"
-        component={CategoryScreen}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="list" size={32} color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="RefrigeratorScreen"
-        component={RefrigeratorScreen}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="kitchen" size={32} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={{
           tabBarIcon: ({color}) => <Icon name="home" size={32} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="CategoryScreen"
+        component={CategoryScreen}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="list" size={32} color={color} />,
         }}
       />
       <Tab.Screen

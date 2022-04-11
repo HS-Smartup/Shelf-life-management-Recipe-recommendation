@@ -146,13 +146,12 @@ const RefrigeratorScreen = ({navigation}) => {
       ) : (
         <View>
           <View style={styles.header}>
-            <Pressable
-              onPress={() => navigation.navigate('HomeScreen')}
-              android_ripple={{color: '#f2f3f4'}}>
-              <Image
-                source={require('../../assets/images/logo.png')}
-                style={styles.logo}
-                resizeMode="contain"
+            <Pressable onPress={() => navigation.goBack()}>
+              <Icon
+                style={styles.backBtn}
+                name="arrow-back"
+                size={32}
+                color={'#ff8527'}
               />
             </Pressable>
             <View style={styles.headerTextWrapper}>
@@ -244,21 +243,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    width: '95%',
+    width: '100%',
     height: '11%',
     flexDirection: 'row',
     marginVertical: 5,
-    marginHorizontal: 10,
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
   },
   logo: {
     width: 56,
     height: 56,
   },
   headerTextWrapper: {
-    width: '65%',
+    width: '75%',
     height: 50,
-    marginLeft: 20,
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
@@ -272,7 +271,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   notification: {
-    marginLeft: 20,
+    padding: 10,
   },
   // searchFilterWrapper: {
   //   height: '8%',

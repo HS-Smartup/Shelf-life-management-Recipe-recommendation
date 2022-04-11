@@ -81,8 +81,8 @@ const SignUpScreen = props => {
       Alert.alert('사용자 이름을 입력해주세요.');
       return;
     }
-    if (form.username.length < 2 || form.username.length > 7) {
-      Alert.alert('사용자 이름은 2자 이상 7자 이하여야 합니다.');
+    if (form.username.length < 2 || form.username.length > 10) {
+      Alert.alert('사용자 이름은 2자 이상 10자 이하여야 합니다.');
       return;
     }
 

@@ -5,6 +5,7 @@ import SearchScreen from './SearchScreen';
 import {UserNameContextProvider} from 'contexts/UserNameContext';
 import DetailRecipeScreen from './DetailRecipeScreen';
 import RecipeAddScreen from './RecipeAddScreen';
+import RefrigeratorScreen from './RefrigeratorScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,11 @@ const MainStack = () => {
         <Stack.Screen
           name="HomeTab"
           component={HomeTab}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RefrigeratorScreen"
+          component={RefrigeratorScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
