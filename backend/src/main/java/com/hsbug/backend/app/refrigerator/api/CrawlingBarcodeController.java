@@ -22,8 +22,19 @@ public class CrawlingBarcodeController {
     public JSONObject crawlingBarcode(@RequestParam String barcode) throws IOException {
         JSONObject obj = new JSONObject();
         ManageProductDto searchResult = crawlingService.barcodeCrawling(barcode);
-        obj.put("status", 200);
-        obj.put("info", searchResult);
+        if (searchResult.getItemImage().isEmpty()) {
+            if (searchResult.getItemName().isEmpty()) {
+                obj.put("status", 204);
+                obj.put("message", "해당 바코드의 상품정보가 없습니다.");
+            } else {
+                obj.put("status", 206);
+                obj.put("info", searchResult);
+                obj.put("message", "해당 바코드에는 이미지가 없습니다.");
+            }
+        }else{  //정상적인 결과일 경우
+            obj.put("status", 200);
+            obj.put("info", searchResult);
+        }
         return obj;
     }
 }
