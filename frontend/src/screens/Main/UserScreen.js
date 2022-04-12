@@ -33,6 +33,7 @@ const UserScreen = () => {
       </View>
       <View style={styles.userNameWrapper}>
         <Text style={styles.userNameText}>{username}</Text>
+        <Text style={styles.userEmailText}>123@naver.com</Text>
       </View>
     </View>
   );
@@ -79,5 +80,21 @@ const styles = StyleSheet.create({
   },
   userNameWrapper: {
     width: '100%',
+    height: 150,
+    paddingLeft: 20,
+    justifyContent: 'center',
+    borderBottomColor: '#636773',
+    borderBottomWidth: 0.5,
+  },
+  userNameText: {
+    fontFamily: 'NanumSquareRoundOTFR',
+    fontSize: 28,
+    color: '#000000',
+  },
+  userEmailText: {
+    fontFamily: 'NanumSquareRoundOTFR',
+    fontSize: 18,
+    color: '#636773',
+    marginTop: 15,
   },
 });
