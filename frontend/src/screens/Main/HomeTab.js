@@ -1,11 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeScreen from './HomeScreen';
 import CategoryScreen from './CategoryScreen';
-import RefrigeratorScreen from './RefrigeratorScreen';
 import UserScreen from './UserScreen';
-import SettingScreen from './SettingScreen';
+import LikeRecipeScreen from './LikeRecipeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,20 +34,20 @@ const HomeTab = () => {
         }}
       />
       <Tab.Screen
+        name="LikeRecipeScreen"
+        component={LikeRecipeScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <CommunityIcon name="heart-outline" size={32} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="UserScreen"
         component={UserScreen}
         options={{
           tabBarIcon: ({color}) => (
             <Icon name="person" size={32} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="SettingScreen"
-        component={SettingScreen}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="settings" size={32} color={color} />
           ),
         }}
       />
