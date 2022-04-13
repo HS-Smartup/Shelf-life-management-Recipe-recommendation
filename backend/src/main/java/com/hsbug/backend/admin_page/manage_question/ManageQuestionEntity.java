@@ -1,9 +1,6 @@
 package com.hsbug.backend.admin_page.manage_question;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
