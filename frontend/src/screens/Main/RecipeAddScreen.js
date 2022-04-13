@@ -354,7 +354,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="양념/소스/잼" value="양념/소스/잼" />
                       <Picker.Item label="디저트" value="디저트" />
                       <Picker.Item label="차/음료/술" value="차/음료/술" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                     <Picker
                       style={styles.categoryPicker}
@@ -378,7 +377,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="해장" value="해장" />
                       <Picker.Item label="명절" value="명절" />
                       <Picker.Item label="이유식" value="이유식" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                   </View>
                   <View style={styles.categoryInnerWrapper}>
@@ -405,7 +403,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="버섯류" value="버섯류" />
                       <Picker.Item label="과일류" value="과일류" />
                       <Picker.Item label="콩/견과류" value="콩/견과류" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                     <Picker
                       style={styles.categoryPicker}
@@ -429,7 +426,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="굽기" value="굽기" />
                       <Picker.Item label="데치기" value="데치기" />
                       <Picker.Item label="회" value="회" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                   </View>
                 </View>
