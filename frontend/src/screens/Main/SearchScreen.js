@@ -16,7 +16,7 @@ const SearchScreen = ({navigation}) => {
         </Pressable>
         <Pressable
           style={styles.searchWrapper}
-          onPress={() => navigation.navigate('RecipeScreen')}>
+          onPress={() => navigation.navigate('DetailRecipeScreen')}>
           <View style={styles.search}>
             <Icon name="search" size={24} color={'#636773'} />
             <Text style={styles.searchText}>레시피 검색</Text>
