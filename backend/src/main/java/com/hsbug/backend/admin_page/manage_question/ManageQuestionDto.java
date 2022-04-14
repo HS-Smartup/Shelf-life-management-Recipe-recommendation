@@ -1,14 +1,13 @@
 package com.hsbug.backend.admin_page.manage_question;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ManageQuestionDto {
     private Long id;
     private String title;
@@ -16,6 +15,8 @@ public class ManageQuestionDto {
     private String email;
     private String answer;
     private boolean answercheck;
+
+
 
     public ManageQuestionEntity toEntity(){
         return ManageQuestionEntity.builder()
