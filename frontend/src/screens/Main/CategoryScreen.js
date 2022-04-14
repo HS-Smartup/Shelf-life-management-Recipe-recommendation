@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: 'NanumSquareRoundOTFB',
-    fontSize: 30,
+    fontSize: 24,
     color: '#000000',
   },
   notification: {
