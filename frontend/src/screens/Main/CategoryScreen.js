@@ -110,6 +110,7 @@ const CategoryScreen = () => {
                 <View style={styles.categoryList}>
                   <FlatList
                     data={ingredientCategory}
+                    listKey={(item1, index) => index.toString()}
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
@@ -126,6 +127,7 @@ const CategoryScreen = () => {
                 <View style={styles.categoryList}>
                   <FlatList
                     data={typeCategory}
+                    listKey={(item2, index) => index.toString()}
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
@@ -142,6 +144,7 @@ const CategoryScreen = () => {
                 <View style={styles.categoryList}>
                   <FlatList
                     data={situationCategory}
+                    listKey={(item3, index) => index.toString()}
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
@@ -158,6 +161,7 @@ const CategoryScreen = () => {
                 <View style={styles.categoryList}>
                   <FlatList
                     data={methodCategory}
+                    listKey={(item4, index) => index.toString()}
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
