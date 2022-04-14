@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import StepImageModal from './StepImageModal';
+import StepImageSelectModal from './StepImageSelectModal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const InputStepItem = ({
@@ -52,7 +52,7 @@ const InputStepItem = ({
           onRequestClose={() => {
             setStepImageModalVisible(!stepImageModalVisible);
           }}>
-          <StepImageModal
+          <StepImageSelectModal
             input={input}
             setInput={setInput}
             stepIndex={stepIndex}

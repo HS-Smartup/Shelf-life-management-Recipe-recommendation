@@ -14,7 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 import {launchImageLibrary} from 'react-native-image-picker';
-import ImageSelectModal from 'components/Recipe/ImageSelectModal';
+import MainImageSelectModal from 'components/Recipe/MainImageSelectModal';
 import {Picker} from '@react-native-picker/picker';
 import InputIngredientList from 'components/Recipe/InputIngredientList';
 import InputStepList from 'components/Recipe/InputStepList';
@@ -299,7 +299,7 @@ const RecipeAddScreen = () => {
                   onRequestClose={() => {
                     setSelectModalVisible(!selectModalVisible);
                   }}>
-                  <ImageSelectModal
+                  <MainImageSelectModal
                     setSelectModalVisible={setSelectModalVisible}
                     setRecipeMainImage={setRecipeMainImage}
                   />
