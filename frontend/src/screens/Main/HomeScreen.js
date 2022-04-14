@@ -1,6 +1,17 @@
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Image,
+  PermissionsAndroid,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {launchCamera} from 'react-native-image-picker';
 
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -49,12 +60,50 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
+  const onPressCameraBtn = () => {
+    async function requestCameraPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // If CAMERA Permission is granted
+          launchCamera(
+            {
+              mediaType: 'photo',
+              maxWidth: 1000,
+              maxHeight: 1000,
+              quality: 1,
+              includeBase64: Platform.OS === 'android',
+            },
+            res => {
+              if (res.didCancel) {
+                return;
+              }
+              navigation.navigate('CameraRecipeScreen');
+            },
+          );
+        } else {
+          Alert.alert(
+            '카메라 사용권한 거부',
+            '카메라 사용권한이 거부되었습니다.',
+            [{text: '확인'}],
+          );
+        }
+      } catch (error) {
+        Alert.alert('카메라 권한 에러', error);
+        console.error(error);
+      }
+    }
+    requestCameraPermission();
+  };
+
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
         <Pressable
           onPress={() => navigation.navigate('HomeScreen')}
-          android_ripple={{color: '#f2f3f4'}}>
+          android_ripple={{color: '#e1e2e3'}}>
           <Image
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
@@ -64,7 +113,7 @@ const HomeScreen = ({navigation}) => {
         <Pressable
           style={styles.searchWrapper}
           onPress={() => navigation.navigate('SearchScreen')}
-          android_ripple={{color: '#f2f3f4'}}>
+          android_ripple={{color: '#636773'}}>
           <View style={styles.search}>
             <Icon name="search" size={24} color={'#ff8527'} />
             <Text style={styles.searchText}>레시피 검색</Text>
@@ -72,7 +121,7 @@ const HomeScreen = ({navigation}) => {
         </Pressable>
         <Pressable
           style={styles.notification}
-          android_ripple={{color: '#f2f3f4'}}>
+          android_ripple={{color: '#e1e2e3'}}>
           <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
       </View>
@@ -85,7 +134,7 @@ const HomeScreen = ({navigation}) => {
                 <Pressable
                   style={styles.refrigeratorBtn}
                   onPress={() => navigation.navigate('RefrigeratorScreen')}
-                  android_ripple={{color: '#f2f3f4'}}>
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Text style={styles.refrigeratorBtnText}>냉장고</Text>
                   <Image
                     source={require('../../assets/images/logo.png')}
@@ -94,7 +143,7 @@ const HomeScreen = ({navigation}) => {
                 </Pressable>
                 <Pressable
                   style={styles.recipeBtn}
-                  android_ripple={{color: '#f2f3f4'}}>
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Text style={styles.recipeBtnText}>레시피</Text>
                   <Image
                     source={require('../../assets/images/defaultRecipe.png')}
@@ -105,7 +154,8 @@ const HomeScreen = ({navigation}) => {
               <View style={styles.recipeSearch}>
                 <Pressable
                   style={styles.recipeSearchBtn}
-                  onPress={() => navigation.navigate('SearchScreen')}>
+                  onPress={() => navigation.navigate('SearchScreen')}
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Image
                     source={require('../../assets/images/searchBtn.png')}
                     style={styles.recipeSearchImage}
@@ -115,7 +165,10 @@ const HomeScreen = ({navigation}) => {
                 </Pressable>
                 <Pressable
                   style={styles.recipeSearchBtn}
-                  onPress={() => navigation.navigate('RecipeAddScreen')}>
+                  onPress={() =>
+                    navigation.navigate('RefrigeratorRecipeScreen')
+                  }
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Image
                     source={require('../../assets/images/refrigeratorSearchBtn.png')}
                     style={styles.recipeSearchImage}
@@ -125,7 +178,10 @@ const HomeScreen = ({navigation}) => {
                     냉장고 재료{'\n'}레시피 검색
                   </Text>
                 </Pressable>
-                <Pressable style={styles.recipeSearchBtn}>
+                <Pressable
+                  style={styles.recipeSearchBtn}
+                  onPress={onPressCameraBtn}
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Image
                     source={require('../../assets/images/cameraSearchBtn.png')}
                     style={styles.recipeSearchCameraImage}
