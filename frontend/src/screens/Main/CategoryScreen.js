@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#000000',
   },
-  notification: {},
   listWrapper: {
     flex: 1,
   },
