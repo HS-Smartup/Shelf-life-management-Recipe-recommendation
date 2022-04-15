@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 5,
     marginHorizontal: 10,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomColor: '#636773',
     borderBottomWidth: 0.5,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     height: 56,
   },
   headerTextWrapper: {
-    width: '65%',
+    width: '60%',
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
