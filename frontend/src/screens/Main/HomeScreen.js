@@ -143,6 +143,7 @@ const HomeScreen = ({navigation}) => {
                 </Pressable>
                 <Pressable
                   style={styles.recipeBtn}
+                  onPress={() => navigation.navigate('RecipeScreen')}
                   android_ripple={{color: '#e1e2e3'}}>
                   <Text style={styles.recipeBtnText}>레시피</Text>
                   <Image

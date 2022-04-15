@@ -8,6 +8,7 @@ import RecipeAddScreen from './RecipeAddScreen';
 import RefrigeratorScreen from './RefrigeratorScreen';
 import CameraRecipeScreen from './CameraRecipeScreen';
 import RefrigeratorRecipeScreen from './RefrigeratorRecipeScreen';
+import RecipeScreen from './RecipeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,11 @@ const MainStack = () => {
         <Stack.Screen
           name="RefrigeratorRecipeScreen"
           component={RefrigeratorRecipeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RecipeScreen"
+          component={RecipeScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen

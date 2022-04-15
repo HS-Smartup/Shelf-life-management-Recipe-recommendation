@@ -251,10 +251,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  logo: {
-    width: 56,
-    height: 56,
-  },
   headerTextWrapper: {
     width: '75%',
     height: 50,

@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 5,
     marginHorizontal: 10,
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderBottomColor: '#636773',
     borderBottomWidth: 0.5,
@@ -204,7 +205,6 @@ const styles = StyleSheet.create({
   headerTextWrapper: {
     width: '65%',
     height: 50,
-    marginLeft: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -213,9 +213,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#000000',
   },
-  notification: {
-    marginLeft: 20,
-  },
+  notification: {},
   listWrapper: {
     flex: 1,
   },
