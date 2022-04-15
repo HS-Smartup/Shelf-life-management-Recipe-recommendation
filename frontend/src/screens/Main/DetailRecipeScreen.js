@@ -1,6 +1,5 @@
 import {
   FlatList,
-  Image,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -12,8 +11,8 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Rating} from 'react-native-ratings';
-import IngredientList from 'components/Recipe/IngredientList';
-import StepList from 'components/Recipe/StepList';
+import IngredientList from 'components/DetailRecipe/IngredientList';
+import StepList from 'components/DetailRecipe/StepList';
 import {UserNameContext} from 'contexts/UserNameContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

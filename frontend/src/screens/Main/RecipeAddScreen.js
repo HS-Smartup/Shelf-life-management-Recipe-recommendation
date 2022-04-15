@@ -13,11 +13,10 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
-import {launchImageLibrary} from 'react-native-image-picker';
-import MainImageSelectModal from 'components/Recipe/MainImageSelectModal';
+import MainImageSelectModal from 'components/RecipeAdd/MainImageSelectModal';
 import {Picker} from '@react-native-picker/picker';
-import InputIngredientList from 'components/Recipe/InputIngredientList';
-import InputStepList from 'components/Recipe/InputStepList';
+import InputIngredientList from 'components/RecipeAdd/InputIngredientList';
+import InputStepList from 'components/RecipeAdd/InputStepList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RecipeAddScreen = () => {
