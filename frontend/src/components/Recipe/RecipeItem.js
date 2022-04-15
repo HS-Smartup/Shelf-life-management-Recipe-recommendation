@@ -25,7 +25,7 @@ export default RecipeItem;
 const styles = StyleSheet.create({
   itemWrapper: {
     width: '95%',
-    backgroundColor: '#fff',
+    backgroundColor: '#f2f3f4',
     alignItems: 'center',
     borderRadius: 10,
     marginVertical: 5,
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
   },
   itemTextWrapper: {
     width: '100%',
+    paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

@@ -33,7 +33,8 @@ const RecipeScreen = () => {
       recipeName: '닭볶음탕',
       recipeWriter: '맥북 유저',
       recipeView: '4586',
-      recipeImage: 'https://t1.daumcdn.net/cfile/tistory/21323847550ECD3D26',
+      recipeImage:
+        'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202109/01/234cd540-11d0-452e-8656-98f2eb5dfe4b.jpg',
     },
     {
       recipeName: '부대찌개',
