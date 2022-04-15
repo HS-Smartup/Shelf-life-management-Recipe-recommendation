@@ -1,8 +1,9 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeItem from 'components/Recipe/RecipeItem';
+import RecipeAddButton from 'components/Recipe/RecipeAddButton';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();
@@ -81,6 +82,7 @@ const RecipeScreen = () => {
           )}
         />
       </View>
+      <RecipeAddButton />
     </View>
   );
 };

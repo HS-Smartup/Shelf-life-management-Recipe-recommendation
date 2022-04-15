@@ -17,7 +17,7 @@ import BarcodeCameraKitScreen from './BarcodeCameraKitScreen';
 import {UserNameContext} from 'contexts/UserNameContext';
 import RefrigeratorEmpty from 'components/Refrigerator/RefrigeratorEmpty';
 import RefrigeratorList from 'components/Refrigerator/RefrigeratorList';
-import AddButton from 'components/Refrigerator/AddButton';
+import RefrigeratorAddButton from 'components/Refrigerator/RefrigeratorAddButton';
 import RefrigeratorAddModal from 'components/Refrigerator/RefrigeratorAddModal';
 import RefrigeratorItemModal from 'components/Refrigerator/RefrigeratorItemModal';
 
@@ -219,7 +219,7 @@ const RefrigeratorScreen = ({navigation}) => {
                 detailItem={detailItem}
               />
             </Modal>
-            <AddButton
+            <RefrigeratorAddButton
               hidden={hidden}
               onOpenScanner={onOpenScanner}
               setQrValue={setQrValue}
