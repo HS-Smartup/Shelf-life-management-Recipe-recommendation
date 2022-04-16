@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:layout = "http://www.ultraq.net.nz/thymleaf/layout"
+    layout:decorate="~{layout/default}"
+>
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
@@ -89,7 +91,7 @@
 </head>
 <body>
 
-<div id="page">
+<div id="page" layout:fragment = "content">
 
     <header>
         <nav>
@@ -104,7 +106,7 @@
 
     </header>
 
-    <article >
+    <article>
         <section>
 
             본문
