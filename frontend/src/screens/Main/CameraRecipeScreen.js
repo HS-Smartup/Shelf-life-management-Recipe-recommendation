@@ -9,14 +9,14 @@ const CameraRecipeScreen = () => {
 
   const listData = [
     {
-      name: '간장',
+      name: '고추',
       image:
-        'https://t1.daumcdn.net/liveboard/dailylife/2f0ede61355d41ca8a24dc0b959bbbc3.JPG',
+        'http://kormedi.com/wp-content/uploads/2021/04/gettyimages-1079428150-580x387.jpg',
     },
     {
-      name: '달걀',
+      name: '양파',
       image:
-        'https://health.chosun.com/site/data/img_dir/2020/12/28/2020122801157_0.jpg',
+        'http://pds.joins.com/news/component/htmlphoto_mmdata/201806/25/htm_2018062517341206794.jpg',
     },
     {
       name: '당근',
@@ -29,9 +29,14 @@ const CameraRecipeScreen = () => {
         'https://img-cf.kurly.com/shop/data/goodsview/20191022/gv40000065394_1.jpg',
     },
     {
-      name: '삼겹살',
+      name: '새송이버섯',
       image:
-        'https://static.megamart.com/product/image/0385/03854808/03854808_1_960.jpg',
+        'https://blog.kakaocdn.net/dn/owIK3/btqybYXKDT9/B0FYpDzYzCc4eQEpATZsj0/img.jpg',
+    },
+    {
+      name: '깻잎',
+      image:
+        'http://www.buddhismjournal.com/news/photo/201909/19395_25026_033.jpg',
     },
   ];
 

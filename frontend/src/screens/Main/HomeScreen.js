@@ -19,32 +19,74 @@ const HomeScreen = ({navigation}) => {
   const [isListEnd, setIsListEnd] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => getData(), []);
+  // useEffect(() => getData(), []);
 
-  const getData = () => {
-    if (!loading && !isListEnd) {
-      setLoading(true);
-      // Service to get the data from the server to render
-      fetch('http://localhost:8080/user/recommend/random')
-        // Sending the currect offset with get request
-        .then(response => response.json())
-        .then(responseJson => {
-          // Successful response from the API Call
-          // console.log(responseJson);
-          if (responseJson.recipe.length > 0) {
-            // After the response increasing the offset
-            setDataSource([...dataSource, ...responseJson.recipe]);
-            setLoading(false);
-          } else {
-            setIsListEnd(true);
-            setLoading(false);
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-  };
+  // const getData = () => {
+  //   if (!loading && !isListEnd) {
+  //     setLoading(true);
+  //     // Service to get the data from the server to render
+  //     fetch('http://localhost:8080/user/recommend/random')
+  //       // Sending the currect offset with get request
+  //       .then(response => response.json())
+  //       .then(responseJson => {
+  //         // Successful response from the API Call
+  //         // console.log(responseJson);
+  //         if (responseJson.recipe.length > 0) {
+  //           // After the response increasing the offset
+  //           setDataSource([...dataSource, ...responseJson.recipe]);
+  //           setLoading(false);
+  //         } else {
+  //           setIsListEnd(true);
+  //           setLoading(false);
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.error(error);
+  //       });
+  //   }
+  // };
+
+  // const renderItem = ({item}) => {
+  //   const img = {uri: `${item.att_FILE_NO_MAIN}`};
+  //   return (
+  //     <View style={styles.card}>
+  //       <Image
+  //         source={img ? img : require('../../assets/images/defaultRecipe.png')}
+  //         style={styles.recipeImage}
+  //         resizeMode="stretch"
+  //       />
+  //       <Text style={styles.recipeText}>{item.rcp_NM}</Text>
+  //     </View>
+  //   );
+  // };
+
+  const data = [
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2019/05/02/ddafc8912fdd1c261dd673cec48b96861.jpg',
+      rcp_NM: '김치전',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2017/04/20/7c604c18f76e74ac2ed44320c6e81e7a1.jpg',
+      rcp_NM: '김치말이국수',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2019/03/14/4c1d1794eb908c1bfec012999d7b43cc1.jpg',
+      rcp_NM: '김치볶음밥',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2019/03/24/595e3c02e680442d9e19c682b20d67ab1.jpg',
+      rcp_NM: '김치찌개',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://d1hk7gw6lgygff.cloudfront.net/uploads/recipe/image_file/3997/8.jpg',
+      rcp_NM: '두부김치',
+    },
+  ];
 
   const renderItem = ({item}) => {
     const img = {uri: `${item.att_FILE_NO_MAIN}`};
@@ -193,14 +235,28 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                 </Pressable>
               </View>
-              <FlatList
-                style={styles.recipeWrapper}
-                data={dataSource}
-                renderItem={renderItem}
-                horizontal={true}
-                initialNumToRender={10}
-                showsHorizontalScrollIndicator={false}
-              />
+              <Text style={styles.listText}>SmartUp님을 위한 레시피</Text>
+              <View style={styles.listWrapper}>
+                <FlatList
+                  style={styles.recipeWrapper}
+                  data={data}
+                  renderItem={renderItem}
+                  horizontal={true}
+                  initialNumToRender={10}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
+              <Text style={styles.listText}>이달의 레시피</Text>
+              <View style={styles.listWrapper}>
+                <FlatList
+                  style={styles.recipeWrapper}
+                  data={data}
+                  renderItem={renderItem}
+                  horizontal={true}
+                  initialNumToRender={10}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
             </View>
           )}
           keyExtractor={item => item.id.toString()}
@@ -334,6 +390,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#000',
   },
+  listText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 25,
+    color: '#000',
+    marginLeft: 10,
+    marginVertical: 10,
+  },
+  listWrapper: {
+    flex: 1,
+  },
   recipeWrapper: {
     backgroundColor: '#f2f3f4',
     marginVertical: 5,
@@ -347,7 +413,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     marginHorizontal: 5,
-    elevation: 8,
+    marginBottom: 10,
+    elevation: 5,
   },
   recipeImage: {
     width: 150,

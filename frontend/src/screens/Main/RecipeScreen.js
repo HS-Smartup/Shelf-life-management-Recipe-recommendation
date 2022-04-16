@@ -10,18 +10,17 @@ const RecipeScreen = () => {
 
   const recipeItem = [
     {
-      recipeName: '순두부찌개',
+      recipeName: '야채볶음밥',
       recipeWriter: 'SmartUp',
       recipeView: '2.7만',
-      recipeImage:
-        'https://blog.kakaocdn.net/dn/c6J5mW/btqOMpKvlrE/KuGMNF8VB0eNRokUv8lxZk/img.png',
+      recipeImage: 'https://t1.daumcdn.net/cfile/tistory/992E933B5EC224DD1D',
     },
     {
-      recipeName: '제육볶음',
+      recipeName: '양파 계란 덮밥',
       recipeWriter: '지나가던 자취생',
       recipeView: '1.6만',
       recipeImage:
-        'https://recipe1.ezmember.co.kr/cache/recipe/2019/10/10/04fb8b97fee9072002a0aa54c266a22e1.jpg',
+        'https://blog.kakaocdn.net/dn/bWwhjg/btrnpnZuGPc/YU7ffFbu746HkStNoAlJpK/img.jpg',
     },
     {
       recipeName: '소고기 미역국',
