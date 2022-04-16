@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeController {
     @RequestMapping(value = "/admin/home", method= RequestMethod.GET)
     public String goHome(HttpServletRequest request) {
-        return "pra";
+        return "Home";
     }
 
     @GetMapping("/api/login")

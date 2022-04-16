@@ -1,16 +1,31 @@
 <!--사이드바-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
+<meta charset="UTF-8">
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사이드 바 만들기</title>
 
+</head>
+
+
+<body>
 <th:block th:fragment="sidebarFragment">
-
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        ...f
+<div class="left-side-bar" id="sidebar" layout:fragment = "sidebar">
+    <div class="status-ico">
+        <span>▶</span>
+        <span>▼</span>
+    </div>
+    <ul>
+        <li><a href="#">일반 관리자 추가</a></li>
+        <li><a href="#">관리자 삭제</a></li>
+        <li><a href="#">관리자 번호 변경</a></li>
+        <li><a href="#">레시피 관리</a></li>
+        <li><a href="#">문의 답변 관리</a></li>
     </ul>
-    <!-- End of Sidebar -->
 
+</div>
 </th:block>
-
+</body>
 </html>
