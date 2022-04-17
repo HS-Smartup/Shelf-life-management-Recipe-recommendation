@@ -1,0 +1,24 @@
+.content{
+    padding:10px; margin: 0 auto; width:500px; height: auto;
+    border: 3px solid #dcdcdc;
+    border-radius: 10px;
+
+}
+
+.blueone {
+    border-collapse: collapse;
+}
+.blueone th {
+    padding: 10px;
+    color: #168;
+    border-bottom: 3px solid #168;
+    text-align: center;
+}
+.blueone td {
+    color: #669;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.blueone tr:hover td {
+    color: #004;
+}

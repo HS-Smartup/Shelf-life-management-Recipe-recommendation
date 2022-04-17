@@ -5,15 +5,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <header><!-- 공통 헤더-->
+    <link rel="stylesheet" th:href="@{/css/Topbar.css}"/>
     <link rel="stylesheet" th:href="@{/css/Sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/Content.css}"/>
+    <link rel="stylesheet" th:href="@{/css/Footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/HomeStyle.css}"/>
 </header>
 
 <body>
-    <!--<th:block th:replace="fragments/head :: headFragment"></th:block>-->
     <th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
     <th:block th:replace="fragments/topbar :: topbarFragment"></th:block>
     <th:block layout:fragment="content"></th:block>
     <th:block th:replace="fragments/footer :: footerFragment"></th:block>
-
 </body>
+
 </html>
