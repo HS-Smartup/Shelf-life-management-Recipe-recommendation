@@ -1,9 +1,6 @@
 package com.hsbug.backend.app.search_recipe._refrigerator;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
-import com.hsbug.backend.app.recipe.my_recipe.MyRecipeService;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeRepository;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredients;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsCheckDto;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsDTO;
@@ -18,6 +15,7 @@ import java.util.*;
 public class SearchRecipeRefrigService {
 
     private final RecipeIngredientsRepository recipeIngredientsRepository;
+    private final RecipeRepository recipeRepository;
 
     public Map<Long, Integer> findProductFromRefrig(ArrayList product_list) {
         HashMap<Long, Integer> map = new HashMap<>();
@@ -108,6 +106,15 @@ public class SearchRecipeRefrigService {
         return productList;
     }
 
+    public ArrayList<SearchRecipeRefrigDto> recipeIdToDto(ArrayList<Long> list) {
+        ArrayList<SearchRecipeRefrigDto> recipeList = new ArrayList<>();
+        for (Long id: list) {
+            SearchRecipeRefrigDto dto = recipeRepository.findById(id).get().toSearchResultDto();
+            recipeList.add(dto);
+        }
+        return recipeList;
+    }
+
     // 관련 = 오름차순, 조회수 get 오름차순,
     public Map<Long, Integer> mapValueSort(Map<Long, Integer> map) {
         List<Map.Entry<Long, Integer>> entryList = new ArrayList<>(map.entrySet());
@@ -116,7 +123,6 @@ public class SearchRecipeRefrigService {
         for(int i = 0; i<entryList.size(); i++){
             sorted_map.put(entryList.get(i).getKey(), entryList.get(i).getValue());
         }
-
         return sorted_map;
     }
 }

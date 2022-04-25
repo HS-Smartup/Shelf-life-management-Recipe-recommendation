@@ -59,9 +59,9 @@ public class SearchRecipeRefrigController {
         System.out.println("findproductfromrefrig");
         map = searchRecipeRefrigService.findProductFromRefrig(productList);
 
-        ArrayList list = new ArrayList<>(map.keySet());
-        obj.put("searchResult", list);
-
+        ArrayList<Long> list = new ArrayList<>(map.keySet());
+        //현재 리스트에 id 값만 들어있는 상황임 이것을 바꿔야함 엔티티로
+        obj.put("searchResult", searchRecipeRefrigService.recipeIdToDto(list));
         //return this.ValueSortRecipe(map);
         return obj;
     }
