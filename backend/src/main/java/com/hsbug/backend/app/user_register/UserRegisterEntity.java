@@ -54,7 +54,7 @@ public class UserRegisterEntity implements UserDetails {
         if(str.equals("ROLE_USER")){
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        else{
+        else if (str.equals("ROLE_ADMIN")){
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         return authorities;
