@@ -2,7 +2,6 @@ package com.hsbug.backend.admin_page.Home;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,6 +22,25 @@ public class HomeController {
 
 
 
-    @GetMapping("/admin/adminManage")
-    public String adminManage(){ return "adminManage";}
+    @GetMapping("/admin/AdminManage")
+    public String adminManage(){ return "AdminManage";}
+
+    @GetMapping("/admin/Q&A")
+    public String QA(){ return "Q&A";}
+
+    @GetMapping("/admin/RecipeManage")
+    public String RecipeManage(){ return "RecipeManage";}
+
+    @GetMapping("/admin/UserManage")
+    public String UserManage(){ return "UserManage";}
+
+    @GetMapping("/admin/AdminRecipe")
+    public String AdminRecipe(){ return "AdminRecipe";}
+
+    @GetMapping("/admin/UserRecipe")
+    public String UserRecipe(){ return "UserRecipe";}
+
+
 }
+
+
