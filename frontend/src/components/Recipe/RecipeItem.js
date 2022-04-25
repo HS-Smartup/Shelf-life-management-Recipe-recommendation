@@ -1,9 +1,15 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const RecipeItem = ({recipeName, recipeWriter, recipeView, recipeImage}) => {
+  const navigation = useNavigation();
+
   return (
-    <Pressable style={styles.itemWrapper} android_ripple={{color: '#e1e2e3'}}>
+    <Pressable
+      style={styles.itemWrapper}
+      onPress={() => navigation.navigate('DetailRecipeScreen')}
+      android_ripple={{color: '#e1e2e3'}}>
       <View style={styles.itemTextWrapper}>
         <View style={styles.titleWrapper}>
           <Text style={styles.titleText}>{recipeName}</Text>
