@@ -3,6 +3,8 @@ package com.hsbug.backend.app.recipe.my_recipe;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeJsonDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeService;
+import com.hsbug.backend.app.user_register.UserRegisterEntity;
+import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +19,14 @@ public class MyRecipeController {
 
     private final MyRecipeService myRecipeService;
     private final RecipeService recipeService;
-
+    private final UserRegisterRepository userRegisterRepository;
 
     @GetMapping("/read")
     public JSONObject readMyRecipe() {
         String email = findEmail();
+        String username = userRegisterRepository.findByEmail(email).get().getUsername();
         JSONObject obj = new JSONObject();
-        List<RecipeEntity> recipeDtoList = myRecipeService.readRecipe(email);
+        List<RecipeEntity> recipeDtoList = myRecipeService.readRecipe(username);
         myRecipeService.readRecipe(email);
 
         obj.put("message","리드 완료");
@@ -36,7 +39,8 @@ public class MyRecipeController {
     public JSONObject addMyRecipe(@RequestBody RecipeJsonDTO dto){
         String email = findEmail();
         JSONObject obj = new JSONObject();
-        dto.setRecipeWriter(email);
+        UserRegisterEntity userRegisterEntity = userRegisterRepository.findByEmail(email).get();
+        dto.setRecipeWriter(userRegisterEntity.getUsername());
 
         System.out.println(dto.getRecipeIngredients());
         System.out.println(dto.getRecipeStep());
