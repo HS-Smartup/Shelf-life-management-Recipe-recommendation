@@ -44,5 +44,6 @@ export default RecipeList;
 const styles = StyleSheet.create({
   list: {
     alignItems: 'center',
+    marginBottom: 5,
   },
 });
