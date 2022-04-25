@@ -13,11 +13,10 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
-import {launchImageLibrary} from 'react-native-image-picker';
-import ImageSelectModal from 'components/Recipe/ImageSelectModal';
+import MainImageSelectModal from 'components/RecipeAdd/MainImageSelectModal';
 import {Picker} from '@react-native-picker/picker';
-import InputIngredientList from 'components/Recipe/InputIngredientList';
-import InputStepList from 'components/Recipe/InputStepList';
+import InputIngredientList from 'components/RecipeAdd/InputIngredientList';
+import InputStepList from 'components/RecipeAdd/InputStepList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RecipeAddScreen = () => {
@@ -299,7 +298,7 @@ const RecipeAddScreen = () => {
                   onRequestClose={() => {
                     setSelectModalVisible(!selectModalVisible);
                   }}>
-                  <ImageSelectModal
+                  <MainImageSelectModal
                     setSelectModalVisible={setSelectModalVisible}
                     setRecipeMainImage={setRecipeMainImage}
                   />
@@ -354,7 +353,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="양념/소스/잼" value="양념/소스/잼" />
                       <Picker.Item label="디저트" value="디저트" />
                       <Picker.Item label="차/음료/술" value="차/음료/술" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                     <Picker
                       style={styles.categoryPicker}
@@ -378,7 +376,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="해장" value="해장" />
                       <Picker.Item label="명절" value="명절" />
                       <Picker.Item label="이유식" value="이유식" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                   </View>
                   <View style={styles.categoryInnerWrapper}>
@@ -405,7 +402,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="버섯류" value="버섯류" />
                       <Picker.Item label="과일류" value="과일류" />
                       <Picker.Item label="콩/견과류" value="콩/견과류" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                     <Picker
                       style={styles.categoryPicker}
@@ -429,7 +425,6 @@ const RecipeAddScreen = () => {
                       <Picker.Item label="굽기" value="굽기" />
                       <Picker.Item label="데치기" value="데치기" />
                       <Picker.Item label="회" value="회" />
-                      <Picker.Item label="기타" value="기타" />
                     </Picker>
                   </View>
                 </View>
@@ -559,13 +554,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f3f4',
   },
   header: {
-    width: '90%',
+    width: '95%',
     height: '5%',
     flexDirection: 'row',
     marginVertical: 15,
     marginHorizontal: 10,
     justifyContent: 'space-between',
   },
+  btnWrapper: {},
   saveText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 22,

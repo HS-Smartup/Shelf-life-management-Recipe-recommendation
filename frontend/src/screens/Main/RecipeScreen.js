@@ -1,11 +1,12 @@
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeItem from 'components/Recipe/RecipeItem';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
+import RecipeList from 'components/Recipe/RecipeList';
 
-const LikeRecipeScreen = () => {
+const RecipeScreen = () => {
   const navigation = useNavigation();
 
   const recipeItem = [
@@ -44,20 +45,29 @@ const LikeRecipeScreen = () => {
     },
   ];
 
+  const [hidden, setHidden] = useState(false);
+
+  const onScrolledToBottom = isBottom => {
+    if (hidden !== isBottom) {
+      setHidden(isBottom);
+    }
+  };
+
   return (
     <View style={styles.fullScreen}>
       <View style={styles.header}>
         <Pressable
-          onPress={() => navigation.navigate('HomeScreen')}
-          android_ripple={{color: '#f2f3f4'}}>
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.logo}
-            resizeMode="contain"
+          onPress={() => navigation.goBack()}
+          android_ripple={{color: '#e1e2e3'}}>
+          <Icon
+            style={styles.backBtn}
+            name="arrow-back"
+            size={32}
+            color={'#ff8527'}
           />
         </Pressable>
         <View style={styles.headerTextWrapper}>
-          <Text style={styles.headerText}>좋아요 한 레시피</Text>
+          <Text style={styles.headerText}>레시피</Text>
         </View>
         <Pressable
           style={styles.notification}
@@ -66,25 +76,17 @@ const LikeRecipeScreen = () => {
         </Pressable>
       </View>
       <View style={styles.listWrapper}>
-        <FlatList
-          data={recipeItem}
-          renderItem={({item}) => (
-            <View style={styles.list}>
-              <RecipeItem
-                recipeName={item.recipeName}
-                recipeWriter={item.recipeWriter}
-                recipeView={item.recipeView}
-                recipeImage={item.recipeImage}
-              />
-            </View>
-          )}
+        <RecipeList
+          recipeItem={recipeItem}
+          onScrolledToBottom={onScrolledToBottom}
         />
       </View>
+      <RecipeAddButton hidden={hidden} />
     </View>
   );
 };
 
-export default LikeRecipeScreen;
+export default RecipeScreen;
 
 const styles = StyleSheet.create({
   fullScreen: {
@@ -100,10 +102,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: '#636773',
     borderBottomWidth: 0.5,
-  },
-  logo: {
-    width: 56,
-    height: 56,
   },
   headerTextWrapper: {
     width: '65%',
@@ -122,8 +120,5 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flex: 1,
-  },
-  list: {
-    alignItems: 'center',
   },
 });

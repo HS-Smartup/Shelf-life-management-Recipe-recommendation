@@ -71,18 +71,19 @@ public class SecurityConfig {
                         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                         .authorizeRequests()
                         .antMatchers("/api/**").permitAll()
-                        .antMatchers("/admin/**").permitAll()
+                        .antMatchers("/admin/**").permitAll()//hasAuthority("ROLE_ADMIN")
                         .antMatchers("/user/**").permitAll()//hasAuthority("ROLE_USER") //이부분 permitall()로 변경해서 일단 코딩 쉽게
                         .antMatchers("/h2-console/**").permitAll()
                     .and()
-                        //.formLogin()        // 기본 login
-                        //.loginPage("/api/login")
+
+                        .formLogin()        // 기본 login
+                        .loginPage("/api/login")
                         //.usernameParameter("email")
                         //.passwordParameter("password")
                         //.defaultSuccessUrl("/api/loginSuccess")     // 로그인 성공 Url
                         //.failureUrl("/api/loginFailure")        // 로그인 실패 url
                         //.successHandler(new LoginSuccessHandler())
-                    //.and()
+                    .and()
                         .logout()       // logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                         .invalidateHttpSession(true)

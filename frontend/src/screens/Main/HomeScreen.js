@@ -1,6 +1,17 @@
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Image,
+  PermissionsAndroid,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {launchCamera} from 'react-native-image-picker';
 
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -8,32 +19,74 @@ const HomeScreen = ({navigation}) => {
   const [isListEnd, setIsListEnd] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => getData(), []);
+  // useEffect(() => getData(), []);
 
-  const getData = () => {
-    if (!loading && !isListEnd) {
-      setLoading(true);
-      // Service to get the data from the server to render
-      fetch('http://localhost:8080/user/recommend/random')
-        // Sending the currect offset with get request
-        .then(response => response.json())
-        .then(responseJson => {
-          // Successful response from the API Call
-          // console.log(responseJson);
-          if (responseJson.recipe.length > 0) {
-            // After the response increasing the offset
-            setDataSource([...dataSource, ...responseJson.recipe]);
-            setLoading(false);
-          } else {
-            setIsListEnd(true);
-            setLoading(false);
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-  };
+  // const getData = () => {
+  //   if (!loading && !isListEnd) {
+  //     setLoading(true);
+  //     // Service to get the data from the server to render
+  //     fetch('http://localhost:8080/user/recommend/random')
+  //       // Sending the currect offset with get request
+  //       .then(response => response.json())
+  //       .then(responseJson => {
+  //         // Successful response from the API Call
+  //         // console.log(responseJson);
+  //         if (responseJson.recipe.length > 0) {
+  //           // After the response increasing the offset
+  //           setDataSource([...dataSource, ...responseJson.recipe]);
+  //           setLoading(false);
+  //         } else {
+  //           setIsListEnd(true);
+  //           setLoading(false);
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.error(error);
+  //       });
+  //   }
+  // };
+
+  // const renderItem = ({item}) => {
+  //   const img = {uri: `${item.att_FILE_NO_MAIN}`};
+  //   return (
+  //     <View style={styles.card}>
+  //       <Image
+  //         source={img ? img : require('../../assets/images/defaultRecipe.png')}
+  //         style={styles.recipeImage}
+  //         resizeMode="stretch"
+  //       />
+  //       <Text style={styles.recipeText}>{item.rcp_NM}</Text>
+  //     </View>
+  //   );
+  // };
+
+  const data = [
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2019/05/02/ddafc8912fdd1c261dd673cec48b96861.jpg',
+      rcp_NM: '김치전',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2017/04/20/7c604c18f76e74ac2ed44320c6e81e7a1.jpg',
+      rcp_NM: '김치말이국수',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2019/03/14/4c1d1794eb908c1bfec012999d7b43cc1.jpg',
+      rcp_NM: '김치볶음밥',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://recipe1.ezmember.co.kr/cache/recipe/2019/03/24/595e3c02e680442d9e19c682b20d67ab1.jpg',
+      rcp_NM: '김치찌개',
+    },
+    {
+      att_FILE_NO_MAIN:
+        'https://d1hk7gw6lgygff.cloudfront.net/uploads/recipe/image_file/3997/8.jpg',
+      rcp_NM: '두부김치',
+    },
+  ];
 
   const renderItem = ({item}) => {
     const img = {uri: `${item.att_FILE_NO_MAIN}`};
@@ -49,12 +102,50 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
+  const onPressCameraBtn = () => {
+    async function requestCameraPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // If CAMERA Permission is granted
+          launchCamera(
+            {
+              mediaType: 'photo',
+              maxWidth: 1000,
+              maxHeight: 1000,
+              quality: 1,
+              includeBase64: Platform.OS === 'android',
+            },
+            res => {
+              if (res.didCancel) {
+                return;
+              }
+              navigation.navigate('CameraRecipeScreen');
+            },
+          );
+        } else {
+          Alert.alert(
+            '카메라 사용권한 거부',
+            '카메라 사용권한이 거부되었습니다.',
+            [{text: '확인'}],
+          );
+        }
+      } catch (error) {
+        Alert.alert('카메라 권한 에러', error);
+        console.error(error);
+      }
+    }
+    requestCameraPermission();
+  };
+
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
         <Pressable
           onPress={() => navigation.navigate('HomeScreen')}
-          android_ripple={{color: '#f2f3f4'}}>
+          android_ripple={{color: '#e1e2e3'}}>
           <Image
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
@@ -64,7 +155,7 @@ const HomeScreen = ({navigation}) => {
         <Pressable
           style={styles.searchWrapper}
           onPress={() => navigation.navigate('SearchScreen')}
-          android_ripple={{color: '#f2f3f4'}}>
+          android_ripple={{color: '#636773'}}>
           <View style={styles.search}>
             <Icon name="search" size={24} color={'#ff8527'} />
             <Text style={styles.searchText}>레시피 검색</Text>
@@ -72,7 +163,7 @@ const HomeScreen = ({navigation}) => {
         </Pressable>
         <Pressable
           style={styles.notification}
-          android_ripple={{color: '#f2f3f4'}}>
+          android_ripple={{color: '#e1e2e3'}}>
           <Icon name="notifications-none" size={32} color={'#ff8527'} />
         </Pressable>
       </View>
@@ -85,7 +176,7 @@ const HomeScreen = ({navigation}) => {
                 <Pressable
                   style={styles.refrigeratorBtn}
                   onPress={() => navigation.navigate('RefrigeratorScreen')}
-                  android_ripple={{color: '#f2f3f4'}}>
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Text style={styles.refrigeratorBtnText}>냉장고</Text>
                   <Image
                     source={require('../../assets/images/logo.png')}
@@ -94,7 +185,8 @@ const HomeScreen = ({navigation}) => {
                 </Pressable>
                 <Pressable
                   style={styles.recipeBtn}
-                  android_ripple={{color: '#f2f3f4'}}>
+                  onPress={() => navigation.navigate('RecipeScreen')}
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Text style={styles.recipeBtnText}>레시피</Text>
                   <Image
                     source={require('../../assets/images/defaultRecipe.png')}
@@ -105,7 +197,8 @@ const HomeScreen = ({navigation}) => {
               <View style={styles.recipeSearch}>
                 <Pressable
                   style={styles.recipeSearchBtn}
-                  onPress={() => navigation.navigate('SearchScreen')}>
+                  onPress={() => navigation.navigate('SearchScreen')}
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Image
                     source={require('../../assets/images/searchBtn.png')}
                     style={styles.recipeSearchImage}
@@ -115,7 +208,10 @@ const HomeScreen = ({navigation}) => {
                 </Pressable>
                 <Pressable
                   style={styles.recipeSearchBtn}
-                  onPress={() => navigation.navigate('RecipeAddScreen')}>
+                  onPress={() =>
+                    navigation.navigate('RefrigeratorRecipeScreen')
+                  }
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Image
                     source={require('../../assets/images/refrigeratorSearchBtn.png')}
                     style={styles.recipeSearchImage}
@@ -125,7 +221,10 @@ const HomeScreen = ({navigation}) => {
                     냉장고 재료{'\n'}레시피 검색
                   </Text>
                 </Pressable>
-                <Pressable style={styles.recipeSearchBtn}>
+                <Pressable
+                  style={styles.recipeSearchBtn}
+                  onPress={onPressCameraBtn}
+                  android_ripple={{color: '#e1e2e3'}}>
                   <Image
                     source={require('../../assets/images/cameraSearchBtn.png')}
                     style={styles.recipeSearchCameraImage}
@@ -136,14 +235,28 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                 </Pressable>
               </View>
-              <FlatList
-                style={styles.recipeWrapper}
-                data={dataSource}
-                renderItem={renderItem}
-                horizontal={true}
-                initialNumToRender={10}
-                showsHorizontalScrollIndicator={false}
-              />
+              <Text style={styles.listText}>SmartUp님을 위한 레시피</Text>
+              <View style={styles.listWrapper}>
+                <FlatList
+                  style={styles.recipeWrapper}
+                  data={data}
+                  renderItem={renderItem}
+                  horizontal={true}
+                  initialNumToRender={10}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
+              <Text style={styles.listText}>이달의 레시피</Text>
+              <View style={styles.listWrapper}>
+                <FlatList
+                  style={styles.recipeWrapper}
+                  data={data}
+                  renderItem={renderItem}
+                  horizontal={true}
+                  initialNumToRender={10}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
             </View>
           )}
           keyExtractor={item => item.id.toString()}
@@ -277,6 +390,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#000',
   },
+  listText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 25,
+    color: '#000',
+    marginLeft: 10,
+    marginVertical: 10,
+  },
+  listWrapper: {
+    flex: 1,
+  },
   recipeWrapper: {
     backgroundColor: '#f2f3f4',
     marginVertical: 5,
@@ -290,7 +413,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     marginHorizontal: 5,
-    elevation: 8,
+    marginBottom: 10,
+    elevation: 5,
   },
   recipeImage: {
     width: 150,

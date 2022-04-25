@@ -54,6 +54,14 @@ const RefrigeratorAddModal = ({
   }, [setAddModalVisible]);
 
   const onPressCancel = () => {
+    setInput({
+      ...input,
+      ['itemName']: '',
+      ['itemAmount']: '',
+      ['itemImage']: '',
+      ['itemReg']: formattedRegDate,
+      ['itemExp']: formattedExpDate,
+    });
     setAddModalVisible(!addModalVisible);
     setQrValue('');
   };

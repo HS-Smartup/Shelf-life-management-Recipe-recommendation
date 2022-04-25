@@ -24,7 +24,11 @@ public class UserRegisterService implements UserDetailsService {
     public void save(UserRegisterDto form) throws UsernameNotFoundException {       // 회원 정보 save
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         form.setPassword(encoder.encode(form.getPassword()));
-        form.setRoles("ROLE_USER");
+        if (form.getRoles().equals("ROLE_USER")){
+            form.setRoles("ROLE_USER");
+        } if (form.getRoles().equals("ROLE_ADMIN")){
+            form.setRoles("ROLE_ADMIN");
+        }
         userRegisterRepository.save(form.toEntity());
     }
 

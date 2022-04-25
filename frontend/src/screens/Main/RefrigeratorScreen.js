@@ -17,7 +17,7 @@ import BarcodeCameraKitScreen from './BarcodeCameraKitScreen';
 import {UserNameContext} from 'contexts/UserNameContext';
 import RefrigeratorEmpty from 'components/Refrigerator/RefrigeratorEmpty';
 import RefrigeratorList from 'components/Refrigerator/RefrigeratorList';
-import AddButton from 'components/Refrigerator/AddButton';
+import RefrigeratorAddButton from 'components/Refrigerator/RefrigeratorAddButton';
 import RefrigeratorAddModal from 'components/Refrigerator/RefrigeratorAddModal';
 import RefrigeratorItemModal from 'components/Refrigerator/RefrigeratorItemModal';
 
@@ -94,12 +94,14 @@ const RefrigeratorScreen = ({navigation}) => {
       .then(responseJson => {
         // console.log(responseJson);
         if (responseJson.status === 200) {
-          setAddModalVisible(!addModalVisible);
           setInput({
             ...input,
             ['itemName']: responseJson.info.itemName,
             ['itemImage']: responseJson.info.itemImage,
           });
+          setAddModalVisible(!addModalVisible);
+        } else if (responseJson.status === 204) {
+          Alert.alert(responseJson.message);
         } else {
           console.log('error');
         }
@@ -219,7 +221,7 @@ const RefrigeratorScreen = ({navigation}) => {
                 detailItem={detailItem}
               />
             </Modal>
-            <AddButton
+            <RefrigeratorAddButton
               hidden={hidden}
               onOpenScanner={onOpenScanner}
               setQrValue={setQrValue}
@@ -243,17 +245,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    width: '100%',
-    height: '11%',
+    width: '95%',
+    height: '9%',
     flexDirection: 'row',
     marginVertical: 5,
+    marginHorizontal: 10,
+    justifyContent: 'space-around',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-  },
-  logo: {
-    width: 56,
-    height: 56,
+    borderBottomColor: '#636773',
+    borderBottomWidth: 0.5,
   },
   headerTextWrapper: {
     width: '75%',

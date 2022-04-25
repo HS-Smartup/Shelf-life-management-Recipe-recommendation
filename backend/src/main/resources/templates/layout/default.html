@@ -4,15 +4,19 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<!-- 공통 헤더-->
-<th:block th:replace="fragments/head :: headFragment"></th:block>
+<header><!-- 공통 헤더-->
+    <link rel="stylesheet" th:href="@{/css/Topbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/Sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/Content.css}"/>
+    <link rel="stylesheet" th:href="@{/css/Footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/HomeStyle.css}"/>
+</header>
 
 <body>
-    <div>
-        <div layout:fragment="header">1</div>
-        <div layout:fragment="content">2</div>
-        <div layout:fragment="footer">3</div>
-    </div>
-
+    <th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
+    <th:block th:replace="fragments/topbar :: topbarFragment"></th:block>
+    <th:block layout:fragment="content"></th:block>
+    <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </body>
+
 </html>

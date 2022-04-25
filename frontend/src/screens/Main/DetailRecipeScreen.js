@@ -1,6 +1,5 @@
 import {
   FlatList,
-  Image,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -12,8 +11,8 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Rating} from 'react-native-ratings';
-import IngredientList from 'components/Recipe/IngredientList';
-import StepList from 'components/Recipe/StepList';
+import IngredientList from 'components/DetailRecipe/IngredientList';
+import StepList from 'components/DetailRecipe/StepList';
 import {UserNameContext} from 'contexts/UserNameContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -22,82 +21,84 @@ const RecipeScreen = () => {
   const {recipeWriter, setRecipeWriter} = useContext(UserNameContext);
 
   const [recipe, setRecipe] = useState([
-    // {
-    //   id: 1,
-    //   recipeName: '콤비네이션 피자',
-    //   recipeNumber: '123',
-    //   recipeWriter: 'ssh',
-    //   recipeMainImage: '',
-    //   recipeLikes: '100',
-    //   recipeViews: '200',
-    //   recipeRatings: '4.5',
-    //   recipeRatingsCount: '50',
-    //   recipeTime: '100',
-    //   recipeLevel: '어려움',
-    //   recipeServes: '3',
-    //   recipeDescription: '요리 설명 피자먹고싶다 피자먹고싶다.',
-    //   recipeIngredients: [
-    //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '대파', ingredientAmount: '200g'},
-    //     {ingredientName: '쪽파', ingredientAmount: '300g'},
-    //   ],
-    //   recipeStep: [
-    //     {
-    //       stepImage:
-    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-    //       stepDescription:
-    //         '피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~',
-    //     },
-    //     {
-    //       stepImage:
-    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-    //       stepDescription: '피자는 시켜먹어야지~',
-    //     },
-    //     {
-    //       stepImage:
-    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-    //       stepDescription: '피자는 시켜먹어야지~',
-    //     },
-    //   ],
-    // },
+    {
+      id: 1,
+      recipeName: '야채볶음밥',
+      recipeNumber: '123',
+      recipeWriter: 'SmartUp',
+      recipeMainImage:
+        'https://t1.daumcdn.net/cfile/tistory/992E933B5EC224DD1D',
+      recipeLikes: '100',
+      recipeViews: '2.7만',
+      recipeRatings: '4.5',
+      recipeRatingsCount: '3587',
+      recipeTime: '20',
+      recipeLevel: '쉬움',
+      recipeServes: '2',
+      recipeDescription:
+        '양파, 당근, 대파, 계란을 이용해 간단하게 만들 수 있는 볶음밥이에요!!',
+      recipeIngredients: [
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '양파', ingredientAmount: '100g'},
+        {ingredientName: '대파', ingredientAmount: '200g'},
+        {ingredientName: '쪽파', ingredientAmount: '300g'},
+      ],
+      recipeStep: [
+        {
+          stepImage:
+            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+          stepDescription:
+            '피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~',
+        },
+        {
+          stepImage:
+            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+          stepDescription: '피자는 시켜먹어야지~',
+        },
+        {
+          stepImage:
+            'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
+          stepDescription: '피자는 시켜먹어야지~',
+        },
+      ],
+    },
   ]);
 
-  const readItem = async () => {
-    try {
-      const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/recipe/detail?id=1', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          console.log('read\n\n\n', responseJson);
-          if (responseJson.status === 200) {
-            setRecipe([responseJson.recipe_detail]);
-          } else {
-            console.log('error');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-  }, []);
+  // const readItem = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('user_token');
+  //     await fetch('http://localhost:8080/user/recipe/detail?id=1', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         token: token,
+  //       },
+  //     })
+  //       .then(response => response.json())
+  //       .then(responseJson => {
+  //         console.log('read\n\n\n', responseJson);
+  //         if (responseJson.status === 200) {
+  //           setRecipe([responseJson.recipe_detail]);
+  //         } else {
+  //           console.log('error');
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.error(error);
+  //       });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+  // useEffect(() => {
+  //   let isComponentMounted = true;
+  //   readItem();
+  //   return () => {
+  //     isComponentMounted = false;
+  //   };
+  // }, []);
 
   const [like, setLike] = useState(false);
 
@@ -144,14 +145,15 @@ const RecipeScreen = () => {
               <View style={styles.titleWrapper}>
                 <ImageBackground
                   source={{
-                    uri: `data:image/jpg;base64,${item.recipeMainImage}`,
+                    // uri: `data:image/jpg;base64,${item.recipeMainImage}`,
+                    uri: `${item.recipeMainImage}`,
                   }}
                   style={styles.image}
                   resizeMode="stretch">
                   <View style={styles.nameWrapper}>
                     <Text style={styles.recipeName}>{item.recipeName}</Text>
                     <Text style={styles.recipeWriter}>
-                      작성자: {item.recipeWriter}
+                      by {item.recipeWriter}
                     </Text>
                   </View>
                 </ImageBackground>
@@ -214,6 +216,7 @@ const RecipeScreen = () => {
                 </View>
               </View>
               <View style={styles.descriptionWrapper}>
+                <Text style={styles.descriptionTitle}>요리 설명</Text>
                 <Text style={styles.description}>{item.recipeDescription}</Text>
               </View>
               <View style={styles.ingredientWrapper}>
@@ -409,6 +412,12 @@ const styles = StyleSheet.create({
     elevation: 3,
     paddingHorizontal: 15,
     paddingVertical: 5,
+  },
+  descriptionTitle: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 22,
+    color: '#000',
+    marginTop: 15,
   },
   description: {
     fontFamily: 'NanumSquareRoundOTFR',
