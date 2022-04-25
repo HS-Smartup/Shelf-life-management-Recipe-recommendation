@@ -94,12 +94,14 @@ const RefrigeratorScreen = ({navigation}) => {
       .then(responseJson => {
         // console.log(responseJson);
         if (responseJson.status === 200) {
-          setAddModalVisible(!addModalVisible);
           setInput({
             ...input,
             ['itemName']: responseJson.info.itemName,
             ['itemImage']: responseJson.info.itemImage,
           });
+          setAddModalVisible(!addModalVisible);
+        } else if (responseJson.status === 204) {
+          Alert.alert(responseJson.message);
         } else {
           console.log('error');
         }
