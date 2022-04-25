@@ -26,7 +26,7 @@ public class UserRegisterService implements UserDetailsService {
         form.setPassword(encoder.encode(form.getPassword()));
         if (form.getRoles().equals("ROLE_USER")){
             form.setRoles("ROLE_USER");
-        } else{
+        } if (form.getRoles().equals("ROLE_ADMIN")){
             form.setRoles("ROLE_ADMIN");
         }
         userRegisterRepository.save(form.toEntity());
