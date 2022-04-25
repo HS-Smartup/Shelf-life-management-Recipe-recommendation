@@ -2,7 +2,7 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import RecipeItem from './RecipeItem';
 
-const RecipeList = ({recipeItem, onScrolledToBottom}) => {
+const RecipeList = ({setId, recipeItem, onScrolledToBottom}) => {
   const onScroll = e => {
     if (!onScrolledToBottom) {
       return;
@@ -27,10 +27,12 @@ const RecipeList = ({recipeItem, onScrolledToBottom}) => {
       renderItem={({item}) => (
         <View style={styles.list}>
           <RecipeItem
+            id={item.id}
             recipeName={item.recipeName}
             recipeWriter={item.recipeWriter}
-            recipeView={item.recipeView}
-            recipeImage={item.recipeImage}
+            recipeViews={item.recipeViews}
+            recipeImage={item.recipeMainImage}
+            setId={setId}
           />
         </View>
       )}
@@ -44,5 +46,6 @@ export default RecipeList;
 const styles = StyleSheet.create({
   list: {
     alignItems: 'center',
+    marginBottom: 5,
   },
 });

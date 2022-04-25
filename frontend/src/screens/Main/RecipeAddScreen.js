@@ -228,7 +228,6 @@ const RecipeAddScreen = () => {
     //     return;
     //   }
     // }
-
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/myRecipe/add', {
@@ -246,7 +245,8 @@ const RecipeAddScreen = () => {
             Alert.alert('레시피가 등록되었습니다.');
             navigation.navigate('HomeScreen');
           } else {
-            console.log('error');
+            console.log(responseJson);
+            console.log(responseJson.error);
           }
         })
         .catch(error => {
