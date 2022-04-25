@@ -27,9 +27,7 @@ public class MyRecipeController {
         myRecipeService.readRecipe(email);
 
         obj.put("message","리드 완료");
-        for (int i = 0; i< recipeDtoList.size(); i++){
-            obj.put((i+1),recipeDtoList.get(i));
-        }
+        obj.put("recipeItem", recipeDtoList);
         obj.put("status", 200);
         return obj;
     }
