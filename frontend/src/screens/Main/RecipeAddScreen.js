@@ -554,13 +554,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f3f4',
   },
   header: {
-    width: '90%',
+    width: '95%',
     height: '5%',
     flexDirection: 'row',
     marginVertical: 15,
     marginHorizontal: 10,
     justifyContent: 'space-between',
   },
+  btnWrapper: {},
   saveText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 22,

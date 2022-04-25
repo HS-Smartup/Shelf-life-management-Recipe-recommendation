@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeItem from 'components/Recipe/RecipeItem';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
+import RecipeList from 'components/Recipe/RecipeList';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();
@@ -44,6 +45,14 @@ const RecipeScreen = () => {
     },
   ];
 
+  const [hidden, setHidden] = useState(false);
+
+  const onScrolledToBottom = isBottom => {
+    if (hidden !== isBottom) {
+      setHidden(isBottom);
+    }
+  };
+
   return (
     <View style={styles.fullScreen}>
       <View style={styles.header}>
@@ -67,21 +76,12 @@ const RecipeScreen = () => {
         </Pressable>
       </View>
       <View style={styles.listWrapper}>
-        <FlatList
-          data={recipeItem}
-          renderItem={({item}) => (
-            <View style={styles.list}>
-              <RecipeItem
-                recipeName={item.recipeName}
-                recipeWriter={item.recipeWriter}
-                recipeView={item.recipeView}
-                recipeImage={item.recipeImage}
-              />
-            </View>
-          )}
+        <RecipeList
+          recipeItem={recipeItem}
+          onScrolledToBottom={onScrolledToBottom}
         />
       </View>
-      <RecipeAddButton />
+      <RecipeAddButton hidden={hidden} />
     </View>
   );
 };
@@ -120,8 +120,5 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flex: 1,
-  },
-  list: {
-    alignItems: 'center',
   },
 });
