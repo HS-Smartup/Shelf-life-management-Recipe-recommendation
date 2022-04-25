@@ -19,7 +19,7 @@ public class RecipeStepEntity {
     @ManyToOne
     @JoinColumn(name = "RECIPE_ID")
     private RecipeEntity recipeEntity;
-
+    @Column(columnDefinition = "LongText")
     private String stepImage;
     private String stepDescription;
 

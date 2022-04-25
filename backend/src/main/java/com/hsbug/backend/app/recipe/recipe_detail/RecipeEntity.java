@@ -17,6 +17,7 @@ public class RecipeEntity {
     private Long id;
     private String recipeName;
     private String recipeWriter;
+    @Column(columnDefinition = "LongText")
     private String recipeMainImage;
     private String typeCategory;
     private String situationCategory;
