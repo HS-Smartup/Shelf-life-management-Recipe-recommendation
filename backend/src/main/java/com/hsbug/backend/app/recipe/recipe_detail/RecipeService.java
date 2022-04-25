@@ -1,9 +1,5 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
-import com.hsbug.backend.app.recipe.recipe_detail.category.IngredientsCategory;
-import com.hsbug.backend.app.recipe.recipe_detail.category.MethodCategory;
-import com.hsbug.backend.app.recipe.recipe_detail.category.SituationCategory;
-import com.hsbug.backend.app.recipe.recipe_detail.category.TypeCategory;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepRepository;
@@ -127,10 +123,10 @@ public class RecipeService {
     }
 
     public List<SearchRecipeRefrigDto> findCategoryRecipe(CategorySetDto dto) {
-        IngredientsCategory ingredientCategory = dto.getIngredientCategory();
-        MethodCategory methodCategory = dto.getMethodCategory();
-        TypeCategory typeCategory = dto.getTypeCategory();
-        SituationCategory situationCategory = dto.getSituationCategory();
+        String ingredientCategory = dto.getIngredientCategory();
+        String methodCategory = dto.getMethodCategory();
+        String typeCategory = dto.getTypeCategory();
+        String situationCategory = dto.getSituationCategory();
 
         List<RecipeEntity> recipeCategoryList = new ArrayList<>();
 
