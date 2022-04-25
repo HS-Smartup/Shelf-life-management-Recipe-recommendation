@@ -23,8 +23,8 @@ public class MyRecipeService {
         manageRecipeRepository.save(manageRecipeDto.toEntity());
     }
 
-    public List<RecipeEntity> readRecipe(String email){
-        List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeWriter(email);
+    public List<RecipeEntity> readRecipe(String username){
+        List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeWriter(username);
         return myRecipe;
     }
 
