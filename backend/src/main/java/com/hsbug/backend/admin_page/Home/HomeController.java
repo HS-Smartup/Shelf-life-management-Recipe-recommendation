@@ -19,4 +19,29 @@ public class HomeController {
     public String login(){
         return "post/login";
     }
+
+    @GetMapping("/admin/AdminHome")
+    public String adminHome(){ return "Home";}
+
+    @GetMapping("/admin/AdminManage")
+    public String adminManage(){ return "AdminManage";}
+
+    @GetMapping("/admin/Q&A")
+    public String QA(){ return "Q&A";}
+
+    @GetMapping("/admin/RecipeManage")
+    public String RecipeManage(){ return "RecipeManage";}
+
+    @GetMapping("/admin/UserManage")
+    public String UserManage(){ return "UserManage";}
+
+    @GetMapping("/admin/AdminRecipe")
+    public String AdminRecipe(){ return "AdminRecipe";}
+
+    @GetMapping("/admin/UserRecipe")
+    public String UserRecipe(){ return "UserRecipe";}
+
+
 }
+
+

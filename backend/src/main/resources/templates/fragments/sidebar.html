@@ -5,7 +5,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>사이드 바 만들기</title>
+    <title>sidebar</title>
 
 </head>
 
@@ -18,12 +18,13 @@
         <span>▼</span>
     </div>
     <ul>
-        <li><a href="adminManage.html">관리자 관리</a></li>
-        <li><a href="#">회원관리</a></li>
-        <li><a href="#">레시피 관리</a></li>
-        <li><a href="#">관리자 레시피</a></li>
-        <li><a href="#">유저 레시피</a></li>
-        <li><a href="#">문의 답변 관리</a></li>
+        <li><a href="/admin/Home">관리자홈</a></li>
+        <li><a href="/admin/AdminManage">관리자 관리</a></li>
+        <li><a href="/admin/UserManage">회원관리</a></li>
+        <li><a href="/admin/RecipeManage">레시피 관리</a></li>
+        <li><a href="/admin/AdminRecipe">관리자 레시피</a></li>
+        <li><a href="/admin/UserRecipe">유저 레시피</a></li>
+        <li><a href="/admin/Q&A">문의 답변 관리</a></li>
     </ul>
 
 </div>
