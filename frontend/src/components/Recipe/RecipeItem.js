@@ -18,8 +18,6 @@ const RecipeItem = ({
     setRecipeId(id);
   };
 
-  console.log('1111111111', id);
-
   return (
     <Pressable
       style={styles.itemWrapper}

@@ -20,8 +20,6 @@ const RecipeScreen = () => {
   const navigation = useNavigation();
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
 
-  console.log(recipeId);
-
   const [recipe, setRecipe] = useState([
     // {
     //   id: 1,
