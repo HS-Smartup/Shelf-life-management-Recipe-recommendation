@@ -2,7 +2,7 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import RecipeItem from './RecipeItem';
 
-const RecipeList = ({setId, recipeItem, onScrolledToBottom}) => {
+const RecipeList = ({recipeItem, onScrolledToBottom}) => {
   const onScroll = e => {
     if (!onScrolledToBottom) {
       return;
@@ -32,7 +32,6 @@ const RecipeList = ({setId, recipeItem, onScrolledToBottom}) => {
             recipeWriter={item.recipeWriter}
             recipeViews={item.recipeViews}
             recipeImage={item.recipeMainImage}
-            setId={setId}
           />
         </View>
       )}

@@ -1,21 +1,24 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {RecipeIdContext} from 'contexts/RecipeIdContext';
 
 const RecipeItem = ({
   id,
-  setId,
   recipeName,
   recipeWriter,
   recipeViews,
   recipeImage,
 }) => {
   const navigation = useNavigation();
+  const {recipeId, setRecipeId} = useContext(RecipeIdContext);
 
   const onPressItem = () => {
     navigation.navigate('DetailRecipeScreen');
-    setId(id);
+    setRecipeId(id);
   };
+
+  console.log('1111111111', id);
 
   return (
     <Pressable

@@ -47,7 +47,6 @@ const RecipeScreen = () => {
   // ];
 
   const [recipeItem, setRecipeItem] = useState([]);
-  const [id, setId] = useState('');
 
   const readItem = async () => {
     try {
@@ -61,7 +60,7 @@ const RecipeScreen = () => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log('read\n\n\n', responseJson);
+          // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipeItem([...responseJson.recipeItem]);
           } else {
@@ -116,7 +115,6 @@ const RecipeScreen = () => {
       </View>
       <View style={styles.listWrapper}>
         <RecipeList
-          setId={setId}
           recipeItem={recipeItem}
           onScrolledToBottom={onScrolledToBottom}
         />

@@ -13,12 +13,14 @@ import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Rating} from 'react-native-ratings';
 import IngredientList from 'components/DetailRecipe/IngredientList';
 import StepList from 'components/DetailRecipe/StepList';
-import {UserNameContext} from 'contexts/UserNameContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RecipeIdContext} from 'contexts/RecipeIdContext';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();
-  const {recipeWriter, setRecipeWriter} = useContext(UserNameContext);
+  const {recipeId, setRecipeId} = useContext(RecipeIdContext);
+
+  console.log(recipeId);
 
   const [recipe, setRecipe] = useState([
     // {
@@ -69,7 +71,7 @@ const RecipeScreen = () => {
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/recipe/detail?id=2', {
+      await fetch(`http://localhost:8080/user/recipe/detail?id=${recipeId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -98,6 +100,7 @@ const RecipeScreen = () => {
     return () => {
       isComponentMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [like, setLike] = useState(false);
