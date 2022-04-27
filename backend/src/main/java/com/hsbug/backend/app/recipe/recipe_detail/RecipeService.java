@@ -122,29 +122,26 @@ public class RecipeService {
         recipeRepository.save(recipeEntity.get());
     }
 
-    public List<SearchRecipeRefrigDto> findCategoryRecipe(CategorySetDto dto) {
-        String ingredientCategory = dto.getIngredientCategory();
-        String methodCategory = dto.getMethodCategory();
-        String typeCategory = dto.getTypeCategory();
-        String situationCategory = dto.getSituationCategory();
+    public List<SearchRecipeRefrigDto> findCategoryRecipe(String category) {
 
         List<RecipeEntity> recipeCategoryList = new ArrayList<>();
 
-        if (!(ingredientCategory ==null)) {
-            List<RecipeEntity> ingredientCategoryList = recipeRepository.findAllByIngredientCategory(ingredientCategory);
+        List<RecipeEntity> ingredientCategoryList = recipeRepository.findAllByIngredientCategory(category);
+        if (!ingredientCategoryList.isEmpty()) {
             recipeCategoryList.addAll(ingredientCategoryList);
-        }
-        else if (!(methodCategory == null)) {
-            List<RecipeEntity> methodCategoryList = recipeRepository.findAllByMethodCategory(methodCategory);
-            recipeCategoryList.addAll(methodCategoryList);
-        }
-        else if (!(typeCategory == null)) {
-            List<RecipeEntity> typeCategoryList = recipeRepository.findAllByTypeCategory(typeCategory);
-            recipeCategoryList.addAll(typeCategoryList);
-        }
-        else if (!(situationCategory == null)) {
-            List<RecipeEntity> situationCategoryList = recipeRepository.findAllBySituationCategory(situationCategory);
-            recipeCategoryList.addAll(situationCategoryList);
+        } else {
+            List<RecipeEntity> methodCategoryList = recipeRepository.findAllByMethodCategory(category);
+            if (!methodCategoryList.isEmpty()) {
+                recipeCategoryList.addAll(methodCategoryList);
+            } else {
+                List<RecipeEntity> typeCategoryList = recipeRepository.findAllByTypeCategory(category);
+                if (!typeCategoryList.isEmpty()) {
+                    recipeCategoryList.addAll(typeCategoryList);
+                } else {
+                    List<RecipeEntity> situationCategoryList = recipeRepository.findAllBySituationCategory(category);
+                    recipeCategoryList.addAll(situationCategoryList);
+                }
+            }
         }
         return toSearchRecipeRefrigDto(recipeCategoryList);
     }
