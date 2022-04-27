@@ -7,7 +7,7 @@ import {UserNameContext} from 'contexts/UserNameContext';
 
 const UserScreen = () => {
   const navigation = useNavigation();
-  const {username, setUsername} = useContext(UserNameContext);
+  const {username} = useContext(UserNameContext);
   return (
     <View style={styles.fullScreen}>
       <View style={styles.header}>
@@ -72,6 +72,7 @@ const UserScreen = () => {
                 </Pressable>
                 <Pressable
                   style={styles.recipeBtn}
+                  onPress={() => navigation.navigate('UserRecipeScreen')}
                   android_ripple={{color: '#e1e2e3'}}>
                   <CommunityIcon
                     name="magnify-plus-outline"

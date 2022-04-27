@@ -10,6 +10,7 @@ import CameraRecipeScreen from './CameraRecipeScreen';
 import RefrigeratorRecipeScreen from './RefrigeratorRecipeScreen';
 import RecipeScreen from './RecipeScreen';
 import {RecipeIdContextProvider} from 'contexts/RecipeIdContext';
+import UserRecipeScreen from './UserRecipeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,11 @@ const MainStack = () => {
           <Stack.Screen
             name="DetailRecipeScreen"
             component={DetailRecipeScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="UserRecipeScreen"
+            component={UserRecipeScreen}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

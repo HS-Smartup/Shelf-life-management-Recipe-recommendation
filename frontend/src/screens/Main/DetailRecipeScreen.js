@@ -16,7 +16,7 @@ import StepList from 'components/DetailRecipe/StepList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RecipeIdContext} from 'contexts/RecipeIdContext';
 
-const RecipeScreen = () => {
+const DetailRecipeScreen = () => {
   const navigation = useNavigation();
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
 
@@ -249,7 +249,7 @@ const RecipeScreen = () => {
   );
 };
 
-export default RecipeScreen;
+export default DetailRecipeScreen;
 
 const styles = StyleSheet.create({
   fullScreen: {
