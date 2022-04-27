@@ -55,6 +55,7 @@ const UserScreen = () => {
               <View style={styles.recipeBtnWrapper}>
                 <Pressable
                   style={styles.recipeBtn}
+                  onPress={() => navigation.navigate('LikeRecipeScreen')}
                   android_ripple={{color: '#e1e2e3'}}>
                   <CommunityIcon
                     name="heart-outline"

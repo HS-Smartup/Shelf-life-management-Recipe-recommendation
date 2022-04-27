@@ -35,7 +35,6 @@ const RecipeList = ({recipeItem, onScrolledToBottom}) => {
           />
         </View>
       )}
-      keyExtractor={item => item.id.toString()}
       onScroll={onScroll}
     />
   );
