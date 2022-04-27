@@ -1,5 +1,6 @@
 package com.hsbug.backend.admin_page.Home;
 
+import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import lombok.RequiredArgsConstructor;
@@ -39,17 +40,30 @@ public class HomeController {
         model.addAttribute("admins", dtos);
         return "AdminManage";}
 
+
+    @GetMapping("/admin/UserManage")
+    public String UserManage(Model model){
+        List<UserRegisterDto> dtos = homeService.getUserAll();
+        System.out.println(dtos);
+        model.addAttribute("user", dtos);
+        return "UserManage";
+    }
+
+
+    @GetMapping("/admin/AdminRecipe")
+    public String AdminRecipe(Model model){
+        List<ManageRecipeDto> dtos = homeService.getRecipeAll();
+        System.out.println(dtos);
+        model.addAttribute("AdminRecipe",dtos);
+        return "AdminRecipe";
+    }
+
     @GetMapping("/admin/Q&A")
     public String QA(){ return "Q&A";}
 
     @GetMapping("/admin/RecipeManage")
     public String RecipeManage(){ return "RecipeManage";}
 
-    @GetMapping("/admin/UserManage")
-    public String UserManage(){ return "UserManage";}
-
-    @GetMapping("/admin/AdminRecipe")
-    public String AdminRecipe(){ return "AdminRecipe";}
 
     @GetMapping("/admin/UserRecipe")
     public String UserRecipe(){ return "UserRecipe";}

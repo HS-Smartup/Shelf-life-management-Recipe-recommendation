@@ -11,4 +11,5 @@ public interface ManageRecipeRepository extends JpaRepository<ManageRecipeEntity
     List<ManageRecipeEntity> findAllByWRITER(String WRITER);
     List<ManageRecipeEntity> findByRCPPARTSDTLSContains(String RCPPARTSDTLS);
 
+    List<ManageRecipeEntity> findAllByRCP_NM();
 }
