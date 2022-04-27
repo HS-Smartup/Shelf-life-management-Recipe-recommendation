@@ -1,10 +1,13 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {CategoryContext} from 'contexts/CategoryContext';
 
 const CategoryScreen = () => {
   const navigation = useNavigation();
+
+  const {category, setCategory} = useContext(CategoryContext);
 
   const categoryName = [
     {name: '재료별 요리'},
@@ -114,6 +117,11 @@ const CategoryScreen = () => {
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
+                        onPress={() => {
+                          navigation.navigate('CategoryRecipeScreen');
+                          setCategory(`${item.title}`);
+                        }}
+                        // onPress={() => console.log(item.title)}
                         android_ripple={{color: '#636773'}}>
                         <Text style={styles.categoryText}>{item.title}</Text>
                       </Pressable>
@@ -131,6 +139,10 @@ const CategoryScreen = () => {
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
+                        onPress={() => {
+                          navigation.navigate('CategoryRecipeScreen');
+                          setCategory(`${item.title}`);
+                        }}
                         android_ripple={{color: '#636773'}}>
                         <Text style={styles.categoryText}>{item.title}</Text>
                       </Pressable>
@@ -148,6 +160,10 @@ const CategoryScreen = () => {
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
+                        onPress={() => {
+                          navigation.navigate('CategoryRecipeScreen');
+                          setCategory(`${item.title}`);
+                        }}
                         android_ripple={{color: '#636773'}}>
                         <Text style={styles.categoryText}>{item.title}</Text>
                       </Pressable>
@@ -165,6 +181,10 @@ const CategoryScreen = () => {
                     renderItem={({item}) => (
                       <Pressable
                         style={styles.categoryItem}
+                        onPress={() => {
+                          navigation.navigate('CategoryRecipeScreen');
+                          setCategory(`${item.title}`);
+                        }}
                         android_ripple={{color: '#636773'}}>
                         <Text style={styles.categoryText}>{item.title}</Text>
                       </Pressable>

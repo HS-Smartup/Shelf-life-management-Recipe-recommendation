@@ -9,14 +9,17 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera} from 'react-native-image-picker';
+import {UserNameContext} from 'contexts/UserNameContext';
 
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [isListEnd, setIsListEnd] = useState(false);
+
+  const {username} = useContext(UserNameContext);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // useEffect(() => getData(), []);
@@ -235,7 +238,7 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                 </Pressable>
               </View>
-              <Text style={styles.listText}>SmartUp님을 위한 레시피</Text>
+              <Text style={styles.listText}>{username}님을 위한 레시피</Text>
               <View style={styles.listWrapper}>
                 <FlatList
                   style={styles.recipeWrapper}
@@ -246,7 +249,18 @@ const HomeScreen = ({navigation}) => {
                   showsHorizontalScrollIndicator={false}
                 />
               </View>
-              <Text style={styles.listText}>이달의 레시피</Text>
+              <Text style={styles.listText}>최근에 본 레시피</Text>
+              <View style={styles.listWrapper}>
+                <FlatList
+                  style={styles.recipeWrapper}
+                  data={data}
+                  renderItem={renderItem}
+                  horizontal={true}
+                  initialNumToRender={10}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
+              <Text style={styles.listText}>인기 레시피</Text>
               <View style={styles.listWrapper}>
                 <FlatList
                   style={styles.recipeWrapper}
