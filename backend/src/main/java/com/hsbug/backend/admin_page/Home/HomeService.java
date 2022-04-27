@@ -3,6 +3,11 @@ package com.hsbug.backend.admin_page.Home;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeJsonDTO;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeRepository;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeService;
+import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterRepository;
@@ -19,7 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeService {
     private final UserRegisterRepository userRegisterRepository;
-    private final ManageRecipeRepository manageRecipeRepository;
+    private final RecipeRepository recipeRepository;
+    private final RecipeService recipeService;
 
     private UserRegisterDto converEntityTODto(UserRegisterEntity userRegisterEntity) {
         return UserRegisterDto.builder()
@@ -60,14 +66,12 @@ public class HomeService {
                 .RCP_NM(manageRecipeEntity.getRCP_NM())
                 .build();
     }
-/*    public List<ManageRecipeDto> getRecipeAll(){
-        List<ManageRecipeEntity> manageRecipeEntities = manageRecipeRepository.findAllById();
-        List<ManageRecipeDto> manageRecipeDtoList = new ArrayList<>();
+    public List<SearchRecipeRefrigDto> getRecipeAll(){
+        List<RecipeEntity> manageRecipeEntities = recipeRepository.findAll();
+        List<SearchRecipeRefrigDto> manageRecipeDtoList = new ArrayList<>();
         if(manageRecipeEntities.isEmpty()) return manageRecipeDtoList;
-        for (ManageRecipeEntity manageRecipeEntity : manageRecipeEntities){
-            manageRecipeDtoList.add(this.converEntityTODto(manageRecipeEntity));
+            return recipeService.toSearchRecipeRefrigDto(manageRecipeEntities);
+
         }
-        return manageRecipeDtoList;
-        }
-        */
+
 }
