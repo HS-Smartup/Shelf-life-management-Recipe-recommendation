@@ -20,7 +20,7 @@ public class HomeController {
         return "post/login";
     }
 
-    @GetMapping("/admin/AdminHome")
+    @GetMapping("/admin/Home")
     public String adminHome(){ return "Home";}
 
     @GetMapping("/admin/AdminManage")
@@ -40,6 +40,7 @@ public class HomeController {
 
     @GetMapping("/admin/UserRecipe")
     public String UserRecipe(){ return "UserRecipe";}
+
 
 
 }
