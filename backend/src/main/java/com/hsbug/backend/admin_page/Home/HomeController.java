@@ -1,15 +1,24 @@
 package com.hsbug.backend.admin_page.Home;
 
+import com.hsbug.backend.app.user_register.UserRegisterDto;
+import com.hsbug.backend.app.user_register.UserRegisterEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 //관리자 페이지 컨트롤러
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
+
+    private final HomeService homeService;
+
     @RequestMapping(value = "/admin/home", method= RequestMethod.GET)
     public String goHome(HttpServletRequest request) {
         return "Home";
@@ -24,7 +33,11 @@ public class HomeController {
     public String adminHome(){ return "Home";}
 
     @GetMapping("/admin/AdminManage")
-    public String adminManage(){ return "AdminManage";}
+    public String adminManage(Model model){
+        List<UserRegisterDto> dtos = homeService.getAdminAll();
+        System.out.println(dtos);
+        model.addAttribute("admins", dtos);
+        return "AdminManage";}
 
     @GetMapping("/admin/Q&A")
     public String QA(){ return "Q&A";}
