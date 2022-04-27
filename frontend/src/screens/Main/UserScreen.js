@@ -4,10 +4,13 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {UserNameContext} from 'contexts/UserNameContext';
+import {UserEmailContext} from 'contexts/UserEmailContext';
 
 const UserScreen = () => {
   const navigation = useNavigation();
   const {username} = useContext(UserNameContext);
+  const {userEmail} = useContext(UserEmailContext);
+
   return (
     <View style={styles.fullScreen}>
       <View style={styles.header}>
@@ -45,7 +48,7 @@ const UserScreen = () => {
                     {username}
                     <Text style={styles.userNameInnerText}> 님</Text>
                   </Text>
-                  <Text style={styles.userEmailText}>123@naver.com</Text>
+                  <Text style={styles.userEmailText}>{userEmail}</Text>
                 </View>
                 <Icon name="arrow-forward-ios" size={32} color={'#ff8527'} />
               </Pressable>
