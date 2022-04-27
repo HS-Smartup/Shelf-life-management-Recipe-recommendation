@@ -14,6 +14,7 @@ import UserRecipeScreen from './UserRecipeScreen';
 import {UserEmailContextProvider} from 'contexts/UserEmailContext';
 import RecentViewRecipeScreen from './RecentViewRecipeScreen';
 import {CategoryContextProvider} from 'contexts/CategoryContext';
+import CategoryRecipeScreen from './CategoryRecipeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,13 +41,18 @@ const MainStack = () => {
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="RefrigeratorRecipeScreen"
-                component={RefrigeratorRecipeScreen}
+                name="RecipeScreen"
+                component={RecipeScreen}
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="RecipeScreen"
-                component={RecipeScreen}
+                name="CategoryRecipeScreen"
+                component={CategoryRecipeScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="RefrigeratorRecipeScreen"
+                component={RefrigeratorRecipeScreen}
                 options={{headerShown: false}}
               />
               <Stack.Screen
