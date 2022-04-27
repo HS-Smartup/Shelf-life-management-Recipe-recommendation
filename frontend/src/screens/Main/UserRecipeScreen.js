@@ -1,8 +1,7 @@
-import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import RecipeItem from 'components/Recipe/RecipeItem';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
 import RecipeList from 'components/Recipe/RecipeList';
 import AsyncStorage from '@react-native-async-storage/async-storage';

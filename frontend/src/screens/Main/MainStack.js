@@ -12,6 +12,7 @@ import RecipeScreen from './RecipeScreen';
 import {RecipeIdContextProvider} from 'contexts/RecipeIdContext';
 import UserRecipeScreen from './UserRecipeScreen';
 import {UserEmailContextProvider} from 'contexts/UserEmailContext';
+import RecentViewRecipeScreen from './RecentViewRecipeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,11 @@ const MainStack = () => {
             <Stack.Screen
               name="DetailRecipeScreen"
               component={DetailRecipeScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="RecentViewRecipeScreen"
+              component={RecentViewRecipeScreen}
               options={{headerShown: false}}
             />
             <Stack.Screen

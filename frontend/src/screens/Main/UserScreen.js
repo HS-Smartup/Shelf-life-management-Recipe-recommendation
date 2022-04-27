@@ -68,6 +68,7 @@ const UserScreen = () => {
                 </Pressable>
                 <Pressable
                   style={styles.recipeBtn}
+                  onPress={() => navigation.navigate('RecentViewRecipeScreen')}
                   android_ripple={{color: '#e1e2e3'}}>
                   <Icon name="preview" size={38} color={'#ff8527'} />
                   <Text style={styles.recipeBtnText}>
