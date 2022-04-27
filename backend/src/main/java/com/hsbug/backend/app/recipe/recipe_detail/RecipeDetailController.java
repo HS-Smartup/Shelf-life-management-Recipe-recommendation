@@ -25,8 +25,8 @@ public class RecipeDetailController {
         return obj;
     }
 
-    @PostMapping("/search/category")
-    public List<SearchRecipeRefrigDto> categoryList(@RequestBody CategorySetDto category) {
+    @GetMapping("/search/category")
+    public List<SearchRecipeRefrigDto> categoryList(@RequestParam String category) {
         return recipeService.findCategoryRecipe(category);
     }
 }
