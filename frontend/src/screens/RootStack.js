@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
-  // AsyncStorage.clear();
+  AsyncStorage.clear();
   return (
     <Stack.Navigator initialRouteName="SplashScreen">
       <Stack.Screen

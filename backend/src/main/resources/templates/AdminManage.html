@@ -7,6 +7,27 @@
     <title>AdminManage</title>
 </head>
 <body>
+<div layout:fragment = "content" >
+    <div class = "content">
+        <span th:text="${admins}"></span><br>
+
+        <table border="1" class="blueone">
+            <th>id</th>
+            <th>admin_email</th>
+            <th>role</th>
+            <tr th:each = "data : ${admins}">
+                <td th:text="${data.id}"></td>
+                <!--<td>
+                    <a th:text="${data.}" th:href="@{/freepostpage/read/{id}(id=${data.id})}"></a>
+                </td>-->
+                <td th:text="${data.email}"></td>
+                <td th:text="${data.roles}"></td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
     <!--회원관리테이블-->
 </body>
 </html>
