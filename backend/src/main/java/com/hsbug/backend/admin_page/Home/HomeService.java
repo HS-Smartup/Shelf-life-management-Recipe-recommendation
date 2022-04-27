@@ -21,7 +21,7 @@ public class HomeService {
     private final UserRegisterRepository userRegisterRepository;
     private final ManageRecipeRepository manageRecipeRepository;
 
-    private UserRegisterDto converEntityTODto(UserRegisterEntity userRegisterEntity){
+    private UserRegisterDto converEntityTODto(UserRegisterEntity userRegisterEntity) {
         return UserRegisterDto.builder()
                 .id(userRegisterEntity.getId())
                 .email(userRegisterEntity.getEmail())
@@ -30,43 +30,44 @@ public class HomeService {
     }
 
     @Transactional
-    public List<UserRegisterDto> getAdminAll(){
+    public List<UserRegisterDto> getAdminAll() {
         List<UserRegisterEntity> userRegisterEntities = userRegisterRepository.findAllByRoles("[ROLE_ADMIN]");
         List<UserRegisterDto> userRegisterDtoList = new ArrayList<>();
-        if(userRegisterEntities.isEmpty()) return userRegisterDtoList;
-        for (UserRegisterEntity userRegisterEntity : userRegisterEntities){
+        if (userRegisterEntities.isEmpty()) return userRegisterDtoList;
+        for (UserRegisterEntity userRegisterEntity : userRegisterEntities) {
             userRegisterDtoList.add(this.converEntityTODto(userRegisterEntity));
         }
         return userRegisterDtoList;
 
     }
+
     @Transactional
-    public List<UserRegisterDto> getUserAll(){
+    public List<UserRegisterDto> getUserAll() {
         List<UserRegisterEntity> userRegisterEntities = userRegisterRepository.findAllByRoles("[ROLE_USER]");
         List<UserRegisterDto> userRegisterDtoList = new ArrayList<>();
-        if(userRegisterEntities.isEmpty()) return userRegisterDtoList;
-        for (UserRegisterEntity userRegisterEntity : userRegisterEntities){
+        if (userRegisterEntities.isEmpty()) return userRegisterDtoList;
+        for (UserRegisterEntity userRegisterEntity : userRegisterEntities) {
             userRegisterDtoList.add(this.converEntityTODto(userRegisterEntity));
         }
         return userRegisterDtoList;
 
     }
+
     // ~~~
-    private ManageRecipeDto converEntityTODto(ManageRecipeEntity manageRecipeEntity){
+    private ManageRecipeDto converEntityTODto(ManageRecipeEntity manageRecipeEntity) {
         return ManageRecipeDto.builder()
                 .RCP_ID(manageRecipeEntity.getId())
                 .RCP_NM(manageRecipeEntity.getRCP_NM())
                 .build();
     }
-    public List<ManageRecipeDto> getRecipeAll(){
-        List<ManageRecipeEntity> manageRecipeEntities = manageRecipeRepository.findAllByRCP_NM();
+/*    public List<ManageRecipeDto> getRecipeAll(){
+        List<ManageRecipeEntity> manageRecipeEntities = manageRecipeRepository.findAllById();
         List<ManageRecipeDto> manageRecipeDtoList = new ArrayList<>();
         if(manageRecipeEntities.isEmpty()) return manageRecipeDtoList;
         for (ManageRecipeEntity manageRecipeEntity : manageRecipeEntities){
             manageRecipeDtoList.add(this.converEntityTODto(manageRecipeEntity));
         }
         return manageRecipeDtoList;
-    }
-
+        }
+        */
 }
-
