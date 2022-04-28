@@ -59,13 +59,6 @@ public class HomeService {
 
     }
 
-    // ~~~
-    private ManageRecipeDto converEntityTODto(ManageRecipeEntity manageRecipeEntity) {
-        return ManageRecipeDto.builder()
-                .RCP_ID(manageRecipeEntity.getId())
-                .RCP_NM(manageRecipeEntity.getRCP_NM())
-                .build();
-    }
     public List<SearchRecipeRefrigDto> getRecipeAll(){
         List<RecipeEntity> manageRecipeEntities = recipeRepository.findAll();
         List<SearchRecipeRefrigDto> manageRecipeDtoList = new ArrayList<>();
