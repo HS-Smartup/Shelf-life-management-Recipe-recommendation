@@ -60,14 +60,23 @@ public class HomeController {
     }
 
     @GetMapping("/admin/Q&A")
-    public String QA(){ return "Q&A";}
+    public String QA(){
+
+        return "Q&A";
+    }
 
     @GetMapping("/admin/RecipeManage")
-    public String RecipeManage(){ return "RecipeManage";}
+    public String RecipeManage(){
+
+        return "RecipeManage";
+    }
 
 
     @GetMapping("/admin/UserRecipe")
-    public String UserRecipe(){ return "UserRecipe";}
+    public String UserRecipe(){
+
+        return "UserRecipe";
+    }
 
 
 

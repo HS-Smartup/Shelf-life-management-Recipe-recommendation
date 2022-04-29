@@ -11,17 +11,28 @@
 <div layout:fragment = "content" >
     <div class = "content">
         <table class="blueone">
-            <tr>
-                <th>유저</th>
-                <th>시간</th>
-            </tr>
+            <span th:text="${Q&A}"></span><br>
 
-            <tr>
-                <td>*******</td>
-                <td>*******</td>
+            <table border="1" class="blueone">
+                <th>user_id</th>
+                <th>user_email</th>
+                <th>user_title</th>
+                <th>user_content</th>
+                <th>user_answer</th>
 
-            </tr>
 
+                <tr th:each = "data : ${Q&A}">
+                    <td th:text="${data.id}"></td>
+                    <!--<td>
+                        <a th:text="${data.}" th:href="@{/freepostpage/read/{id}(id=${data.id})}"></a>
+                    </td>-->
+                    <td th:text="${data.email}"></td>
+                    <td th:text="${data.title}"></td>
+                    <td th:text="${data.content}"></td>
+                    <td th:text="${data.answer}"></td>
+
+                </tr>
+            </table>
         </table>
     </div>
 </div>
