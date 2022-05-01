@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -11,28 +13,31 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/question")
+@RequestMapping("/admin/QA")
 public class ManageQuestionController { //10초 정도 걸리는 듯.
 
     private final ManageQuestionService manageQuestionService;
 
-    @GetMapping("/no_answer")
-    public JSONObject readAdminNoAnswer(){
-        JSONObject obj = manageQuestionService.readNoAnswer();
-        return obj;
+    @GetMapping("")
+    public String QA(Model model){
+        List<ManageQuestionDto> QuestionDto = manageQuestionService.readAll();
 
+        model.addAttribute("QA",QuestionDto);
+        return "QuestionAnswer";
     }
 
     @GetMapping("/already_answer")
-    public JSONObject readAdminAlreadyAnswer(){
-        JSONObject obj = manageQuestionService.readAlreadyAnswer();
-        return obj;
+    public String QA_already(Model model){
+        List<ManageQuestionDto> QuestionDto = manageQuestionService.readAlreadyAnswer();
+        model.addAttribute("QA",QuestionDto);
+        return "QuestionAnswer";
     }
 
-    @PostMapping("/no_answer/answer")
+    @PostMapping("/no_answer/answer")  // 05.01 이건 아직 수정 안함
     public JSONObject answerAdminNoAnswer(@RequestBody ManageQuestionDto manageQuestionDto){
         Long id = manageQuestionDto.getId();
         String answer = manageQuestionDto.getAnswer();

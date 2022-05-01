@@ -1,6 +1,7 @@
 package com.hsbug.backend.admin_page.manage_question;
 
 import com.hsbug.backend.app.refrigerator.manage_product.ManageProductDto;
+import com.hsbug.backend.app.refrigerator.manage_product.ManageProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -28,24 +29,34 @@ public class ManageQuestionService {
                 .build();
     }
 
-    public JSONObject readNoAnswer(){
-        JSONObject obj = new JSONObject();
-        List<ManageQuestionEntity> manageQuestionEntityList = manageQuestionRepository.findAllByAnswercheck(false);
+    public List<ManageQuestionDto> readAll(){
+        List<ManageQuestionEntity> manageQuestionEntityList = manageQuestionRepository.findAll();
+        List<ManageQuestionDto> manageQuestionDtoList = new ArrayList<>();
 
-        for(int i = 0; i < manageQuestionEntityList.size();i++){
-            obj.put(i,manageQuestionEntityList.get(i));
+        for(ManageQuestionEntity manageQuestionEntity : manageQuestionEntityList){
+            manageQuestionDtoList.add(this.converEntityToDto(manageQuestionEntity));
         }
-        return obj;
+        return manageQuestionDtoList;
     }
 
-    public JSONObject readAlreadyAnswer(){
-        JSONObject obj = new JSONObject();
-        List<ManageQuestionEntity> manageQuestionEntityList = manageQuestionRepository.findAllByAnswercheck(true);
+    public List<ManageQuestionDto> readNoAnswer(){
+        List<ManageQuestionEntity> manageQuestionEntityList = manageQuestionRepository.findAllByAnswercheck(false);
+        List<ManageQuestionDto> manageQuestionDtoList = new ArrayList<>();
 
-        for(int i = 0; i < manageQuestionEntityList.size();i++){
-            obj.put(i,manageQuestionEntityList.get(i));
+        for(ManageQuestionEntity manageQuestionEntity : manageQuestionEntityList){
+            manageQuestionDtoList.add(this.converEntityToDto(manageQuestionEntity));
         }
-        return obj;
+        return manageQuestionDtoList;
+    }
+
+    public List<ManageQuestionDto> readAlreadyAnswer(){
+        List<ManageQuestionEntity> manageQuestionEntityList = manageQuestionRepository.findAllByAnswercheck(true);
+        List<ManageQuestionDto> manageQuestionDtoList = new ArrayList<>();
+
+        for(ManageQuestionEntity manageQuestionEntity : manageQuestionEntityList){
+            manageQuestionDtoList.add(this.converEntityToDto(manageQuestionEntity));
+        }
+        return manageQuestionDtoList;
     }
 
     public JSONObject addAnswer(Long id, String answer) {
