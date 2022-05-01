@@ -38,9 +38,7 @@ public class ManageQuestionController { //10초 정도 걸리는 듯.
     }
 
     @PostMapping("/no_answer/answer")  // 05.01 이건 아직 수정 안함
-    public JSONObject answerAdminNoAnswer(@RequestBody ManageQuestionDto manageQuestionDto){
-        Long id = manageQuestionDto.getId();
-        String answer = manageQuestionDto.getAnswer();
+    public JSONObject answerAdminNoAnswer(@RequestParam Long id, String answer){
         JSONObject obj  = manageQuestionService.addAnswer(id,answer);
         return obj;
     }
