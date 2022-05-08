@@ -1,27 +1,27 @@
 package com.hsbug.backend.app.search_recipe.recommend;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
+import com.hsbug.backend.app.recipe.recipe_detail.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class RecommendRecipeService {
-    private final ManageRecipeRepository manageRecipeRepository;
+
+    private final RecipeRepository recipeRepository;
 
     public RecommendRecipeDto randomRecipe() {
 
         Long randomNum = (long) makeRandomId();
-        Optional<ManageRecipeEntity> recommendRecipeDto  = manageRecipeRepository.findById(randomNum);
+        RecipeEntity recommendRecipeDto  = recipeRepository.findById(randomNum).get();
 
         RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
-                .RCP_ID(recommendRecipeDto.get().getId())
-                .ATT_FILE_NO_MAIN(recommendRecipeDto.get().getATT_FILE_NO_MAIN())
-                .RCP_NM(recommendRecipeDto.get().getRCP_NM())
+                .RCP_ID(recommendRecipeDto.getId())
+                .ATT_FILE_NO_MAIN(recommendRecipeDto.getRecipeMainImage())
+                .RCP_NM(recommendRecipeDto.getRecipeName())
                 .build();
 
         return recipeDto;
@@ -30,7 +30,7 @@ public class RecommendRecipeService {
     private int makeRandomId() {
         int rNum = 0;
         Random random = new Random();
-        rNum = random.nextInt(1300) + 1;
+        rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
         return rNum;
     }
 

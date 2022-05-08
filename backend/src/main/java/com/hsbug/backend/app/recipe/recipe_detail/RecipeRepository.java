@@ -1,6 +1,7 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,5 +16,8 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity,Long> {
     List<RecipeEntity> findAllByMethodCategory(String methodCategory);
     List<RecipeEntity> findByRecipeNameContaining(String recipeName);
     Optional<RecipeEntity> findById(Long id);
+
+    @Query(value = "SELECT coalesce(max(id), 0) FROM RecipeEntity ")
+    public Long getMaxId();
 
 }
