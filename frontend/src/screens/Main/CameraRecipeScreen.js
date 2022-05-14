@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckItem from 'components/RecipeSearch/CheckItem';
 import {CameraRecipeContext} from 'contexts/CameraRecipeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SearchResultContext} from 'contexts/SearchResultContext';
 
 const CameraRecipeScreen = () => {
   const navigation = useNavigation();
@@ -12,6 +13,8 @@ const CameraRecipeScreen = () => {
   const {cameraRecipe} = useContext(CameraRecipeContext);
 
   const [checkedItem, setCheckedItem] = useState([]);
+
+  const {searchResult, setSearchResult} = useContext(SearchResultContext);
 
   const listData = [
     {
@@ -38,6 +41,8 @@ const CameraRecipeScreen = () => {
 
   const onPressSubmit = async () => {
     try {
+      console.log('111111\n\n', checkedItem);
+      setSearchResult(checkedItem);
       const token = await AsyncStorage.getItem('user_token');
       await fetch(
         'http://localhost:8080/user/search/camera?food=' + checkedItem,
@@ -53,6 +58,7 @@ const CameraRecipeScreen = () => {
         .then(response => response.json())
         .then(responseJson => {
           console.log(responseJson);
+          navigation.navigate('SearchResultScreen');
         })
         .catch(error => {
           console.error(error);

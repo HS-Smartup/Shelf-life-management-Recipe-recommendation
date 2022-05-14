@@ -1,9 +1,10 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckItem from 'components/RecipeSearch/CheckItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SearchResultContext} from 'contexts/SearchResultContext';
 
 const RefrigeratorRecipeScreen = () => {
   const navigation = useNavigation();
@@ -12,28 +13,7 @@ const RefrigeratorRecipeScreen = () => {
 
   const [checkedItem, setCheckedItem] = useState([]);
 
-  const listData = [
-    {
-      id: 1,
-      name: '간장',
-    },
-    {
-      id: 2,
-      name: '치킨스톡',
-    },
-    {
-      id: 3,
-      name: '삼겹살',
-    },
-    {
-      id: 4,
-      name: '당근',
-    },
-    {
-      id: 5,
-      name: '라면',
-    },
-  ];
+  const {searchResult, setSearchResult} = useContext(SearchResultContext);
 
   const readItem = async () => {
     try {
@@ -72,6 +52,7 @@ const RefrigeratorRecipeScreen = () => {
 
   const onPressSubmit = async () => {
     try {
+      setSearchResult(checkedItem);
       const token = await AsyncStorage.getItem('user_token');
       await fetch(
         'http://localhost:8080/user/search/myRefrig/selectProduct?food=' +
@@ -87,7 +68,8 @@ const RefrigeratorRecipeScreen = () => {
       )
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
+          // console.log(responseJson);
+          navigation.navigate('SearchResultScreen');
         })
         .catch(error => {
           console.error(error);
