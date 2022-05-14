@@ -60,7 +60,7 @@ const CameraRecipeScreen = () => {
           data={cameraRecipe}
           renderItem={({item}) => (
             <View style={styles.list}>
-              <CheckItem itemName={item.food} />
+              <CheckItem itemName={item} />
             </View>
           )}
         />

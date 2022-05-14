@@ -138,6 +138,7 @@ const HomeScreen = ({navigation}) => {
                 .then(responseJson => {
                   console.log(responseJson);
                   setCameraRecipe(responseJson.food);
+
                 });
               if (res.didCancel) {
                 return;
