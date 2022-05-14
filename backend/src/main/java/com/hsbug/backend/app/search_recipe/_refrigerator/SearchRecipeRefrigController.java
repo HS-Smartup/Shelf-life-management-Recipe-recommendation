@@ -36,10 +36,11 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/myRefrig/selectProduct")
-    public JSONObject searchFromList(@RequestParam List<Long> id) {
+    public JSONObject searchFromList(@RequestParam List<String> food) {
         String email = getEmail();
         JSONObject obj = new JSONObject();
-        ArrayList<String> product_list = new ArrayList<>();
+        ArrayList<String> product_list = (ArrayList<String>) food;
+/*
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         System.out.println(productDtoList);
 
@@ -49,7 +50,7 @@ public class SearchRecipeRefrigController {
                     product_list.add(productDtoList.get(j).getItemName());
                 }
             }
-        }
+        }*/
         System.out.println("findrecipefromrefrig");
         ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(product_list);
 
