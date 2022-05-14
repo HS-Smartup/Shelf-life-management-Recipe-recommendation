@@ -66,6 +66,23 @@ public class SearchRecipeRefrigController {
         return obj;
     }
 
+    @GetMapping("/camera")
+    public JSONObject searchFromCamera(@RequestParam ArrayList<String> food){
+        String email = getEmail();
+        JSONObject obj = new JSONObject();
+        ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(food);
+
+        Map<Long, Integer> map;
+        System.out.println("???");
+        map = searchRecipeRefrigService.findProductFromRefrig(productList);
+
+        ArrayList<Long> list = new ArrayList<>(map.keySet());
+        obj.put("searchResult", searchRecipeRefrigService.recipeIdToDto(list));
+        return obj;
+    }
+
+
+
     // 관련 = 오름차순, 조회수 get 오름차순,
     public Map<Long, Integer> ValueSortRecipe(Map<Long, Integer> map) {   // 레시피 내림차순
         List<Map.Entry<Long, Integer>> entryList = new ArrayList<>(map.entrySet());
