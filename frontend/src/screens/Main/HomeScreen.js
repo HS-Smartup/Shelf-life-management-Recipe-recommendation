@@ -113,6 +113,7 @@ const HomeScreen = ({navigation}) => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           // If CAMERA Permission is granted
+
           launchCamera(
             {
               mediaType: 'photo',
@@ -121,10 +122,10 @@ const HomeScreen = ({navigation}) => {
               quality: 1,
               includeBase64: Platform.OS === 'android',
             },
-            res => {
+            async res => {
               const image = {image: res.assets[0].base64};
-              // console.log(JSON.stringify(image));
-              fetch('127.0.0.1:5000/predict', {
+              console.log(JSON.stringify(image));
+              await fetch('http://127.0.0.1:5000/predict', {
                 method: 'POST',
                 body: JSON.stringify(image),
                 headers: {
