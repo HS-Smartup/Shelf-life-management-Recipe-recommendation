@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -66,8 +63,8 @@ public class SearchRecipeRefrigController {
         return obj;
     }
 
-    @GetMapping("/camera")
-    public JSONObject searchFromCamera(@RequestParam ArrayList<String> food){
+    @PostMapping("/camera")
+    public JSONObject searchFromCamera(@RequestBody ArrayList<String> food){
         String email = getEmail();
         JSONObject obj = new JSONObject();
         ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(food);
