@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckItem from 'components/RecipeSearch/CheckItem';
 import {CameraRecipeContext} from 'contexts/CameraRecipeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CameraRecipeScreen = () => {
   const navigation = useNavigation();
@@ -35,9 +36,34 @@ const CameraRecipeScreen = () => {
     },
   ];
 
-  const onPressSubmit = () => {};
+  const onPressSubmit = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch(
+        'http://localhost:8080/user/search/camera?food=',
+        checkedItem,
+        {
+          method: 'GET',
+          // body: JSON.stringify({food: checkedItem}),
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+        },
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  console.log(checkedItem);
+  console.log(JSON.stringify({food: checkedItem}));
 
   return (
     <View style={styles.fullScreen}>

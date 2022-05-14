@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @Slf4j
@@ -63,8 +64,8 @@ public class SearchRecipeRefrigController {
         return obj;
     }
 
-    @PostMapping("/camera")
-    public JSONObject searchFromCamera(@RequestBody ArrayList<String> food){
+    @GetMapping("/camera")
+    public JSONObject searchFromCamera(@RequestParam ArrayList<String> food){
         String email = getEmail();
         JSONObject obj = new JSONObject();
         ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(food);
