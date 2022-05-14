@@ -127,19 +127,25 @@ const HomeScreen = ({navigation}) => {
             async res => {
               const image = {image: res.assets[0].base64};
               // console.log(JSON.stringify(image));
-              await fetch('http://127.0.0.1:5000/predict', {
-                method: 'POST',
-                body: JSON.stringify(image),
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              })
-                .then(response => response.json())
-                .then(responseJson => {
-                  console.log(responseJson);
-                  setCameraRecipe(responseJson.food);
-
-                });
+              // await fetch('http://127.0.0.1:5000/predict', {
+              //   method: 'POST',
+              //   body: JSON.stringify(image),
+              //   headers: {
+              //     'Content-Type': 'application/json',
+              //   },
+              // })
+              //   .then(response => response.json())
+              //   .then(responseJson => {
+              //     if (responseJson.status === 200) {
+              //       setCameraRecipe(responseJson.food);
+              //       navigation.navigate('CameraRecipeScreen');
+              //     }
+              //     if (responseJson.status === 201) {
+              //       Alert.alert('인식된 식재료가 없습니다.');
+              //     } else {
+              //       console.log('error');
+              //     }
+              //   });
               if (res.didCancel) {
                 return;
               }
