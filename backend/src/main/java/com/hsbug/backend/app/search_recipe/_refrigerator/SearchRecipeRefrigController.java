@@ -65,10 +65,13 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/camera")
-    public JSONObject searchFromCamera(@RequestParam ArrayList<String> food){
+    public JSONObject searchFromCamera(@RequestParam List<String> food){
         String email = getEmail();
         JSONObject obj = new JSONObject();
-        ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(food);
+        ArrayList f = (ArrayList) food;
+        System.out.println(food);
+        System.out.println(f);
+        ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(f);
 
         Map<Long, Integer> map;
         System.out.println("???");

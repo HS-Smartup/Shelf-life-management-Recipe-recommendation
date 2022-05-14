@@ -40,8 +40,7 @@ const CameraRecipeScreen = () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch(
-        'http://localhost:8080/user/search/camera?food=',
-        checkedItem,
+        'http://localhost:8080/user/search/camera?food=' + checkedItem,
         {
           method: 'GET',
           // body: JSON.stringify({food: checkedItem}),
