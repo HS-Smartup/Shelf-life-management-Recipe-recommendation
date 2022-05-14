@@ -13,6 +13,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera} from 'react-native-image-picker';
 import {UserNameContext} from 'contexts/UserNameContext';
+import {CameraRecipeContext} from 'contexts/CameraRecipeContext';
 
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,7 @@ const HomeScreen = ({navigation}) => {
   const [isListEnd, setIsListEnd] = useState(false);
 
   const {username} = useContext(UserNameContext);
+  const {cameraRecipe, setCameraRecipe} = useContext(CameraRecipeContext);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // useEffect(() => getData(), []);
@@ -124,14 +126,19 @@ const HomeScreen = ({navigation}) => {
             },
             async res => {
               const image = {image: res.assets[0].base64};
-              console.log(JSON.stringify(image));
+              // console.log(JSON.stringify(image));
               await fetch('http://127.0.0.1:5000/predict', {
                 method: 'POST',
                 body: JSON.stringify(image),
                 headers: {
                   'Content-Type': 'application/json',
                 },
-              });
+              })
+                .then(response => response.json())
+                .then(responseJson => {
+                  console.log(responseJson);
+                  setCameraRecipe(responseJson.food);
+                });
               if (res.didCancel) {
                 return;
               }

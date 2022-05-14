@@ -15,6 +15,7 @@ import {UserEmailContextProvider} from 'contexts/UserEmailContext';
 import RecentViewRecipeScreen from './RecentViewRecipeScreen';
 import {CategoryContextProvider} from 'contexts/CategoryContext';
 import CategoryRecipeScreen from './CategoryRecipeScreen';
+import {CameraRecipeContextProvider} from 'contexts/CameraRecipeContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,63 +25,65 @@ const MainStack = () => {
       <UserEmailContextProvider>
         <RecipeIdContextProvider>
           <CategoryContextProvider>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="HomeTab"
-                component={HomeTab}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="RefrigeratorScreen"
-                component={RefrigeratorScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="SearchScreen"
-                component={SearchScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="RecipeScreen"
-                component={RecipeScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="CategoryRecipeScreen"
-                component={CategoryRecipeScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="RefrigeratorRecipeScreen"
-                component={RefrigeratorRecipeScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="CameraRecipeScreen"
-                component={CameraRecipeScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="RecipeAddScreen"
-                component={RecipeAddScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="DetailRecipeScreen"
-                component={DetailRecipeScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="RecentViewRecipeScreen"
-                component={RecentViewRecipeScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="UserRecipeScreen"
-                component={UserRecipeScreen}
-                options={{headerShown: false}}
-              />
-            </Stack.Navigator>
+            <CameraRecipeContextProvider>
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="HomeTab"
+                  component={HomeTab}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="RefrigeratorScreen"
+                  component={RefrigeratorScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="SearchScreen"
+                  component={SearchScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="RecipeScreen"
+                  component={RecipeScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="CategoryRecipeScreen"
+                  component={CategoryRecipeScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="RefrigeratorRecipeScreen"
+                  component={RefrigeratorRecipeScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="CameraRecipeScreen"
+                  component={CameraRecipeScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="RecipeAddScreen"
+                  component={RecipeAddScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="DetailRecipeScreen"
+                  component={DetailRecipeScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="RecentViewRecipeScreen"
+                  component={RecentViewRecipeScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="UserRecipeScreen"
+                  component={UserRecipeScreen}
+                  options={{headerShown: false}}
+                />
+              </Stack.Navigator>
+            </CameraRecipeContextProvider>
           </CategoryContextProvider>
         </RecipeIdContextProvider>
       </UserEmailContextProvider>
