@@ -2,7 +2,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
-const CheckItem = ({id, itemName, itemImage, checkedItem, setCheckedItem}) => {
+const CheckItem = ({id, itemName, checkedItem, setCheckedItem}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const onPressCheckBox = () => {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
 
   itemTextWrapper: {
-    width: '60%',
+    width: '80%',
     height: 70,
     justifyContent: 'center',
     paddingLeft: 15,

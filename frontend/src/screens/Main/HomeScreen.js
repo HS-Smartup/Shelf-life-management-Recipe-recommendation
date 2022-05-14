@@ -125,7 +125,7 @@ const HomeScreen = ({navigation}) => {
               includeBase64: Platform.OS === 'android',
             },
             async res => {
-              const image = {image: res.assets[0].base64};
+              // const image = {image: res.assets[0].base64};
               // console.log(JSON.stringify(image));
               // await fetch('http://127.0.0.1:5000/predict', {
               //   method: 'POST',
