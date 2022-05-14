@@ -122,6 +122,15 @@ const HomeScreen = ({navigation}) => {
               includeBase64: Platform.OS === 'android',
             },
             res => {
+              const image = {image: res.assets[0].base64};
+              // console.log(JSON.stringify(image));
+              fetch('127.0.0.1:5000/predict', {
+                method: 'POST',
+                body: JSON.stringify(image),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
               if (res.didCancel) {
                 return;
               }
