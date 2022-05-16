@@ -5,55 +5,60 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeList from 'components/Recipe/RecipeList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SearchResultContext} from 'contexts/SearchResultContext';
+import {SearchResultItemContext} from 'contexts/SearchResultItemContext';
 
 const SearchResultScreen = () => {
   const navigation = useNavigation();
 
   const [recipeItem, setRecipeItem] = useState([]);
 
-  const {searchResult, setSearchResult} = useContext(SearchResultContext);
-  console.log(searchResult);
+  const {searchResult} = useContext(SearchResultContext);
+  const {searchResultItem} = useContext(SearchResultItemContext);
 
   // const str1 = searchResult.join('/');
 
-  const readItem = async () => {
-    try {
-      const token = await AsyncStorage.getItem('user_token');
-      await fetch(
-        'http://localhost:8080/user/search/camera?food=' + searchResult,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            token: token,
-          },
-        },
-      )
-        .then(response => response.json())
-        .then(responseJson => {
-          // console.log('read\n\n\n', responseJson);
-          if (responseJson.status === 200) {
-            setRecipeItem([...responseJson.searchResult]);
-          } else {
-            console.log('error');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setRecipeItem(searchResultItem);
+  }, [searchResultItem, setRecipeItem]);
+
+  // const readItem = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('user_token');
+  //     await fetch(
+  //       'http://localhost:8080/user/search/camera?food=' + searchResult,
+  //       {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           token: token,
+  //         },
+  //       },
+  //     )
+  //       .then(response => response.json())
+  //       .then(responseJson => {
+  //         // console.log('read\n\n\n', responseJson);
+  //         if (responseJson.status === 200) {
+  //           setRecipeItem([...responseJson.searchResult]);
+  //         } else {
+  //           console.log('error');
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.error(error);
+  //       });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   let isComponentMounted = true;
+  //   readItem();
+  //   return () => {
+  //     isComponentMounted = false;
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const [hidden, setHidden] = useState(false);
 

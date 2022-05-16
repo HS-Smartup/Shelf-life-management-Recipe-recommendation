@@ -10,6 +10,7 @@ import React, {useContext, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SearchResultContext} from 'contexts/SearchResultContext';
+import {SearchResultItemContext} from 'contexts/SearchResultItemContext';
 
 const SearchScreen = ({navigation}) => {
   const [input, setInput] = useState({
@@ -20,13 +21,14 @@ const SearchScreen = ({navigation}) => {
     setInput({...input, [name]: value});
   };
 
-  const {searchResult, setSearchResult} = useContext(SearchResultContext);
+  const {setSearchResult} = useContext(SearchResultContext);
+  const {setSearchResultItem} = useContext(SearchResultItemContext);
 
   const fetchData = input.value;
 
   const onPressSubmit = async () => {
     try {
-      setSearchResult(input.value);
+      setSearchResult(fetchData);
       const token = await AsyncStorage.getItem('user_token');
       await fetch(
         'http://localhost:8080/user/search/name?search=' + fetchData,
@@ -41,7 +43,7 @@ const SearchScreen = ({navigation}) => {
       )
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson[0]);
+          setSearchResultItem(responseJson);
           navigation.navigate('SearchResultScreen');
         })
         .catch(error => {
@@ -74,7 +76,7 @@ const SearchScreen = ({navigation}) => {
             <TextInput
               style={styles.searchText}
               placeholder={'레시피 검색'}
-              onChangeText={createChangeTextHandler('input')}
+              onChangeText={createChangeTextHandler('value')}
               returnKeyType={'search'}
               onSubmitEditing={onPressSubmit}
             />
@@ -86,7 +88,7 @@ const SearchScreen = ({navigation}) => {
           source={require('../../assets/images/searchContent.png')}
           style={styles.contentImage}
         />
-        <Text style={styles.contentText}>궁금한 레시피를 검색해보세요.</Text>
+        <Text style={styles.contentText}>레시피 이름으로 검색해보세요.</Text>
       </View>
     </View>
   );
@@ -105,11 +107,11 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 10,
   },
-  backBtn: {marginTop: 8},
+  backBtn: {marginTop: 13},
   searchWrapper: {
     flexDirection: 'row',
     width: '85%',
-    height: 70,
+    height: 60,
     backgroundColor: '#e1e2e3',
     borderRadius: 10,
     paddingHorizontal: 15,
@@ -119,18 +121,18 @@ const styles = StyleSheet.create({
   search: {
     flexDirection: 'row',
     width: '100%',
-    height: '70%',
+    height: '100%',
     marginVertical: 10,
   },
   searchIcon: {
-    marginTop: 10,
+    marginTop: 13,
   },
   searchText: {
     width: '90%',
     height: '100%',
     marginHorizontal: 5,
     fontFamily: 'NanumSquareRoundOTFR',
-    fontSize: 18,
+    fontSize: 20,
     color: '#000',
   },
   content: {
