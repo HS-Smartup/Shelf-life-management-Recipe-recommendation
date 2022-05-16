@@ -1,9 +1,23 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
-const CheckItem = ({itemName, itemImage}) => {
+const CheckItem = ({id, itemName, checkedItem, setCheckedItem}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
+  const onPressCheckBox = () => {
+    setToggleCheckBox(!toggleCheckBox);
+    itemHandler();
+  };
+
+  const itemHandler = () => {
+    if (toggleCheckBox === false) {
+      setCheckedItem([...checkedItem, itemName]);
+    }
+    if (toggleCheckBox === true) {
+      setCheckedItem(checkedItem.filter(checkItem => checkItem !== itemName));
+    }
+  };
 
   return (
     <View style={styles.itemWrapper}>
@@ -12,12 +26,8 @@ const CheckItem = ({itemName, itemImage}) => {
         fillColor="#ffb856"
         unfillColor="#f2f3f4"
         iconStyle={{borderColor: '#e1e2e3'}}
-        onPress={isChecked => {}}
-      />
-      <Image
-        source={{uri: `${itemImage}`}}
-        style={styles.itemImage}
-        resizeMode="contain"
+        isChecked={toggleCheckBox}
+        onPress={onPressCheckBox}
       />
       <View style={styles.itemTextWrapper}>
         <Text style={styles.itemText}>{itemName}</Text>
@@ -40,21 +50,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     elevation: 5,
   },
-  itemImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 10,
-  },
+
   itemTextWrapper: {
-    width: '60%',
-    height: 90,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
+    width: '80%',
+    height: 70,
+    justifyContent: 'center',
     paddingLeft: 15,
   },
   itemText: {
     fontFamily: 'NanumSquareRoundOTFB',
-    fontSize: 22,
+    fontSize: 25,
     color: '#000000',
   },
 });

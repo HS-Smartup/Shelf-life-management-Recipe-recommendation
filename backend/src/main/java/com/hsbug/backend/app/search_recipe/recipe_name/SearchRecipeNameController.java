@@ -19,4 +19,5 @@ public class SearchRecipeNameController {
     public List<SearchRecipeRefrigDto> searchByRecipeName(@RequestParam String search) {
         return searchRecipeNameService.searchRecipeName(search);
     }
+
 }

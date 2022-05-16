@@ -1,39 +1,83 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckItem from 'components/RecipeSearch/CheckItem';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SearchResultContext} from 'contexts/SearchResultContext';
 
 const RefrigeratorRecipeScreen = () => {
   const navigation = useNavigation();
 
-  const listData = [
-    {
-      name: '간장',
-      image:
-        'https://t1.daumcdn.net/liveboard/dailylife/2f0ede61355d41ca8a24dc0b959bbbc3.JPG',
-    },
-    {
-      name: '달걀',
-      image:
-        'https://health.chosun.com/site/data/img_dir/2020/12/28/2020122801157_0.jpg',
-    },
-    {
-      name: '당근',
-      image:
-        'https://kormedi.com/wp-content/uploads/2021/10/gettyimages-1347690485-580x374.jpg',
-    },
-    {
-      name: '대파',
-      image:
-        'https://img-cf.kurly.com/shop/data/goodsview/20191022/gv40000065394_1.jpg',
-    },
-    {
-      name: '삼겹살',
-      image:
-        'https://static.megamart.com/product/image/0385/03854808/03854808_1_960.jpg',
-    },
-  ];
+  const [item, setItem] = useState([]);
+
+  const [checkedItem, setCheckedItem] = useState([]);
+
+  const {searchResult, setSearchResult} = useContext(SearchResultContext);
+
+  const readItem = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/refrig/readProduct', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            setItem([...responseJson.refrigeratorItem]);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    let isComponentMounted = true;
+    readItem();
+    return () => {
+      isComponentMounted = false;
+    };
+  }, []);
+
+  const onPressSubmit = async () => {
+    try {
+      setSearchResult(checkedItem);
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch(
+        'http://localhost:8080/user/search/myRefrig/selectProduct?food=' +
+          checkedItem,
+        {
+          method: 'GET',
+          // body: JSON.stringify({food: checkedItem}),
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+        },
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log(responseJson);
+          navigation.navigate('SearchResultScreen');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={styles.fullScreen}>
@@ -49,16 +93,24 @@ const RefrigeratorRecipeScreen = () => {
       </View>
       <View style={styles.listWrapper}>
         <FlatList
-          data={listData}
+          data={item}
           renderItem={({item}) => (
             <View style={styles.list}>
-              <CheckItem itemName={item.name} itemImage={item.image} />
+              <CheckItem
+                id={item.id}
+                itemName={item.itemName}
+                checkedItem={checkedItem}
+                setCheckedItem={setCheckedItem}
+              />
             </View>
           )}
         />
       </View>
       <View style={styles.submitBtnWrapper}>
-        <Pressable style={styles.submitBtn} android_ripple={{color: '#e1e2e3'}}>
+        <Pressable
+          style={styles.submitBtn}
+          onPress={onPressSubmit}
+          android_ripple={{color: '#e1e2e3'}}>
           <Text style={styles.submitBtnText}>검색</Text>
         </Pressable>
       </View>
@@ -81,10 +133,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: '#636773',
     borderBottomWidth: 0.5,
-  },
-  logo: {
-    width: 56,
-    height: 56,
   },
   headerTextWrapper: {
     width: '65%',

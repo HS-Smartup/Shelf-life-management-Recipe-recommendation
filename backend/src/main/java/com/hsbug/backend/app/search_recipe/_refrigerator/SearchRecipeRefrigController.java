@@ -38,10 +38,11 @@ public class SearchRecipeRefrigController {
     }
 
     @GetMapping("/myRefrig/selectProduct")
-    public JSONObject searchFromList(@RequestParam List<Long> id) {
+    public JSONObject searchFromList(@RequestParam List<String> food) {
         String email = getEmail();
         JSONObject obj = new JSONObject();
-        ArrayList<String> product_list = new ArrayList<>();
+        ArrayList<String> product_list = (ArrayList<String>) food;
+/*
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         System.out.println(productDtoList);
 
@@ -51,7 +52,7 @@ public class SearchRecipeRefrigController {
                     product_list.add(productDtoList.get(j).getItemName());
                 }
             }
-        }
+        }*/
         System.out.println("findrecipefromrefrig");
         ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(product_list);
 
@@ -65,6 +66,26 @@ public class SearchRecipeRefrigController {
         //return this.ValueSortRecipe(map);
         return obj;
     }
+
+    @GetMapping("/camera")
+    public JSONObject searchFromCamera(@RequestParam List<String> food){
+        String email = getEmail();
+        JSONObject obj = new JSONObject();
+        ArrayList f = (ArrayList) food;
+        System.out.println(food);
+        System.out.println(f);
+        ArrayList productList = searchRecipeRefrigService.findRecipeFromRefrig(f);
+
+        Map<Long, Integer> map;
+        System.out.println("???");
+        map = searchRecipeRefrigService.findProductFromRefrig(productList);
+
+        ArrayList<Long> list = new ArrayList<>(map.keySet());
+        obj.put("searchResult", searchRecipeRefrigService.recipeIdToDto(list));
+        return obj;
+    }
+
+
 
     // 관련 = 오름차순, 조회수 get 오름차순,
     public Map<Long, Integer> ValueSortRecipe(Map<Long, Integer> map) {   // 레시피 내림차순

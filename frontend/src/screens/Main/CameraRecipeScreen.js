@@ -1,44 +1,74 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckItem from 'components/RecipeSearch/CheckItem';
+import {CameraRecipeContext} from 'contexts/CameraRecipeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SearchResultContext} from 'contexts/SearchResultContext';
 
 const CameraRecipeScreen = () => {
   const navigation = useNavigation();
 
+  const {cameraRecipe} = useContext(CameraRecipeContext);
+
+  const [checkedItem, setCheckedItem] = useState([]);
+
+  const {searchResult, setSearchResult} = useContext(SearchResultContext);
+
   const listData = [
     {
+      id: 1,
       name: '고추',
-      image:
-        'http://kormedi.com/wp-content/uploads/2021/04/gettyimages-1079428150-580x387.jpg',
     },
     {
+      id: 2,
       name: '양파',
-      image:
-        'http://pds.joins.com/news/component/htmlphoto_mmdata/201806/25/htm_2018062517341206794.jpg',
     },
     {
-      name: '당근',
-      image:
-        'https://kormedi.com/wp-content/uploads/2021/10/gettyimages-1347690485-580x374.jpg',
-    },
-    {
+      id: 3,
       name: '대파',
-      image:
-        'https://img-cf.kurly.com/shop/data/goodsview/20191022/gv40000065394_1.jpg',
     },
     {
-      name: '새송이버섯',
-      image:
-        'https://blog.kakaocdn.net/dn/owIK3/btqybYXKDT9/B0FYpDzYzCc4eQEpATZsj0/img.jpg',
+      id: 4,
+      name: '당근',
     },
     {
-      name: '깻잎',
-      image:
-        'http://www.buddhismjournal.com/news/photo/201909/19395_25026_033.jpg',
+      id: 5,
+      name: '라면',
     },
   ];
+
+  const onPressSubmit = async () => {
+    try {
+      console.log('111111\n\n', checkedItem);
+      setSearchResult(checkedItem);
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch(
+        'http://localhost:8080/user/search/camera?food=' + checkedItem,
+        {
+          method: 'GET',
+          // body: JSON.stringify({food: checkedItem}),
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+        },
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+          navigation.navigate('SearchResultScreen');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  console.log(JSON.stringify({food: checkedItem}));
 
   return (
     <View style={styles.fullScreen}>
@@ -57,13 +87,21 @@ const CameraRecipeScreen = () => {
           data={listData}
           renderItem={({item}) => (
             <View style={styles.list}>
-              <CheckItem itemName={item.name} itemImage={item.image} />
+              <CheckItem
+                id={item.id}
+                itemName={item.name}
+                checkedItem={checkedItem}
+                setCheckedItem={setCheckedItem}
+              />
             </View>
           )}
         />
       </View>
       <View style={styles.submitBtnWrapper}>
-        <Pressable style={styles.submitBtn} android_ripple={{color: '#e1e2e3'}}>
+        <Pressable
+          style={styles.submitBtn}
+          onPress={onPressSubmit}
+          android_ripple={{color: '#e1e2e3'}}>
           <Text style={styles.submitBtnText}>검색</Text>
         </Pressable>
       </View>

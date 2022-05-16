@@ -13,6 +13,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera} from 'react-native-image-picker';
 import {UserNameContext} from 'contexts/UserNameContext';
+import {CameraRecipeContext} from 'contexts/CameraRecipeContext';
 
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,7 @@ const HomeScreen = ({navigation}) => {
   const [isListEnd, setIsListEnd] = useState(false);
 
   const {username} = useContext(UserNameContext);
+  const {cameraRecipe, setCameraRecipe} = useContext(CameraRecipeContext);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // useEffect(() => getData(), []);
@@ -113,6 +115,7 @@ const HomeScreen = ({navigation}) => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           // If CAMERA Permission is granted
+
           launchCamera(
             {
               mediaType: 'photo',
@@ -121,7 +124,28 @@ const HomeScreen = ({navigation}) => {
               quality: 1,
               includeBase64: Platform.OS === 'android',
             },
-            res => {
+            async res => {
+              // const image = {image: res.assets[0].base64};
+              // console.log(JSON.stringify(image));
+              // await fetch('http://127.0.0.1:5000/predict', {
+              //   method: 'POST',
+              //   body: JSON.stringify(image),
+              //   headers: {
+              //     'Content-Type': 'application/json',
+              //   },
+              // })
+              //   .then(response => response.json())
+              //   .then(responseJson => {
+              //     if (responseJson.status === 200) {
+              //       setCameraRecipe(responseJson.food);
+              //       navigation.navigate('CameraRecipeScreen');
+              //     }
+              //     if (responseJson.status === 201) {
+              //       Alert.alert('인식된 식재료가 없습니다.');
+              //     } else {
+              //       console.log('error');
+              //     }
+              //   });
               if (res.didCancel) {
                 return;
               }
