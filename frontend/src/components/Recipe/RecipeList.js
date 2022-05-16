@@ -21,9 +21,11 @@ const RecipeList = ({recipeItem, onScrolledToBottom}) => {
       onScrolledToBottom(false);
     }
   };
+
   return (
     <FlatList
       data={recipeItem}
+      // initialNumToRender={5}
       renderItem={({item}) => (
         <View style={styles.list}>
           <RecipeItem

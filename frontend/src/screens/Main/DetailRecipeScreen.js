@@ -78,7 +78,7 @@ const DetailRecipeScreen = () => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log('read\n\n\n', responseJson);
+          // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipe([responseJson.recipe_detail]);
           } else {
