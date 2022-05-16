@@ -63,20 +63,6 @@ public class HomeController {
         return "AdminRecipe";
     }
 
-    @GetMapping("/admin/RecipeManage")
-    public String RecipeManage(){
-
-        return "RecipeManage";
-    }
-
-
-    @GetMapping("/admin/UserRecipe")
-    public String UserRecipe(){
-
-        return "UserRecipe";
-    }
-
-
 
 }
 
