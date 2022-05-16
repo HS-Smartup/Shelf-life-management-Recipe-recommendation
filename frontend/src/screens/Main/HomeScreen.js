@@ -125,31 +125,29 @@ const HomeScreen = ({navigation}) => {
               includeBase64: Platform.OS === 'android',
             },
             async res => {
-              // const image = {image: res.assets[0].base64};
-              // console.log(JSON.stringify(image));
-              // await fetch('http://127.0.0.1:5000/predict', {
-              //   method: 'POST',
-              //   body: JSON.stringify(image),
-              //   headers: {
-              //     'Content-Type': 'application/json',
-              //   },
-              // })
-              //   .then(response => response.json())
-              //   .then(responseJson => {
-              //     if (responseJson.status === 200) {
-              //       setCameraRecipe(responseJson.food);
-              //       navigation.navigate('CameraRecipeScreen');
-              //     }
-              //     if (responseJson.status === 201) {
-              //       Alert.alert('인식된 식재료가 없습니다.');
-              //     } else {
-              //       console.log('error');
-              //     }
-              //   });
+              const image = {image: res.assets[0].base64};
+              await fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                body: JSON.stringify(image),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+                .then(response => response.json())
+                .then(responseJson => {
+                  if (responseJson.status === 200) {
+                    setCameraRecipe(responseJson.food);
+                    navigation.navigate('CameraRecipeScreen');
+                  }
+                  if (responseJson.status === 201) {
+                    Alert.alert('인식된 식재료가 없습니다.');
+                  } else {
+                    console.log('error');
+                  }
+                });
               if (res.didCancel) {
                 return;
               }
-              navigation.navigate('CameraRecipeScreen');
             },
           );
         } else {
@@ -164,6 +162,7 @@ const HomeScreen = ({navigation}) => {
         console.error(error);
       }
     }
+    // navigation.navigate('CameraRecipeScreen');
     requestCameraPermission();
   };
 

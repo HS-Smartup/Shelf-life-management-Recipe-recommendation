@@ -16,32 +16,31 @@ const CameraRecipeScreen = () => {
 
   const {searchResult, setSearchResult} = useContext(SearchResultContext);
 
-  const listData = [
-    {
-      id: 1,
-      name: '고추',
-    },
-    {
-      id: 2,
-      name: '양파',
-    },
-    {
-      id: 3,
-      name: '대파',
-    },
-    {
-      id: 4,
-      name: '당근',
-    },
-    {
-      id: 5,
-      name: '라면',
-    },
-  ];
+  // const listData = [
+  //   {
+  //     id: 1,
+  //     name: '고추',
+  //   },
+  //   {
+  //     id: 2,
+  //     name: '양파',
+  //   },
+  //   {
+  //     id: 3,
+  //     name: '대파',
+  //   },
+  //   {
+  //     id: 4,
+  //     name: '당근',
+  //   },
+  //   {
+  //     id: 5,
+  //     name: '라면',
+  //   },
+  // ];
 
   const onPressSubmit = async () => {
     try {
-      console.log('111111\n\n', checkedItem);
       setSearchResult(checkedItem);
       const token = await AsyncStorage.getItem('user_token');
       await fetch(
@@ -57,7 +56,6 @@ const CameraRecipeScreen = () => {
       )
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
           navigation.navigate('SearchResultScreen');
         })
         .catch(error => {
@@ -67,8 +65,6 @@ const CameraRecipeScreen = () => {
       console.log(e);
     }
   };
-
-  console.log(JSON.stringify({food: checkedItem}));
 
   return (
     <View style={styles.fullScreen}>
@@ -84,7 +80,7 @@ const CameraRecipeScreen = () => {
       </View>
       <View style={styles.listWrapper}>
         <FlatList
-          data={listData}
+          data={cameraRecipe}
           renderItem={({item}) => (
             <View style={styles.list}>
               <CheckItem
