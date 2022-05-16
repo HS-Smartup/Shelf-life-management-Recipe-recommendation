@@ -30,7 +30,10 @@ public class RecommendRecipeService {
     private int makeRandomId() {
         int rNum = 0;
         Random random = new Random();
-        rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
+        int max = 5;
+        int min = 1;
+        //rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
+        rNum = random.nextInt(max - min ) + min;
         return rNum;
     }
 
