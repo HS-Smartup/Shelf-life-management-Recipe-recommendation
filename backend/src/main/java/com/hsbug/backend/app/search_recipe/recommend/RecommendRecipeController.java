@@ -2,6 +2,7 @@ package com.hsbug.backend.app.search_recipe.recommend;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,17 +23,21 @@ public class RecommendRecipeController {
 
     @GetMapping("/random")
     @ResponseBody
-    public Map<String, ArrayList> searchRecipeDemo(){
+    public JSONObject searchRecipeDemo(){
         Map<String, ArrayList> randomRecipeMap = new HashMap<>();
         ArrayList arr = new ArrayList<>();
+        JSONObject obj = new JSONObject();
 
         for (int i = 0; i < 30; i++) {
             RecommendRecipeDto recipeDto = recommendRecipeService.randomRecipe();
             arr.add(recipeDto);
         }
-
         randomRecipeMap.put("recipe", arr);
-        return randomRecipeMap;
+        obj.put("recipe", randomRecipeMap);
+        obj.put("status", 200);
+
+        //randomRecipeMap.put("status", 200);
+        return obj;
     }
 
 }
