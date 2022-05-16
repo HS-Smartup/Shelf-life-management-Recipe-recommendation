@@ -161,4 +161,9 @@ public class RecipeService {
         return refrigDtos;
     }
 
+    public List<SearchRecipeRefrigDto> mostViewRecipe(){
+        List<RecipeEntity> top10ByRecipeViews = recipeRepository.findTop10ByOrderByRecipeViewsDesc();
+        return toSearchRecipeRefrigDto(top10ByRecipeViews);
+    }
+
 }

@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class RecipeDetailController {
         JSONObject obj = new JSONObject();
         recipeService.recipeCount(id);
         recentlyViewRecipeService.addRecentlyViewRecipe(id);
-        obj.put("recipe_detail",recipeService.findDetail(id));
+        obj.put("recipe_detail", recipeService.findDetail(id));
         obj.put("status", 200);
         return obj;
     }
@@ -28,5 +30,13 @@ public class RecipeDetailController {
     @GetMapping("/search/category")
     public List<SearchRecipeRefrigDto> categoryList(@RequestParam String category) {
         return recipeService.findCategoryRecipe(category);
+    }
+
+    @GetMapping("/popular/recipe")
+    public Map<String, List<SearchRecipeRefrigDto>> popularRecipe() {
+        Map<String, List<SearchRecipeRefrigDto>> map = new HashMap<>();
+        List<SearchRecipeRefrigDto> dtoList = recipeService.mostViewRecipe();
+        map.put("popularRecipeList", dtoList);
+        return map;
     }
 }

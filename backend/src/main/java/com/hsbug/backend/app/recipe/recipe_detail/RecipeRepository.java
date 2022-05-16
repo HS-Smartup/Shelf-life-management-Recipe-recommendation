@@ -20,4 +20,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity,Long> {
     @Query(value = "SELECT coalesce(max(id), 0) FROM RecipeEntity ")
     public Long getMaxId();
 
+    List<RecipeEntity> findTop10ByOrderByRecipeViewsDesc();
+
 }
