@@ -12,24 +12,28 @@ const SearchResultScreen = () => {
   const [recipeItem, setRecipeItem] = useState([]);
 
   const {searchResult, setSearchResult} = useContext(SearchResultContext);
+  console.log(searchResult);
 
-  const str1 = searchResult.join('/');
+  // const str1 = searchResult.join('/');
 
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/myRecipe/read', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
+      await fetch(
+        'http://localhost:8080/user/search/camera?food=' + searchResult,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
         },
-      })
+      )
         .then(response => response.json())
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            setRecipeItem([...responseJson.recipeItem]);
+            setRecipeItem([...responseJson.searchResult]);
           } else {
             console.log('error');
           }
@@ -48,6 +52,7 @@ const SearchResultScreen = () => {
     return () => {
       isComponentMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [hidden, setHidden] = useState(false);
@@ -73,7 +78,7 @@ const SearchResultScreen = () => {
         </Pressable>
         <View style={styles.headerTextWrapper}>
           <Text numberOfLines={2} style={styles.headerText}>
-            {str1}
+            {searchResult}
           </Text>
         </View>
         <Pressable

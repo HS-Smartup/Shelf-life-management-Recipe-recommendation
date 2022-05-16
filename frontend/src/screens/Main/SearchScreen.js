@@ -1,8 +1,57 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import React, {useContext, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SearchResultContext} from 'contexts/SearchResultContext';
 
 const SearchScreen = ({navigation}) => {
+  const [input, setInput] = useState({
+    value: '',
+  });
+
+  const createChangeTextHandler = name => value => {
+    setInput({...input, [name]: value});
+  };
+
+  const {searchResult, setSearchResult} = useContext(SearchResultContext);
+
+  const fetchData = input.value;
+
+  const onPressSubmit = async () => {
+    try {
+      setSearchResult(input.value);
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch(
+        'http://localhost:8080/user/search/name?search=' + fetchData,
+        {
+          method: 'GET',
+          // body: JSON.stringify(input),
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+        },
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson[0]);
+          navigation.navigate('SearchResultScreen');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <View style={styles.fullscreen}>
       <View style={styles.header}>
@@ -14,14 +63,23 @@ const SearchScreen = ({navigation}) => {
             color={'#ff8527'}
           />
         </Pressable>
-        <Pressable
-          style={styles.searchWrapper}
-          onPress={() => navigation.navigate('DetailRecipeScreen')}>
+        <View style={styles.searchWrapper}>
           <View style={styles.search}>
-            <Icon name="search" size={24} color={'#636773'} />
-            <Text style={styles.searchText}>레시피 검색</Text>
+            <Icon
+              style={styles.searchIcon}
+              name="search"
+              size={32}
+              color={'#636773'}
+            />
+            <TextInput
+              style={styles.searchText}
+              placeholder={'레시피 검색'}
+              onChangeText={createChangeTextHandler('input')}
+              returnKeyType={'search'}
+              onSubmitEditing={onPressSubmit}
+            />
           </View>
-        </Pressable>
+        </View>
       </View>
       <View style={styles.content}>
         <Image
@@ -51,19 +109,29 @@ const styles = StyleSheet.create({
   searchWrapper: {
     flexDirection: 'row',
     width: '85%',
-    height: 48,
+    height: 70,
     backgroundColor: '#e1e2e3',
     borderRadius: 10,
     paddingHorizontal: 15,
     marginHorizontal: 10,
+    alignItems: 'center',
   },
   search: {
     flexDirection: 'row',
-    marginVertical: 13,
+    width: '100%',
+    height: '70%',
+    marginVertical: 10,
+  },
+  searchIcon: {
+    marginTop: 10,
   },
   searchText: {
-    color: '#636773',
+    width: '90%',
+    height: '100%',
     marginHorizontal: 5,
+    fontFamily: 'NanumSquareRoundOTFR',
+    fontSize: 18,
+    color: '#000',
   },
   content: {
     flex: 1,
