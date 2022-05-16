@@ -82,6 +82,7 @@ public class SearchRecipeRefrigController {
 
         ArrayList<Long> list = new ArrayList<>(map.keySet());
         obj.put("searchResult", searchRecipeRefrigService.recipeIdToDto(list));
+        obj.put("status",200);
         return obj;
     }
 

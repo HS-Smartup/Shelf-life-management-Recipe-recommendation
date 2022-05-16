@@ -18,7 +18,9 @@ const SearchResultScreen = () => {
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/myRecipe/read', {
+      await fetch(
+        'http://localhost:8080/user/search/camera?food=' + searchResult,
+        {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -27,9 +29,9 @@ const SearchResultScreen = () => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          // console.log('read\n\n\n', responseJson);
+          console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            setRecipeItem([...responseJson.recipeItem]);
+            setRecipeItem([...responseJson.searchResult]);
           } else {
             console.log('error');
           }
