@@ -19,9 +19,11 @@ public class RecommendRecipeService {
         RecipeEntity recommendRecipeDto  = recipeRepository.findById(randomNum).get();
 
         RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
-                .RCP_ID(recommendRecipeDto.getId())
-                .ATT_FILE_NO_MAIN(recommendRecipeDto.getRecipeMainImage())
-                .RCP_NM(recommendRecipeDto.getRecipeName())
+                .id(recommendRecipeDto.getId())
+                .recipeMainImage(recommendRecipeDto.getRecipeMainImage())
+                .recipeName(recommendRecipeDto.getRecipeName())
+                .recipeViews(recommendRecipeDto.getRecipeViews())
+                .recipeWriter(recommendRecipeDto.getRecipeWriter())
                 .build();
 
         return recipeDto;
@@ -30,8 +32,8 @@ public class RecommendRecipeService {
     private int makeRandomId() {
         int rNum = 0;
         Random random = new Random();
-        int max = 5;
-        int min = 1;
+        int max = 10;
+        int min = 3;
         //rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
         rNum = random.nextInt(max - min ) + min;
         return rNum;

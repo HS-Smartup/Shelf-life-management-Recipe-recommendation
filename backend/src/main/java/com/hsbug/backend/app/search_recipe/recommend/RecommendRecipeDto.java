@@ -10,7 +10,9 @@ import lombok.ToString;
 @Builder
 @ToString
 public class RecommendRecipeDto {
-    private Long RCP_ID;
-    private String RCP_NM;    // 레시피 이름
-    private String ATT_FILE_NO_MAIN;  // 메인 이미지 (소)
+    private Long id;
+    private String recipeName;    // 레시피 이름
+    private String recipeMainImage;  // 메인 이미지 (소)
+    private String recipeWriter; // 레시피 작성자
+    private Integer recipeViews; // 레시피 조회수
 }
