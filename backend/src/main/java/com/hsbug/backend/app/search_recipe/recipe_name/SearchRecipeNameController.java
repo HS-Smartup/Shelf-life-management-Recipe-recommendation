@@ -11,12 +11,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user/search/name")
+@RequestMapping("/user/search")
 public class SearchRecipeNameController {
 
     private final SearchRecipeNameService searchRecipeNameService;
-    @GetMapping
+    @GetMapping("/name")
     public List<SearchRecipeRefrigDto> searchByRecipeName(@RequestParam String search) {
+        System.out.println(search);
         return searchRecipeNameService.searchRecipeName(search);
     }
 
