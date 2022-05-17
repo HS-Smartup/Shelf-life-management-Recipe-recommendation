@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ChangePasswordRepository extends JpaRepository<UserRegisterEntity,Long> {
+public interface ChangeUserRepository extends JpaRepository<UserRegisterEntity,Long> {
 
     Optional<UserRegisterEntity> findByEmail(String username);
 }
