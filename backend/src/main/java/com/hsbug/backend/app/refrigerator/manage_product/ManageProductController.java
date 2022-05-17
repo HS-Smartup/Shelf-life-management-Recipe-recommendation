@@ -36,6 +36,7 @@ public class ManageProductController {
     @GetMapping("/readProduct")
     public JSONObject ReadProduct() throws ParseException {
         String email = findEmail();
+        System.out.println(email);
         List<ManageProductDto> productDtoList = manageProductService.findProduct(email);
         JSONObject obj = new JSONObject();
         ArrayList list = new ArrayList<>();

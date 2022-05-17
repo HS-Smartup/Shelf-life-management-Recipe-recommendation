@@ -54,8 +54,8 @@ const NaverSignIn = ({navigation}) => {
           .then(response => response.json())
           .then(responseJson => {
             setLoading(false);
+            console.log('naver responseJson', responseJson);
             if (responseJson.status === 200) {
-              // console.log('naver responseJson', responseJson);
               AsyncStorage.setItem('user_email', responseJson.email);
               AsyncStorage.setItem('user_token', responseJson.token);
               AsyncStorage.setItem('user_name', responseJson.username);
