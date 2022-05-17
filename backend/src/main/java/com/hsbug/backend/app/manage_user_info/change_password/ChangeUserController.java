@@ -24,6 +24,7 @@ public class ChangeUserController {
         try{
             changeUserService.changeuser(email,userRegisterDto.getUsername(),userRegisterDto.getPassword());
             obj.put("message","변경 성공");
+            obj.put("username",userRegisterDto.getUsername());
             obj.put("status",200);
         } catch (Exception e){
             obj.put("message","변경 실패");
