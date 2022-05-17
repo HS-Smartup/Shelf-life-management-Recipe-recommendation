@@ -105,6 +105,12 @@ const DetailRecipeScreen = () => {
 
   const onToggle = () => {
     setLike(!like);
+    if (like === false) {
+      //좋아요 up
+    }
+    if (like === true) {
+      //좋아요 취소
+    }
   };
 
   const [showRating, setShowRating] = useState('');

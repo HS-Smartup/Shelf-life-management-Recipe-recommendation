@@ -24,9 +24,10 @@ public class UserRegisterService implements UserDetailsService {
     public void save(UserRegisterDto form) throws UsernameNotFoundException {       // 회원 정보 save
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         form.setPassword(encoder.encode(form.getPassword()));
-        if (form.getRoles().equals("ROLE_USER")){
+        if (form.getRoles().equals("ROLE_USER")) {
             form.setRoles("ROLE_USER");
-        } if (form.getRoles().equals("ROLE_ADMIN")){
+        }
+        if (form.getRoles().equals("ROLE_ADMIN")) {
             form.setRoles("ROLE_ADMIN");
         }
         userRegisterRepository.save(form.toEntity());
@@ -40,11 +41,20 @@ public class UserRegisterService implements UserDetailsService {
     }
 
     @Override       // 회원 정보 불러오기
-    public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException,NullPointerException {
-        return userRegisterRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+    public UserRegisterEntity loadUserByUsername(String username) throws UsernameNotFoundException, NullPointerException {
+        if (!this.checkUserByNaversub(username)) {
+            return loadUserByNaversub(username);
+        }
+        if (!this.checkUserByGooglesub(username)) {
+            return loadUserByGooglesub(username);
+        }
+        if (!this.checkUserByKakaosub(username)) {
+            return loadUserByKakaosub(username);
+        } else {
+            return userRegisterRepository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(username));
+        }
     }
-
     public boolean checkUserByNaversub(String naver_sub) {//throws UsernameNotFoundException,NullPointerException {
         Optional<UserRegisterEntity> check = userRegisterRepository.findByNaversub(naver_sub);
         return check.isEmpty();

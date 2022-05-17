@@ -19,6 +19,7 @@ import {CameraRecipeContextProvider} from 'contexts/CameraRecipeContext';
 import SearchResultScreen from './SearchResultScreen';
 import {SearchResultContextProvider} from 'contexts/SearchResultContext';
 import {SearchResultItemContextProvider} from 'contexts/SearchResultItemContext';
+import UserInfoScreen from './UserInfoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -90,6 +91,11 @@ const MainStack = () => {
                     <Stack.Screen
                       name="SearchResultScreen"
                       component={SearchResultScreen}
+                      options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                      name="UserInfoScreen"
+                      component={UserInfoScreen}
                       options={{headerShown: false}}
                     />
                   </Stack.Navigator>

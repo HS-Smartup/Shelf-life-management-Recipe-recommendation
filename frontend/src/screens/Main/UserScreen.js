@@ -42,6 +42,7 @@ const UserScreen = () => {
             <View style={styles.list}>
               <Pressable
                 style={styles.userNameWrapper}
+                onPress={() => navigation.navigate('UserInfoScreen')}
                 android_ripple={{color: '#e1e2e3'}}>
                 <View style={styles.userNameTextWrapper}>
                   <Text style={styles.userNameText}>
