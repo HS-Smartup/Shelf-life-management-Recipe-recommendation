@@ -1,4 +1,4 @@
-package com.hsbug.backend.app.manage_user_info.change_password;
+package com.hsbug.backend.app.manage_user_info.change_user;
 
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

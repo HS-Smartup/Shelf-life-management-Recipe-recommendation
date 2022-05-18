@@ -1,13 +1,10 @@
 package com.hsbug.backend.app.manage_user_info.bookmark_recipe;
 
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeService;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +14,6 @@ import java.util.List;
 public class BookmarkRecipeController {
 
     private final BookmarkRecipeService bookmarkRecipeService;
-    private final ManageRecipeService manageRecipeService;
     private final RecipeService recipeService;
 
     @PostMapping("/addBookmark")
@@ -26,10 +22,8 @@ public class BookmarkRecipeController {
         JSONObject obj = new JSONObject();
         bookmarkSaveValidation(id, email, obj);
         recipeService.inceaseNum(id);
-
         return obj;
     }
-
 
     @GetMapping("/readBookmark")
     public JSONObject readBookmark() {
