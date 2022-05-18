@@ -22,7 +22,7 @@ public class RecipeDetailController {
     private final BookmarkRecipeService bookmarkRecipeService;
 
     @GetMapping("/detail")
-    public JSONObject recipeDetail(@RequestParam Long id) {
+    public JSONObject recipeDetail(@RequestParam Long id, Boolean book_check) {
         String email = this.findEmail();
         BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.getUserBookmark(email);
         List<Long> id_list = bookmarkRecipeDto.getRecipe_id();
@@ -33,7 +33,9 @@ public class RecipeDetailController {
             check = false;
         }
         JSONObject obj = new JSONObject();
-        recipeService.recipeCount(id);
+        if (book_check = true) {
+            recipeService.recipeCount(id);
+        }
         recentlyViewRecipeService.addRecentlyViewRecipe(id);
         obj.put("recipe_detail", recipeService.findDetail(id));
         obj.put("like", check);
