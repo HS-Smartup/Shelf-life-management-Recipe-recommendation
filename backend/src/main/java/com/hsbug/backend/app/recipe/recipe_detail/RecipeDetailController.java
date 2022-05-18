@@ -23,6 +23,8 @@ public class RecipeDetailController {
 
     @GetMapping("/detail")
     public JSONObject recipeDetail(@RequestParam Long id, Boolean book_check) {
+        System.out.println(id);
+        System.out.println(book_check);
         String email = this.findEmail();
         BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.getUserBookmark(email);
         List<Long> id_list = bookmarkRecipeDto.getRecipe_id();
