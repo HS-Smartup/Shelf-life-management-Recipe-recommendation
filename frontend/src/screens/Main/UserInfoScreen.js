@@ -119,7 +119,7 @@ const UserInfoScreen = () => {
           navigation.goBack();
           Alert.alert('회원 정보가 수정되었습니다.');
         } else {
-          setErrortext(responseJson.message);
+          Alert.alert('회원 정보 수정이 실패하였습니다.');
         }
       })
       .catch(error => {

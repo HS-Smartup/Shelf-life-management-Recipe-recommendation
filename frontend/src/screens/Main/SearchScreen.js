@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   Pressable,
   StyleSheet,
@@ -27,6 +28,10 @@ const SearchScreen = ({navigation}) => {
   const fetchData = input.value;
 
   const onPressSubmit = async () => {
+    if (fetchData === '') {
+      Alert.alert('검색어를 입력해주세요.');
+      return;
+    }
     try {
       setSearchResult(fetchData);
       const token = await AsyncStorage.getItem('user_token');
