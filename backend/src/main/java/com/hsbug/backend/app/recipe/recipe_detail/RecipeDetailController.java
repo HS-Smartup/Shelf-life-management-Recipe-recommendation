@@ -35,7 +35,7 @@ public class RecipeDetailController {
             check = false;
         }
         JSONObject obj = new JSONObject();
-        if (book_check = false) {
+        if (book_check == false) {
             recipeService.recipeCount(id);
         }
         recentlyViewRecipeService.addRecentlyViewRecipe(id);
