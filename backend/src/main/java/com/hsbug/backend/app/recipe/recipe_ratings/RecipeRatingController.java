@@ -24,6 +24,7 @@ public class RecipeRatingController {
             obj.put("result", "새로운 평점 작성 완료");
         } else {
             recipeRatingService.editRating(dto);
+            recipeRatingService.ratingAverage(dto.getRecipeId());
             obj.put("result", "기존의 평점이 변경되었습니다.");
         }
         return obj;
