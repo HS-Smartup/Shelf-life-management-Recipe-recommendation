@@ -18,11 +18,17 @@ public class BookmarkRecipeController {
 
     @PostMapping("/addBookmark")
     public JSONObject addBookmark(@RequestParam Long id) {
-        String email = findEmail();
         JSONObject obj = new JSONObject();
-        bookmarkSaveValidation(id, email, obj);
-        recipeService.inceaseNum(id);
-        return obj;
+        try {
+            String email = findEmail();
+            bookmarkSaveValidation(id, email, obj);
+            recipeService.inceaseNum(id);
+            obj.put("status",200);
+            return obj;
+        }catch (Exception e){
+            obj.put("status",201);
+            return obj;
+        }
     }
 
     @GetMapping("/readBookmark")
