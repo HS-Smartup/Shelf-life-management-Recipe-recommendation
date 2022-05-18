@@ -47,7 +47,7 @@ const RecipeScreen = () => {
     return () => {
       isComponentMounted = false;
     };
-  }, []);
+  }, [recipeItem]);
 
   const [hidden, setHidden] = useState(false);
 

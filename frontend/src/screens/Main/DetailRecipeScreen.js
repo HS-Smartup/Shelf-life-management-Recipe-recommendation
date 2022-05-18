@@ -3,6 +3,7 @@ import {
   ImageBackground,
   Pressable,
   StyleSheet,
+  Alert,
   Text,
   View,
 } from 'react-native';
@@ -66,21 +67,31 @@ const DetailRecipeScreen = () => {
     // },
   ]);
 
+  let bookCheck = false;
+
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch(`http://localhost:8080/user/recipe/detail?id=${recipeId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
+      await fetch(
+        `http://localhost:8080/user/recipe/detail?id=${recipeId}&book_check=${bookCheck}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
         },
-      })
+      )
         .then(response => response.json())
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipe([responseJson.recipe_detail]);
+            if (responseJson.like === true) {
+              setLike(true);
+            } else {
+              setLike(false);
+            }
           } else {
             console.log('error');
           }
@@ -103,13 +114,71 @@ const DetailRecipeScreen = () => {
 
   const [like, setLike] = useState(false);
 
-  const onToggle = () => {
+  const onToggle = async () => {
     setLike(!like);
     if (like === false) {
-      //좋아요 up
+      try {
+        const token = await AsyncStorage.getItem('user_token');
+        await fetch(
+          `http://localhost:8080/user/bookmark/addBookmark?id=${recipeId}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              token: token,
+            },
+          },
+        )
+          .then(response => response.json())
+          .then(responseJson => {
+            // console.log(responseJson);
+            if (responseJson.status === 200) {
+              Alert.alert('좋아요 한 레시피에 등록되었습니다.');
+              bookCheck = true;
+              readItem();
+            } else {
+              Alert.alert('좋아요 등록에 실패하였습니다.');
+              setLike(!like);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      } catch (e) {
+        console.log(e);
+      }
     }
     if (like === true) {
-      //좋아요 취소
+      try {
+        const token = await AsyncStorage.getItem('user_token');
+        await fetch(
+          `http://localhost:8080/user/bookmark/deleteBookmark?id=${recipeId}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              token: token,
+            },
+          },
+        )
+          .then(response => response.json())
+          .then(responseJson => {
+            // console.log(responseJson);
+            if (responseJson.status === 200) {
+              Alert.alert('좋아요 한 레시피에서 삭제되었습니다.');
+              bookCheck = true;
+              readItem();
+            } else {
+              Alert.alert('좋아요 취소에 실패하였습니다.');
+              setLike(!like);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
