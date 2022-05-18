@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,10 @@ public class RecipeDetailController {
         System.out.println(book_check);
         String email = this.findEmail();
         BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.getUserBookmark(email);
-        List<Long> id_list = bookmarkRecipeDto.getRecipe_id();
+        List<Long> id_list = new ArrayList<>();
+        if (bookmarkRecipeDto != null){
+            id_list = bookmarkRecipeDto.getRecipe_id();
+        }
         Boolean check = false;
         if (id_list.contains(id)){
             check = true;
