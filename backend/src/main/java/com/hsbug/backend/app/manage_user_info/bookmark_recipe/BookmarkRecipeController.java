@@ -39,13 +39,18 @@ public class BookmarkRecipeController {
 
     @PostMapping("/deleteBookmark")
     public JSONObject deleteBookMark(@RequestParam Long id) {
-        String email = findEmail();
         JSONObject obj = new JSONObject();
-        bookmarkRecipeService.deleteBookmark(email, id);
-        recipeService.decreaseNum(id);
-        obj.put("message", "해당 북마크의 삭제가 완료되었습니다.");
-        obj.put("status",200);
-        return obj;
+        try {
+            String email = findEmail();
+            bookmarkRecipeService.deleteBookmark(email, id);
+            recipeService.decreaseNum(id);
+            obj.put("message", "해당 북마크의 삭제가 완료되었습니다.");
+            obj.put("status", 200);
+            return obj;
+        }catch (Exception e) {
+            obj.put("status",201);
+            return obj;
+        }
     }
 
     private String findEmail() {

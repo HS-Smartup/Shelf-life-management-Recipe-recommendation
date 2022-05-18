@@ -32,9 +32,6 @@ public class BookmarkRecipeService {
             bookmarkRecipeRepository.save(bookmarkRecipeDto.toEntity());
     }
 
-
-
-
     public JSONObject findRecipe(String email) {
         JSONObject obj = new JSONObject();
         ArrayList arr = new ArrayList();
@@ -59,7 +56,7 @@ public class BookmarkRecipeService {
             obj.put("status",200);
             return obj;
         } catch(Exception e){
-            obj.put("message","아무 값이 음슴");
+            obj.put("message","삭제할 데이터가 없습니다.");
             obj.put("status",200);
             return obj;
         }

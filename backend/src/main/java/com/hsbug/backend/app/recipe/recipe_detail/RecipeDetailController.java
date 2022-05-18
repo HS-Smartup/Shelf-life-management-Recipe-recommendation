@@ -1,9 +1,12 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeDto;
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeService;
 import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipeService;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -16,13 +19,24 @@ import java.util.Map;
 public class RecipeDetailController {
     private final RecipeService recipeService;
     private final RecentlyViewRecipeService recentlyViewRecipeService;
+    private final BookmarkRecipeService bookmarkRecipeService;
 
     @GetMapping("/detail")
     public JSONObject recipeDetail(@RequestParam Long id) {
+        String email = this.findEmail();
+        BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.getUserBookmark(email);
+        List<Long> id_list = bookmarkRecipeDto.getRecipe_id();
+        Boolean check = false;
+        if (id_list.contains(id)){
+            check = true;
+        }else{
+            check = false;
+        }
         JSONObject obj = new JSONObject();
         recipeService.recipeCount(id);
         recentlyViewRecipeService.addRecentlyViewRecipe(id);
         obj.put("recipe_detail", recipeService.findDetail(id));
+        obj.put("like", check);
         obj.put("status", 200);
         return obj;
     }
@@ -39,4 +53,9 @@ public class RecipeDetailController {
         map.put("popularRecipeList", dtoList);
         return map;
     }
+    private String findEmail() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return email;
+    }
+
 }
