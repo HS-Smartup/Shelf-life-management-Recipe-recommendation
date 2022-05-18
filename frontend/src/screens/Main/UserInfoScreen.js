@@ -40,8 +40,6 @@ const UserInfoScreen = () => {
     setForm({...form, [name]: value});
   };
 
-  console.log(form);
-
   // 비밀번호 강도 체크 레벨
   const levels = [
     {
@@ -130,6 +128,12 @@ const UserInfoScreen = () => {
       });
   };
 
+  const onPressLogout = () => {
+    AsyncStorage.clear();
+    navigation.replace('AuthStack');
+    Alert.alert('로그아웃 되었습니다.');
+  };
+
   return (
     <View style={styles.fullScreen}>
       <View style={styles.header}>
@@ -204,6 +208,14 @@ const UserInfoScreen = () => {
           />
         </View>
       </View>
+      <View style={styles.logoutBtnWrapper}>
+        <Pressable
+          style={styles.logoutBtn}
+          onPress={onPressLogout}
+          android_ripple={{color: '#b3b4ba'}}>
+          <Text style={styles.logoutBtnText}>로그아웃</Text>
+        </Pressable>
+      </View>
       <Pressable
         style={styles.submitBtn}
         onPress={onPressSubmit}
@@ -247,7 +259,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   listWrapper: {
-    height: '82%',
+    height: '76%',
   },
   itemWrapper: {
     marginHorizontal: 10,
@@ -284,6 +296,25 @@ const styles = StyleSheet.create({
   passwordStrengthLabel: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 15,
+  },
+  logoutBtnWrapper: {
+    width: '100%',
+    height: '5%',
+    alignItems: 'flex-end',
+  },
+  logoutBtn: {
+    width: '25%',
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    paddingBottom: 10,
+    paddingRight: 10,
+  },
+  logoutBtnText: {
+    textDecorationLine: 'underline',
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 20,
+    color: '#636773',
   },
   submitBtn: {
     backgroundColor: '#ffb856',

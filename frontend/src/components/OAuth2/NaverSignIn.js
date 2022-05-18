@@ -21,6 +21,7 @@ const naverKey = {
 const NaverSignIn = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
+
   //네이버 로그인
   const [naverToken, setNaverToken] = useState(null);
   const naverSignIn = async props =>
@@ -36,6 +37,7 @@ const NaverSignIn = ({navigation}) => {
     }).catch(error => {
       console.log(error);
     });
+
   const naverSignInButtonPress = () => {
     naverSignIn(naverKey).then(async resolvedToken => {
       try {
@@ -88,9 +90,9 @@ const NaverSignIn = ({navigation}) => {
         />
       </Pressable>
       <Text style={styles.snsButtonText}>네이버로 로그인</Text>
-      {!!naverToken && (
+      {/* {!!naverToken && (
         <Button title="네이버 로그아웃하기" onPress={naverSignOut} />
-      )}
+      )} */}
     </View>
   );
 };

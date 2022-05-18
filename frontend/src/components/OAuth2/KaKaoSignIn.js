@@ -63,9 +63,9 @@ const KaKaoSignIn = ({navigation}) => {
         />
       </Pressable>
       <Text style={styles.snsButtonText}>카카오로 로그인</Text>
-      {!!kakaoToken && (
+      {/* {!!kakaoToken && (
         <Button title="카카오 로그아웃하기" onPress={kakaoSignOut} />
-      )}
+      )} */}
     </View>
   );
 };
