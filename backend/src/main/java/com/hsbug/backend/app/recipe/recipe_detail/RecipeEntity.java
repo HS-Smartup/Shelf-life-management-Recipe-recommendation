@@ -61,6 +61,7 @@ public class RecipeEntity {
                 .recipeImg(this.recipeMainImage)
                 .views(this.recipeViews)
                 .stars(this.recipeStar)
+                .recipeWriter(this.recipeWriter)
                 .build();
     }
 
