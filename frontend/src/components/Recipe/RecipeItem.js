@@ -8,7 +8,7 @@ const RecipeItem = ({
   recipeName,
   recipeWriter,
   recipeViews,
-  recipeImage,
+  recipeMainImage,
 }) => {
   const navigation = useNavigation();
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
@@ -31,7 +31,7 @@ const RecipeItem = ({
         <Text style={styles.viewText}>조회수 {recipeViews}</Text>
       </View>
       <Image
-        source={{uri: `data:image/jpg;base64,${recipeImage}`}}
+        source={{uri: `data:image/jpg;base64,${recipeMainImage}`}}
         style={styles.itemImage}
         resizeMode="cover"
       />

@@ -48,7 +48,6 @@ const LikeRecipeScreen = () => {
 
   const [recipeItem, setRecipeItem] = useState([]);
 
-  //TODO 값 형식 잡고 fetch통신
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');

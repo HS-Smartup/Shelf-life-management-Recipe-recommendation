@@ -182,19 +182,34 @@ const DetailRecipeScreen = () => {
     }
   };
 
-  const [showRating, setShowRating] = useState('');
-  const [userRating, setUserRating] = useState('');
+  let userRating = '';
 
-  const ratingStart = rating => {
-    setShowRating(rating);
-  };
-
-  const ratingCompleted = rating => {
-    setShowRating(rating);
-  };
-
-  const userRatingCompleted = rating => {
-    setUserRating(rating);
+  const userRatingCompleted = async rating => {
+    userRating = rating;
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/rating/add', {
+        method: 'POST',
+        body: JSON.stringify({recipeId: recipeId, starPoint: userRating}),
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+          if (responseJson.status === 200) {
+            Alert.alert(responseJson.result);
+          } else {
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -255,14 +270,12 @@ const DetailRecipeScreen = () => {
                       readonly
                       ratingColor="#ff8527"
                       ratingBackgroundColor="#fff"
-                      startingValue={item.recipeRatings}
+                      startingValue={item.recipeStar}
                       jumpValue={0.5}
-                      onStartRating={ratingStart}
-                      onFinishRating={ratingCompleted}
                     />
                     {/* 평점 참여자 수 */}
                     <Text style={styles.ratingText}>
-                      ({item.recipeRatingsCount})
+                      ({item.recipeRatingCount})
                     </Text>
                   </View>
                 </View>

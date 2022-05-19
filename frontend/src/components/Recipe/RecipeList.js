@@ -33,7 +33,7 @@ const RecipeList = ({recipeItem, onScrolledToBottom}) => {
             recipeName={item.recipeName}
             recipeWriter={item.recipeWriter}
             recipeViews={item.recipeViews}
-            recipeImage={item.recipeMainImage}
+            recipeMainImage={item.recipeMainImage}
           />
         </View>
       )}
