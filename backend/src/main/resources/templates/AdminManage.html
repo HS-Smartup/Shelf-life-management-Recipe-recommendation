@@ -7,6 +7,8 @@
     <title>AdminManage</title>
 </head>
 <body>
+<form th:action="@{}" th:object="${}" method="post">
+
 <div layout:fragment = "content" >
     <div class = "content">
         <span th:text="${admins}"></span><br>
@@ -31,6 +33,7 @@
 
     </div>
 </div>
+</form>
     <!--회원관리테이블-->
 </body>
 </html>

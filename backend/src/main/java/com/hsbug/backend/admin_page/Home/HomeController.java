@@ -60,20 +60,6 @@ public class HomeController {
         model.addAttribute("AdminRecipe",dtos);
         return "AdminRecipe";
     }
-/*
-
-    @PutMapping("admin/update")
-    public String update(){
-
-        return "" ;
-    }
-
-    @DeleteMapping("admin/delete")
-    public String delete(){
-
-        return "";
-    }
-*/
 
 
 }
