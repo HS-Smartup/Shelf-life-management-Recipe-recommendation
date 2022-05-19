@@ -10,9 +10,7 @@ import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -62,6 +60,20 @@ public class HomeController {
         model.addAttribute("AdminRecipe",dtos);
         return "AdminRecipe";
     }
+/*
+
+    @PutMapping("admin/update")
+    public String update(){
+
+        return "" ;
+    }
+
+    @DeleteMapping("admin/delete")
+    public String delete(){
+
+        return "";
+    }
+*/
 
 
 }
