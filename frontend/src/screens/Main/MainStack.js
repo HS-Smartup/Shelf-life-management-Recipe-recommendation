@@ -20,6 +20,8 @@ import SearchResultScreen from './SearchResultScreen';
 import {SearchResultContextProvider} from 'contexts/SearchResultContext';
 import {SearchResultItemContextProvider} from 'contexts/SearchResultItemContext';
 import UserInfoScreen from './UserInfoScreen';
+import UserDetailRecipeScreen from './UserDetailRecipeScreen';
+import RecipeUpdateScreen from './RecipeUpdateScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -96,6 +98,16 @@ const MainStack = () => {
                     <Stack.Screen
                       name="UserInfoScreen"
                       component={UserInfoScreen}
+                      options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                      name="UserDetailRecipeScreen"
+                      component={UserDetailRecipeScreen}
+                      options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                      name="RecipeUpdateScreen"
+                      component={RecipeUpdateScreen}
                       options={{headerShown: false}}
                     />
                   </Stack.Navigator>

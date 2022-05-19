@@ -3,9 +3,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
-import RecipeList from 'components/Recipe/RecipeList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserNameContext} from 'contexts/UserNameContext';
+import UserRecipeList from 'components/Recipe/UserRecipeList';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();
@@ -80,7 +80,7 @@ const RecipeScreen = () => {
         </Pressable>
       </View>
       <View style={styles.listWrapper}>
-        <RecipeList
+        <UserRecipeList
           recipeItem={recipeItem}
           onScrolledToBottom={onScrolledToBottom}
         />
