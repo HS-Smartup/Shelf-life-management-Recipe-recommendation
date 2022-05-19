@@ -18,6 +18,7 @@ import {Picker} from '@react-native-picker/picker';
 import InputIngredientList from 'components/RecipeAdd/InputIngredientList';
 import InputStepList from 'components/RecipeAdd/InputStepList';
 import {RecipeIdContext} from 'contexts/RecipeIdContext';
+import UpdateConfirmModal from 'components/UserRecipe/UpdateConfirmModal';
 
 const RecipeUpdateScreen = () => {
   const navigation = useNavigation();
@@ -72,9 +73,19 @@ const RecipeUpdateScreen = () => {
       )
         .then(response => response.json())
         .then(responseJson => {
-          console.log('read\n\n\n', responseJson);
+          // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setInput(responseJson.recipe_detail);
+            // setRecipeMainImage(responseJson.recipe_detail.recipeMainImage);
+            setTypeCategory(responseJson.recipe_detail.typeCategory);
+            setSituationCategory(responseJson.recipe_detail.situationCategory);
+            setIngredientCategory(
+              responseJson.recipe_detail.ingredientCategory,
+            );
+            setMethodCategory(responseJson.recipe_detail.methodCategory);
+            setRecipeTime(responseJson.recipe_detail.recipeTime);
+            setRecipeLevel(responseJson.recipe_detail.recipeLevel);
+            setRecipeServes(responseJson.recipe_detail.recipeServes);
           } else {
             console.log('error');
           }
@@ -88,15 +99,13 @@ const RecipeUpdateScreen = () => {
   };
   useEffect(() => {
     readItem();
-    console.log('nooooooo');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // console.log(input);
 
   useEffect(() => {
     setInput({
       ...input,
-      recipeMainImage: recipeMainImage?.assets[0]?.base64,
+      // recipeMainImage: recipeMainImage?.assets[0]?.base64,
       typeCategory: typeCategory,
       situationCategory: situationCategory,
       ingredientCategory: ingredientCategory,
@@ -206,92 +215,12 @@ const RecipeUpdateScreen = () => {
     });
   };
 
-  const onPressSubmit = async () => {
-    // if (!input.recipeName) {
-    //   Alert.alert('레시피 제목을 입력해주세요.');
-    //   return;
-    // }
-    // if (!input.recipeMainImage) {
-    //   Alert.alert('레시피 대표 사진을 추가해주세요.');
-    //   return;
-    // }
-    // if (!input.typeCategory) {
-    //   Alert.alert('종류별 카테고리를 선택해주세요.');
-    //   return;
-    // }
-    // if (!input.situationCategory) {
-    //   Alert.alert('상황별 카테고리를 선택해주세요.');
-    //   return;
-    // }
-    // if (!input.ingredientCategory) {
-    //   Alert.alert('재료별 카테고리를 선택해주세요.');
-    //   return;
-    // }
-    // if (!input.methodCategory) {
-    //   Alert.alert('방법별 카테고리를 선택해주세요.');
-    //   return;
-    // }
-    // if (!input.recipeTime) {
-    //   Alert.alert('요리 시간을 선택해주세요.');
-    //   return;
-    // }
-    // if (!input.recipeLevel) {
-    //   Alert.alert('난이도를 선택해주세요.');
-    //   return;
-    // }
-    // if (!input.recipeServes) {
-    //   Alert.alert('인원을 선택해주세요.');
-    //   return;
-    // }
-    // if (!input.recipeDescription) {
-    //   Alert.alert('요리 설명을 입력해주세요.');
-    //   return;
-    // }
-    // for (let i = 0; i < input.recipeIngredients.length; i++) {
-    //   if (
-    //     !input.recipeIngredients[i].ingredientName ||
-    //     !input.recipeIngredients[i].ingredientAmount
-    //   ) {
-    //     Alert.alert('재료에 비어있는 항목이 있습니다.');
-    //     return;
-    //   }
-    // }
-    // for (let i = 0; i < input.recipeStep.length; i++) {
-    //   if (
-    //     !input.recipeStep[i].stepImage ||
-    //     !input.recipeStep[i].stepDescription
-    //   ) {
-    //     Alert.alert('요리 순서에 비어있는 항목이 있습니다.');
-    //     return;
-    //   }
-    // }
-    try {
-      const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/myRecipe/add', {
-        method: 'POST',
-        body: JSON.stringify(input),
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          // console.log(responseJson);
-          if (responseJson.status === 200) {
-            Alert.alert('레시피가 등록되었습니다.');
-            navigation.navigate('HomeScreen');
-          } else {
-            Alert.alert('레시피 등록에 실패하였습니다.');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+  const onPressSubmit = () => {
+    setUpdateConfirm(!updateConfirm);
   };
+
+  const [updateConfirm, setUpdateConfirm] = useState(false);
+
   return (
     <View style={styles.fullScreen}>
       <View>
@@ -307,13 +236,27 @@ const RecipeUpdateScreen = () => {
               android_ripple={{color: '#e1e2e3'}}>
               <Text style={styles.saveText}>저장</Text>
             </Pressable>
+            <Modal
+              avoidKeyboard={true}
+              animationType="fade"
+              transparent={true}
+              visible={updateConfirm}
+              onRequestClose={() => {
+                setUpdateConfirm(!updateConfirm);
+              }}>
+              <UpdateConfirmModal
+                updateConfirm={updateConfirm}
+                setUpdateConfirm={setUpdateConfirm}
+                input={input}
+              />
+            </Modal>
           </View>
         </View>
         <View style={styles.listWrapper}>
           <KeyboardAwareFlatList
             enableOnAndroid={true}
             enableAutomaticScroll={true}
-            data={[{id: 1}]}
+            data={[input]}
             renderItem={({item}) => (
               <View style={styles.list}>
                 <View style={styles.nameWrapper}>
@@ -356,13 +299,12 @@ const RecipeUpdateScreen = () => {
                     onPress={() => setSelectModalVisible(true)}
                     android_ripple={{color: '#e1e2e3'}}>
                     <Image
-                      style={styles.image}
-                      source={require('../../assets/images/recipeAddDefault.png')}
+                      style={styles.imageFull}
+                      source={{
+                        uri: `data:image/jpg;base64,${input.recipeMainImage}`,
+                      }}
                       resizeMode="stretch"
                     />
-                    <Text style={styles.imageText}>
-                      레시피 대표 사진을 등록해주세요
-                    </Text>
                   </Pressable>
                 )}
                 <View style={styles.categoryWrapper}>
@@ -527,6 +469,7 @@ const RecipeUpdateScreen = () => {
                   <Text style={styles.titleText}>요리 설명</Text>
                   <TextInput
                     style={styles.inputDescription}
+                    defaultValue={input.recipeDescription}
                     multiline={true}
                     autoCapitalize="none"
                     onChangeText={createChangeTextHandler('recipeDescription')}
