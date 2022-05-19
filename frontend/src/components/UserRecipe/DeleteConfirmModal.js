@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
@@ -25,6 +25,7 @@ const DeleteConfirmModal = ({deleteConfirm, setDeleteConfirm}) => {
     //       if (responseJson.status === 200) {
     //         setDeleteConfirm(!deleteConfirm);
     //         navigation.navigate('UserRecipeScreen');
+    //         Alert.alert('레시피가 삭제되었습니다.')
     //       } else {
     //         console.log('error');
     //       }

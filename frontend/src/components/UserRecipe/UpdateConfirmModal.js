@@ -97,7 +97,7 @@ const UpdateConfirmModal = ({updateConfirm, setUpdateConfirm, input}) => {
     }
   };
 
-  console.log(input);
+  // console.log(input);
 
   return (
     <View style={styles.centeredView}>
