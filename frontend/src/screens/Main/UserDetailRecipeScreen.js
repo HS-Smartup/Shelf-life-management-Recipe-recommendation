@@ -2,6 +2,7 @@ import {
   Alert,
   FlatList,
   ImageBackground,
+  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -16,6 +17,7 @@ import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Rating} from 'react-native-ratings';
 import IngredientList from 'components/DetailRecipe/IngredientList';
 import StepList from 'components/DetailRecipe/StepList';
+import DeleteConfirmModal from 'components/UserRecipe/DeleteConfirmModal';
 
 const UserDetailRecipeScreen = () => {
   const navigation = useNavigation();
@@ -168,12 +170,14 @@ const UserDetailRecipeScreen = () => {
   //   }
   // };
 
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+
   const onPressUpdate = () => {
     navigation.navigate('RecipeUpdateScreen');
   };
 
   const onPressDelete = () => {
-    //! 레시피 삭제
+    setDeleteConfirm(!deleteConfirm);
   };
 
   return (
@@ -195,6 +199,19 @@ const UserDetailRecipeScreen = () => {
             android_ripple={{color: '#e1e2e3'}}>
             <Text style={styles.headerBtnText}>삭제</Text>
           </Pressable>
+          <Modal
+            avoidKeyboard={true}
+            animationType="fade"
+            transparent={true}
+            visible={deleteConfirm}
+            onRequestClose={() => {
+              setDeleteConfirm(!deleteConfirm);
+            }}>
+            <DeleteConfirmModal
+              deleteConfirm={deleteConfirm}
+              setDeleteConfirm={setDeleteConfirm}
+            />
+          </Modal>
         </View>
       </View>
       <View style={styles.listWrapper}>
