@@ -14,6 +14,7 @@ public class ManageQuestionDto {
     private String content;
     private String email;
     private String answer;
+    private String date;
     private boolean answercheck;
 
 
@@ -26,6 +27,7 @@ public class ManageQuestionDto {
                 .content(content)
                 .answer(answer)
                 .answercheck(answercheck)
+                .date(date)
                 .build();
     }
 

@@ -6,6 +6,11 @@ import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user/question")
@@ -25,7 +30,11 @@ public class QuestionUserController {
     public JSONObject userQuestionAdd(@RequestBody ManageQuestionDto manageQuestionDto){
         JSONObject obj = new JSONObject();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formatedNow = now.format(formatter);
 
+        manageQuestionDto.setDate(formatedNow);
         manageQuestionDto.setEmail(email);
         manageQuestionDto.setAnswercheck(false);
         System.out.println(manageQuestionDto);
