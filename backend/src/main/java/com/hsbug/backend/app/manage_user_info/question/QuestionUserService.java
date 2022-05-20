@@ -32,6 +32,7 @@ public class QuestionUserService {
         JSONObject obj = new JSONObject();
         manageQuestionRepository.save(manageQuestionDto.toEntity());
         obj.put("message","저장 완료");
+        obj.put("status",200);
         return obj;
     }
 }

@@ -17,6 +17,7 @@ public class QuestionUserController {
     public JSONObject userQuestionRead(){
         JSONObject obj;
         obj = questionUserService.readUserQuestion();
+        obj.put("status",200);
         return obj;
     }
 
@@ -28,6 +29,7 @@ public class QuestionUserController {
         manageQuestionDto.setEmail(email);
         manageQuestionDto.setAnswercheck(false);
         System.out.println(manageQuestionDto);
+
         return questionUserService.save(manageQuestionDto);
     }
 }
