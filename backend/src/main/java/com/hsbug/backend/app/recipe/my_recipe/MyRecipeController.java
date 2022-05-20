@@ -24,9 +24,8 @@ public class MyRecipeController {
     @GetMapping("/read")
     public JSONObject readMyRecipe() {
         String email = findEmail();
-        String username = userRegisterRepository.findByEmail(email).get().getUsername();
         JSONObject obj = new JSONObject();
-        List<RecipeEntity> recipeDtoList = myRecipeService.readRecipe(username);
+        List<RecipeEntity> recipeDtoList = myRecipeService.readRecipe(email);
         myRecipeService.readRecipe(email);
 
         obj.put("message","리드 완료");
@@ -56,8 +55,23 @@ public class MyRecipeController {
         myRecipeService.deleteRecipe(id);
         obj.put("message",id + " 삭제 완료");
         obj.put("status", 200);
+
         return obj;
     }
+
+    //수정 추가해야함. 5/18
+    @PutMapping("/update")
+    public JSONObject updateMyRecipe(@RequestBody RecipeJsonDTO dto){
+        String email = findEmail();
+        JSONObject obj = new JSONObject();
+        //UserRegisterEntity userRegisterEntity = userRegisterRepository.findById(dto.getId()).get();
+        Long id = recipeService.saveRecipe(dto);
+        obj.put("message",id+" 수정 완료");
+        obj.put("status",200);
+        return obj;
+    }
+
+
 
     private String findEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
