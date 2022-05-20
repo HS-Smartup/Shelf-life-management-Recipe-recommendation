@@ -31,7 +31,7 @@ public class QuestionUserController {
         JSONObject obj = new JSONObject();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         LocalDate now = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
         String formatedNow = now.format(formatter);
 
         manageQuestionDto.setDate(formatedNow);
