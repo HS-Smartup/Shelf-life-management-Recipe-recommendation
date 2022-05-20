@@ -14,7 +14,7 @@ const UserRecipeList = ({recipeItem, onScrolledToBottom}) => {
 
     if (
       contentSize.height > layoutMeasurement.height &&
-      distanceFromBottom < 72
+      distanceFromBottom < 50
     ) {
       onScrolledToBottom(true);
     } else {
