@@ -14,6 +14,7 @@ import {BarPasswordStrengthDisplay} from 'react-native-password-strength-meter';
 import {UserEmailContext} from 'contexts/UserEmailContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserNameContext} from 'contexts/UserNameContext';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 const UserInfoScreen = () => {
   const navigation = useNavigation();
@@ -155,58 +156,67 @@ const UserInfoScreen = () => {
         </Pressable>
       </View>
       <View style={styles.listWrapper}>
-        <View style={styles.itemWrapper}>
-          <Text style={styles.itemText}>이메일</Text>
-          <Text style={styles.inputText}>{userEmail}</Text>
-        </View>
-        <View style={styles.itemWrapper}>
-          <Text style={styles.itemText}>사용자 이름</Text>
-          <TextInput
-            style={styles.itemInputWrapper}
-            placeholder="사용자 이름"
-            defaultValue={username}
-            onChangeText={createChangeTextHandler('username')}
-            autoCapitalize="none"
-            keyboardType="default"
-            returnKeyType="next"
-            ref={usernameInputRef}
-            onSubmitEditing={() => passwordInputRef.current.focus()}
-          />
-        </View>
-        <View style={styles.itemWrapper}>
-          <Text style={styles.itemText}>비밀번호</Text>
-          <TextInput
-            style={styles.itemInputWrapper}
-            placeholder="비밀번호"
-            onChangeText={createChangeTextHandler('password')}
-            autoCapitalize="none"
-            keyboardType="default"
-            ref={passwordInputRef}
-            onSubmitEditing={() => confirmPasswordInputRef.current.focus()}
-            secureTextEntry={true}
-          />
-          <BarPasswordStrengthDisplay
-            password={form.password}
-            minLength={6}
-            barContainerStyle={styles.passwordStrengthBar}
-            labelStyle={styles.passwordStrengthLabel}
-            levels={levels}
-            width={250}
-          />
-        </View>
-        <View style={styles.itemWrapper}>
-          <Text style={styles.itemText}>비밀번호 확인</Text>
-          <TextInput
-            style={styles.itemInputWrapper}
-            placeholder="비밀번호 확인"
-            onChangeText={createChangeTextHandler('confirmPassword')}
-            autoCapitalize="none"
-            keyboardType="default"
-            ref={confirmPasswordInputRef}
-            onSubmitEditing={Keyboard.dismiss}
-            secureTextEntry={true}
-          />
-        </View>
+        <KeyboardAwareFlatList
+          data={[{id: 1}]}
+          renderItem={() => (
+            <View>
+              <View style={styles.itemWrapper}>
+                <Text style={styles.itemText}>이메일</Text>
+                <Text style={styles.inputText}>{userEmail}</Text>
+              </View>
+              <View style={styles.itemWrapper}>
+                <Text style={styles.itemText}>사용자 이름</Text>
+                <TextInput
+                  style={styles.itemInputWrapper}
+                  placeholder="사용자 이름"
+                  defaultValue={username}
+                  onChangeText={createChangeTextHandler('username')}
+                  autoCapitalize="none"
+                  keyboardType="default"
+                  returnKeyType="next"
+                  ref={usernameInputRef}
+                  onSubmitEditing={() => passwordInputRef.current.focus()}
+                />
+              </View>
+              <View style={styles.itemWrapper}>
+                <Text style={styles.itemText}>비밀번호</Text>
+                <TextInput
+                  style={styles.itemInputWrapper}
+                  placeholder="비밀번호"
+                  onChangeText={createChangeTextHandler('password')}
+                  autoCapitalize="none"
+                  keyboardType="default"
+                  ref={passwordInputRef}
+                  onSubmitEditing={() =>
+                    confirmPasswordInputRef.current.focus()
+                  }
+                  secureTextEntry={true}
+                />
+                <BarPasswordStrengthDisplay
+                  password={form.password}
+                  minLength={6}
+                  barContainerStyle={styles.passwordStrengthBar}
+                  labelStyle={styles.passwordStrengthLabel}
+                  levels={levels}
+                  width={250}
+                />
+              </View>
+              <View style={styles.itemWrapper}>
+                <Text style={styles.itemText}>비밀번호 확인</Text>
+                <TextInput
+                  style={styles.itemInputWrapper}
+                  placeholder="비밀번호 확인"
+                  onChangeText={createChangeTextHandler('confirmPassword')}
+                  autoCapitalize="none"
+                  keyboardType="default"
+                  ref={confirmPasswordInputRef}
+                  onSubmitEditing={Keyboard.dismiss}
+                  secureTextEntry={true}
+                />
+              </View>
+            </View>
+          )}
+        />
       </View>
       <View style={styles.logoutBtnWrapper}>
         <Pressable

@@ -98,6 +98,7 @@ const UserScreen = () => {
               </Pressable>
               <Pressable
                 style={styles.listItemWrapper}
+                onPress={() => navigation.navigate('InquireScreen')}
                 android_ripple={{color: '#e1e2e3'}}>
                 <Text style={styles.listItemText}>고객센터</Text>
                 <Icon name="arrow-forward-ios" size={26} color={'#ffb856'} />

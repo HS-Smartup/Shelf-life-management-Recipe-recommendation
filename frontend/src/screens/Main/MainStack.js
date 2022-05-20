@@ -22,6 +22,8 @@ import {SearchResultItemContextProvider} from 'contexts/SearchResultItemContext'
 import UserInfoScreen from './UserInfoScreen';
 import UserDetailRecipeScreen from './UserDetailRecipeScreen';
 import RecipeUpdateScreen from './RecipeUpdateScreen';
+import InquireScreen from './InquireScreen';
+import InquireAddScreen from './InquireAddScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -108,6 +110,16 @@ const MainStack = () => {
                     <Stack.Screen
                       name="RecipeUpdateScreen"
                       component={RecipeUpdateScreen}
+                      options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                      name="InquireScreen"
+                      component={InquireScreen}
+                      options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                      name="InquireAddScreen"
+                      component={InquireAddScreen}
                       options={{headerShown: false}}
                     />
                   </Stack.Navigator>
