@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 20,
-    color: '#000000',
+    color: '#636773',
   },
   titleInnerText: {
     fontFamily: 'NanumSquareRoundOTFB',
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   contentText: {
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 20,
-    color: '#000000',
+    color: '#636773',
   },
   contentInnerText: {
     fontFamily: 'NanumSquareRoundOTFR',
