@@ -226,12 +226,14 @@ const UserInfoScreen = () => {
           <Text style={styles.logoutBtnText}>로그아웃</Text>
         </Pressable>
       </View>
-      <Pressable
-        style={styles.submitBtn}
-        onPress={onPressSubmit}
-        android_ripple={{color: '#b3b4ba'}}>
-        <Text style={styles.submitBtnText}>수 정</Text>
-      </Pressable>
+      <View style={styles.submitBtnWrapper}>
+        <Pressable
+          style={styles.submitBtn}
+          onPress={onPressSubmit}
+          android_ripple={{color: '#b3b4ba'}}>
+          <Text style={styles.submitBtnText}>수 정</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -326,12 +328,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#636773',
   },
-  submitBtn: {
-    backgroundColor: '#ffb856',
-    width: '100%',
-    height: '8%',
-    justifyContent: 'center',
+  submitBtnWrapper: {
     alignItems: 'center',
+  },
+  submitBtn: {
+    width: '95%',
+    height: 60,
+    backgroundColor: '#ffa856',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
   },
   submitBtnText: {
     fontFamily: 'NanumSquareRoundOTFB',

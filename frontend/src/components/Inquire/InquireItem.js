@@ -2,7 +2,14 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const InquireItem = ({id, title, content, answer, answerCheck}) => {
+const InquireItem = ({
+  id,
+  title,
+  content,
+  answer,
+  answerCheck,
+  writingTime,
+}) => {
   return (
     <Pressable style={styles.itemWrapper} android_ripple={{color: '#e1e2e3'}}>
       {answerCheck === false ? (
@@ -11,8 +18,11 @@ const InquireItem = ({id, title, content, answer, answerCheck}) => {
             {title}
           </Text>
           <View style={styles.innerWrapper}>
-            <Icon name="check-circle-outline" size={32} color={'#636773'} />
-            <Text style={styles.answerText}>답변 대기</Text>
+            <View style={styles.answerWrapper}>
+              <Icon name="check-circle-outline" size={32} color={'#636773'} />
+              <Text style={styles.answerText}>답변 대기</Text>
+            </View>
+            <Text style={styles.timeText}>{writingTime}</Text>
           </View>
         </View>
       ) : (
@@ -21,8 +31,11 @@ const InquireItem = ({id, title, content, answer, answerCheck}) => {
             {title}
           </Text>
           <View style={styles.innerWrapper}>
-            <Icon name="check-circle" size={32} color={'#ff8527'} />
-            <Text style={styles.answerText}>답변 완료</Text>
+            <View style={styles.answerWrapper}>
+              <Icon name="check-circle" size={32} color={'#ff8527'} />
+              <Text style={styles.answerText}>답변 완료</Text>
+            </View>
+            <Text style={styles.timeText}>{writingTime}</Text>
           </View>
         </View>
       )}
@@ -51,8 +64,14 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   innerWrapper: {
+    width: '83%',
     flexDirection: 'row',
     marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  answerWrapper: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
   answerText: {
@@ -60,5 +79,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#636773',
     marginLeft: 5,
+  },
+  timeText: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 16,
+    color: '#636773',
   },
 });

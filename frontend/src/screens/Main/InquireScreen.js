@@ -18,6 +18,7 @@ const InquireScreen = () => {
       email: '작성자',
       answer: '1번답변',
       answercheck: false,
+      writingTime: '21-05-20',
     },
     {
       id: 2,
@@ -26,6 +27,7 @@ const InquireScreen = () => {
       email: '작성자',
       answer: '2번답변',
       answercheck: true,
+      writingTime: '21-05-20',
     },
   ];
 
