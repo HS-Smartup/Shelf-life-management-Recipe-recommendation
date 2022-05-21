@@ -40,28 +40,13 @@ const DetailRecipeScreen = () => {
     //     '양파, 당근, 대파, 계란을 이용해 간단하게 만들 수 있는 볶음밥이에요!!',
     //   recipeIngredients: [
     //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '양파', ingredientAmount: '100g'},
-    //     {ingredientName: '대파', ingredientAmount: '200g'},
-    //     {ingredientName: '쪽파', ingredientAmount: '300g'},
     //   ],
     //   recipeStep: [
     //     {
     //       stepImage:
     //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
     //       stepDescription:
-    //         '피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~피자는 시켜먹어야지~',
-    //     },
-    //     {
-    //       stepImage:
-    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-    //       stepDescription: '피자는 시켜먹어야지~',
-    //     },
-    //     {
-    //       stepImage:
-    //         'https://cdn.pixabay.com/photo/2022/02/23/18/11/drink-7031154_960_720.jpg',
-    //       stepDescription: '피자는 시켜먹어야지~',
+    //         '',
     //     },
     //   ],
     // },

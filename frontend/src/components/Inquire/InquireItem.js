@@ -1,6 +1,8 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
+import {InquireIdContext} from 'contexts/InquireIdContext';
 
 const InquireItem = ({
   id,
@@ -10,8 +12,19 @@ const InquireItem = ({
   answerCheck,
   writingTime,
 }) => {
+  const navigation = useNavigation();
+  const {setInquireId} = useContext(InquireIdContext);
+
+  const onPressItem = () => {
+    navigation.navigate('InquireReadScreen');
+    setInquireId(id);
+  };
+
   return (
-    <Pressable style={styles.itemWrapper} android_ripple={{color: '#e1e2e3'}}>
+    <Pressable
+      style={styles.itemWrapper}
+      onPress={onPressItem}
+      android_ripple={{color: '#e1e2e3'}}>
       {answerCheck === false ? (
         <View>
           <Text style={styles.titleText} numberOfLines={2}>
