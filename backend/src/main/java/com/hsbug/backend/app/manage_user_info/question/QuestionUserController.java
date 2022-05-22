@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 
 @RestController
@@ -20,9 +21,7 @@ public class QuestionUserController {
 
     @GetMapping("/read")
     public JSONObject userQuestionRead(){
-        JSONObject obj;
-        obj = questionUserService.readUserQuestion();
-        obj.put("status",200);
+        JSONObject obj = questionUserService.readUserQuestion();
         return obj;
     }
 
@@ -41,7 +40,7 @@ public class QuestionUserController {
         questionUserService.save(manageQuestionDto);
 
         obj.put("status",200);
-        obj.put("message","확인");
+        obj.put("message",manageQuestionDto.getTitle() + "  문의 작성 완료");
         return obj;
     }
 }

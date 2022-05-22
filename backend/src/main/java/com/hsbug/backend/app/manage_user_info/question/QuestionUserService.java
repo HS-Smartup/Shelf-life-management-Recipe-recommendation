@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,12 +20,14 @@ public class QuestionUserService {
 
     public JSONObject readUserQuestion(){
         JSONObject obj = new JSONObject();
+        ArrayList arr = new ArrayList();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ManageQuestionEntity> questionList = manageQuestionRepository.findAllByEmail(email);
-
         for (int i = 0; i<questionList.size(); i++){
-            obj.put(i+1,questionList.get(i));
+            arr.add(questionList.get(i));
         }
+        obj.put("qa_list",arr);
+        obj.put("status",200);
         return obj;
     }
 
