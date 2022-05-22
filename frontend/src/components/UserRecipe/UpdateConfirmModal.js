@@ -71,8 +71,8 @@ const UpdateConfirmModal = ({updateConfirm, setUpdateConfirm, input}) => {
     // }
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/myRecipe/add', {
-        method: 'POST',
+      await fetch('http://localhost:8080/user/myRecipe/update', {
+        method: 'PUT',
         body: JSON.stringify(input),
         headers: {
           'Content-Type': 'application/json',
@@ -81,10 +81,10 @@ const UpdateConfirmModal = ({updateConfirm, setUpdateConfirm, input}) => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          // console.log(responseJson);
+          console.log(responseJson);
           if (responseJson.status === 200) {
             Alert.alert('레시피가 수정되었습니다.');
-            navigation.navigate('UserRecipeScreen');
+            navigation.navigate('UserScreen');
           } else {
             Alert.alert('레시피 수정에 실패하였습니다.');
           }

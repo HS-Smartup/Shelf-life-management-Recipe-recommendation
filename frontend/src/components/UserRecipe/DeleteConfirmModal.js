@@ -1,41 +1,46 @@
 import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import {RecipeIdContext} from 'contexts/RecipeIdContext';
 
 const DeleteConfirmModal = ({deleteConfirm, setDeleteConfirm}) => {
   const navigation = useNavigation();
 
+  const {recipeId} = useContext(RecipeIdContext);
+
   const onPressCancel = () => {
     setDeleteConfirm(!deleteConfirm);
   };
+  console.log(recipeId);
 
   const onPressDelete = async () => {
-    // try {
-    //   const token = await AsyncStorage.getItem('user_token');
-    //   await fetch('http://localhost:8080/user/refrig/deleteProduct?id=', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       token: token,
-    //     },
-    //   })
-    //     .then(response => response.json())
-    //     .then(responseJson => {
-    //       if (responseJson.status === 200) {
-    //         setDeleteConfirm(!deleteConfirm);
-    //         navigation.navigate('UserRecipeScreen');
-    //         Alert.alert('레시피가 삭제되었습니다.')
-    //       } else {
-    //         console.log('error');
-    //       }
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //     });
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch(`http://localhost:8080/user/myRecipe/delete?id=${recipeId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+          if (responseJson.status === 200) {
+            setDeleteConfirm(!deleteConfirm);
+            navigation.navigate('UserScreen');
+            Alert.alert('레시피가 삭제되었습니다.');
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

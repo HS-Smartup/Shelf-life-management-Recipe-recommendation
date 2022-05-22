@@ -42,12 +42,8 @@ const RecipeScreen = () => {
   };
 
   useEffect(() => {
-    let isComponentMounted = true;
     readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-  }, [recipeItem]);
+  }, []);
 
   const [hidden, setHidden] = useState(false);
 
