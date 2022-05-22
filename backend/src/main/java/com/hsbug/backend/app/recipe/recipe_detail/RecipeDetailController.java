@@ -50,8 +50,12 @@ public class RecipeDetailController {
     }
 
     @GetMapping("/search/category")
-    public List<SearchRecipeRefrigDto> categoryList(@RequestParam String category) {
-        return recipeService.findCategoryRecipe(category);
+    public JSONObject categoryList(@RequestParam String category) {
+        JSONObject obj = new JSONObject();
+        List<SearchRecipeRefrigDto> categoryResult = recipeService.findCategoryRecipe(category);
+        obj.put("recipe",categoryResult);
+        obj.put("status",200);
+        return obj;
     }
 
     @GetMapping("/popular/recipe")
