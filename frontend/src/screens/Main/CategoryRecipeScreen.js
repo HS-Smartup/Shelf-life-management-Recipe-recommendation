@@ -15,21 +15,26 @@ const CategoryRecipeScreen = () => {
 
   const [recipeItem, setRecipeItem] = useState([]);
 
+  // console.log(category);
+
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/myRecipe/read', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
+      await fetch(
+        `http://localhost:8080/user/recipe/search/category?category=육류`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
         },
-      })
+      )
         .then(response => response.json())
         .then(responseJson => {
-          // console.log('read\n\n\n', responseJson);
+          console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            setRecipeItem([...responseJson.recipeItem]);
+            setRecipeItem([...responseJson.recipe]);
           } else {
             console.log('error');
           }
