@@ -38,7 +38,10 @@ public class QuestionUserController {
         manageQuestionDto.setEmail(email);
         manageQuestionDto.setAnswercheck(false);
         System.out.println(manageQuestionDto);
+        questionUserService.save(manageQuestionDto);
 
-        return questionUserService.save(manageQuestionDto);
+        obj.put("status",200);
+        obj.put("message","확인");
+        return obj;
     }
 }
