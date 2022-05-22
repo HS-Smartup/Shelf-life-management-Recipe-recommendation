@@ -19,6 +19,7 @@ public class RecipeJsonDTO {
     private Long id;
     private String recipeName;
     private String recipeWriter;
+    private String recipeEmail;
     private String recipeMainImage;
     private String typeCategory;
     private String situationCategory;
@@ -41,6 +42,7 @@ public class RecipeJsonDTO {
                 .id(this.id)
                 .recipeName(this.recipeName)
                 .recipeWriter(this.recipeWriter)
+                .recipeEmail(this.recipeEmail)
                 .recipeMainImage(this.recipeMainImage)
                 .typeCategory(this.typeCategory)
                 .situationCategory(this.situationCategory)

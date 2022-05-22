@@ -39,7 +39,8 @@ public class MyRecipeController {
         String email = findEmail();
         JSONObject obj = new JSONObject();
         UserRegisterEntity userRegisterEntity = userRegisterRepository.findByEmail(email).get();
-        dto.setRecipeWriter(userRegisterEntity.getEmail());
+        dto.setRecipeWriter(userRegisterEntity.getUsername());
+        dto.setRecipeEmail(email);
 
         System.out.println(dto.getRecipeIngredients());
         System.out.println(dto.getRecipeStep());

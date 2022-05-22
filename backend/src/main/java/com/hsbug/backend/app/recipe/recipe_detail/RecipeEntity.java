@@ -18,6 +18,7 @@ public class RecipeEntity {
     private Long id;
     private String recipeName;
     private String recipeWriter;
+    private String recipeEmail;
     @Column(columnDefinition = "LongText")
     private String recipeMainImage;
     private String typeCategory;
@@ -38,6 +39,7 @@ public class RecipeEntity {
                 .id(this.id)
                 .recipeName(this.recipeName)
                 .recipeWriter(this.recipeWriter)
+                .recipeEmail(this.recipeEmail)
                 .recipeMainImage(this.recipeMainImage)
                 .typeCategory(this.typeCategory)
                 .situationCategory(this.situationCategory)

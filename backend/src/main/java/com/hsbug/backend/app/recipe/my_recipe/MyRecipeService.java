@@ -26,7 +26,8 @@ public class MyRecipeService {
     }
 
     public List<RecipeEntity> readRecipe(String email){
-        List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeWriter(email);
+        //List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeWriter(email);
+        List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeEmail(email);
         return myRecipe;
     }
 
