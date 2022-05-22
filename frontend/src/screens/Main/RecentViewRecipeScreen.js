@@ -29,7 +29,7 @@ const RecentViewRecipeScreen = () => {
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            setRecipeItem([...responseJson.recipeItem]);
+            setRecipeItem([...responseJson.recipe]);
           } else {
             console.log('error');
           }
