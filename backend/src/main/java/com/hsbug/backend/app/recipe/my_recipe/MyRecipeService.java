@@ -33,7 +33,7 @@ public class MyRecipeService {
 
     @Transactional
     public void deleteRecipe(Long id){
-        manageRecipeRepository.deleteById(id);
+        recipeRepository.deleteById(id);
     }
 
 
