@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface ManageQuestionRepository extends JpaRepository<ManageQuestionEntity,Long> {
     List<ManageQuestionEntity> findAllByAnswercheck(boolean answercheck);
     Optional<ManageQuestionEntity> findById(Long id);
+    ManageQuestionEntity findAllById(Long id);
     List<ManageQuestionEntity> findAllByEmail(String Email);
 }

@@ -35,10 +35,12 @@ public class QuestionUserService {
     }
 
     public JSONObject readUserQuestionDetail(Long id){
-        Optional<ManageQuestionEntity> question = manageQuestionRepository.findById(id);
+        ManageQuestionEntity question = manageQuestionRepository.findAllById(id);
+        ManageQuestionDto dto = manageQuestionService.converEntityToDto(question);
         ArrayList arr = new ArrayList<>();
         JSONObject obj = new JSONObject();
-        obj.put("qa_detail",arr.add(question.get()));
+        arr.add(dto);
+        obj.put("qa_detail",arr);
         obj.put("status",200);
         return obj;
     }
