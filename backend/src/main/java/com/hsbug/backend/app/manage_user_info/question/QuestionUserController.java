@@ -25,6 +25,12 @@ public class QuestionUserController {
         return obj;
     }
 
+    @GetMapping("/read/detail")
+    public JSONObject userQuestionReadDetail(@RequestParam Long id){
+        JSONObject obj = new JSONObject();
+        return questionUserService.readUserQuestionDetail(id);
+    }
+
     @PostMapping("/add")
     public JSONObject userQuestionAdd(@RequestBody ManageQuestionDto manageQuestionDto){
         JSONObject obj = new JSONObject();

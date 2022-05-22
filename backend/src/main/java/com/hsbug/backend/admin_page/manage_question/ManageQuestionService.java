@@ -18,7 +18,7 @@ public class ManageQuestionService {
 
     private final ManageQuestionRepository manageQuestionRepository;
 
-    private ManageQuestionDto converEntityToDto(ManageQuestionEntity manageQuestionEntity){
+    public ManageQuestionDto converEntityToDto(ManageQuestionEntity manageQuestionEntity){
         return ManageQuestionDto.builder()
                 .id(manageQuestionEntity.getId())
                 .title(manageQuestionEntity.getTitle())
