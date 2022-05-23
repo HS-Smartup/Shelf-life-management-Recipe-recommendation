@@ -60,8 +60,21 @@ public class HomeController {
         model.addAttribute("AdminRecipe",dtos);
         return "AdminRecipe";
     }
+    /*
+    @GetMapping("/addAnswer")
+    public String addAnswer(){
 
+    }
 
+    @GetMapping("/deleteAnswer")
+    public String deleteAnswer(){
+
+    }
+
+    @GetMapping("/updateAnswer")
+    public String updateAnswer(){
+
+    }*/
 }
 
 
