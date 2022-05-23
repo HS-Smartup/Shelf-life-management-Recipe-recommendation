@@ -11,6 +11,7 @@ public interface RecipeIngredientsRepository extends JpaRepository<RecipeIngredi
     boolean existsByIngredientName(String ingredientName);
 
     List<RecipeIngredients> findAllByIngredientNameContains(String ingredientName);
+    List<RecipeIngredients> deleteAllByRecipeEntityIdId(Long id);
 
     List<RecipeIngredients> findAllByRecipeEntityId_Id(@Param(value = "RECIPE_ID")Long id);
 }
