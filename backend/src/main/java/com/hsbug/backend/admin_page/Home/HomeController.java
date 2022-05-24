@@ -24,6 +24,8 @@ public class HomeController {
     private final HomeService homeService;
     private final ManageQuestionService manageQuestionService;
     private final ManageQuestionRepository manageQuestionRepository;
+
+
     @RequestMapping(value = "/admin/home", method= RequestMethod.GET)
     public String goHome(HttpServletRequest request) {
         return "Home";
@@ -61,9 +63,9 @@ public class HomeController {
         model.addAttribute("AdminRecipe",dtos);
         return "AdminRecipe";
     }
-/*
     @GetMapping("/addAnswer")
     public String addAnswer(){
+
 
         return "QuestionAnswer";
     }
@@ -71,14 +73,16 @@ public class HomeController {
     @GetMapping("/deleteAnswer")
     public String deleteAnswer(){
 
+
         return "QuestionAnswer";
     }
 
     @GetMapping("/updateAnswer")
     public String updateAnswer(){
 
+
         return "QuestionAnswer";
-    }*/
+    }
 }
 
 
