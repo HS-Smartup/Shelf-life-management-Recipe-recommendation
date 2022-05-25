@@ -35,7 +35,7 @@ const InquireList = ({inquireItem, onScrolledToBottom}) => {
             content={item.content}
             answer={item.answer}
             answerCheck={item.answercheck}
-            writingTime={item.writingTime}
+            writingTime={item.date}
           />
         </View>
       )}
