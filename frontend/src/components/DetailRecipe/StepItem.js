@@ -2,15 +2,27 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
 const StepItem = ({stepIndex, stepImage, stepDescription}) => {
+  let imageCheck = false;
+  imageCheck = stepImage.includes('http');
+
   return (
     <View style={styles.itemWrapper}>
       <View style={styles.imageWrapper}>
-        <Image
-          style={styles.stepImage}
-          source={{uri: `data:image/jpg;base64,${stepImage}`}}
-          resizeMode="cover"
-          resizeMethod="scale"
-        />
+        {imageCheck ? (
+          <Image
+            style={styles.stepImage}
+            source={{uri: `${stepImage}`}}
+            resizeMode="cover"
+            resizeMethod="scale"
+          />
+        ) : (
+          <Image
+            style={styles.stepImage}
+            source={{uri: `data:image/jpg;base64,${stepImage}`}}
+            resizeMode="cover"
+            resizeMethod="scale"
+          />
+        )}
       </View>
       <View style={styles.descriptionWrapper}>
         <Text style={styles.stepText}>Step {stepIndex + 1}</Text>

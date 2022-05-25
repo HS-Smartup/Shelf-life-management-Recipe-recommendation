@@ -34,12 +34,12 @@ const RecipeUpdateScreen = () => {
     recipeServes: '',
     recipeDescription: '',
     recipeIngredients: [
-      {ingredientName: '', ingredientAmount: ''},
-      {ingredientName: '', ingredientAmount: ''},
+      // {ingredientName: '', ingredientAmount: ''},
+      // {ingredientName: '', ingredientAmount: ''},
     ],
     recipeStep: [
-      {stepImage: null, stepDescription: ''},
-      {stepImage: null, stepDescription: ''},
+      // {stepImage: null, stepDescription: ''},
+      // {stepImage: null, stepDescription: ''},
     ],
   });
 
@@ -76,7 +76,7 @@ const RecipeUpdateScreen = () => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setInput(responseJson.recipe_detail);
-            // setRecipeMainImage(responseJson.recipe_detail.recipeMainImage);
+            setRecipeMainImage(responseJson.recipe_detail.recipeMainImage);
             setTypeCategory(responseJson.recipe_detail.typeCategory);
             setSituationCategory(responseJson.recipe_detail.situationCategory);
             setIngredientCategory(
@@ -106,6 +106,7 @@ const RecipeUpdateScreen = () => {
     setInput({
       ...input,
       // recipeMainImage: recipeMainImage?.assets[0]?.base64,
+      recipeMainImage: recipeMainImage,
       typeCategory: typeCategory,
       situationCategory: situationCategory,
       ingredientCategory: ingredientCategory,
@@ -125,6 +126,8 @@ const RecipeUpdateScreen = () => {
     recipeLevel,
     recipeServes,
   ]);
+
+  console.log(input);
 
   const createChangeTextHandler = name => value => {
     setInput({...input, [name]: value});
@@ -221,6 +224,8 @@ const RecipeUpdateScreen = () => {
 
   const [updateConfirm, setUpdateConfirm] = useState(false);
 
+  console.log('33333333333', input);
+
   return (
     <View style={styles.fullScreen}>
       <View>
@@ -282,7 +287,7 @@ const RecipeUpdateScreen = () => {
                     setRecipeMainImage={setRecipeMainImage}
                   />
                 </Modal>
-                {recipeMainImage ? (
+                {recipeMainImage === null ? (
                   <Pressable
                     style={styles.imageWrapper}
                     onPress={() => setSelectModalVisible(true)}
