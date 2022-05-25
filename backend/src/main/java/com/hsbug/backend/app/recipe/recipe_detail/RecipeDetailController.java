@@ -2,6 +2,7 @@ package com.hsbug.backend.app.recipe.recipe_detail;
 
 import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeDto;
 import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeService;
+import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipeDto;
 import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipeService;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class RecipeDetailController {
     @GetMapping("/search/category")
     public JSONObject categoryList(@RequestParam String category) {
         JSONObject obj = new JSONObject();
-        List<SearchRecipeRefrigDto> categoryResult = recipeService.findCategoryRecipe(category);
+        List<RecentlyViewRecipeDto> categoryResult = recipeService.findCategoryRecipe(category);
         obj.put("recipe",categoryResult);
         obj.put("status",200);
         return obj;
