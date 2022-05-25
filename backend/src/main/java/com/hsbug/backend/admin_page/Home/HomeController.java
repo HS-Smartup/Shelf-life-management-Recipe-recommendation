@@ -4,6 +4,7 @@ import com.hsbug.backend.admin_page.manage_question.ManageQuestionDto;
 import com.hsbug.backend.admin_page.manage_question.ManageQuestionRepository;
 import com.hsbug.backend.admin_page.manage_question.ManageQuestionService;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
+import com.hsbug.backend.app.manage_user_info.question.QuestionUserService;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
@@ -23,6 +24,8 @@ public class HomeController {
     private final HomeService homeService;
     private final ManageQuestionService manageQuestionService;
     private final ManageQuestionRepository manageQuestionRepository;
+
+
     @RequestMapping(value = "/admin/home", method= RequestMethod.GET)
     public String goHome(HttpServletRequest request) {
         return "Home";
@@ -60,8 +63,26 @@ public class HomeController {
         model.addAttribute("AdminRecipe",dtos);
         return "AdminRecipe";
     }
+    @GetMapping("/addAnswer")
+    public String addAnswer(){
 
 
+        return "QuestionAnswer";
+    }
+
+    @GetMapping("/deleteAnswer")
+    public String deleteAnswer(){
+
+
+        return "QuestionAnswer";
+    }
+
+    @GetMapping("/updateAnswer")
+    public String updateAnswer(){
+
+
+        return "QuestionAnswer";
+    }
 }
 
 

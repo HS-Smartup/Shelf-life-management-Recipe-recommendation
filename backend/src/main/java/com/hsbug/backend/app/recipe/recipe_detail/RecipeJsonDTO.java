@@ -36,7 +36,6 @@ public class RecipeJsonDTO {
     private List<RecipeIngredientsDTO> recipeIngredients = new ArrayList<>();  //ok
     private List<RecipeStepDTO> recipeStep = new ArrayList<>();    //ok
 
-
     public RecipeEntity toEntity() {
         return RecipeEntity.builder()
                 .id(this.id)

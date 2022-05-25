@@ -8,6 +8,7 @@ import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,12 +52,17 @@ public class MyRecipeController {
     }
 
     @PostMapping("/delete")
-    public JSONObject deleteMyRecipe(@RequestParam Long id){
+    public JSONObject deleteMyRecipe(@RequestParam Long id) throws Exception {
         JSONObject obj = new JSONObject();
-        myRecipeService.deleteRecipe(id);
-        obj.put("message",id + " 삭제 완료");
-        obj.put("status", 200);
-
+        String email = findEmail();
+        try {
+            obj = myRecipeService.deleteRecipe(id, email);
+            obj.put("message",id + " 삭제 성공");
+            obj.put("status",200);
+        }catch(Exception e){
+            obj.put("message",id + " 삭제 실패");
+            obj.put("status",201);
+        }
         return obj;
     }
 

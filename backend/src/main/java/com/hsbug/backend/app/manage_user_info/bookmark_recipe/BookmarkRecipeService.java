@@ -20,7 +20,7 @@ public class BookmarkRecipeService {
     private final BookmarkRecipeRepository bookmarkRecipeRepository;
     private final RecipeRepository recipeRepository;
 
-    private BookmarkRecipeDto convertEntityToDto(BookmarkRecipeEntity bookmarkRecipeEntity){
+    public BookmarkRecipeDto convertEntityToDto(BookmarkRecipeEntity bookmarkRecipeEntity){
         return BookmarkRecipeDto.builder()
                 .id(bookmarkRecipeEntity.getId())
                 .email(bookmarkRecipeEntity.getEmail())
