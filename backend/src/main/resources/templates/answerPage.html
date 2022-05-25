@@ -9,12 +9,15 @@
 </head>
 
 <body>
+
+    <form th:action ="" method="get">
     <h5>고객질문</h5>
         <tr>
             <th>고객</th>
             <td>
                 <div>
                     <input type="text" name="name" value="" placeholder=이름 />
+                    <span th:text="${data.id}"></span>
                 </div>
             </td>
 
@@ -22,6 +25,7 @@
             <td>
                 <div>
                     <input type="text" name="title" value="" placeholder=제목 />
+                    <span th:text="${data.title}"></span>
                 </div>
             </td>
 
@@ -29,6 +33,7 @@
             <td>
                 <div>
                     <input type="text" name="email" value="" placeholder=이메일 />
+                    <span th:text="${data.email}"></span>
                 </div>
             </td>
 
@@ -39,11 +44,13 @@
             <td colspan="3">
                 <div>
                     <textarea name="comment"  placeholder=내용></textarea>
-
+                    <span th:text="${data.content}"></span>
                 </div>
             </td>
         </tr>
+    </form>
 
+    <form th:action ="" method="post">
     <tr>
         <th>답변</th>
         <td colspan="3">
@@ -55,9 +62,9 @@
     </tr>
 
         <tr>
-            <button th:href = "@{}">답변완료</button>
+            <button type="submit" value="답변 완료"></button>
         </tr>
-
+    </form>
 
 </body>
 </html>
