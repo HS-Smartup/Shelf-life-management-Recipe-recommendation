@@ -9,6 +9,7 @@ import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,14 +64,27 @@ public class HomeController {
         model.addAttribute("AdminRecipe",dtos);
         return "AdminRecipe";
     }
-    @GetMapping("/addAnswer")
-    public String addAnswer(){
+    @GetMapping("/admin/answerPage/id{id}")
+    public String QuestionAnswer(Model model, @PathVariable Long id){
+        System.out.println(111);
+        ManageQuestionDto manageQuestionDto = manageQuestionService.readOne(id);
+        System.out.println(manageQuestionDto);
+        model.addAttribute("data",manageQuestionDto);
 
-
-        return "QuestionAnswer";
+        return "answerPage";
     }
 
-    @GetMapping("/deleteAnswer")
+    @PostMapping("/admin/answerPage/id{id}/submit")
+    public String QuestionAnswerSubmit(@PathVariable Long id, ManageQuestionDto manageQuestionDto, Model model) {
+        ManageQuestionDto dto = manageQuestionService.readOne(id);
+        dto.setAnswercheck(true);
+        dto.setAnswer(manageQuestionDto.getAnswer());
+
+        manageQuestionRepository.save(dto.toEntity());
+        return "Home";
+    }
+
+        @GetMapping("/deleteAnswer")
     public String deleteAnswer(){
 
 

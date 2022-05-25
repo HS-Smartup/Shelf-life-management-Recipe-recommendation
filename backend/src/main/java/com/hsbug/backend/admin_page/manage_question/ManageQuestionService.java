@@ -49,6 +49,13 @@ public class ManageQuestionService {
         return manageQuestionDtoList;
     }
 
+    public ManageQuestionDto readOne(Long id){
+        ManageQuestionEntity manageQuestionEntiy = manageQuestionRepository.findAllById(id);
+        ManageQuestionDto manageQuestionDto = this.converEntityToDto(manageQuestionEntiy);
+
+        return manageQuestionDto;
+    }
+
     public List<ManageQuestionDto> readAlreadyAnswer(){
         List<ManageQuestionEntity> manageQuestionEntityList = manageQuestionRepository.findAllByAnswercheck(true);
         List<ManageQuestionDto> manageQuestionDtoList = new ArrayList<>();
