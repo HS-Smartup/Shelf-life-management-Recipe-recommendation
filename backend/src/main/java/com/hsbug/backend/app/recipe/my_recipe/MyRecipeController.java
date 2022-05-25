@@ -67,7 +67,7 @@ public class MyRecipeController {
     }
 
     //수정 추가해야함. 5/18
-    @PutMapping("/update")
+    @PostMapping("/update")
     public JSONObject updateMyRecipe(@RequestBody RecipeJsonDTO dto){
         String email = findEmail();
         JSONObject obj = new JSONObject();

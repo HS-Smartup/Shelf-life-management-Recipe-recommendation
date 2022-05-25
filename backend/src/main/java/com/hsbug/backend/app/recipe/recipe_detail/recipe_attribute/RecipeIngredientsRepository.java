@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface RecipeIngredientsRepository extends JpaRepository<RecipeIngredients,Long> {
     Optional<RecipeIngredients> findAllByIngredientName(String ingredientName);
     boolean existsByIngredientName(String ingredientName);
-
     List<RecipeIngredients> findAllByIngredientNameContains(String ingredientName);
     List<RecipeIngredients> deleteAllByRecipeEntityIdId(Long id);
 

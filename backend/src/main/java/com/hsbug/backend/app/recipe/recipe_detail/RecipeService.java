@@ -38,6 +38,8 @@ public class RecipeService {
             recipeIngredient.setRecipeEntityId(recipe);
             recipeIngredients.add(recipeIngredient);
         }
+        System.out.println(recipeIngredients.get(0).getRecipeIngredientsId());
+        recipeIngredientsRepository.deleteAllByRecipeEntityIdId(recipeIngredients.get(0).getRecipeEntityId().getId());
         recipeIngredientsRepository.saveAll(recipeIngredients);
 
         for (RecipeStepDTO recipeStepEntity : dtoRecipeStepEntityList) {    //recipeStep 저장
@@ -45,6 +47,7 @@ public class RecipeService {
             recipeStep.setRecipeEntity(recipe);
             recipeStepEntityList.add(recipeStep);
         }
+        recipeStepRepository.deleteAllByRecipeEntityId(recipeStepEntityList.get(0).getRecipeEntity().getId());
         recipeStepRepository.saveAll(recipeStepEntityList);
 
         return recipe.getId();
