@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   FlatList,
   ImageBackground,
@@ -9,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {RecipeIdContext} from 'contexts/RecipeIdContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -22,12 +23,14 @@ import DeleteConfirmModal from 'components/UserRecipe/DeleteConfirmModal';
 const UserDetailRecipeScreen = () => {
   const navigation = useNavigation();
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
+  const [loading, setLoading] = useState(false);
 
   const [recipe, setRecipe] = useState([]);
 
   let bookCheck = false;
 
   const readItem = async () => {
+    setLoading(true);
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch(
@@ -42,14 +45,10 @@ const UserDetailRecipeScreen = () => {
       )
         .then(response => response.json())
         .then(responseJson => {
+          setLoading(false);
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipe([responseJson.recipe_detail]);
-            if (responseJson.like === true) {
-              setLike(true);
-            } else {
-              setLike(false);
-            }
           } else {
             console.log('error');
           }
@@ -61,114 +60,15 @@ const UserDetailRecipeScreen = () => {
       console.log(e);
     }
   };
+
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
+    if (isFocused) {
+      readItem();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const [like, setLike] = useState(false);
-
-  const onToggle = async () => {
-    setLike(!like);
-    if (like === false) {
-      try {
-        const token = await AsyncStorage.getItem('user_token');
-        await fetch(
-          `http://localhost:8080/user/bookmark/addBookmark?id=${recipeId}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              token: token,
-            },
-          },
-        )
-          .then(response => response.json())
-          .then(responseJson => {
-            // console.log(responseJson);
-            if (responseJson.status === 200) {
-              Alert.alert('좋아요 한 레시피에 등록되었습니다.');
-              bookCheck = true;
-              readItem();
-            } else {
-              Alert.alert('좋아요 등록에 실패하였습니다.');
-              setLike(!like);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (like === true) {
-      try {
-        const token = await AsyncStorage.getItem('user_token');
-        await fetch(
-          `http://localhost:8080/user/bookmark/deleteBookmark?id=${recipeId}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              token: token,
-            },
-          },
-        )
-          .then(response => response.json())
-          .then(responseJson => {
-            // console.log(responseJson);
-            if (responseJson.status === 200) {
-              Alert.alert('좋아요 한 레시피에서 삭제되었습니다.');
-              bookCheck = true;
-              readItem();
-            } else {
-              Alert.alert('좋아요 취소에 실패하였습니다.');
-              setLike(!like);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
-
-  // let userRating = '';
-
-  // const userRatingCompleted = async rating => {
-  //   userRating = rating;
-  //   try {
-  //     const token = await AsyncStorage.getItem('user_token');
-  //     await fetch('http://localhost:8080/user/rating/add', {
-  //       method: 'POST',
-  //       body: JSON.stringify({recipeId: recipeId, starPoint: userRating}),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         token: token,
-  //       },
-  //     })
-  //       .then(response => response.json())
-  //       .then(responseJson => {
-  //         console.log(responseJson);
-  //         if (responseJson.status === 200) {
-  //           Alert.alert(responseJson.result);
-  //         } else {
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.error(error);
-  //       });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  }, [isFocused]);
 
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
@@ -182,142 +82,143 @@ const UserDetailRecipeScreen = () => {
 
   return (
     <View style={styles.fullScreen}>
-      <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={32} color={'#ff8527'} />
-        </Pressable>
-        <View style={styles.btnWrapper}>
-          <Pressable
-            style={styles.headerBtn}
-            onPress={onPressUpdate}
-            android_ripple={{color: '#e1e2e3'}}>
-            <Text style={styles.headerBtnText}>수정</Text>
-          </Pressable>
-          <Pressable
-            style={styles.headerBtn}
-            onPress={onPressDelete}
-            android_ripple={{color: '#e1e2e3'}}>
-            <Text style={styles.headerBtnText}>삭제</Text>
-          </Pressable>
-          <Modal
-            avoidKeyboard={true}
-            animationType="fade"
-            transparent={true}
-            visible={deleteConfirm}
-            onRequestClose={() => {
-              setDeleteConfirm(!deleteConfirm);
-            }}>
-            <DeleteConfirmModal
-              deleteConfirm={deleteConfirm}
-              setDeleteConfirm={setDeleteConfirm}
-            />
-          </Modal>
+      {loading ? (
+        <View style={styles.loadingScreen}>
+          <ActivityIndicator size="large" color="#ff8527" />
         </View>
-      </View>
-      <View style={styles.listWrapper}>
-        <FlatList
-          data={recipe}
-          renderItem={({item}) => (
-            <View>
-              <View style={styles.titleWrapper}>
-                <ImageBackground
-                  source={{
-                    uri: `data:image/jpg;base64,${item.recipeMainImage}`,
-                    // uri: `${item.recipeMainImage}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="stretch">
-                  <View style={styles.nameWrapper}>
-                    <Text style={styles.recipeName}>{item.recipeName}</Text>
-                    <Text style={styles.recipeWriter}>
-                      by {item.recipeWriter}
-                    </Text>
-                  </View>
-                </ImageBackground>
-                <View style={styles.infoWrapper}>
-                  <View style={styles.likeWrapper}>
-                    <CommunityIcon
-                      name="heart-outline"
-                      size={24}
-                      color={'#ff8527'}
-                    />
-                    {/* 좋아요 참여자 수 */}
-                    <Text style={styles.likeText}>{item.recipeLikes}</Text>
-                    {/* 조회 수 */}
-                    <Text style={styles.viewsText}>
-                      조회수 {item.recipeViews}
-                    </Text>
-                  </View>
-                  <View style={styles.ratingShowWrapper}>
-                    <Rating
-                      type="custom"
-                      ratingCount={5}
-                      imageSize={20}
-                      readonly
-                      ratingColor="#ff8527"
-                      ratingBackgroundColor="#fff"
-                      startingValue={item.recipeStar}
-                      jumpValue={0.5}
-                    />
-                    {/* 평점 참여자 수 */}
-                    <Text style={styles.ratingText}>
-                      ({item.recipeRatingCount})
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.iconWrapper}>
-                  <View style={styles.clockWrapper}>
-                    <CommunityIcon
-                      name="clock-outline"
-                      size={32}
-                      color={'#ff8527'}
-                    />
-                    <Text style={styles.clockText}>{item.recipeTime}분</Text>
-                  </View>
-                  <View style={styles.levelWrapper}>
-                    <CommunityIcon
-                      name="chef-hat"
-                      size={32}
-                      color={'#ff8527'}
-                    />
-                    <Text style={styles.levelText}>{item.recipeLevel}</Text>
-                  </View>
-                  <View style={styles.servesWrapper}>
-                    <Icon name="local-dining" size={32} color={'#ff8527'} />
-                    <Text style={styles.servesText}>{item.recipeServes}</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.descriptionWrapper}>
-                <Text style={styles.descriptionTitle}>요리 설명</Text>
-                <Text style={styles.description}>{item.recipeDescription}</Text>
-              </View>
-              <View style={styles.ingredientWrapper}>
-                <Text style={styles.ingredientTitle}>[재료]</Text>
-                {/* 재료 리스트 컴포넌트 */}
-                <IngredientList recipe={recipe} setRecipe={setRecipe} />
-              </View>
-              <View style={styles.recipeWrapper}>
-                {/* 레시피 리스트 컴포넌트 */}
-                <StepList recipe={recipe} setRecipe={setRecipe} />
-              </View>
-              {/* <View style={styles.ratingWrapper}>
-                <Rating
-                  type="custom"
-                  ratingCount={5}
-                  imageSize={40}
-                  ratingColor="#ff8527"
-                  ratingBackgroundColor="#fff"
-                  startingValue={3}
-                  jumpValue={0.5}
-                  showRating
-                  onFinishRating={userRatingCompleted}
+      ) : (
+        <View style={styles.fullScreen}>
+          <View style={styles.header}>
+            <Pressable onPress={() => navigation.goBack()}>
+              <Icon name="arrow-back" size={32} color={'#ff8527'} />
+            </Pressable>
+            <View style={styles.btnWrapper}>
+              <Pressable
+                style={styles.headerBtn}
+                onPress={onPressUpdate}
+                android_ripple={{color: '#e1e2e3'}}>
+                <Text style={styles.headerBtnText}>수정</Text>
+              </Pressable>
+              <Pressable
+                style={styles.headerBtn}
+                onPress={onPressDelete}
+                android_ripple={{color: '#e1e2e3'}}>
+                <Text style={styles.headerBtnText}>삭제</Text>
+              </Pressable>
+              <Modal
+                avoidKeyboard={true}
+                animationType="fade"
+                transparent={true}
+                visible={deleteConfirm}
+                onRequestClose={() => {
+                  setDeleteConfirm(!deleteConfirm);
+                }}>
+                <DeleteConfirmModal
+                  deleteConfirm={deleteConfirm}
+                  setDeleteConfirm={setDeleteConfirm}
                 />
-              </View> */}
+              </Modal>
             </View>
-          )}
-        />
-      </View>
+          </View>
+          <View style={styles.listWrapper}>
+            <FlatList
+              data={recipe}
+              renderItem={({item}) => (
+                <View>
+                  <View style={styles.titleWrapper}>
+                    <ImageBackground
+                      source={{
+                        uri: `data:image/jpg;base64,${item.recipeMainImage}`,
+                        // uri: `${item.recipeMainImage}`,
+                      }}
+                      style={styles.image}
+                      resizeMode="stretch">
+                      <View style={styles.nameWrapper}>
+                        <Text style={styles.recipeName}>{item.recipeName}</Text>
+                        <Text style={styles.recipeWriter}>
+                          by {item.recipeWriter}
+                        </Text>
+                      </View>
+                    </ImageBackground>
+                    <View style={styles.infoWrapper}>
+                      <View style={styles.likeWrapper}>
+                        <CommunityIcon
+                          name="heart-outline"
+                          size={24}
+                          color={'#ff8527'}
+                        />
+                        {/* 좋아요 참여자 수 */}
+                        <Text style={styles.likeText}>{item.recipeLikes}</Text>
+                        {/* 조회 수 */}
+                        <Text style={styles.viewsText}>
+                          조회수 {item.recipeViews}
+                        </Text>
+                      </View>
+                      <View style={styles.ratingShowWrapper}>
+                        <Rating
+                          type="custom"
+                          ratingCount={5}
+                          imageSize={20}
+                          readonly
+                          ratingColor="#ff8527"
+                          ratingBackgroundColor="#fff"
+                          startingValue={item.recipeStar}
+                          jumpValue={0.5}
+                        />
+                        {/* 평점 참여자 수 */}
+                        <Text style={styles.ratingText}>
+                          ({item.recipeRatingCount})
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.iconWrapper}>
+                      <View style={styles.clockWrapper}>
+                        <CommunityIcon
+                          name="clock-outline"
+                          size={32}
+                          color={'#ff8527'}
+                        />
+                        <Text style={styles.clockText}>
+                          {item.recipeTime}분
+                        </Text>
+                      </View>
+                      <View style={styles.levelWrapper}>
+                        <CommunityIcon
+                          name="chef-hat"
+                          size={32}
+                          color={'#ff8527'}
+                        />
+                        <Text style={styles.levelText}>{item.recipeLevel}</Text>
+                      </View>
+                      <View style={styles.servesWrapper}>
+                        <Icon name="local-dining" size={32} color={'#ff8527'} />
+                        <Text style={styles.servesText}>
+                          {item.recipeServes}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.descriptionWrapper}>
+                    <Text style={styles.descriptionTitle}>요리 설명</Text>
+                    <Text style={styles.description}>
+                      {item.recipeDescription}
+                    </Text>
+                  </View>
+                  <View style={styles.ingredientWrapper}>
+                    <Text style={styles.ingredientTitle}>[재료]</Text>
+                    {/* 재료 리스트 컴포넌트 */}
+                    <IngredientList recipe={recipe} setRecipe={setRecipe} />
+                  </View>
+                  <View style={styles.recipeWrapper}>
+                    {/* 레시피 리스트 컴포넌트 */}
+                    <StepList recipe={recipe} setRecipe={setRecipe} />
+                  </View>
+                </View>
+              )}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -328,6 +229,12 @@ const styles = StyleSheet.create({
   fullScreen: {
     flex: 1,
     backgroundColor: '#f2f3f4',
+  },
+  loadingScreen: {
+    flex: 1,
+    backgroundColor: '#f2f3f4',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     width: '95%',
