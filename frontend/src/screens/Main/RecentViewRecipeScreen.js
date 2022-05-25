@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
 import RecipeList from 'components/Recipe/RecipeList';
@@ -27,7 +27,7 @@ const RecentViewRecipeScreen = () => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log('read\n\n\n', responseJson);
+          // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipeItem([...responseJson.recipe]);
           } else {
@@ -42,13 +42,13 @@ const RecentViewRecipeScreen = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-  }, []);
+    if (isFocused) {
+      readItem();
+    }
+  }, [isFocused]);
 
   const [hidden, setHidden] = useState(false);
 

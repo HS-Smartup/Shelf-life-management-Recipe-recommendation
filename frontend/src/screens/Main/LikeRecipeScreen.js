@@ -1,6 +1,6 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeItem from 'components/Recipe/RecipeItem';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
@@ -39,13 +39,13 @@ const LikeRecipeScreen = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-  }, []);
+    if (isFocused) {
+      readItem();
+    }
+  }, [isFocused]);
 
   return (
     <View style={styles.fullScreen}>

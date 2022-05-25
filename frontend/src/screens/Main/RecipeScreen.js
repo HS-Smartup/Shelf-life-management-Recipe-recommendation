@@ -26,7 +26,6 @@ const RecipeScreen = () => {
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            console.log('1111');
             // console.log(responseJson.recipe.recipe);
             setRecipeItem([...responseJson.recipe.recipe]);
           } else {
