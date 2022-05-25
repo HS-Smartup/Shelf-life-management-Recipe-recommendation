@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipeDto;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import com.hsbug.backend.app.search_recipe.recommend.RecommendRecipeDto;
 import lombok.*;
@@ -68,6 +69,17 @@ public class RecipeEntity {
 
     public RecommendRecipeDto toRecomendResultDto() {
         return RecommendRecipeDto.builder()
+                .id(this.id)
+                .recipeName(this.recipeName)
+                .recipeMainImage(this.recipeMainImage)
+                .recipeViews(this.recipeViews)
+                .recipeStars(this.recipeStar)
+                .recipeWriter(this.recipeWriter)
+                .build();
+    }
+
+    public RecentlyViewRecipeDto toRecentlyViewRecipeDto() {
+        return RecentlyViewRecipeDto.builder()
                 .id(this.id)
                 .recipeName(this.recipeName)
                 .recipeMainImage(this.recipeMainImage)

@@ -10,6 +10,10 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 public class RecentlyViewRecipeDto {
-    private Long recipeId;
-    private String userEmail;
+    private Long id;
+    private String recipeName;
+    private String recipeMainImage;
+    private int recipeViews;
+    private float recipeStars;
+    private String recipeWriter;
 }

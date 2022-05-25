@@ -18,13 +18,13 @@ public class RecentlyViewRecipeService {
     private final RecentlyViewRecipeRepository recentlyViewRecipeRepository;
     private final RecipeRepository recipeRepository;
 
-    public List<SearchRecipeRefrigDto> findRecentlyViewRecipe() {
-        List<SearchRecipeRefrigDto> dtoList = new ArrayList<>();
+    public List<RecentlyViewRecipeDto> findRecentlyViewRecipe() {
+        List<RecentlyViewRecipeDto> dtoList = new ArrayList<>();
         String userEmail = getEmail();
         List<RecentlyViewRecipe> recentlyViewRecipeList = recentlyViewRecipeRepository.findAllByUserEmailOrderByIdDesc(userEmail);
         for (RecentlyViewRecipe recipe: recentlyViewRecipeList) {
             RecipeEntity recipeEntity = recipeRepository.findById(recipe.getRecipeId()).get();
-            dtoList.add(recipeEntity.toSearchResultDto());
+            dtoList.add(recipeEntity.toRecentlyViewRecipeDto());
         }
         return dtoList;
     }

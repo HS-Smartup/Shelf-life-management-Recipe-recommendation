@@ -22,8 +22,8 @@ public class RecentlyViewRecipe {
 
     public RecentlyViewRecipeDto toDto() {
         return RecentlyViewRecipeDto.builder()
-                .recipeId(this.recipeId)
-                .userEmail(this.userEmail)
+                .id(this.recipeId)
+                .recipeName(this.userEmail)
                 .build();
     }
 }
