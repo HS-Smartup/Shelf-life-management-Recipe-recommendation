@@ -29,7 +29,7 @@ const DeleteConfirmModal = ({deleteConfirm, setDeleteConfirm}) => {
           console.log(responseJson);
           if (responseJson.status === 200) {
             setDeleteConfirm(!deleteConfirm);
-            navigation.navigate('UserScreen');
+            navigation.navigate('UserRecipeScreen');
             Alert.alert('레시피가 삭제되었습니다.');
           } else {
             console.log('error');

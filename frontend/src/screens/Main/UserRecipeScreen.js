@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -41,9 +41,13 @@ const RecipeScreen = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    readItem();
-  }, []);
+    if (isFocused) {
+      readItem();
+    }
+  }, [isFocused]);
 
   const [hidden, setHidden] = useState(false);
 

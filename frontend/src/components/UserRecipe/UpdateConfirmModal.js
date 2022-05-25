@@ -84,7 +84,7 @@ const UpdateConfirmModal = ({updateConfirm, setUpdateConfirm, input}) => {
           console.log(responseJson);
           if (responseJson.status === 200) {
             Alert.alert('레시피가 수정되었습니다.');
-            navigation.navigate('UserScreen');
+            navigation.navigate('UserRecipeScreen');
           } else {
             Alert.alert('레시피 수정에 실패하였습니다.');
           }
