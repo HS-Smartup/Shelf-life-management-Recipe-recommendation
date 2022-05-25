@@ -9,14 +9,13 @@
 </head>
 
 <body>
-
-    <form th:action ="" method="get">
+<div layout:fragment = "content" >
+    <div class ="content">
     <h5>고객질문</h5>
         <tr>
             <th>고객</th>
             <td>
                 <div>
-                    <input type="text" name="name" value="" placeholder=이름 />
                     <span th:text="${data.id}"></span>
                 </div>
             </td>
@@ -24,7 +23,7 @@
             <th>제목</th>
             <td>
                 <div>
-                    <input type="text" name="title" value="" placeholder=제목 />
+
                     <span th:text="${data.title}"></span>
                 </div>
             </td>
@@ -32,7 +31,7 @@
             <th>이메일</th>
             <td>
                 <div>
-                    <input type="text" name="email" value="" placeholder=이메일 />
+
                     <span th:text="${data.email}"></span>
                 </div>
             </td>
@@ -43,28 +42,30 @@
             <th>내용</th>
             <td colspan="3">
                 <div>
-                    <textarea name="comment"  placeholder=내용></textarea>
+
                     <span th:text="${data.content}"></span>
                 </div>
             </td>
         </tr>
-    </form>
 
-    <form th:action ="" method="post">
+
+    <form th:action ="@{'/admin/answerPage/id' + ${data.id} + '/submit'}" method="post">
     <tr>
         <th>답변</th>
         <td colspan="3">
             <div>
-                <textarea name="answer"  placeholder=답변></textarea>
+                <input name="answer" type="text" placeholder=답변 th:name = "answer"/>
 
             </div>
         </td>
     </tr>
 
         <tr>
-            <button type="submit" value="답변 완료"></button>
+            <button type="submit" value="답변 완료">답변 완료</button>
         </tr>
     </form>
+    </div>
+</div>
 
 </body>
 </html>
