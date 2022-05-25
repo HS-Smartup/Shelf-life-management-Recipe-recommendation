@@ -1,6 +1,6 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {InquireIdContext} from 'contexts/InquireIdContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -49,14 +49,14 @@ const InquireReadScreen = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
+    if (isFocused) {
+      readItem();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isFocused]);
 
   // console.log(inquireItem);
 
@@ -80,7 +80,7 @@ const InquireReadScreen = () => {
           data={inquireItem}
           renderItem={({item}) => (
             <View style={styles.list}>
-              {item.answerCheck === false ? (
+              {item.answercheck === false ? (
                 <View>
                   <View style={styles.titleWrapper}>
                     <Text style={styles.titleText}>제목</Text>

@@ -38,10 +38,10 @@ const InquireAddScreen = () => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log('read\n\n\n', responseJson);
+          // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             Alert.alert('문의 작성이 완료되었습니다.');
-            navigation.navigate('UserScreen');
+            navigation.navigate('InquireScreen');
           } else {
             console.log('error');
           }

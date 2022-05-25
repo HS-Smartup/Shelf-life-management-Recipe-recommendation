@@ -1,6 +1,6 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import InquireList from 'components/Inquire/InquireList';
 import InquireAddButton from 'components/Inquire/InquireAddButton';
@@ -59,14 +59,13 @@ const InquireScreen = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (isFocused) {
+      readItem();
+    }
+  }, [isFocused]);
 
   const [hidden, setHidden] = useState(false);
 
