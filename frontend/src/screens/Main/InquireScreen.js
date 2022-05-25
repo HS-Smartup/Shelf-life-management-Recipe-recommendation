@@ -1,35 +1,72 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import InquireList from 'components/Inquire/InquireList';
 import InquireAddButton from 'components/Inquire/InquireAddButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const InquireScreen = () => {
   const navigation = useNavigation();
 
-  // const [inquireItem, setInquireItem] = useState([]);
+  const [inquireItem, setInquireItem] = useState([]);
 
-  const inquireItem = [
-    {
-      id: 1,
-      title: '1번문의',
-      content: '1번내용',
-      email: '작성자',
-      answer: '1번답변',
-      answercheck: false,
-      writingTime: '21-05-20',
-    },
-    {
-      id: 2,
-      title: '2번문의',
-      content: '2번내용',
-      email: '작성자',
-      answer: '2번답변',
-      answercheck: true,
-      writingTime: '21-05-20',
-    },
-  ];
+  // const inquireItem = [
+  //   {
+  //     id: 1,
+  //     title: '1번문의',
+  //     content: '1번내용',
+  //     email: '작성자',
+  //     answer: '1번답변',
+  //     answercheck: false,
+  //     writingTime: '21-05-20',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: '2번문의',
+  //     content: '2번내용',
+  //     email: '작성자',
+  //     answer: '2번답변',
+  //     answercheck: true,
+  //     writingTime: '21-05-20',
+  //   },
+  // ];
+
+  const readItem = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch(`http://localhost:8080/user/question/read`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            setInquireItem(responseJson.qa_list);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    let isComponentMounted = true;
+    readItem();
+    return () => {
+      isComponentMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [hidden, setHidden] = useState(false);
 

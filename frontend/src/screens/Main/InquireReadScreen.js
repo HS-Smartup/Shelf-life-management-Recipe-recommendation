@@ -10,53 +10,53 @@ const InquireReadScreen = () => {
   const {inquireId} = useContext(InquireIdContext);
 
   const [inquireItem, setInquireItem] = useState([
-    {
-      id: 1,
-      title: '1번문의',
-      content: '1번내용',
-      answer: '1번 답변',
-      answerCheck: true,
-    },
+    // {
+    //   id: 1,
+    //   title: '1번문의',
+    //   content: '1번내용',
+    //   answer: '1번 답변',
+    //   answerCheck: true,
+    // },
   ]);
 
-  // const readItem = async () => {
-  //   try {
-  //     const token = await AsyncStorage.getItem('user_token');
-  //     await fetch(
-  //       // `http://localhost:8080/user/recipe/detail?id=${recipeId}&book_check=${bookCheck}`,
-  //       {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           token: token,
-  //         },
-  //       },
-  //     )
-  //       .then(response => response.json())
-  //       .then(responseJson => {
-  //         // console.log('read\n\n\n', responseJson);
-  //         if (responseJson.status === 200) {
-  //           setInquireItem([responseJson.recipe_detail]);
-  //         } else {
-  //           console.log('error');
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.error(error);
-  //       });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  const readItem = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch(
+        `http://localhost:8080/user/question/read/detail?id=${inquireId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+        },
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            setInquireItem(responseJson.qa_detail);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  // useEffect(() => {
-  //   let isComponentMounted = true;
-  //   readItem();
-  //   return () => {
-  //     isComponentMounted = false;
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    let isComponentMounted = true;
+    readItem();
+    return () => {
+      isComponentMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // console.log(inquireItem);
 

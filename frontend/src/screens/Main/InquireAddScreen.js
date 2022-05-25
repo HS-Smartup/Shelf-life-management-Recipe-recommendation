@@ -1,7 +1,15 @@
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const InquireAddScreen = () => {
   const navigation = useNavigation();
@@ -17,7 +25,34 @@ const InquireAddScreen = () => {
 
   // console.log(form);
 
-  const onPressSubmit = () => {};
+  const onPressSubmit = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/question/add', {
+        method: 'POST',
+        body: JSON.stringify(form),
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            Alert.alert('문의 작성이 완료되었습니다.');
+            navigation.navigate('UserScreen');
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={styles.fullScreen}>
