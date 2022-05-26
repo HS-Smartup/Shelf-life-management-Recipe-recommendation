@@ -224,8 +224,6 @@ const RecipeUpdateScreen = () => {
 
   const [updateConfirm, setUpdateConfirm] = useState(false);
 
-  console.log('33333333333', input);
-
   return (
     <View style={styles.fullScreen}>
       <View>

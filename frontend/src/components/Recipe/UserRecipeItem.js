@@ -14,6 +14,10 @@ const UserRecipeItem = ({
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
 
   let imageCheck = false;
+  if (recipeMainImage === null) {
+    recipeMainImage =
+      'https://cdn-icons.flaticon.com/png/512/5762/premium/5762943.png?token=exp=1653532030~hmac=1f47967552b8d138feca63c5161bbe6f';
+  }
   imageCheck = recipeMainImage.includes('http');
 
   const onPressItem = () => {

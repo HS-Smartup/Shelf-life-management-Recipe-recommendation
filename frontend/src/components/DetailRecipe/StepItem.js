@@ -3,6 +3,10 @@ import React from 'react';
 
 const StepItem = ({stepIndex, stepImage, stepDescription}) => {
   let imageCheck = false;
+  if (stepImage === null) {
+    stepImage =
+      'https://cdn-icons.flaticon.com/png/512/5762/premium/5762943.png?token=exp=1653532030~hmac=1f47967552b8d138feca63c5161bbe6f';
+  }
   imageCheck = stepImage.includes('http');
 
   return (

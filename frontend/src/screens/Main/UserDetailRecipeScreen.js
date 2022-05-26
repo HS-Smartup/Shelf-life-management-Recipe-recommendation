@@ -26,7 +26,6 @@ const UserDetailRecipeScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const [imageUrl, setImageUrl] = useState('');
-  let imageCheck = false;
 
   const [recipe, setRecipe] = useState([]);
 
@@ -49,10 +48,14 @@ const UserDetailRecipeScreen = () => {
         .then(response => response.json())
         .then(responseJson => {
           setLoading(false);
-          // console.log('read\n\n\n', responseJson);
+          console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipe([responseJson.recipe_detail]);
-            setImageUrl(responseJson.recipe_detail.recipeMainImage);
+            responseJson.recipe_detail.recipeMainImage === null
+              ? setImageUrl(
+                  'https://cdn-icons.flaticon.com/png/512/5762/premium/5762943.png?token=exp=1653532030~hmac=1f47967552b8d138feca63c5161bbe6f',
+                )
+              : setImageUrl(responseJson.recipe_detail.recipeMainImage);
           } else {
             console.log('error');
           }
@@ -84,6 +87,7 @@ const UserDetailRecipeScreen = () => {
     setDeleteConfirm(!deleteConfirm);
   };
 
+  let imageCheck = false;
   imageCheck = imageUrl.includes('http');
 
   return (
@@ -136,7 +140,7 @@ const UserDetailRecipeScreen = () => {
                       <ImageBackground
                         source={{
                           // uri: `data:image/jpg;base64,${item.recipeMainImage}`,
-                          uri: `${item.recipeMainImage}`,
+                          uri: `${imageUrl}`,
                         }}
                         style={styles.image}
                         resizeMode="stretch">
@@ -152,7 +156,7 @@ const UserDetailRecipeScreen = () => {
                     ) : (
                       <ImageBackground
                         source={{
-                          uri: `data:image/jpg;base64,${item.recipeMainImage}`,
+                          uri: `data:image/jpg;base64,${imageUrl}`,
                           // uri: `${item.recipeMainImage}`,
                         }}
                         style={styles.image}
