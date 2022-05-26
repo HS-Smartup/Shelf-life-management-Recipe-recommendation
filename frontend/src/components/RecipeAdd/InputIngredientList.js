@@ -13,6 +13,8 @@ const InputIngredientList = ({
     InputIngredientItem;
   }, [removeIngredientInput]);
 
+  // console.log('11111111111111111', input);
+
   return (
     <FlatList
       style={styles.list}

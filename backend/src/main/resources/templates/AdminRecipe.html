@@ -18,18 +18,20 @@
             <th>recipe_img</th>
             <th>recipe_view</th>
             <th>recipe_star</th>
+            <th>button</th>
 
             <tr th:each = "data : ${AdminRecipe}">
                 <td th:text="${data.id}"></td>
-                <!--<td>
-                    <a th:text="${data.}" th:href="@{/freepostpage/read/{id}(id=${data.id})}"></a>
-                </td>-->
                 <td th:text="${data.recipeName}"></td>
                 <td th:text="${data.recipeImg}"></td>
                 <td th:text="${data.views}"></td>
                 <td th:text="${data.stars}"></td>
-
+                <td>
+                <button onclick="location.href=''">삭제</button>
+                <button onclick="location.href=''">수정</button>
+                </td>
             </tr>
+
         </table>
 
 

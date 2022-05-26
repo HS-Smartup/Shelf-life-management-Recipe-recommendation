@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckItem from 'components/RecipeSearch/CheckItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SearchResultContext} from 'contexts/SearchResultContext';
+import {SearchResultItemContext} from 'contexts/SearchResultItemContext';
 
 const RefrigeratorRecipeScreen = () => {
   const navigation = useNavigation();
@@ -13,7 +14,8 @@ const RefrigeratorRecipeScreen = () => {
 
   const [checkedItem, setCheckedItem] = useState([]);
 
-  const {searchResult, setSearchResult} = useContext(SearchResultContext);
+  const {setSearchResult} = useContext(SearchResultContext);
+  const {setSearchResultItem} = useContext(SearchResultItemContext);
 
   const readItem = async () => {
     try {
@@ -68,7 +70,7 @@ const RefrigeratorRecipeScreen = () => {
       )
         .then(response => response.json())
         .then(responseJson => {
-          // console.log(responseJson);
+          setSearchResultItem(responseJson.searchResult);
           navigation.navigate('SearchResultScreen');
         })
         .catch(error => {

@@ -87,9 +87,9 @@ const GoogleSignIn = ({navigation}) => {
         onPress={googleSignInButtonPress}
       />
       <Text style={styles.snsButtonText}>구글로 로그인</Text>
-      {!!googleToken && (
+      {/* {!!googleToken && (
         <Button title="구글 로그아웃하기" onPress={googleSignOut} />
-      )}
+      )} */}
     </View>
   );
 };

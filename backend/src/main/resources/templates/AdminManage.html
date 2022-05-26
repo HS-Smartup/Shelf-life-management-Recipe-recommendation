@@ -7,6 +7,8 @@
     <title>AdminManage</title>
 </head>
 <body>
+<form th:action="@{}" th:object="${}" method="post">
+
 <div layout:fragment = "content" >
     <div class = "content">
         <span th:text="${admins}"></span><br>
@@ -15,19 +17,23 @@
             <th>id</th>
             <th>admin_email</th>
             <th>role</th>
+            <th>button</th>
+
             <tr th:each = "data : ${admins}">
                 <td th:text="${data.id}"></td>
-                <!--<td>
-                    <a th:text="${data.}" th:href="@{/freepostpage/read/{id}(id=${data.id})}"></a>
-                </td>-->
                 <td th:text="${data.email}"></td>
                 <td th:text="${data.roles}"></td>
+                <td>
+                    <button onclick="location.href=''">삭제</button>
+                    <button onclick="location.href=''">수정</button>
+                </td>
             </tr>
         </table>
 
 
     </div>
 </div>
+</form>
     <!--회원관리테이블-->
 </body>
 </html>

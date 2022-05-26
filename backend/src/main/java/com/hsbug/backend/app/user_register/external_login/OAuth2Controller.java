@@ -2,10 +2,12 @@ package com.hsbug.backend.app.user_register.external_login;
 
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
+import com.hsbug.backend.app.user_register.UserRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,17 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class OAuth2Controller {
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomOAuth2UserService customOAuth2UserService;
-
-    @GetMapping({"/", "/"})
-    public void getAuthorizationMessage(HttpServletResponse response) throws IOException {
-        String token = getToken("123@naver.com");
-        //return response;
+    private final UserRegisterService userRegisterService;
+    public List<String> setRole(){
+        List<String> role = new ArrayList<>();
+        role.add("ROLE_USER");
+        return role;
     }
 
     @PostMapping("/api/signin/naver")
@@ -39,16 +43,24 @@ public class OAuth2Controller {
         String username = (String) naver_profile.get("name");
         String picture = (String) object.get("picture");
 
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+
         UserRegisterDto userRegisterDto = new UserRegisterDto();
         userRegisterDto.naverDtoOption(email, username, naver_sub, picture);
         userRegisterDto.setLogin_cont("naver");
+        userRegisterDto.setEmail(email);
+        userRegisterDto.setRoles("ROLE_USER");
+
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
+        username = userRegisterService.loadUserByNaversub(naver_sub).getUsername();
 
         naver_obj.put("token",getToken(userRegisterDto.getNaver_sub()));
         naver_obj.put("email",email);
         naver_obj.put("status",200);
         naver_obj.put("username",username);
-
+        System.out.println(naver_obj);
         return naver_obj;
     }
 
@@ -73,8 +85,14 @@ public class OAuth2Controller {
         UserRegisterDto userRegisterDto = new UserRegisterDto();
         userRegisterDto.googleDtoOption(email, username, google_sub, picture);
         userRegisterDto.setLogin_cont("google");
+        userRegisterDto.setRoles("ROLE_USER");
+        userRegisterDto.setEmail(email);
+
 
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
+        username = userRegisterService.loadUserByGooglesub(google_sub).getUsername();
+
+
         google_obj.put("token",getToken(userRegisterDto.getGoogle_sub()));
         google_obj.put("email",email);
         google_obj.put("status",200);
@@ -104,8 +122,13 @@ public class OAuth2Controller {
         UserRegisterDto userRegisterDto = new UserRegisterDto();
         userRegisterDto.kakaoDtoOption(email, username, kakao_sub, picture);
         userRegisterDto.setLogin_cont("kakao");
+        userRegisterDto.setRoles("ROLE_USER");
+        userRegisterDto.setEmail(email);
 
         customOAuth2UserService.saveOrUpdate(userRegisterDto);
+        username = userRegisterService.loadUserByKakaosub(kakao_sub).getUsername();
+
+
         kakao_obj.put("token",getToken(userRegisterDto.getKakao_sub()));
         kakao_obj.put("email",email);
         kakao_obj.put("status",200);

@@ -1,5 +1,9 @@
 package com.hsbug.backend.admin_page.Home;
 
+import com.hsbug.backend.admin_page.manage_question.ManageQuestionDto;
+import com.hsbug.backend.admin_page.manage_question.ManageQuestionEntity;
+import com.hsbug.backend.admin_page.manage_question.ManageQuestionRepository;
+import com.hsbug.backend.admin_page.manage_question.ManageQuestionService;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
@@ -26,6 +30,8 @@ public class HomeService {
     private final UserRegisterRepository userRegisterRepository;
     private final RecipeRepository recipeRepository;
     private final RecipeService recipeService;
+    private final ManageQuestionRepository manageQuestionRepository;
+    private final ManageQuestionService manageQuestionService;
 
     private UserRegisterDto converEntityTODto(UserRegisterEntity userRegisterEntity) {
         return UserRegisterDto.builder()
@@ -66,6 +72,5 @@ public class HomeService {
             return recipeService.toSearchRecipeRefrigDto(manageRecipeEntities);
 
         }
-
 
 }

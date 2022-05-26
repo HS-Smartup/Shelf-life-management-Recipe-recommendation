@@ -2,6 +2,8 @@ package com.hsbug.backend.app.recipe.recipe_detail.recipeStep;
 
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -17,6 +19,7 @@ public class RecipeStepEntity {
     private Long id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "RECIPE_ID")
     private RecipeEntity recipeEntity;
     @Column(columnDefinition = "LongText")

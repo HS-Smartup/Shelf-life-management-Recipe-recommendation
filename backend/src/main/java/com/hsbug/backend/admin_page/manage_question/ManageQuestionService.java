@@ -18,7 +18,7 @@ public class ManageQuestionService {
 
     private final ManageQuestionRepository manageQuestionRepository;
 
-    private ManageQuestionDto converEntityToDto(ManageQuestionEntity manageQuestionEntity){
+    public ManageQuestionDto converEntityToDto(ManageQuestionEntity manageQuestionEntity){
         return ManageQuestionDto.builder()
                 .id(manageQuestionEntity.getId())
                 .title(manageQuestionEntity.getTitle())
@@ -47,6 +47,13 @@ public class ManageQuestionService {
             manageQuestionDtoList.add(this.converEntityToDto(manageQuestionEntity));
         }
         return manageQuestionDtoList;
+    }
+
+    public ManageQuestionDto readOne(Long id){
+        ManageQuestionEntity manageQuestionEntiy = manageQuestionRepository.findAllById(id);
+        ManageQuestionDto manageQuestionDto = this.converEntityToDto(manageQuestionEntiy);
+
+        return manageQuestionDto;
     }
 
     public List<ManageQuestionDto> readAlreadyAnswer(){

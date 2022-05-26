@@ -15,4 +15,5 @@ public class RecommendRecipeDto {
     private String recipeMainImage;  // 메인 이미지 (소)
     private String recipeWriter; // 레시피 작성자
     private Integer recipeViews; // 레시피 조회수
+    private Float recipeStars;  //레시피 평점
 }

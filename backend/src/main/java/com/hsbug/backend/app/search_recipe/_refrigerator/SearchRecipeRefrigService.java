@@ -5,6 +5,7 @@ import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredi
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsCheckDto;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsRepository;
+import com.hsbug.backend.app.search_recipe.recommend.RecommendRecipeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -106,10 +107,10 @@ public class SearchRecipeRefrigService {
         return productList;
     }
 
-    public ArrayList<SearchRecipeRefrigDto> recipeIdToDto(ArrayList<Long> list) {
-        ArrayList<SearchRecipeRefrigDto> recipeList = new ArrayList<>();
+    public ArrayList<RecommendRecipeDto> recipeIdToDto(ArrayList<Long> list) {
+        ArrayList<RecommendRecipeDto> recipeList = new ArrayList<>();
         for (Long id: list) {
-            SearchRecipeRefrigDto dto = recipeRepository.findById(id).get().toSearchResultDto();
+            RecommendRecipeDto dto = recipeRepository.findById(id).get().toRecomendResultDto();
             recipeList.add(dto);
         }
         return recipeList;

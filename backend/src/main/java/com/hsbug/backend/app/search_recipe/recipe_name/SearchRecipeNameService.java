@@ -2,7 +2,7 @@ package com.hsbug.backend.app.search_recipe.recipe_name;
 
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeRepository;
-import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
+import com.hsbug.backend.app.search_recipe.recommend.RecommendRecipeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,8 @@ import java.util.*;
 public class SearchRecipeNameService {
     private final RecipeRepository recipeRepository;
 
-    public List<SearchRecipeRefrigDto> searchRecipeName(String search) {
-        List<SearchRecipeRefrigDto> resultList = new ArrayList<>();
+    public List<RecommendRecipeDto> searchRecipeName(String search) {
+        List<RecommendRecipeDto> resultList = new ArrayList<>();
         List<RecipeEntity> recipeEntityList = new ArrayList<>();
         Map<RecipeEntity, Integer> map = new HashMap<>();
 
@@ -50,7 +50,7 @@ public class SearchRecipeNameService {
         }
 
         for (Map.Entry<RecipeEntity, Integer> entry : mapValueSort(map).entrySet()) {
-            resultList.add(entry.getKey().toSearchResultDto());
+            resultList.add(entry.getKey().toRecomendResultDto());
         }
         return resultList;
     }

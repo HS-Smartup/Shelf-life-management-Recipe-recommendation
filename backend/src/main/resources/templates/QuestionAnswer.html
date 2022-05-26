@@ -19,17 +19,22 @@
                 <th>user_title</th>
                 <th>user_content</th>
                 <th>user_answer</th>
+                <th>button</th>
 
 
                 <tr th:each = "data : ${QA}">
                     <td th:text="${data.id}"></td>
-                    <!--<td>
-                        <a th:text="${data.}" th:href="@{/freepostpage/read/{id}(id=${data.id})}"></a>
-                    </td>-->
                     <td th:text="${data.email}"></td>
                     <td th:text="${data.title}"></td>
                     <td th:text="${data.content}"></td>
                     <td th:text="${data.answer}"></td>
+                    <td>
+                        <button th:onclick="'location.href=\''+ '/admin/answerPage/id'+@{${data.id}} + '\''">답변하기</button>
+
+                        <button type="button" onclick="location.href=''">수정</button>
+                            <button type="button" onclick="location.href=''">삭제</button>
+
+                    </td>
 
                 </tr>
             </table>

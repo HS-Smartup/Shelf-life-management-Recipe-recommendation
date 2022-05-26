@@ -6,6 +6,7 @@ import CheckItem from 'components/RecipeSearch/CheckItem';
 import {CameraRecipeContext} from 'contexts/CameraRecipeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SearchResultContext} from 'contexts/SearchResultContext';
+import {SearchResultItemContext} from 'contexts/SearchResultItemContext';
 
 const CameraRecipeScreen = () => {
   const navigation = useNavigation();
@@ -14,7 +15,8 @@ const CameraRecipeScreen = () => {
 
   const [checkedItem, setCheckedItem] = useState([]);
 
-  const {searchResult, setSearchResult} = useContext(SearchResultContext);
+  const {setSearchResult} = useContext(SearchResultContext);
+  const {setSearchResultItem} = useContext(SearchResultItemContext);
 
   // const listData = [
   //   {
@@ -56,6 +58,7 @@ const CameraRecipeScreen = () => {
       )
         .then(response => response.json())
         .then(responseJson => {
+          setSearchResultItem(responseJson.searchResult);
           navigation.navigate('SearchResultScreen');
         })
         .catch(error => {

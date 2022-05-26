@@ -15,13 +15,12 @@
             <th>id</th>
             <th>user_email</th>
             <th>role</th>
+
             <tr th:each = "data : ${user}">
                 <td th:text="${data.id}"></td>
-                <!--<td>
-                    <a th:text="${data.}" th:href="@{/freepostpage/read/{id}(id=${data.id})}"></a>
-                </td>-->
                 <td th:text="${data.email}"></td>
                 <td th:text="${data.roles}"></td>
+
             </tr>
         </table>
 

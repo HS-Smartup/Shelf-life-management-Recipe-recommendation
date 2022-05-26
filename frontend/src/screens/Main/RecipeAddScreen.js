@@ -243,10 +243,9 @@ const RecipeAddScreen = () => {
           // console.log(responseJson);
           if (responseJson.status === 200) {
             Alert.alert('레시피가 등록되었습니다.');
-            navigation.navigate('HomeScreen');
+            navigation.goBack();
           } else {
-            console.log(responseJson);
-            console.log(responseJson.error);
+            Alert.alert('레시피 등록에 실패하였습니다.');
           }
         })
         .catch(error => {

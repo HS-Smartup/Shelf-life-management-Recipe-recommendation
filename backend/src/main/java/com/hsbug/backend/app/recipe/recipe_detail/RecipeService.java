@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.recipe.recipe_detail;
 
+import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipeDto;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepDTO;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepRepository;
@@ -37,6 +38,8 @@ public class RecipeService {
             recipeIngredient.setRecipeEntityId(recipe);
             recipeIngredients.add(recipeIngredient);
         }
+        System.out.println(recipeIngredients.get(0).getRecipeIngredientsId());
+        recipeIngredientsRepository.deleteAllByRecipeEntityIdId(recipeIngredients.get(0).getRecipeEntityId().getId());
         recipeIngredientsRepository.saveAll(recipeIngredients);
 
         for (RecipeStepDTO recipeStepEntity : dtoRecipeStepEntityList) {    //recipeStep 저장
@@ -44,6 +47,7 @@ public class RecipeService {
             recipeStep.setRecipeEntity(recipe);
             recipeStepEntityList.add(recipeStep);
         }
+        recipeStepRepository.deleteAllByRecipeEntityId(recipeStepEntityList.get(0).getRecipeEntity().getId());
         recipeStepRepository.saveAll(recipeStepEntityList);
 
         return recipe.getId();
@@ -122,7 +126,7 @@ public class RecipeService {
         recipeRepository.save(recipeEntity.get());
     }
 
-    public List<SearchRecipeRefrigDto> findCategoryRecipe(String category) {
+    public List<RecentlyViewRecipeDto> findCategoryRecipe(String category) {
 
         List<RecipeEntity> recipeCategoryList = new ArrayList<>();
 
@@ -143,7 +147,7 @@ public class RecipeService {
                 }
             }
         }
-        return toSearchRecipeRefrigDto(recipeCategoryList);
+        return toRecentlyViewRefrigDto(recipeCategoryList);
     }
 
     public List<SearchRecipeRefrigDto> toSearchRecipeRefrigDto(List<RecipeEntity> recipeEntityList) {
@@ -155,6 +159,22 @@ public class RecipeService {
                     .recipeImg(recipe.getRecipeMainImage())
                     .views(recipe.getRecipeViews())
                     .stars(recipe.getRecipeStar())
+                    .build()
+            );
+        }
+        return refrigDtos;
+    }
+
+    public List<RecentlyViewRecipeDto> toRecentlyViewRefrigDto(List<RecipeEntity> recipeEntityList) {
+        List<RecentlyViewRecipeDto> refrigDtos = new ArrayList<>();
+        for (RecipeEntity recipe: recipeEntityList) {
+            refrigDtos.add(RecentlyViewRecipeDto.builder()
+                    .id(recipe.getId())
+                    .recipeName(recipe.getRecipeName())
+                    .recipeMainImage(recipe.getRecipeMainImage())
+                    .recipeViews(recipe.getRecipeViews())
+                    .recipeStars(recipe.getRecipeStar())
+                    .recipeWriter((recipe.getRecipeWriter()))
                     .build()
             );
         }

@@ -3,13 +3,24 @@ package com.hsbug.backend.app.recipe.my_recipe;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeEntity;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeRepository;
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeDto;
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeEntity;
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeRepository;
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeService;
+import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipeRepository;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeRepository;
+import com.hsbug.backend.app.recipe.recipe_detail.recipeStep.RecipeStepRepository;
+import com.hsbug.backend.app.recipe.recipe_detail.recipe_attribute.RecipeIngredientsRepository;
+import com.hsbug.backend.app.recipe.recipe_ratings.RecipeRatingRepository;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.UnexpectedRollbackException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,74 +28,52 @@ public class MyRecipeService {
 
     private final ManageRecipeRepository manageRecipeRepository;
     private final RecipeRepository recipeRepository;
+    private final RecipeStepRepository recipeStepRepository;
+    private final RecipeIngredientsRepository recipeIngredientsRepository;
+    private final BookmarkRecipeRepository bookmarkRecipeRepository;
+    private final RecentlyViewRecipeRepository recentlyViewRecipeRepository;
+    private final BookmarkRecipeService bookmarkRecipeService;
+    private final RecipeRatingRepository recipeRatingRepository;
 
     @Transactional
     public void saveRecipe(ManageRecipeDto manageRecipeDto){
         manageRecipeRepository.save(manageRecipeDto.toEntity());
     }
 
-    public List<RecipeEntity> readRecipe(String username){
-        List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeWriter(username);
+    public List<RecipeEntity> readRecipe(String email){
+        //List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeWriter(email);
+        List<RecipeEntity> myRecipe = recipeRepository.findAllByRecipeEmail(email);
         return myRecipe;
     }
 
     @Transactional
-    public void deleteRecipe(Long id){
-        manageRecipeRepository.deleteById(id);
+    public JSONObject deleteRecipe(Long id, String email) throws UnexpectedRollbackException {
+        JSONObject obj = new JSONObject();
+
+            BookmarkRecipeEntity bookmark = bookmarkRecipeRepository.findByEmail(email);
+            List bookmark_list = bookmark.getRecipe_id();
+            if (bookmark_list.contains(id)) {
+                BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.convertEntityToDto(bookmark);
+                bookmark_list.remove(id);
+                System.out.println(bookmark_list);
+                bookmarkRecipeDto.setRecipe_id(bookmark_list);
+                bookmarkRecipeRepository.save(bookmarkRecipeDto.toEntity());
+                System.out.println("북마크 삭제 완료");
+            }
+            recentlyViewRecipeRepository.deleteByRecipeIdAndAndUserEmail(id, email);
+            System.out.println("최근 본 레시피 삭제 완료");
+            recipeStepRepository.deleteAllByRecipeEntityId(id);
+            System.out.println("레시피 순서 삭제 완료");
+            recipeIngredientsRepository.deleteAllByRecipeEntityIdId(id);
+            System.out.println("레시피 재료 삭제 완료");
+            recipeRatingRepository.deleteAllByRecipeId(id);
+            System.out.println("레시피 평점 부여 삭제");
+            recipeRepository.deleteById(id);
+            System.out.println("레시피 본체 삭제 완료");
+            obj.put("message",id + " 삭제 완료");
+            obj.put("status", 200);
+            return obj;
+
     }
-
-
-    public ManageRecipeDto convertEntityToDto(ManageRecipeEntity manageRecipeEntity){
-        return ManageRecipeDto.builder()
-                .RCP_ID(manageRecipeEntity.getId())
-                .WRITER(manageRecipeEntity.getWRITER())
-                .RCP_SEQ(manageRecipeEntity.getRCP_SEQ())
-                .RCP_NM(manageRecipeEntity.getRCP_NM())
-                .RCP_PAT2(manageRecipeEntity.getRCP_PAT2())
-                .RCP_PARTS_DTLS(manageRecipeEntity.getRCPPARTSDTLS())
-                .RCP_WAY2(manageRecipeEntity.getRCP_WAY2())
-                .ATT_FILE_NO_MAIN(manageRecipeEntity.getATT_FILE_NO_MAIN())
-                .ATT_FILE_NO_MK(manageRecipeEntity.getATT_FILE_NO_MK())
-                .MANUAL01(manageRecipeEntity.getMANUAL01())
-                .MANUAL02(manageRecipeEntity.getMANUAL02())
-                .MANUAL03(manageRecipeEntity.getMANUAL03())
-                .MANUAL04(manageRecipeEntity.getMANUAL04())
-                .MANUAL05(manageRecipeEntity.getMANUAL05())
-                .MANUAL06(manageRecipeEntity.getMANUAL06())
-                .MANUAL07(manageRecipeEntity.getMANUAL07())
-                .MANUAL08(manageRecipeEntity.getMANUAL08())
-                .MANUAL09(manageRecipeEntity.getMANUAL09())
-                .MANUAL10(manageRecipeEntity.getMANUAL10())
-                .MANUAL11(manageRecipeEntity.getMANUAL11())
-                .MANUAL12(manageRecipeEntity.getMANUAL12())
-                .MANUAL13(manageRecipeEntity.getMANUAL13())
-                .MANUAL14(manageRecipeEntity.getMANUAL14())
-                .MANUAL15(manageRecipeEntity.getMANUAL15())
-                .MANUAL_IMG01(manageRecipeEntity.getMANUAL_IMG01())
-                .MANUAL_IMG02(manageRecipeEntity.getMANUAL_IMG02())
-                .MANUAL_IMG03(manageRecipeEntity.getMANUAL_IMG03())
-                .MANUAL_IMG04(manageRecipeEntity.getMANUAL_IMG04())
-                .MANUAL_IMG05(manageRecipeEntity.getMANUAL_IMG05())
-                .MANUAL_IMG06(manageRecipeEntity.getMANUAL_IMG06())
-                .MANUAL_IMG07(manageRecipeEntity.getMANUAL_IMG07())
-                .MANUAL_IMG08(manageRecipeEntity.getMANUAL_IMG08())
-                .MANUAL_IMG09(manageRecipeEntity.getMANUAL_IMG09())
-                .MANUAL_IMG10(manageRecipeEntity.getMANUAL_IMG10())
-                .MANUAL_IMG11(manageRecipeEntity.getMANUAL_IMG11())
-                .INFO_ENG(manageRecipeEntity.getINFO_ENG())
-                .INFO_CAR(manageRecipeEntity.getINFO_CAR())
-                .INFO_PRO(manageRecipeEntity.getINFO_PRO())
-                .INFO_FAT(manageRecipeEntity.getINFO_FAT())
-                .INFO_NA(manageRecipeEntity.getINFO_NA())
-                .HASH_TAG(manageRecipeEntity.getHASH_TAG())
-                .views(manageRecipeEntity.getViews())
-                .stars(manageRecipeEntity.getStars())
-                .ADD_TIME(manageRecipeEntity.getADD_TIME())
-                .build();
-    }
-
-
-
-
 }
 

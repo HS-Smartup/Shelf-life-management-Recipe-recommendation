@@ -1,6 +1,6 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeItem from 'components/Recipe/RecipeItem';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
@@ -26,7 +26,6 @@ const RecipeScreen = () => {
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            console.log('1111');
             // console.log(responseJson.recipe.recipe);
             setRecipeItem([...responseJson.recipe.recipe]);
           } else {
@@ -41,9 +40,13 @@ const RecipeScreen = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    readItem();
-  }, []);
+    if (isFocused) {
+      readItem();
+    }
+  }, [isFocused]);
 
   const [hidden, setHidden] = useState(false);
 

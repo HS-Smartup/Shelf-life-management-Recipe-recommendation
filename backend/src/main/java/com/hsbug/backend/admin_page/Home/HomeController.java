@@ -4,15 +4,15 @@ import com.hsbug.backend.admin_page.manage_question.ManageQuestionDto;
 import com.hsbug.backend.admin_page.manage_question.ManageQuestionRepository;
 import com.hsbug.backend.admin_page.manage_question.ManageQuestionService;
 import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
+import com.hsbug.backend.app.manage_user_info.question.QuestionUserService;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,6 +25,8 @@ public class HomeController {
     private final HomeService homeService;
     private final ManageQuestionService manageQuestionService;
     private final ManageQuestionRepository manageQuestionRepository;
+
+
     @RequestMapping(value = "/admin/home", method= RequestMethod.GET)
     public String goHome(HttpServletRequest request) {
         return "Home";
@@ -62,22 +64,39 @@ public class HomeController {
         model.addAttribute("AdminRecipe",dtos);
         return "AdminRecipe";
     }
+    @GetMapping("/admin/answerPage/id{id}")
+    public String QuestionAnswer(Model model, @PathVariable Long id){
+        System.out.println(111);
+        ManageQuestionDto manageQuestionDto = manageQuestionService.readOne(id);
+        System.out.println(manageQuestionDto);
+        model.addAttribute("data",manageQuestionDto);
 
-    @GetMapping("/admin/RecipeManage")
-    public String RecipeManage(){
-
-        return "RecipeManage";
+        return "answerPage";
     }
 
+    @PostMapping("/admin/answerPage/id{id}/submit")
+    public String QuestionAnswerSubmit(@PathVariable Long id, ManageQuestionDto manageQuestionDto, Model model) {
+        ManageQuestionDto dto = manageQuestionService.readOne(id);
+        dto.setAnswercheck(true);
+        dto.setAnswer(manageQuestionDto.getAnswer());
 
-    @GetMapping("/admin/UserRecipe")
-    public String UserRecipe(){
-
-        return "UserRecipe";
+        manageQuestionRepository.save(dto.toEntity());
+        return "Home";
     }
 
+        @GetMapping("/deleteAnswer")
+    public String deleteAnswer(){
 
 
+        return "QuestionAnswer";
+    }
+
+    @GetMapping("/updateAnswer")
+    public String updateAnswer(){
+
+
+        return "QuestionAnswer";
+    }
 }
 
 

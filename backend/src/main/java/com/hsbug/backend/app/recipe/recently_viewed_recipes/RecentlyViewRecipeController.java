@@ -18,7 +18,7 @@ public class RecentlyViewRecipeController {
     @GetMapping("/recently/recipe")
     private JSONObject recentlyViewRecipe() {
         JSONObject obj = new JSONObject();
-        List<SearchRecipeRefrigDto> dtoList = recentlyViewRecipeService.findRecentlyViewRecipe();
+        List<RecentlyViewRecipeDto> dtoList = recentlyViewRecipeService.findRecentlyViewRecipe();
         if (dtoList.isEmpty()) {
             obj.put("status", 201);
             obj.put("message", "최근에 본 레시피가 없습니다.");

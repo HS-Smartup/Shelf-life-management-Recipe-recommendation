@@ -1,35 +1,40 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeItem from 'components/Recipe/RecipeItem';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
 import RecipeList from 'components/Recipe/RecipeList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CategoryContext} from 'contexts/CategoryContext';
+import {CategoryValueContext} from 'contexts/CategoryValueContext';
 
 const CategoryRecipeScreen = () => {
   const navigation = useNavigation();
 
-  const {category, setCategory} = useContext(CategoryContext);
+  const {category} = useContext(CategoryContext);
+  const {categoryValue} = useContext(CategoryValueContext);
 
   const [recipeItem, setRecipeItem] = useState([]);
 
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/myRecipe/read', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
+      await fetch(
+        `http://localhost:8080/user/recipe/search/category?category=${categoryValue}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
         },
-      })
+      )
         .then(response => response.json())
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            setRecipeItem([...responseJson.recipeItem]);
+            setRecipeItem([...responseJson.recipe]);
           } else {
             console.log('error');
           }
@@ -42,13 +47,14 @@ const CategoryRecipeScreen = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-  }, []);
+    if (isFocused) {
+      readItem();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused]);
 
   const [hidden, setHidden] = useState(false);
 

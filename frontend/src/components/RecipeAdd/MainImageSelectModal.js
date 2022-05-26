@@ -33,7 +33,7 @@ const ImageSelectModal = ({setRecipeMainImage, setSelectModalVisible}) => {
                 setSelectModalVisible(false);
                 return;
               }
-              setRecipeMainImage(res);
+              setRecipeMainImage(res.assets[0].base64);
               setSelectModalVisible(false);
             },
           );
@@ -66,7 +66,7 @@ const ImageSelectModal = ({setRecipeMainImage, setSelectModalVisible}) => {
           setSelectModalVisible(false);
           return;
         }
-        setRecipeMainImage(res);
+        setRecipeMainImage(res.assets[0].base64);
         setSelectModalVisible(false);
       },
     );

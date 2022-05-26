@@ -1,6 +1,6 @@
 package com.hsbug.backend.app.search_recipe.recipe_name;
 
-import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
+import com.hsbug.backend.app.search_recipe.recommend.RecommendRecipeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +11,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user/search/name")
+@RequestMapping("/user/search")
 public class SearchRecipeNameController {
 
     private final SearchRecipeNameService searchRecipeNameService;
-    @GetMapping
-    public List<SearchRecipeRefrigDto> searchByRecipeName(@RequestParam String search) {
+    @GetMapping("/name")
+    public List<RecommendRecipeDto> searchByRecipeName(@RequestParam String search) {
+        System.out.println(search);
         return searchRecipeNameService.searchRecipeName(search);
     }
 

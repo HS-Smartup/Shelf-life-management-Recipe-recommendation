@@ -8,10 +8,13 @@ const RecipeItem = ({
   recipeName,
   recipeWriter,
   recipeViews,
-  recipeImage,
+  recipeMainImage,
 }) => {
   const navigation = useNavigation();
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
+
+  let imageCheck = false;
+  imageCheck = recipeMainImage.includes('http');
 
   const onPressItem = () => {
     navigation.navigate('DetailRecipeScreen');
@@ -30,11 +33,19 @@ const RecipeItem = ({
         </View>
         <Text style={styles.viewText}>조회수 {recipeViews}</Text>
       </View>
-      <Image
-        source={{uri: `data:image/jpg;base64,${recipeImage}`}}
-        style={styles.itemImage}
-        resizeMode="cover"
-      />
+      {imageCheck ? (
+        <Image
+          source={{uri: `data:image/jpg;base64,${recipeMainImage}`}}
+          style={styles.itemImage}
+          resizeMode="cover"
+        />
+      ) : (
+        <Image
+          source={{uri: `data:image/jpg;base64,${recipeMainImage}`}}
+          style={styles.itemImage}
+          resizeMode="cover"
+        />
+      )}
     </Pressable>
   );
 };

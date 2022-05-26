@@ -8,6 +8,7 @@ import com.hsbug.backend.app.user_register.UserRegisterRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +25,8 @@ public class MyRecipeController {
     @GetMapping("/read")
     public JSONObject readMyRecipe() {
         String email = findEmail();
-        String username = userRegisterRepository.findByEmail(email).get().getUsername();
         JSONObject obj = new JSONObject();
-        List<RecipeEntity> recipeDtoList = myRecipeService.readRecipe(username);
+        List<RecipeEntity> recipeDtoList = myRecipeService.readRecipe(email);
         myRecipeService.readRecipe(email);
 
         obj.put("message","리드 완료");
@@ -41,6 +41,7 @@ public class MyRecipeController {
         JSONObject obj = new JSONObject();
         UserRegisterEntity userRegisterEntity = userRegisterRepository.findByEmail(email).get();
         dto.setRecipeWriter(userRegisterEntity.getUsername());
+        dto.setRecipeEmail(email);
 
         System.out.println(dto.getRecipeIngredients());
         System.out.println(dto.getRecipeStep());
@@ -51,13 +52,33 @@ public class MyRecipeController {
     }
 
     @PostMapping("/delete")
-    public JSONObject deleteMyRecipe(@RequestParam Long id){
+    public JSONObject deleteMyRecipe(@RequestParam Long id) throws Exception {
         JSONObject obj = new JSONObject();
-        myRecipeService.deleteRecipe(id);
-        obj.put("message",id + " 삭제 완료");
-        obj.put("status", 200);
+        String email = findEmail();
+        try {
+            obj = myRecipeService.deleteRecipe(id, email);
+            obj.put("message",id + " 삭제 성공");
+            obj.put("status",200);
+        }catch(Exception e){
+            obj.put("message",id + " 삭제 실패");
+            obj.put("status",201);
+        }
         return obj;
     }
+
+    //수정 추가해야함. 5/18
+    @PostMapping("/update")
+    public JSONObject updateMyRecipe(@RequestBody RecipeJsonDTO dto){
+        String email = findEmail();
+        JSONObject obj = new JSONObject();
+        //UserRegisterEntity userRegisterEntity = userRegisterRepository.findById(dto.getId()).get();
+        Long id = recipeService.saveRecipe(dto);
+        obj.put("message",id+" 수정 완료");
+        obj.put("status",200);
+        return obj;
+    }
+
+
 
     private String findEmail() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

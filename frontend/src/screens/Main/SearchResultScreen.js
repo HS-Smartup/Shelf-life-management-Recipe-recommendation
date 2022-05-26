@@ -5,50 +5,21 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeList from 'components/Recipe/RecipeList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SearchResultContext} from 'contexts/SearchResultContext';
+import {SearchResultItemContext} from 'contexts/SearchResultItemContext';
 
 const SearchResultScreen = () => {
   const navigation = useNavigation();
 
   const [recipeItem, setRecipeItem] = useState([]);
 
-  const {searchResult, setSearchResult} = useContext(SearchResultContext);
+  const {searchResult} = useContext(SearchResultContext);
+  const {searchResultItem} = useContext(SearchResultItemContext);
 
-  const str1 = searchResult.join('/');
-
-  const readItem = async () => {
-    try {
-      const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/myRecipe/read', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
-        },
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          // console.log('read\n\n\n', responseJson);
-          if (responseJson.status === 200) {
-            setRecipeItem([...responseJson.recipeItem]);
-          } else {
-            console.log('error');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const str1 = searchResult.join('/');
 
   useEffect(() => {
-    let isComponentMounted = true;
-    readItem();
-    return () => {
-      isComponentMounted = false;
-    };
-  }, []);
+    setRecipeItem(searchResultItem);
+  }, [searchResultItem, setRecipeItem]);
 
   const [hidden, setHidden] = useState(false);
 
@@ -73,7 +44,7 @@ const SearchResultScreen = () => {
         </Pressable>
         <View style={styles.headerTextWrapper}>
           <Text numberOfLines={2} style={styles.headerText}>
-            {str1}
+            {searchResult}
           </Text>
         </View>
         <Pressable

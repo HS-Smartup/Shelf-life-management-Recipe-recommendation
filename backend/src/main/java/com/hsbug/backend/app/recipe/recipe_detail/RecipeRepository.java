@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity,Long> {
     List<RecipeEntity> findAllByRecipeWriter(String email);
+    List<RecipeEntity> findAllByRecipeEmail(String email);
     List<RecipeEntity> findAllByTypeCategory(String typeCategory);
     List<RecipeEntity> findAllBySituationCategory(String situationCategory);
     List<RecipeEntity> findAllByIngredientCategory(String ingredientCategory);

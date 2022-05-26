@@ -9,7 +9,8 @@ public class SearchRecipeRefrigDto {
     private Long id;
     private String recipeName;
     private String recipeImg;
-    private String recipeWriter;
+
     private int views;
     private float stars;
+
 }

@@ -17,16 +17,18 @@ public class ManageQuestionEntity {
     private String email;
     private String content;
     private String answer;
+    private String date;
     private boolean answercheck;
 
 
     @Builder
-    public ManageQuestionEntity(Long id, String title, String email, String content, String answer, boolean answercheck) {
+    public ManageQuestionEntity(Long id, String title, String email, String content, String answer, String date, boolean answercheck) {
         this.id = id;
         this.title = title;
         this.email = email;
         this.content = content;
         this.answer = answer;
+        this.date = date;
         this.answercheck = answercheck;
     }
 }

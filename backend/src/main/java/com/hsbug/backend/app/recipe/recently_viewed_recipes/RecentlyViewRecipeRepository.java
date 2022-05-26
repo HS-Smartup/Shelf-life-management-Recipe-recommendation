@@ -8,6 +8,5 @@ import java.util.List;
 @Repository
 public interface RecentlyViewRecipeRepository extends JpaRepository<RecentlyViewRecipe, Long> {
     List<RecentlyViewRecipe> findAllByUserEmailOrderByIdDesc(String userEmail);
-
-    RecentlyViewRecipe findByUserEmailOrderByIdDesc(String userEmail);
+    void deleteByRecipeIdAndAndUserEmail(Long id, String userEmail);
 }

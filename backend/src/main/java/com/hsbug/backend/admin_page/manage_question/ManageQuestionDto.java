@@ -9,11 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ManageQuestionDto {
-    private Long id;
-    private String title;
-    private String content;
-    private String email;
-    private String answer;
+    private Long id;        //아이디
+    private String title;   //글제목
+    private String content; //내용
+    private String email;   //이메일
+    private String answer; //답변
+    private String date;
     private boolean answercheck;
 
 
@@ -26,6 +27,7 @@ public class ManageQuestionDto {
                 .content(content)
                 .answer(answer)
                 .answercheck(answercheck)
+                .date(date)
                 .build();
     }
 
