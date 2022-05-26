@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface BookmarkRecipeRepository extends JpaRepository<BookmarkRecipeEntity,Long> {
     BookmarkRecipeEntity findByEmail(String email);
     Optional<BookmarkRecipeEntity> findById(Long id);
+    BookmarkRecipeEntity findByEmailOrderByIdDesc(String email);
 
 }

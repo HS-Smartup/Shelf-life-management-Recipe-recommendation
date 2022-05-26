@@ -1,21 +1,30 @@
 package com.hsbug.backend.app.search_recipe.recommend;
 
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeEntity;
+import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeRepository;
+import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipe;
+import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipeRepository;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeEntity;
 import com.hsbug.backend.app.recipe.recipe_detail.RecipeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.*;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class RecommendRecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final BookmarkRecipeRepository bookmarkRecipeRepository;
+    private final RecentlyViewRecipeRepository recentlyViewRecipeRepository;
+
 
     public RecommendRecipeDto randomRecipe() {
-
-        Long randomNum = (long) makeRandomId();
+        List<Long> list = new ArrayList<>();
+        Long randomNum = (long) makeRandomId(list)[1];
         RecipeEntity recommendRecipeDto  = recipeRepository.findById(randomNum).get();
 
         RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
@@ -29,14 +38,151 @@ public class RecommendRecipeService {
         return recipeDto;
     }
 
-    private int makeRandomId() {
-        int rNum = 0;
+    public List<RecommendRecipeDto> recommendSystem(String email) {
+        List<RecommendRecipeDto> recipeDto = new ArrayList<>();
+        List<Long> idList = new ArrayList<>();
+        //1.좋아요 기반으로 추천할 레시피를 찾는다.
+        try {
+            likeRecommend(email, recipeDto);
+            System.out.println("recipeDto = " + recipeDto);
+            //2.최근에 본 레시피를 기반으로 추천할 레시피를 찾는다.
+            recentlyViewRecipe(email, recipeDto);
+        } catch (NullPointerException e) {
+            log.info("recentlyViewRecipe = Null");
+        }
+        int size = recipeDto.size();
+        System.out.println("size = " + size);
+
+        for (RecommendRecipeDto dto:recipeDto) {
+            idList.add(dto.getId());
+        }
+//        addSizeRecipe(recipeDto,idList);
+        recipeDto.addAll(deRandomRecipe(idList));
+
+        return recipeDto;
+    }
+
+    private List<RecommendRecipeDto> recipeValidation(List<RecommendRecipeDto>list) {
+        Map<Integer, Long> map = new HashMap<>();
+        int counter = 0;
+//        boolean status = false;
+        try {
+            for (RecommendRecipeDto recipe : list) {
+                System.out.println("recipe = " + recipe);
+                for (int a = 0; a < map.size()+2; a++) {
+                    if (map.get(a) == recipe.getId().intValue()) {
+                        System.out.println("map is true="+map.get(a)+"\ta = "+a);
+                        list.remove(recipe.getId().intValue());
+//                    status = true;
+                    }else {
+                        map.put(counter++, recipe.getId());
+                        System.out.println("map not true= "+map);
+                        break;
+                    }
+                }
+            }
+        } catch (NullPointerException ignored) {
+        }
+
+        return list;
+    }
+
+//    private void addSizeRecipe(List<RecommendRecipeDto> list, List<Long>idList) {
+//        if (list.size() < 10) {
+//            for (int i = 0; i < (10- list.size()); i++) {
+//                list.add(deRandomRecipe(idList));
+//            }
+//        }
+//    }
+
+    public List<RecommendRecipeDto> deRandomRecipe(List<Long> list) {
+
+        List<RecommendRecipeDto> dtoList = new ArrayList<>();
+        int[] ids = makeRandomId(list);
+        for (int i = 0; i < (10 - list.size()); i++) {
+
+            RecipeEntity recommendRecipeDto = recipeRepository.findById((long)ids[i+list.size()]).get();
+
+            RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
+                    .id(recommendRecipeDto.getId())
+                    .recipeMainImage(recommendRecipeDto.getRecipeMainImage())
+                    .recipeName(recommendRecipeDto.getRecipeName())
+                    .recipeViews(recommendRecipeDto.getRecipeViews())
+                    .recipeWriter(recommendRecipeDto.getRecipeWriter())
+                    .build();
+            dtoList.add(recipeDto);
+        }
+        return dtoList;
+    }
+
+
+    private void likeRecommend(String email, List<RecommendRecipeDto> recipeDto) {
+        BookmarkRecipeEntity recentlyLikeRecipe = bookmarkRecipeRepository.findByEmailOrderByIdDesc(email);
+        System.out.println("recentlyLikeRecipe = " + recentlyLikeRecipe);
+        //최근에 좋아요 한 레시피
+        RecipeEntity recipe = recipeRepository.findById(recentlyLikeRecipe.getId()).get();
+        System.out.println("recipe = " + recipe);
+        List<RecipeEntity> allByIngredientCategory = recipeRepository.findTop5ByIngredientCategoryOrderByRecipeViews(recipe.getIngredientCategory());
+        for (RecipeEntity recipes: allByIngredientCategory) {
+            recipeDto.add(toRecommendDto(recipes));
+        }
+    }
+
+    public void recentlyViewRecipe(String email, List<RecommendRecipeDto> recipeDto) {
+        RecentlyViewRecipe recentlyViewRecipe = recentlyViewRecipeRepository.findByUserEmailOrderByIdDesc(email);
+        RecipeEntity recipeEntity = recipeRepository.findById(recentlyViewRecipe.getId()).get();
+        List<RecipeEntity> allByIngredientCategory = recipeRepository.findTop5ByIngredientCategoryOrderByRecipeViews(recipeEntity.getIngredientCategory());
+        for (RecipeEntity recipe : allByIngredientCategory) {
+            recipeDto.add(toRecommendDto(recipeEntity));
+        }
+    }
+
+    //중복방지하면서 랜던 id를 생성해주는 로직
+    public int[] makeRandomId(List<Long>list) {
+        int[] a = new int[10];
         Random random = new Random();
-        int max = 10;
-        int min = 3;
+        int max = 24;
+        int min = 1;
         //rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
-        rNum = random.nextInt(max - min ) + min;
-        return rNum;
+        int count = 0;
+        for (int i = 0; i < 10; i++) {
+            //카운팅 변수를 선언
+            //랜덤 값을 받음
+            if (count < i) {
+                count = i;
+            }
+            a[count] = random.nextInt(max - min) + 1;
+            System.out.println("nextRandom = " + a[count] + " / " + count);
+            //리스트 값과 중복되는지 중복검사
+            for (Long ll : list) {
+                if (a[count] == ll) {
+                    i--;
+                    System.out.println("ll / i--"+"\t"+count);
+                    break;
+                } else {
+                    //내가 만든 숫자의 중복검사
+                    for (int j = 0; j < i; j++) {
+                        if (a[count] == a[j]) {
+                            i--;
+                            System.out.println("j=count / i--"+a[j]+"\t"+count);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return a;
+    }
+
+
+    private RecommendRecipeDto toRecommendDto(RecipeEntity entity) {
+        return RecommendRecipeDto.builder()
+                .id(entity.getId())
+                .recipeName(entity.getRecipeName())
+                .recipeMainImage(entity.getRecipeMainImage())
+                .recipeWriter(entity.getRecipeWriter())
+                .recipeViews(entity.getRecipeViews())
+                .build();
     }
 
 }

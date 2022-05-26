@@ -21,5 +21,5 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity,Long> {
     public Long getMaxId();
 
     List<RecipeEntity> findTop10ByOrderByRecipeViewsDesc();
-
+    List<RecipeEntity> findTop5ByIngredientCategoryOrderByRecipeViews(String ingredientCategory);
 }
