@@ -49,10 +49,10 @@ public class MyRecipeService {
     @Transactional
     public JSONObject deleteRecipe(Long id, String email) throws UnexpectedRollbackException {
         JSONObject obj = new JSONObject();
-
-            BookmarkRecipeEntity bookmark = bookmarkRecipeRepository.findByEmail(email);
-            List bookmark_list = bookmark.getRecipe_id();
-            if (bookmark_list.contains(id)) {
+        BookmarkRecipeEntity bookmark = bookmarkRecipeRepository.findByEmail(email);
+        try {
+            if (bookmark.getRecipe_id().contains(id)) {
+                List bookmark_list = bookmark.getRecipe_id();
                 BookmarkRecipeDto bookmarkRecipeDto = bookmarkRecipeService.convertEntityToDto(bookmark);
                 bookmark_list.remove(id);
                 System.out.println(bookmark_list);
@@ -60,6 +60,8 @@ public class MyRecipeService {
                 bookmarkRecipeRepository.save(bookmarkRecipeDto.toEntity());
                 System.out.println("북마크 삭제 완료");
             }
+        }finally {
+            System.out.println("1");
             recentlyViewRecipeRepository.deleteByRecipeIdAndAndUserEmail(id, email);
             System.out.println("최근 본 레시피 삭제 완료");
             recipeStepRepository.deleteAllByRecipeEntityId(id);
@@ -70,10 +72,10 @@ public class MyRecipeService {
             System.out.println("레시피 평점 부여 삭제");
             recipeRepository.deleteById(id);
             System.out.println("레시피 본체 삭제 완료");
-            obj.put("message",id + " 삭제 완료");
+            obj.put("message", id + " 삭제 완료");
             obj.put("status", 200);
             return obj;
-
+        }
     }
 }
 
