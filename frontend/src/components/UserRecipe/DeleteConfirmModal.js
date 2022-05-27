@@ -12,7 +12,6 @@ const DeleteConfirmModal = ({deleteConfirm, setDeleteConfirm}) => {
   const onPressCancel = () => {
     setDeleteConfirm(!deleteConfirm);
   };
-  console.log(recipeId);
 
   const onPressDelete = async () => {
     try {

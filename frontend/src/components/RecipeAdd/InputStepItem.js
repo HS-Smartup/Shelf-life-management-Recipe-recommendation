@@ -22,6 +22,9 @@ const InputStepItem = ({
 }) => {
   const [stepImageModalVisible, setStepImageModalVisible] = useState(false);
 
+  let imageCheck = false;
+  imageCheck = stepImage.includes('http');
+
   return (
     <View style={styles.itemWrapper}>
       <View style={styles.imageWrapper}>
@@ -30,18 +33,35 @@ const InputStepItem = ({
             setStepImageModalVisible(true);
           }}
           android_ripple={{color: '#e1e2e3'}}>
-          {stepImage === null ? (
+          {stepImage === '' ? (
             <Icon name="add-photo-alternate" size={60} color={'#ffb856'} />
           ) : (
-            <Image
-              style={styles.stepImage}
-              source={
-                `${stepImage}`
-                  ? {uri: `data:image/jpg;base64,${stepImage}`}
-                  : null
-              }
-              resizeMode="cover"
-            />
+            <View>
+              {imageCheck ? (
+                <Image
+                  style={styles.stepImage}
+                  source={{uri: `${stepImage}`}}
+                  resizeMode="cover"
+                  resizeMethod="scale"
+                />
+              ) : (
+                <Image
+                  style={styles.stepImage}
+                  source={{uri: `data:image/jpg;base64,${stepImage}`}}
+                  resizeMode="cover"
+                  resizeMethod="scale"
+                />
+              )}
+            </View>
+            // <Image
+            //   style={styles.stepImage}
+            //   source={
+            //     `${stepImage}`
+            //       ? {uri: `data:image/jpg;base64,${stepImage}`}
+            //       : null
+            //   }
+            //   resizeMode="cover"
+            // />
           )}
         </Pressable>
         <Modal

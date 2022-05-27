@@ -38,8 +38,8 @@ const RecipeAddScreen = () => {
       {ingredientName: '', ingredientAmount: ''},
     ],
     recipeStep: [
-      {stepImage: null, stepDescription: ''},
-      {stepImage: null, stepDescription: ''},
+      {stepImage: '', stepDescription: ''},
+      {stepImage: '', stepDescription: ''},
     ],
   });
 

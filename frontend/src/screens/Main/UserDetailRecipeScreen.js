@@ -48,7 +48,7 @@ const UserDetailRecipeScreen = () => {
         .then(response => response.json())
         .then(responseJson => {
           setLoading(false);
-          console.log('read\n\n\n', responseJson);
+          // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipe([responseJson.recipe_detail]);
             responseJson.recipe_detail.recipeMainImage === null
