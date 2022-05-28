@@ -96,22 +96,34 @@ public class RecommendRecipeService {
 //    }
 
     public List<RecommendRecipeDto> deRandomRecipe(List<Long> list) {
-
+        RecipeEntity recommendRecipe = new RecipeEntity();
         List<RecommendRecipeDto> dtoList = new ArrayList<>();
         int[] ids = makeRandomId(list);
         for (int i = 0; i < (10 - list.size()); i++) {
+            Optional<RecipeEntity> recipe = recipeRepository.findById((long) ids[i + list.size()]);
+            try {
+                if (recipe.isPresent()) {
+                    recommendRecipe = recipe.get();
+                } else {
+                    recommendRecipe = recipeRepository.findById((long) justOneRandom(list)).get();
+                }
+            } catch (NoSuchElementException e) {
+                i--;
+                break;
+            }
 
-            RecipeEntity recommendRecipeDto = recipeRepository.findById((long)ids[i+list.size()]).get();
 
             RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
-                    .id(recommendRecipeDto.getId())
-                    .recipeMainImage(recommendRecipeDto.getRecipeMainImage())
-                    .recipeName(recommendRecipeDto.getRecipeName())
-                    .recipeViews(recommendRecipeDto.getRecipeViews())
-                    .recipeWriter(recommendRecipeDto.getRecipeWriter())
+                    .id(recommendRecipe.getId())
+                    .recipeMainImage(recommendRecipe.getRecipeMainImage())
+                    .recipeName(recommendRecipe.getRecipeName())
+                    .recipeViews(recommendRecipe.getRecipeViews())
+                    .recipeWriter(recommendRecipe.getRecipeWriter())
                     .build();
             dtoList.add(recipeDto);
         }
+
+
         return dtoList;
     }
 
@@ -141,7 +153,8 @@ public class RecommendRecipeService {
     public int[] makeRandomId(List<Long>list) {
         int[] a = new int[10];
         Random random = new Random();
-        int max = 24;
+        int max = recipeRepository.getMaxId().intValue();
+        System.out.println("max = " + max);
         int min = 1;
         //rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
         int count = 0;
@@ -172,6 +185,23 @@ public class RecommendRecipeService {
             }
         }
         return a;
+    }
+
+    private int justOneRandom(List<Long>list) {
+        Random random = new Random();
+        int max = recipeRepository.getMaxId().intValue();
+        System.out.println("max = " + max);
+        int min = 1;
+        //rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
+        //리스트 값과 중복되는지 중복검사
+        int randomInt = random.nextInt(max - min) + 1;
+        for (int i = 1; i < list.size(); i++) {
+            if (randomInt == list.get(i)) {
+                i = 1;
+                randomInt = random.nextInt(max - min) + 1;
+            }
+        }
+        return randomInt;
     }
 
 
