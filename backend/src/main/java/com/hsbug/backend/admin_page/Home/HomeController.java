@@ -83,20 +83,6 @@ public class HomeController {
         manageQuestionRepository.save(dto.toEntity());
         return "Home";
     }
-
-        @GetMapping("/deleteAnswer")
-    public String deleteAnswer(){
-
-
-        return "QuestionAnswer";
-    }
-
-    @GetMapping("/updateAnswer")
-    public String updateAnswer(){
-
-
-        return "QuestionAnswer";
-    }
 }
 
 
