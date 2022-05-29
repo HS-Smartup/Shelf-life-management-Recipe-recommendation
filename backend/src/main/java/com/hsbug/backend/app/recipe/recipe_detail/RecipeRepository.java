@@ -18,6 +18,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity,Long> {
     List<RecipeEntity> findByRecipeNameContaining(String recipeName);
     Optional<RecipeEntity> findById(Long id);
 
+
     @Query(value = "SELECT coalesce(max(id), 0) FROM RecipeEntity ")
     public Long getMaxId();
 
