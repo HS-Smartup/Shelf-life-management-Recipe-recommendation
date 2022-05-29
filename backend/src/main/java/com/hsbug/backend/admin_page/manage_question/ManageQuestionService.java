@@ -36,6 +36,7 @@ public class ManageQuestionService {
         for(ManageQuestionEntity manageQuestionEntity : manageQuestionEntityList){
             manageQuestionDtoList.add(this.converEntityToDto(manageQuestionEntity));
         }
+
         return manageQuestionDtoList;
     }
 
