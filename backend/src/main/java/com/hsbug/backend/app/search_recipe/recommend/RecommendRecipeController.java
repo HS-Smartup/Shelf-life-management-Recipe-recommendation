@@ -22,7 +22,6 @@ import java.util.Map;
 public class RecommendRecipeController {
 
     private final RecommendRecipeService recommendRecipeService;
-
     @GetMapping("/random")
     @ResponseBody
     public JSONObject searchRecipeDemo(){
