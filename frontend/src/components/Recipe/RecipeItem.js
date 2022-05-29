@@ -14,6 +14,10 @@ const RecipeItem = ({
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
 
   let imageCheck = false;
+  if (recipeMainImage === '') {
+    recipeMainImage =
+      'https://cdn-icons.flaticon.com/png/512/5762/premium/5762943.png?token=exp=1653532030~hmac=1f47967552b8d138feca63c5161bbe6f';
+  }
   imageCheck = recipeMainImage.includes('http');
 
   const onPressItem = () => {
@@ -28,14 +32,16 @@ const RecipeItem = ({
       android_ripple={{color: '#e1e2e3'}}>
       <View style={styles.itemTextWrapper}>
         <View style={styles.titleWrapper}>
-          <Text style={styles.titleText}>{recipeName}</Text>
+          <Text style={styles.titleText} numberOfLines={2}>
+            {recipeName}
+          </Text>
           <Text style={styles.writerText}>by {recipeWriter}</Text>
         </View>
         <Text style={styles.viewText}>조회수 {recipeViews}</Text>
       </View>
       {imageCheck ? (
         <Image
-          source={{uri: `data:image/jpg;base64,${recipeMainImage}`}}
+          source={{uri: `${recipeMainImage}`}}
           style={styles.itemImage}
           resizeMode="cover"
         />
@@ -75,6 +81,7 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {},
   titleText: {
+    width: 290,
     fontFamily: 'NanumSquareRoundOTFB',
     fontSize: 22,
     color: '#000000',

@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   FlatList,
   Image,
@@ -14,6 +15,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera} from 'react-native-image-picker';
 import {UserNameContext} from 'contexts/UserNameContext';
 import {CameraRecipeContext} from 'contexts/CameraRecipeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
+import {RecipeIdContext} from 'contexts/RecipeIdContext';
 
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -23,87 +27,127 @@ const HomeScreen = ({navigation}) => {
   const {username} = useContext(UserNameContext);
   const {cameraRecipe, setCameraRecipe} = useContext(CameraRecipeContext);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // useEffect(() => getData(), []);
+  const [recommendItem, setRecommendItem] = useState([]);
+  const [recentItem, setRecentItem] = useState([]);
+  const [popularItem, setPopularItem] = useState([]);
 
-  // const getData = () => {
-  //   if (!loading && !isListEnd) {
-  //     setLoading(true);
-  //     // Service to get the data from the server to render
-  //     fetch('http://localhost:8080/user/recommend/random')
-  //       // Sending the currect offset with get request
-  //       .then(response => response.json())
-  //       .then(responseJson => {
-  //         // Successful response from the API Call
-  //         // console.log(responseJson);
-  //         if (responseJson.recipe.length > 0) {
-  //           // After the response increasing the offset
-  //           setDataSource([...dataSource, ...responseJson.recipe]);
-  //           setLoading(false);
-  //         } else {
-  //           setIsListEnd(true);
-  //           setLoading(false);
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.error(error);
-  //       });
-  //   }
-  // };
+  const {recipeId, setRecipeId} = useContext(RecipeIdContext);
 
-  // const renderItem = ({item}) => {
-  //   const img = {uri: `${item.att_FILE_NO_MAIN}`};
-  //   return (
-  //     <View style={styles.card}>
-  //       <Image
-  //         source={img ? img : require('../../assets/images/defaultRecipe.png')}
-  //         style={styles.recipeImage}
-  //         resizeMode="stretch"
-  //       />
-  //       <Text style={styles.recipeText}>{item.rcp_NM}</Text>
-  //     </View>
-  //   );
-  // };
+  const readItem = async () => {
+    setLoading(true);
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/recommend/like', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            setRecommendItem([...responseJson.recipe]);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/recently/recipe', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            setRecentItem([...responseJson.recipe]);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      const token = await AsyncStorage.getItem('user_token');
+      await fetch('http://localhost:8080/user/popular', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          // console.log('read\n\n\n', responseJson);
+          if (responseJson.status === 200) {
+            setPopularItem([...responseJson.recipe]);
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
 
-  const data = [
-    {
-      att_FILE_NO_MAIN:
-        'https://recipe1.ezmember.co.kr/cache/recipe/2019/05/02/ddafc8912fdd1c261dd673cec48b96861.jpg',
-      rcp_NM: '김치전',
-    },
-    {
-      att_FILE_NO_MAIN:
-        'https://recipe1.ezmember.co.kr/cache/recipe/2017/04/20/7c604c18f76e74ac2ed44320c6e81e7a1.jpg',
-      rcp_NM: '김치말이국수',
-    },
-    {
-      att_FILE_NO_MAIN:
-        'https://recipe1.ezmember.co.kr/cache/recipe/2019/03/14/4c1d1794eb908c1bfec012999d7b43cc1.jpg',
-      rcp_NM: '김치볶음밥',
-    },
-    {
-      att_FILE_NO_MAIN:
-        'https://recipe1.ezmember.co.kr/cache/recipe/2019/03/24/595e3c02e680442d9e19c682b20d67ab1.jpg',
-      rcp_NM: '김치찌개',
-    },
-    {
-      att_FILE_NO_MAIN:
-        'https://d1hk7gw6lgygff.cloudfront.net/uploads/recipe/image_file/3997/8.jpg',
-      rcp_NM: '두부김치',
-    },
-  ];
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      readItem();
+    }
+  }, [isFocused]);
 
   const renderItem = ({item}) => {
-    const img = {uri: `${item.att_FILE_NO_MAIN}`};
+    const id = item.id;
+    const onPressItem = () => {
+      navigation.navigate('DetailRecipeScreen');
+      setRecipeId(id);
+    };
+    const img = `${item.recipeMainImage}`;
+    let imageCheck = false;
+    imageCheck = img.includes('http');
     return (
-      <View style={styles.card}>
-        <Image
-          source={img ? img : require('../../assets/images/defaultRecipe.png')}
-          style={styles.recipeImage}
-          resizeMode="stretch"
-        />
-        <Text style={styles.recipeText}>{item.rcp_NM}</Text>
-      </View>
+      <Pressable
+        style={styles.card}
+        onPress={onPressItem}
+        android_ripple={{color: '#e1e2e3'}}>
+        {imageCheck ? (
+          <Image
+            source={{uri: `${img}`}}
+            style={styles.recipeImage}
+            resizeMode="stretch"
+          />
+        ) : (
+          <Image
+            source={{uri: `data:image/jpg;base64,${img}`}}
+            style={styles.recipeImage}
+            resizeMode="stretch"
+          />
+        )}
+
+        <Text style={styles.recipeText}>{item.recipeName}</Text>
+      </Pressable>
     );
   };
 
@@ -168,137 +212,147 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.fullscreen}>
-      <View style={styles.header}>
-        <Pressable
-          onPress={() => navigation.navigate('HomeScreen')}
-          android_ripple={{color: '#e1e2e3'}}>
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </Pressable>
-        <Pressable
-          style={styles.searchWrapper}
-          onPress={() => navigation.navigate('SearchScreen')}
-          android_ripple={{color: '#636773'}}>
-          <View style={styles.search}>
-            <Icon name="search" size={24} color={'#ff8527'} />
-            <Text style={styles.searchText}>레시피 검색</Text>
+      {loading ? (
+        <View style={styles.loadingScreen}>
+          <ActivityIndicator size="large" color="#ff8527" />
+        </View>
+      ) : (
+        <View style={styles.fullscreen}>
+          <View style={styles.header}>
+            <Pressable
+              onPress={() => navigation.navigate('HomeScreen')}
+              android_ripple={{color: '#e1e2e3'}}>
+              <Image
+                source={require('../../assets/images/logo.png')}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+            </Pressable>
+            <Pressable
+              style={styles.searchWrapper}
+              onPress={() => navigation.navigate('SearchScreen')}
+              android_ripple={{color: '#636773'}}>
+              <View style={styles.search}>
+                <Icon name="search" size={24} color={'#ff8527'} />
+                <Text style={styles.searchText}>레시피 검색</Text>
+              </View>
+            </Pressable>
+            <Pressable
+              style={styles.notification}
+              android_ripple={{color: '#e1e2e3'}}>
+              <Icon name="notifications-none" size={32} color={'#ff8527'} />
+            </Pressable>
           </View>
-        </Pressable>
-        <Pressable
-          style={styles.notification}
-          android_ripple={{color: '#e1e2e3'}}>
-          <Icon name="notifications-none" size={32} color={'#ff8527'} />
-        </Pressable>
-      </View>
-      <View style={styles.contentWrapper}>
-        <FlatList
-          data={[{id: '1'}]}
-          renderItem={() => (
-            <View style={styles.content}>
-              <View style={styles.firstWrapper}>
-                <Pressable
-                  style={styles.refrigeratorBtn}
-                  onPress={() => navigation.navigate('RefrigeratorScreen')}
-                  android_ripple={{color: '#e1e2e3'}}>
-                  <Text style={styles.refrigeratorBtnText}>냉장고</Text>
-                  <Image
-                    source={require('../../assets/images/logo.png')}
-                    style={styles.refrigeratorBtnIcon}
-                  />
-                </Pressable>
-                <Pressable
-                  style={styles.recipeBtn}
-                  onPress={() => navigation.navigate('RecipeScreen')}
-                  android_ripple={{color: '#e1e2e3'}}>
-                  <Text style={styles.recipeBtnText}>레시피</Text>
-                  <Image
-                    source={require('../../assets/images/defaultRecipe.png')}
-                    style={styles.recipeBtnIcon}
-                  />
-                </Pressable>
-              </View>
-              <View style={styles.recipeSearch}>
-                <Pressable
-                  style={styles.recipeSearchBtn}
-                  onPress={() => navigation.navigate('SearchScreen')}
-                  android_ripple={{color: '#e1e2e3'}}>
-                  <Image
-                    source={require('../../assets/images/searchBtn.png')}
-                    style={styles.recipeSearchImage}
-                    resizeMode="contain"
-                  />
-                  <Text style={styles.recipeSearchText}>레시피 검색</Text>
-                </Pressable>
-                <Pressable
-                  style={styles.recipeSearchBtn}
-                  onPress={() =>
-                    navigation.navigate('RefrigeratorRecipeScreen')
-                  }
-                  android_ripple={{color: '#e1e2e3'}}>
-                  <Image
-                    source={require('../../assets/images/refrigeratorSearchBtn.png')}
-                    style={styles.recipeSearchImage}
-                    resizeMode="contain"
-                  />
-                  <Text style={styles.recipeSearchText}>
-                    냉장고 재료{'\n'}레시피 검색
+          <View style={styles.contentWrapper}>
+            <FlatList
+              data={[{id: '1'}]}
+              renderItem={() => (
+                <View style={styles.content}>
+                  <View style={styles.firstWrapper}>
+                    <Pressable
+                      style={styles.refrigeratorBtn}
+                      onPress={() => navigation.navigate('RefrigeratorScreen')}
+                      android_ripple={{color: '#e1e2e3'}}>
+                      <Text style={styles.refrigeratorBtnText}>냉장고</Text>
+                      <Image
+                        source={require('../../assets/images/logo.png')}
+                        style={styles.refrigeratorBtnIcon}
+                      />
+                    </Pressable>
+                    <Pressable
+                      style={styles.recipeBtn}
+                      onPress={() => navigation.navigate('RecipeScreen')}
+                      android_ripple={{color: '#e1e2e3'}}>
+                      <Text style={styles.recipeBtnText}>레시피</Text>
+                      <Image
+                        source={require('../../assets/images/defaultRecipe.png')}
+                        style={styles.recipeBtnIcon}
+                      />
+                    </Pressable>
+                  </View>
+                  <View style={styles.recipeSearch}>
+                    <Pressable
+                      style={styles.recipeSearchBtn}
+                      onPress={() => navigation.navigate('SearchScreen')}
+                      android_ripple={{color: '#e1e2e3'}}>
+                      <Image
+                        source={require('../../assets/images/searchBtn.png')}
+                        style={styles.recipeSearchImage}
+                        resizeMode="contain"
+                      />
+                      <Text style={styles.recipeSearchText}>레시피 검색</Text>
+                    </Pressable>
+                    <Pressable
+                      style={styles.recipeSearchBtn}
+                      onPress={() =>
+                        navigation.navigate('RefrigeratorRecipeScreen')
+                      }
+                      android_ripple={{color: '#e1e2e3'}}>
+                      <Image
+                        source={require('../../assets/images/refrigeratorSearchBtn.png')}
+                        style={styles.recipeSearchImage}
+                        resizeMode="contain"
+                      />
+                      <Text style={styles.recipeSearchText}>
+                        냉장고 재료{'\n'}레시피 검색
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                      style={styles.recipeSearchBtn}
+                      onPress={onPressCameraBtn}
+                      android_ripple={{color: '#e1e2e3'}}>
+                      <Image
+                        source={require('../../assets/images/cameraSearchBtn.png')}
+                        style={styles.recipeSearchCameraImage}
+                        resizeMode="contain"
+                      />
+                      <Text style={styles.recipeSearchText}>
+                        카메라 인식{'\n'}레시피 검색
+                      </Text>
+                    </Pressable>
+                  </View>
+                  <Text style={styles.listText}>
+                    {username}님을 위한 레시피
                   </Text>
-                </Pressable>
-                <Pressable
-                  style={styles.recipeSearchBtn}
-                  onPress={onPressCameraBtn}
-                  android_ripple={{color: '#e1e2e3'}}>
-                  <Image
-                    source={require('../../assets/images/cameraSearchBtn.png')}
-                    style={styles.recipeSearchCameraImage}
-                    resizeMode="contain"
-                  />
-                  <Text style={styles.recipeSearchText}>
-                    카메라 인식{'\n'}레시피 검색
-                  </Text>
-                </Pressable>
-              </View>
-              <Text style={styles.listText}>{username}님을 위한 레시피</Text>
-              <View style={styles.listWrapper}>
-                <FlatList
-                  style={styles.recipeWrapper}
-                  data={data}
-                  renderItem={renderItem}
-                  horizontal={true}
-                  initialNumToRender={10}
-                  showsHorizontalScrollIndicator={false}
-                />
-              </View>
-              <Text style={styles.listText}>최근에 본 레시피</Text>
-              <View style={styles.listWrapper}>
-                <FlatList
-                  style={styles.recipeWrapper}
-                  data={data}
-                  renderItem={renderItem}
-                  horizontal={true}
-                  initialNumToRender={10}
-                  showsHorizontalScrollIndicator={false}
-                />
-              </View>
-              <Text style={styles.listText}>인기 레시피</Text>
-              <View style={styles.listWrapper}>
-                <FlatList
-                  style={styles.recipeWrapper}
-                  data={data}
-                  renderItem={renderItem}
-                  horizontal={true}
-                  initialNumToRender={10}
-                  showsHorizontalScrollIndicator={false}
-                />
-              </View>
-            </View>
-          )}
-          keyExtractor={item => item.id.toString()}
-        />
-      </View>
+                  <View style={styles.listWrapper}>
+                    <FlatList
+                      style={styles.recipeWrapper}
+                      data={recommendItem}
+                      renderItem={renderItem}
+                      horizontal={true}
+                      initialNumToRender={10}
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  </View>
+                  <Text style={styles.listText}>최근에 본 레시피</Text>
+                  <View style={styles.listWrapper}>
+                    <FlatList
+                      style={styles.recipeWrapper}
+                      data={recentItem}
+                      renderItem={renderItem}
+                      horizontal={true}
+                      initialNumToRender={10}
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  </View>
+                  <Text style={styles.listText}>인기 레시피</Text>
+                  <View style={styles.listWrapper}>
+                    <FlatList
+                      style={styles.recipeWrapper}
+                      data={popularItem}
+                      renderItem={renderItem}
+                      horizontal={true}
+                      initialNumToRender={10}
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  </View>
+                </View>
+              )}
+              keyExtractor={item => item.id.toString()}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -309,6 +363,12 @@ const styles = StyleSheet.create({
   fullscreen: {
     flex: 1,
     backgroundColor: '#f2f3f4',
+  },
+  loadingScreen: {
+    flex: 1,
+    backgroundColor: '#f2f3f4',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     width: '100%',
@@ -445,7 +505,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#ffffff',
     width: 160,
-    height: 150,
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 10,
