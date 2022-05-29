@@ -43,11 +43,11 @@ public class RecommendRecipeController {
     }
 
     @GetMapping("like")
-    public Map<String, List<RecommendRecipeDto>> likeRecommend() {
+    public JSONObject likeRecommend() {
         Map<String, List<RecommendRecipeDto>> map = new HashMap<>();
         JSONObject obj = new JSONObject();
         List<RecommendRecipeDto> recipeDtos = recommendRecipeService.recommendSystem(getEmail());
-        map.put("recommendRecipe", recipeDtos);
+        map.put("recipe", recipeDtos);
         obj.put("recipe",map);
         obj.put("status",200);
         return obj;
