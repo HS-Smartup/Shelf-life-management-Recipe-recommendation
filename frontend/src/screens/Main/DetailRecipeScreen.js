@@ -23,6 +23,12 @@ const DetailRecipeScreen = () => {
   const {recipeId, setRecipeId} = useContext(RecipeIdContext);
   const [loading, setLoading] = useState(false);
 
+  const [imageUrl, setImageUrl] = useState('');
+  let bookCheck = false;
+
+  let imageCheck = false;
+  imageCheck = imageUrl.includes('http');
+
   const [recipe, setRecipe] = useState([
     // {
     //   id: 1,
@@ -54,8 +60,6 @@ const DetailRecipeScreen = () => {
     // },
   ]);
 
-  let bookCheck = false;
-
   const readItem = async () => {
     setLoading(true);
     try {
@@ -81,6 +85,11 @@ const DetailRecipeScreen = () => {
             } else {
               setLike(false);
             }
+            responseJson.recipe_detail.recipeMainImage === null
+              ? setImageUrl(
+                  'https://cdn-icons.flaticon.com/png/512/5762/premium/5762943.png?token=exp=1653532030~hmac=1f47967552b8d138feca63c5161bbe6f',
+                )
+              : setImageUrl(responseJson.recipe_detail.recipeMainImage);
           } else {
             console.log('error');
           }
@@ -234,20 +243,42 @@ const DetailRecipeScreen = () => {
               renderItem={({item}) => (
                 <View>
                   <View style={styles.titleWrapper}>
-                    <ImageBackground
-                      source={{
-                        uri: `data:image/jpg;base64,${item.recipeMainImage}`,
-                        // uri: `${item.recipeMainImage}`,
-                      }}
-                      style={styles.image}
-                      resizeMode="stretch">
-                      <View style={styles.nameWrapper}>
-                        <Text style={styles.recipeName}>{item.recipeName}</Text>
-                        <Text style={styles.recipeWriter}>
-                          by {item.recipeWriter}
-                        </Text>
-                      </View>
-                    </ImageBackground>
+                    {imageCheck ? (
+                      <ImageBackground
+                        source={{
+                          uri: `${item.recipeMainImage}`,
+                          // uri: `${item.recipeMainImage}`,
+                        }}
+                        style={styles.image}
+                        resizeMode="stretch">
+                        <View style={styles.nameWrapper}>
+                          <Text style={styles.recipeName}>
+                            {item.recipeName}
+                          </Text>
+                          <Text style={styles.recipeWriter}>
+                            by {item.recipeWriter}
+                          </Text>
+                        </View>
+                      </ImageBackground>
+                    ) : (
+                      <ImageBackground
+                        source={{
+                          uri: `data:image/jpg;base64,${item.recipeMainImage}`,
+                          // uri: `${item.recipeMainImage}`,
+                        }}
+                        style={styles.image}
+                        resizeMode="stretch">
+                        <View style={styles.nameWrapper}>
+                          <Text style={styles.recipeName}>
+                            {item.recipeName}
+                          </Text>
+                          <Text style={styles.recipeWriter}>
+                            by {item.recipeWriter}
+                          </Text>
+                        </View>
+                      </ImageBackground>
+                    )}
+
                     <View style={styles.infoWrapper}>
                       <View style={styles.likeWrapper}>
                         <CommunityIcon

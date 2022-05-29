@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import RecipeAddButton from 'components/Recipe/RecipeAddButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserNameContext} from 'contexts/UserNameContext';
-import UserRecipeList from 'components/Recipe/UserRecipeList';
+import UserRecipeList from 'components/UserRecipe/UserRecipeList';
 
 const RecipeScreen = () => {
   const navigation = useNavigation();

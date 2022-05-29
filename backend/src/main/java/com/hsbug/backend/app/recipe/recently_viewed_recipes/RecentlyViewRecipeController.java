@@ -21,6 +21,7 @@ public class RecentlyViewRecipeController {
         List<RecentlyViewRecipeDto> dtoList = recentlyViewRecipeService.findRecentlyViewRecipe();
         if (dtoList.isEmpty()) {
             obj.put("status", 201);
+            obj.put("recipe", dtoList);
             obj.put("message", "최근에 본 레시피가 없습니다.");
         } else {
             obj.put("status", 200);
