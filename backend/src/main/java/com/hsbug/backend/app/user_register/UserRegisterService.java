@@ -1,6 +1,8 @@
 package com.hsbug.backend.app.user_register;
 
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +34,22 @@ public class UserRegisterService implements UserDetailsService {
         }
         userRegisterRepository.save(form.toEntity());
     }
+/*
+
+    public JSONObject userdelete(Long id) throws NullPointerException{ // 회원 강퇴(delete)
+        JSONObject obj = new JSONObject();
+        try{
+            userRegisterRepository.deleteById(id);
+            obj.put("message","delet success: "+ id);
+            return obj;
+        }catch (Exception e){
+            obj.put("message","delete fail");
+            return obj;
+        }
+    }
+*/
+
+
 
     // 회원 정보 찾기
     public boolean checkUserByUsername(String username) {//throws UsernameNotFoundException,NullPointerException {
