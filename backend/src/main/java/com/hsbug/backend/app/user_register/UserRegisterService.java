@@ -1,9 +1,6 @@
 package com.hsbug.backend.app.user_register;
 
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,8 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,20 +29,12 @@ public class UserRegisterService implements UserDetailsService {
         }
         userRegisterRepository.save(form.toEntity());
     }
-/*
 
-    public JSONObject userdelete(Long id) throws NullPointerException{ // 회원 강퇴(delete)
-        JSONObject obj = new JSONObject();
-        try{
+    public void userdelete(Long id) throws UsernameNotFoundException { // 회원 강퇴(delete)
+
             userRegisterRepository.deleteById(id);
-            obj.put("message","delet success: "+ id);
-            return obj;
-        }catch (Exception e){
-            obj.put("message","delete fail");
-            return obj;
-        }
+
     }
-*/
 
 
 
