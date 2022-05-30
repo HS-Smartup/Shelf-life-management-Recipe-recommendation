@@ -26,18 +26,19 @@ public class RecommendRecipeController {
     @GetMapping("/random")
     @ResponseBody
     public JSONObject searchRecipeDemo(){
-        Map<String, ArrayList> randomRecipeMap = new HashMap<>();
-        ArrayList arr = new ArrayList<>();
+        Map<String, List> randomRecipeMap = new HashMap<>();
+        List<RecommendRecipeDto> arr = new ArrayList<>();
         JSONObject obj = new JSONObject();
-
-        for (int i = 0; i < 30; i++) {
-            RecommendRecipeDto recipeDto = recommendRecipeService.randomRecipe();
-            arr.add(recipeDto);
-        }
+        List<Long> intList = new ArrayList<>();
+        //서비스에서 다 처리하는쪽으로 다 넘겨버림
+        arr.addAll(recommendRecipeService.randomRecipe(intList));
         randomRecipeMap.put("recipe", arr);
         obj.put("recipe", randomRecipeMap);
         obj.put("status", 200);
-
+        System.out.println("=================="+intList);
+        for (RecommendRecipeDto recipeDto : arr) {
+            System.out.println("recipeDto = " + recipeDto);
+        }
         //randomRecipeMap.put("status", 200);
         return obj;
     }
