@@ -7,6 +7,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -43,5 +44,8 @@ public class ManageQuestionController { //10초 정도 걸리는 듯.
         JSONObject obj  = manageQuestionService.addAnswer(id,answer);
         return obj;
     }
+
+
+
 
 }

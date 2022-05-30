@@ -31,9 +31,7 @@ public class UserRegisterService implements UserDetailsService {
     }
 
     public void userdelete(Long id) throws UsernameNotFoundException { // 회원 강퇴(delete)
-
             userRegisterRepository.deleteById(id);
-
     }
 
 

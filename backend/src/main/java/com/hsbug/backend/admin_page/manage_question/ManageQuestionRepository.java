@@ -10,4 +10,5 @@ public interface ManageQuestionRepository extends JpaRepository<ManageQuestionEn
     Optional<ManageQuestionEntity> findById(Long id);
     ManageQuestionEntity findAllById(Long id);
     List<ManageQuestionEntity> findAllByEmail(String Email);
+    /*List<ManageQuestionEntity> deleteById(Long id);*/
 }

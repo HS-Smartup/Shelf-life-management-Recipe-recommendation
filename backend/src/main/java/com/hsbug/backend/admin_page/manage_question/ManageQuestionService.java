@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class ManageQuestionService {
@@ -79,6 +78,10 @@ public class ManageQuestionService {
         manageQuestionRepository.save(question.toEntity());
 
         return obj;
+    }
+
+    public void deleteQuestion(Long id){
+        manageQuestionRepository.deleteById(id);
     }
 
 }

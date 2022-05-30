@@ -93,6 +93,16 @@ public class HomeController {
         return new RedirectView("/admin/UserManage");
     }
 
+    @PostMapping("/admin/QA/id{id}/delete")
+    public RedirectView DeleteQA(@PathVariable Long id){
+        JSONObject obj = new JSONObject();
+        manageQuestionService.deleteQuestion(id);
+        obj.put("message",id+" 삭제 완료");
+        obj.put("status",200);
+        return new RedirectView("/admin/QA");
+    }
+
+
 
 
 }
