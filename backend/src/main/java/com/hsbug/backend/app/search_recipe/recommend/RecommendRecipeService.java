@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.search_recipe.recommend;
 
+import ch.qos.logback.core.read.ListAppender;
 import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeEntity;
 import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeRepository;
 import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipe;
@@ -25,16 +26,32 @@ public class RecommendRecipeService {
     public List<RecommendRecipeDto> randomRecipe(List<Long>list) {
         List<RecommendRecipeDto> recipeDtoList = new ArrayList<>();
 
-        for (int i = 0; i < 30; i++) {
-            Long randomNum = (long) justOneRandom(list);
-            System.out.println("randomNum = " + randomNum);
-            Optional<RecipeEntity> recipe  = recipeRepository.findById(randomNum);
+        Random random = new Random();
+        int max = recipeRepository.getMaxId().intValue();
+        int min = 1;
+        Long arr[] = new Long[30];
+
+        for (int j = 0; j <30; j++){
+            arr[j] = Long.valueOf(random.nextInt(max - min) + 1);
+            for (int k = 0; k<j; k++){
+                if (arr[j]==arr[k]){
+                    System.out.println("random");
+                    j--;
+                }
+            }
+        }
+        System.out.println(arr);
+
+        for (int i=0; i < 30; i++) {
+            Long rn = arr[i];
+            System.out.println("randomNum = " + rn);
+            Optional<RecipeEntity> recipe = recipeRepository.findById(rn);
             RecipeEntity recommendRecipeDto = new RecipeEntity();
             try {
                 if (recipe.isPresent()) {
                     recommendRecipeDto = recipe.get();
                 } else {
-                    recommendRecipeDto = recipeRepository.findById((long) justOneRandom(list)).get();
+                    recommendRecipeDto = recipeRepository.findById(rn).get();
                 }
             } catch (NoSuchElementException e) {
                 i--;
@@ -53,8 +70,8 @@ public class RecommendRecipeService {
                     .build();
             recipeDtoList.add(recipeDto);
             list.add(recipeDto.getId());
-        }
 
+        }
         return recipeDtoList;
     }
 
@@ -64,7 +81,6 @@ public class RecommendRecipeService {
         int min = 1;
         return random.nextInt(max - min ) + min;
     }
-
 
     public List<RecommendRecipeDto> recommendSystem(String email) {
         List<RecommendRecipeDto> recipeDto = new ArrayList<>();
@@ -100,7 +116,7 @@ public class RecommendRecipeService {
                 if (recipe.isPresent()) {
                     recommendRecipe = recipe.get();
                 } else {
-                    recommendRecipe = recipeRepository.findById((long) justOneRandom(list)).get();
+                    recommendRecipe = recipeRepository.findById(justOneRandom(list).get(i)).get();
                 }
             } catch (NoSuchElementException e) {
                 i--;
@@ -119,7 +135,6 @@ public class RecommendRecipeService {
 
         return dtoList;
     }
-
 
     private void likeRecommend(String email, List<RecommendRecipeDto> recipeDto) {
         BookmarkRecipeEntity recentlyLikeRecipe = bookmarkRecipeRepository.findByEmailOrderByIdDesc(email);
@@ -180,21 +195,30 @@ public class RecommendRecipeService {
         return a;
     }
 
-    private int justOneRandom(List<Long>list) {
+    private List<Long> justOneRandom(List<Long>list) {
         Random random = new Random();
         int max = recipeRepository.getMaxId().intValue();
+        List arr2 = new ArrayList<>();
         System.out.println("max = " + max);
         int min = 1;
         //rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
         //리스트 값과 중복되는지 중복검사
+        System.out.println(list);
         int randomInt = random.nextInt(max - min) + 1;
-        for (int i = 1; i < list.size(); i++) {
+        arr2.add(randomInt);
+        for (int i = 0; i < 30; i++) {
+            randomInt = random.nextInt(max - min) + 1;
+
             if (randomInt == list.get(i)) {
-                i = 1;
-                randomInt = random.nextInt(max - min) + 1;
+                System.out.println("aaaaa"+ i +" " + randomInt + " " +  list.get(i));
+                i=0;
+                continue;
+            }
+            else{
+                arr2.add(randomInt);
             }
         }
-        return randomInt;
+        return arr2;
     }
 
     private RecommendRecipeDto toRecommendDto(RecipeEntity entity) {
