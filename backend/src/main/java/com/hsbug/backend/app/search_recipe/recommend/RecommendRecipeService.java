@@ -84,15 +84,26 @@ public class RecommendRecipeService {
 
     public List<RecommendRecipeDto> recommendSystem(String email) {
         List<RecommendRecipeDto> recipeDto = new ArrayList<>();
+        List<RecommendRecipeDto> recipeDto2 = new ArrayList<>();
+
         List<Long> idList = new ArrayList<>();
         //1.좋아요 기반으로 추천할 레시피를 찾는다.
         try {
-            likeRecommend(email, recipeDto);
-            System.out.println("recipeDto = " + recipeDto);
             //2.최근에 본 레시피를 기반으로 추천할 레시피를 찾는다.
+
             recentlyViewRecipe(email, recipeDto);
+            System.out.println("recipeDto = " + recipeDto);
+
         } catch (NullPointerException e) {
             log.info("recentlyViewRecipe = Null");
+        }
+        try {
+            likeRecommend(email, recipeDto2);
+            System.out.println("recipeDto = " + recipeDto2);
+        }catch (IndexOutOfBoundsException e){
+            log.info("aa");
+        }catch (NullPointerException e){
+            log.info("like Null");
         }
         int size = recipeDto.size();
         System.out.println("size = " + size);
@@ -110,6 +121,7 @@ public class RecommendRecipeService {
         RecipeEntity recommendRecipe = new RecipeEntity();
         List<RecommendRecipeDto> dtoList = new ArrayList<>();
         int[] ids = makeRandomId(list);
+
         for (int i = 0; i < (10 - list.size()); i++) {
             Optional<RecipeEntity> recipe = recipeRepository.findById((long) ids[i + list.size()]);
             try {
@@ -139,8 +151,11 @@ public class RecommendRecipeService {
     private void likeRecommend(String email, List<RecommendRecipeDto> recipeDto) {
         BookmarkRecipeEntity recentlyLikeRecipe = bookmarkRecipeRepository.findByEmailOrderByIdDesc(email);
         System.out.println("recentlyLikeRecipe = " + recentlyLikeRecipe);
+        List<Long> a = recentlyLikeRecipe.getRecipe_id();
+        Long re = a.get(a.size()-1);
         //최근에 좋아요 한 레시피
-        RecipeEntity recipe = recipeRepository.findById(recentlyLikeRecipe.getId()).get();
+        //RecipeEntity recipe = recipeRepository.findById(recentlyLikeRecipe.getId()).get();
+        RecipeEntity recipe = recipeRepository.findById(re).get();
         System.out.println("recipe = " + recipe);
         List<RecipeEntity> allByIngredientCategory = recipeRepository.findTop5ByIngredientCategoryOrderByRecipeViews(recipe.getIngredientCategory());
         for (RecipeEntity recipes: allByIngredientCategory) {
@@ -149,11 +164,14 @@ public class RecommendRecipeService {
     }
 
     public void recentlyViewRecipe(String email, List<RecommendRecipeDto> recipeDto) {
-        RecentlyViewRecipe recentlyViewRecipe = recentlyViewRecipeRepository.findByUserEmailOrderByIdDesc(email);
-        RecipeEntity recipeEntity = recipeRepository.findById(recentlyViewRecipe.getId()).get();
+        System.out.println(1111);
+        RecentlyViewRecipe recentlyViewRecipe = recentlyViewRecipeRepository.findTopByUserEmailOrderByIdDesc(email);
+        //RecentlyViewRecipe recentlyViewRecipe = recentlyViewRecipeRepository.findAllByUserEmailOrderByIdDesc(email);
+        System.out.println(1111);
+        RecipeEntity recipeEntity = recipeRepository.findById(recentlyViewRecipe.getRecipeId()).get();
         List<RecipeEntity> allByIngredientCategory = recipeRepository.findTop5ByIngredientCategoryOrderByRecipeViews(recipeEntity.getIngredientCategory());
         for (RecipeEntity recipe : allByIngredientCategory) {
-            recipeDto.add(toRecommendDto(recipeEntity));
+            recipeDto.add(toRecommendDto(recipe));
         }
     }
 
