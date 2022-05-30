@@ -202,10 +202,7 @@ const RecipeUpdateScreen = () => {
     setInput(prev => {
       return {
         ...prev,
-        recipeStep: [
-          ...prev.recipeStep,
-          {stepImage: null, stepDescription: ''},
-        ],
+        recipeStep: [...prev.recipeStep, {stepImage: '', stepDescription: ''}],
       };
     });
   };

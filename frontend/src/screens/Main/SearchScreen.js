@@ -33,7 +33,7 @@ const SearchScreen = ({navigation}) => {
       return;
     }
     try {
-      setSearchResult(fetchData);
+      setSearchResult([fetchData]);
       const token = await AsyncStorage.getItem('user_token');
       await fetch(
         'http://localhost:8080/user/search/name?search=' + fetchData,
@@ -48,7 +48,6 @@ const SearchScreen = ({navigation}) => {
       )
         .then(response => response.json())
         .then(responseJson => {
-          // console.log(responseJson);
           setSearchResultItem(responseJson);
           navigation.navigate('SearchResultScreen');
         })
@@ -85,6 +84,7 @@ const SearchScreen = ({navigation}) => {
               onChangeText={createChangeTextHandler('value')}
               returnKeyType={'search'}
               onSubmitEditing={onPressSubmit}
+              autoCapitalize={'none'}
             />
           </View>
         </View>
