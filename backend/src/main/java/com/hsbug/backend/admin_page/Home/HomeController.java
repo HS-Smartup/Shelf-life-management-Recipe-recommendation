@@ -3,17 +3,15 @@ package com.hsbug.backend.admin_page.Home;
 import com.hsbug.backend.admin_page.manage_question.ManageQuestionDto;
 import com.hsbug.backend.admin_page.manage_question.ManageQuestionRepository;
 import com.hsbug.backend.admin_page.manage_question.ManageQuestionService;
-import com.hsbug.backend.admin_page.manage_recipe.ManageRecipeDto;
-import com.hsbug.backend.app.manage_user_info.question.QuestionUserService;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
-import com.hsbug.backend.app.user_register.UserRegisterEntity;
 import com.hsbug.backend.app.user_register.UserRegisterService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -26,7 +24,6 @@ public class HomeController {
     private final HomeService homeService;
     private final ManageQuestionService manageQuestionService;
     private final ManageQuestionRepository manageQuestionRepository;
-    private final UserRegisterDto userRegisterDto;
     private final UserRegisterService userRegisterService;
 
 
@@ -78,24 +75,24 @@ public class HomeController {
     }
 
     @PostMapping("/admin/answerPage/id{id}/submit")
-    public String QuestionAnswerSubmit(@PathVariable Long id, ManageQuestionDto manageQuestionDto, Model model) {
+    public RedirectView QuestionAnswerSubmit(@PathVariable Long id, ManageQuestionDto manageQuestionDto, Model model) {
         ManageQuestionDto dto = manageQuestionService.readOne(id);
         dto.setAnswercheck(true);
         dto.setAnswer(manageQuestionDto.getAnswer());
 
         manageQuestionRepository.save(dto.toEntity());
-        return "Home";
+        return new RedirectView("/admin/QA");
     }
-/*
 
     @PostMapping("/admin/UserManage/id{id}/delete")
-    public String UserManagedelete(@PathVariable Long id, UserRegisterDto userRegisterDto , Model model){
-        userRegisterDto dto = userRegisterService.userdelete(id);
-
-        return "UserManage";
+    public RedirectView UserManageDelete(@PathVariable Long id){
+        JSONObject obj = new JSONObject();
+        userRegisterService.userdelete(id);
+        obj.put("message",id+" 탈퇴 완료");
+        obj.put("status",200);
+        return new RedirectView("/admin/UserManage");
     }
 
-*/
 
 
 }

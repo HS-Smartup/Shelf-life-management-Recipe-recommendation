@@ -23,7 +23,11 @@
                 <td th:text="${data.roles}"></td>
                 <td>
                     <button onclick="location.href=''">수정</button>
-                    <button onclick="location.href=''">삭제</button>
+
+                    <form th:action="@{'/admin/UserManage/id'+ ${data.id} + '/delete'}" method= "post">
+                    <button type = delete value="삭제">삭제</button>
+                    </form>
+                        <!-- <button th:onclick="'location.href=\''+'/admin/UserManage/id'+@{${data.id}} + '/delete''">삭제</button>-->
                 </td>
 
             </tr>
