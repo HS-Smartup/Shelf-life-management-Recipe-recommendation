@@ -49,12 +49,12 @@
         </tr>
 
 
-    <form th:action ="@{'/admin/answerPage/id' + ${data.id} + '/submit'}" method="post">
+    <form th:action ="@{'/admin/answerPage/id' + ${data.id} +  '/submit'}" method="post">
     <tr>
         <th>답변</th>
         <td colspan="3">
             <div>
-                <input name="answer" type="text" placeholder=답변 th:name = "answer"/>
+                <input name="answer" type="text" th:placeholder= "${data.answer}" th:name = "answer"/>
 
             </div>
         </td>

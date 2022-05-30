@@ -8,6 +8,7 @@ import com.hsbug.backend.app.manage_user_info.question.QuestionUserService;
 import com.hsbug.backend.app.search_recipe._refrigerator.SearchRecipeRefrigDto;
 import com.hsbug.backend.app.user_register.UserRegisterDto;
 import com.hsbug.backend.app.user_register.UserRegisterEntity;
+import com.hsbug.backend.app.user_register.UserRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ public class HomeController {
     private final HomeService homeService;
     private final ManageQuestionService manageQuestionService;
     private final ManageQuestionRepository manageQuestionRepository;
+    private final UserRegisterDto userRegisterDto;
+    private final UserRegisterService userRegisterService;
 
 
     @RequestMapping(value = "/admin/home", method= RequestMethod.GET)
@@ -83,20 +86,18 @@ public class HomeController {
         manageQuestionRepository.save(dto.toEntity());
         return "Home";
     }
+/*
 
-        @GetMapping("/deleteAnswer")
-    public String deleteAnswer(){
+    @PostMapping("/admin/UserManage/id{id}/delete")
+    public String UserManagedelete(@PathVariable Long id, UserRegisterDto userRegisterDto , Model model){
+        userRegisterDto dto = userRegisterService.userdelete(id);
 
-
-        return "QuestionAnswer";
+        return "UserManage";
     }
 
-    @GetMapping("/updateAnswer")
-    public String updateAnswer(){
+*/
 
 
-        return "QuestionAnswer";
-    }
 }
 
 
