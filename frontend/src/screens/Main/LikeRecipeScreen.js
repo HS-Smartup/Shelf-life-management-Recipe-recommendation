@@ -22,6 +22,7 @@ const LikeRecipeScreen = () => {
   const [recipeItem, setRecipeItem] = useState([]);
 
   const readItem = async () => {
+    setLoading(true);
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/bookmark/readBookmark', {
@@ -36,6 +37,7 @@ const LikeRecipeScreen = () => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipeItem([...responseJson.recipe]);
+            setLoading(false);
           } else {
             console.log('error');
           }
