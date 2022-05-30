@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -29,6 +29,8 @@ const RecentViewRecipeScreen = () => {
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
+            setRecipeItem([...responseJson.recipe]);
+          } else if (responseJson.status === 201) {
             setRecipeItem([...responseJson.recipe]);
           } else {
             console.log('error');
@@ -81,10 +83,23 @@ const RecentViewRecipeScreen = () => {
         </Pressable>
       </View>
       <View style={styles.listWrapper}>
-        <RecipeList
-          recipeItem={recipeItem}
-          onScrolledToBottom={onScrolledToBottom}
-        />
+        {recipeItem.length === 0 ? (
+          <View style={styles.block}>
+            <Image
+              source={require('../../assets/images/refrigeratorEmpty.png')}
+              style={styles.image}
+              resizeMode="contain"
+            />
+            <Text style={styles.description}>
+              {'최근에 본 레시피가 없습니다.'}
+            </Text>
+          </View>
+        ) : (
+          <RecipeList
+            recipeItem={recipeItem}
+            onScrolledToBottom={onScrolledToBottom}
+          />
+        )}
       </View>
     </View>
   );
@@ -124,5 +139,22 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flex: 1,
+  },
+  block: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 500,
+    height: 300,
+    marginBottom: 16,
+  },
+  description: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 30,
+    color: '#636773',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
