@@ -59,7 +59,7 @@ const RecipeAddScreen = () => {
   useEffect(() => {
     setInput({
       ...input,
-      recipeMainImage: recipeMainImage?.assets[0]?.base64,
+      recipeMainImage: recipeMainImage,
       typeCategory: typeCategory,
       situationCategory: situationCategory,
       ingredientCategory: ingredientCategory,
@@ -309,7 +309,7 @@ const RecipeAddScreen = () => {
                     android_ripple={{color: '#e1e2e3'}}>
                     <Image
                       style={styles.imageFull}
-                      source={{uri: recipeMainImage?.assets[0]?.uri}}
+                      source={{uri: `data:image/jpg;base64,${recipeMainImage}`}}
                       resizeMode="cover"
                     />
                   </Pressable>
