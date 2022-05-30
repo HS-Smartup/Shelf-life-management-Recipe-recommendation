@@ -86,7 +86,6 @@ const RecentViewRecipeScreen = () => {
           onScrolledToBottom={onScrolledToBottom}
         />
       </View>
-      <RecipeAddButton hidden={hidden} />
     </View>
   );
 };
