@@ -15,7 +15,7 @@ const SearchResultScreen = () => {
   const {searchResult} = useContext(SearchResultContext);
   const {searchResultItem} = useContext(SearchResultItemContext);
 
-  // const str1 = searchResult.join('/');
+  const str1 = searchResult.join('/');
 
   useEffect(() => {
     setRecipeItem(searchResultItem);
@@ -44,7 +44,7 @@ const SearchResultScreen = () => {
         </Pressable>
         <View style={styles.headerTextWrapper}>
           <Text numberOfLines={2} style={styles.headerText}>
-            {searchResult}
+            {str1}
           </Text>
         </View>
         <Pressable
