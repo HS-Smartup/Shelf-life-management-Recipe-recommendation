@@ -56,6 +56,7 @@ public class BookmarkRecipeService {
             obj.put("status",200);
             return obj;
         } catch(Exception e){
+            obj.put("recipe",arr);
             obj.put("message","삭제할 데이터가 없습니다.");
             obj.put("status",200);
             return obj;

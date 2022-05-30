@@ -94,7 +94,7 @@ const InquireScreen = () => {
         {inquireItem.length === 0 ? (
           <View style={styles.block}>
             <Image
-              source={require('../../assets/images/InquireEmpty.png')}
+              source={require('../../assets/images/inquireEmpty.png')}
               style={styles.image}
               resizeMode="contain"
             />

@@ -1,5 +1,6 @@
 import {
   Alert,
+  FlatList,
   Pressable,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 const InquireAddScreen = () => {
   const navigation = useNavigation();
@@ -70,26 +72,33 @@ const InquireAddScreen = () => {
         </View>
       </View>
       <View style={styles.listWrapper}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.titleText}>제목</Text>
-          <TextInput
-            style={styles.titleInput}
-            multiline={true}
-            autoCapitalize="none"
-            onChangeText={createChangeTextHandler('title')}
-            placeholder={'제목'}
-          />
-        </View>
-        <View style={styles.contentWrapper}>
-          <Text style={styles.contentText}>문의 내용</Text>
-          <TextInput
-            style={styles.contentInput}
-            multiline={true}
-            autoCapitalize="none"
-            onChangeText={createChangeTextHandler('content')}
-            placeholder={'문의내용'}
-          />
-        </View>
+        <KeyboardAwareFlatList
+          data={[{id: 1}]}
+          renderItem={({item}) => (
+            <View style={styles.list}>
+              <View style={styles.titleWrapper}>
+                <Text style={styles.titleText}>제목</Text>
+                <TextInput
+                  style={styles.titleInput}
+                  multiline={true}
+                  autoCapitalize="none"
+                  onChangeText={createChangeTextHandler('title')}
+                  placeholder={'제목'}
+                />
+              </View>
+              <View style={styles.contentWrapper}>
+                <Text style={styles.contentText}>문의 내용</Text>
+                <TextInput
+                  style={styles.contentInput}
+                  multiline={true}
+                  autoCapitalize="none"
+                  onChangeText={createChangeTextHandler('content')}
+                  placeholder={'문의내용'}
+                />
+              </View>
+            </View>
+          )}
+        />
       </View>
       <View style={styles.submitBtnWrapper}>
         <Pressable
@@ -132,8 +141,13 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   listWrapper: {
-    height: '80%',
+    flex: 1,
+  },
+  list: {
+    width: '100%',
+    height: 590,
     alignItems: 'center',
+    marginBottom: 5,
   },
   titleWrapper: {
     width: '90%',
@@ -154,6 +168,7 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     width: '90%',
+    height: '100%',
     paddingTop: 10,
     marginBottom: 5,
   },
@@ -169,7 +184,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#b3b4ba',
     borderWidth: 0.7,
-    height: '80%',
     marginTop: 10,
   },
   submitBtnWrapper: {
@@ -183,6 +197,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 5,
+    marginBottom: 10,
   },
   submitBtnText: {
     fontFamily: 'NanumSquareRoundOTFB',

@@ -1,9 +1,11 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 const CheckItem = ({id, itemName, checkedItem, setCheckedItem}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
+  let bouncyCheckboxRef = null;
 
   const onPressCheckBox = () => {
     setToggleCheckBox(!toggleCheckBox);
@@ -20,8 +22,12 @@ const CheckItem = ({id, itemName, checkedItem, setCheckedItem}) => {
   };
 
   return (
-    <View style={styles.itemWrapper}>
+    <Pressable
+      style={styles.itemWrapper}
+      onPress={() => bouncyCheckboxRef?.onPress()}
+      android_ripple={{color: '#e1e2e3'}}>
       <BouncyCheckbox
+        ref={ref => (bouncyCheckboxRef = ref)}
         size={46}
         fillColor="#ffb856"
         unfillColor="#f2f3f4"
@@ -32,7 +38,7 @@ const CheckItem = ({id, itemName, checkedItem, setCheckedItem}) => {
       <View style={styles.itemTextWrapper}>
         <Text style={styles.itemText}>{itemName}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
