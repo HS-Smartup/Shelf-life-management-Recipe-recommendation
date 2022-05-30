@@ -1,4 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -10,11 +17,13 @@ import UserRecipeList from 'components/UserRecipe/UserRecipeList';
 const RecipeScreen = () => {
   const navigation = useNavigation();
 
+  const [loading, setLoading] = useState(false);
   const [recipeItem, setRecipeItem] = useState([]);
 
   const {username} = useContext(UserNameContext);
 
   const readItem = async () => {
+    setLoading(true);
     try {
       const token = await AsyncStorage.getItem('user_token');
       await fetch('http://localhost:8080/user/myRecipe/read', {
@@ -29,6 +38,7 @@ const RecipeScreen = () => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
             setRecipeItem([...responseJson.recipeItem]);
+            setLoading(false);
           } else {
             console.log('error');
           }
@@ -59,33 +69,54 @@ const RecipeScreen = () => {
 
   return (
     <View style={styles.fullScreen}>
-      <View style={styles.header}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          android_ripple={{color: '#e1e2e3'}}>
-          <Icon
-            style={styles.backBtn}
-            name="arrow-back"
-            size={32}
-            color={'#ff8527'}
-          />
-        </Pressable>
-        <View style={styles.headerTextWrapper}>
-          <Text style={styles.headerText}>{username} 님의 레시피</Text>
+      {loading ? (
+        <View style={styles.loadingScreen}>
+          <ActivityIndicator size="large" color="#ff8527" />
         </View>
-        <Pressable
-          style={styles.notification}
-          android_ripple={{color: '#e1e2e3'}}>
-          <Icon name="notifications-none" size={32} color={'#ff8527'} />
-        </Pressable>
-      </View>
-      <View style={styles.listWrapper}>
-        <UserRecipeList
-          recipeItem={recipeItem}
-          onScrolledToBottom={onScrolledToBottom}
-        />
-      </View>
-      <RecipeAddButton hidden={hidden} />
+      ) : (
+        <View style={styles.fullScreen}>
+          <View style={styles.header}>
+            <Pressable
+              onPress={() => navigation.goBack()}
+              android_ripple={{color: '#e1e2e3'}}>
+              <Icon
+                style={styles.backBtn}
+                name="arrow-back"
+                size={32}
+                color={'#ff8527'}
+              />
+            </Pressable>
+            <View style={styles.headerTextWrapper}>
+              <Text style={styles.headerText}>{username} 님의 레시피</Text>
+            </View>
+            <Pressable
+              style={styles.notification}
+              android_ripple={{color: '#e1e2e3'}}>
+              <Icon name="notifications-none" size={32} color={'#ff8527'} />
+            </Pressable>
+          </View>
+          <View style={styles.listWrapper}>
+            {recipeItem.length === 0 ? (
+              <View style={styles.block}>
+                <Image
+                  source={require('../../assets/images/categoryEmpty.png')}
+                  style={styles.image}
+                  resizeMode="contain"
+                />
+                <Text style={styles.description}>
+                  {'레시피를 추가해보세요!'}
+                </Text>
+              </View>
+            ) : (
+              <UserRecipeList
+                recipeItem={recipeItem}
+                onScrolledToBottom={onScrolledToBottom}
+              />
+            )}
+          </View>
+          <RecipeAddButton hidden={hidden} />
+        </View>
+      )}
     </View>
   );
 };
@@ -124,5 +155,22 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flex: 1,
+  },
+  block: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 500,
+    height: 300,
+    marginBottom: 16,
+  },
+  description: {
+    fontFamily: 'NanumSquareRoundOTFB',
+    fontSize: 30,
+    color: '#636773',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
