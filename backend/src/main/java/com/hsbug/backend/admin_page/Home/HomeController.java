@@ -101,8 +101,15 @@ public class HomeController {
         obj.put("status",200);
         return new RedirectView("/admin/QA");
     }
+/*
 
+    @PostMapping("/admin/UserManage/id{id}/update")
+    public RedirectView updateUser(@PathVariable Long id){
 
+        return new RedirectView("/admin/UserManage");
+    }
+
+*/
 
 
 }
