@@ -11,6 +11,7 @@
 <body>
 <div layout:fragment = "content" >
     <div class ="content">
+        <form th:action ="@{}" method="post">
         <h5>수정</h5>
         <tr>
             <th>ID</th>
@@ -31,7 +32,7 @@
 
         </tr>
 
-        <form th:action ="@{}" method="post">
+
             <tr>
                 <th>답변</th>
                 <td colspan="3">
