@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "809766510685",
+    "project_id": "recipe-refrigerator",
+    "storage_bucket": "recipe-refrigerator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809766510685:android:8055acc999d9d6293e2db4",
+        "android_client_info": {
+          "package_name": "com.gw_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809766510685-5cid1dnoojq33fsifg74cojuh58ks494.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4_ahqOtth9kW2QO9qlWtuEtpWobIEGgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809766510685-5cid1dnoojq33fsifg74cojuh58ks494.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
