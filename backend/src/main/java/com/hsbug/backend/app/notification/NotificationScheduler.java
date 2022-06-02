@@ -8,12 +8,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -32,7 +30,7 @@ public class NotificationScheduler {
 
     @PostConstruct
     public void firebaseSetting() throws IOException{
-        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource("firebase/recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json").getInputStream())
+        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource("recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json").getInputStream())
                 .createScoped((Arrays.asList(fireBaseCreateScoped)));
         FirebaseOptions secondaryAppConfig = FirebaseOptions.builder()
                 .setCredentials(googleCredentials)
