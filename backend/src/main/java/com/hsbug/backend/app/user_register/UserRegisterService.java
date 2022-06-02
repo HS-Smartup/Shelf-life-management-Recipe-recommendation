@@ -1,5 +1,7 @@
 package com.hsbug.backend.app.user_register;
 
+import com.hsbug.backend.app.refrigerator.manage_product.ManageProductEntity;
+import com.hsbug.backend.app.refrigerator.manage_product.ManageProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +20,7 @@ import java.util.Optional;
 public class UserRegisterService implements UserDetailsService {
 
     private final UserRegisterRepository userRegisterRepository;      // accountRepository 가져옴
-
+    private final ManageProductRepository manageProductRepository;
     @Transactional
     public void save(UserRegisterDto form) throws UsernameNotFoundException {       // 회원 정보 save
         PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -34,8 +37,6 @@ public class UserRegisterService implements UserDetailsService {
     public void userdelete(Long id) throws UsernameNotFoundException { // 회원 강퇴(delete)
             userRegisterRepository.deleteById(id);
     }
-
-
 
     // 회원 정보 찾기
     public boolean checkUserByUsername(String username) {//throws UsernameNotFoundException,NullPointerException {
@@ -89,9 +90,16 @@ public class UserRegisterService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(kakao_sub));
     }
 
-    public List<UserRegisterEntity> findByRefrigSomething(){
-        //userRegisterRepository.findBy()
-        return null;
+    public List<String> findByRefrigSomething(){
+        List<ManageProductEntity> manageProductEntity = manageProductRepository.findAll();
+        List<String> emails = new ArrayList<>();
+        for (int i = 0; i < manageProductEntity.size(); i++){
+            if (manageProductEntity.get(i).getItemRemainingDate() <= 3){
+                emails.add(manageProductEntity.get(i).getEmail());
+            }
+        }
+        return emails;
+
     }
 
 }

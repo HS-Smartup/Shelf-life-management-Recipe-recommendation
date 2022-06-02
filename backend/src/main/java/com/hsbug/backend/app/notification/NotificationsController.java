@@ -25,6 +25,7 @@ public class NotificationsController {
 
     @Autowired
     UserRegisterService userRegisterService;
+    @Autowired
     FcmTokenRepository fcmTokenRepository;
 
     @Value("${project.properties.firebase-multicast-message-size}")
@@ -32,11 +33,12 @@ public class NotificationsController {
 
     @PostMapping(value = "/pushs/users")
     public void notificationUser() throws FirebaseMessagingException{
-        List<UserRegisterEntity> user = userRegisterService.findByRefrigSomething();
-        if (!user.isEmpty()){
+        List<String> user = userRegisterService.findByRefrigSomething();
+        if (user != null){
             for (int i =0; i < user.size(); i++){
-                UserRegisterEntity it = user.get(i);
-                FcmTokenEntity fcmTokenEntity = fcmTokenRepository.findByEmail(it.getEmail());
+                System.out.println(user.get(i));
+                String email = user.get(i);
+                FcmTokenEntity fcmTokenEntity = fcmTokenRepository.findByEmail(email);
 
                 Notification notification = Notification.builder()
                         .setTitle("title")
@@ -46,11 +48,13 @@ public class NotificationsController {
 
                 Message.Builder builder = Message.builder();
 
+                System.out.println(fcmTokenEntity.getToken());
                 Message msg = builder
-                        //.setToken(fcmTokenEntity.getToken()) // 이거 풀어서 사용
-                        .setToken("token")
+                        .setToken(fcmTokenEntity.getToken()) // 이거 풀어서 사용
+                        //.setToken("token")
                         .setNotification(notification)
                         .build();
+
                 fcmService.sendMessage(msg);
 
 

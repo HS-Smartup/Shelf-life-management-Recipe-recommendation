@@ -43,6 +43,7 @@ public class FcmService {
     }
 
     public String sendMessage(Message message) throws FirebaseMessagingException {
+        System.out.println("message is " + message);
         return this.instance.send(message);
     }
 
