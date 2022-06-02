@@ -49,6 +49,16 @@ public class ManageProductService {
         manageProduct.update(dto);
     }
 
+    @Transactional // 00시 마다 값 마이너스
+    public void updateRemainDate(){
+        List<ManageProductEntity> manageProductEntity = manageProductRepository.findAll();
+        for (int i = 0; i<manageProductEntity.size(); i++){
+            int date = manageProductEntity.get(i).getItemRemainingDate();
+            manageProductEntity.get(i).setItemRemainingDate(date-1);
+        }
+        manageProductRepository.saveAll(manageProductEntity);
+    }
+
 
     @Transactional
     public void save(ManageProductDto addProductDto) {
