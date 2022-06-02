@@ -1,6 +1,8 @@
 package com.hsbug.backend.app.user_register;
 
 import com.hsbug.backend.app.Config.Jwt.JwtTokenProvider;
+import com.hsbug.backend.app.notification.FcmTokenEntity;
+import com.hsbug.backend.app.notification.FcmTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,7 @@ public class UserRegisterController {
     private final UserRegisterService userRegisterService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final FcmTokenRepository fcmTokenRepository;
 
     @GetMapping("/usercheck")
     public JSONObject userCheck(@RequestHeader String token) {
@@ -94,7 +97,7 @@ public class UserRegisterController {
 //        List<String> role = new ArrayList<>();
 //        role.add("ROLE_USER");
         JSONObject obj = new JSONObject();
-
+        String token = user.get("token");
         if (userRegisterService.checkUserByUsername(user.get("email"))) {
             obj.put("message", "잘못된 아이디입니다.");
             obj.put("status", "???");
@@ -111,6 +114,11 @@ public class UserRegisterController {
                 obj.put("status", 200);
                 obj.put("token", jwtTokenProvider.createToken(user.get("email"), member.getRoles()));
                 obj.put("username", member.getUsername());
+                FcmTokenEntity fcmTokenEntity = new FcmTokenEntity();
+                fcmTokenEntity.setEmail(member.getEmail());
+                fcmTokenEntity.setToken(token);
+                fcmTokenRepository.save(fcmTokenEntity);
+
             }
         }
         return obj;
