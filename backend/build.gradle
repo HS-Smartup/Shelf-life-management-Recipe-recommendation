@@ -32,7 +32,7 @@ dependencies {
     implementation 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
+    implementation 'com.google.firebase:firebase-admin:7.1.0'
 
     compileOnly 'org.projectlombok:lombok'
 
