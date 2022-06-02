@@ -1,5 +1,6 @@
 package com.hsbug.backend.app.search_recipe.recommend;
 
+import ch.qos.logback.core.read.ListAppender;
 import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeEntity;
 import com.hsbug.backend.app.manage_user_info.bookmark_recipe.BookmarkRecipeRepository;
 import com.hsbug.backend.app.recipe.recently_viewed_recipes.RecentlyViewRecipe;
@@ -22,33 +23,87 @@ public class RecommendRecipeService {
     private final RecentlyViewRecipeRepository recentlyViewRecipeRepository;
 
 
-    public RecommendRecipeDto randomRecipe() {
-        List<Long> list = new ArrayList<>();
-        Long randomNum = (long) makeRandomId(list)[1];
-        RecipeEntity recommendRecipeDto  = recipeRepository.findById(randomNum).get();
+    public List<RecommendRecipeDto> randomRecipe(List<Long>list) {
+        List<RecommendRecipeDto> recipeDtoList = new ArrayList<>();
 
-        RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
-                .id(recommendRecipeDto.getId())
-                .recipeMainImage(recommendRecipeDto.getRecipeMainImage())
-                .recipeName(recommendRecipeDto.getRecipeName())
-                .recipeViews(recommendRecipeDto.getRecipeViews())
-                .recipeWriter(recommendRecipeDto.getRecipeWriter())
-                .build();
+        Random random = new Random();
+        int max = recipeRepository.getMaxId().intValue();
+        int min = 1;
+        Long arr[] = new Long[30];
 
-        return recipeDto;
+        for (int j = 0; j <30; j++){
+            arr[j] = Long.valueOf(random.nextInt(max - min) + 1);
+            for (int k = 0; k<j; k++){
+                if (arr[j]==arr[k]){
+                    System.out.println("random");
+                    j--;
+                }
+            }
+        }
+        System.out.println(arr);
+
+        for (int i=0; i < 30; i++) {
+            Long rn = arr[i];
+            System.out.println("randomNum = " + rn);
+            Optional<RecipeEntity> recipe = recipeRepository.findById(rn);
+            RecipeEntity recommendRecipeDto = new RecipeEntity();
+            try {
+                if (recipe.isPresent()) {
+                    recommendRecipeDto = recipe.get();
+                } else {
+                    recommendRecipeDto = recipeRepository.findById(rn).get();
+                }
+            } catch (NoSuchElementException e) {
+                i--;
+                break;
+            } catch (NullPointerException e) {
+                i--;
+                break;
+            }
+
+            RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
+                    .id(recommendRecipeDto.getId())
+                    .recipeMainImage(recommendRecipeDto.getRecipeMainImage())
+                    .recipeName(recommendRecipeDto.getRecipeName())
+                    .recipeViews(recommendRecipeDto.getRecipeViews())
+                    .recipeWriter(recommendRecipeDto.getRecipeWriter())
+                    .build();
+            recipeDtoList.add(recipeDto);
+            list.add(recipeDto.getId());
+
+        }
+        return recipeDtoList;
+    }
+
+    private int makeRandomId() {
+        Random random = new Random();
+        int max = recipeRepository.getMaxId().intValue();
+        int min = 1;
+        return random.nextInt(max - min ) + min;
     }
 
     public List<RecommendRecipeDto> recommendSystem(String email) {
         List<RecommendRecipeDto> recipeDto = new ArrayList<>();
+        List<RecommendRecipeDto> recipeDto2 = new ArrayList<>();
+
         List<Long> idList = new ArrayList<>();
         //1.좋아요 기반으로 추천할 레시피를 찾는다.
         try {
-            likeRecommend(email, recipeDto);
-            System.out.println("recipeDto = " + recipeDto);
             //2.최근에 본 레시피를 기반으로 추천할 레시피를 찾는다.
+
             recentlyViewRecipe(email, recipeDto);
+            System.out.println("recipeDto = " + recipeDto);
+
         } catch (NullPointerException e) {
             log.info("recentlyViewRecipe = Null");
+        }
+        try {
+            likeRecommend(email, recipeDto2);
+            System.out.println("recipeDto = " + recipeDto2);
+        }catch (IndexOutOfBoundsException e){
+            log.info("aa");
+        }catch (NullPointerException e){
+            log.info("like Null");
         }
         int size = recipeDto.size();
         System.out.println("size = " + size);
@@ -62,57 +117,23 @@ public class RecommendRecipeService {
         return recipeDto;
     }
 
-    private List<RecommendRecipeDto> recipeValidation(List<RecommendRecipeDto>list) {
-        Map<Integer, Long> map = new HashMap<>();
-        int counter = 0;
-//        boolean status = false;
-        try {
-            for (RecommendRecipeDto recipe : list) {
-                System.out.println("recipe = " + recipe);
-                for (int a = 0; a < map.size()+2; a++) {
-                    if (map.get(a) == recipe.getId().intValue()) {
-                        System.out.println("map is true="+map.get(a)+"\ta = "+a);
-                        list.remove(recipe.getId().intValue());
-//                    status = true;
-                    }else {
-                        map.put(counter++, recipe.getId());
-                        System.out.println("map not true= "+map);
-                        break;
-                    }
-                }
-            }
-        } catch (NullPointerException ignored) {
-        }
-
-        return list;
-    }
-
-//    private void addSizeRecipe(List<RecommendRecipeDto> list, List<Long>idList) {
-//        if (list.size() < 10) {
-//            for (int i = 0; i < (10- list.size()); i++) {
-//                list.add(deRandomRecipe(idList));
-//            }
-//        }
-//    }
-
     public List<RecommendRecipeDto> deRandomRecipe(List<Long> list) {
         RecipeEntity recommendRecipe = new RecipeEntity();
         List<RecommendRecipeDto> dtoList = new ArrayList<>();
         int[] ids = makeRandomId(list);
+
         for (int i = 0; i < (10 - list.size()); i++) {
             Optional<RecipeEntity> recipe = recipeRepository.findById((long) ids[i + list.size()]);
             try {
                 if (recipe.isPresent()) {
                     recommendRecipe = recipe.get();
                 } else {
-                    recommendRecipe = recipeRepository.findById((long) justOneRandom(list)).get();
+                    recommendRecipe = recipeRepository.findById(justOneRandom(list).get(i)).get();
                 }
             } catch (NoSuchElementException e) {
                 i--;
                 break;
             }
-
-
             RecommendRecipeDto recipeDto = RecommendRecipeDto.builder()
                     .id(recommendRecipe.getId())
                     .recipeMainImage(recommendRecipe.getRecipeMainImage())
@@ -127,12 +148,14 @@ public class RecommendRecipeService {
         return dtoList;
     }
 
-
     private void likeRecommend(String email, List<RecommendRecipeDto> recipeDto) {
         BookmarkRecipeEntity recentlyLikeRecipe = bookmarkRecipeRepository.findByEmailOrderByIdDesc(email);
         System.out.println("recentlyLikeRecipe = " + recentlyLikeRecipe);
+        List<Long> a = recentlyLikeRecipe.getRecipe_id();
+        Long re = a.get(a.size()-1);
         //최근에 좋아요 한 레시피
-        RecipeEntity recipe = recipeRepository.findById(recentlyLikeRecipe.getId()).get();
+        //RecipeEntity recipe = recipeRepository.findById(recentlyLikeRecipe.getId()).get();
+        RecipeEntity recipe = recipeRepository.findById(re).get();
         System.out.println("recipe = " + recipe);
         List<RecipeEntity> allByIngredientCategory = recipeRepository.findTop5ByIngredientCategoryOrderByRecipeViews(recipe.getIngredientCategory());
         for (RecipeEntity recipes: allByIngredientCategory) {
@@ -141,11 +164,14 @@ public class RecommendRecipeService {
     }
 
     public void recentlyViewRecipe(String email, List<RecommendRecipeDto> recipeDto) {
-        RecentlyViewRecipe recentlyViewRecipe = recentlyViewRecipeRepository.findByUserEmailOrderByIdDesc(email);
-        RecipeEntity recipeEntity = recipeRepository.findById(recentlyViewRecipe.getId()).get();
+        System.out.println(1111);
+        RecentlyViewRecipe recentlyViewRecipe = recentlyViewRecipeRepository.findTopByUserEmailOrderByIdDesc(email);
+        //RecentlyViewRecipe recentlyViewRecipe = recentlyViewRecipeRepository.findAllByUserEmailOrderByIdDesc(email);
+        System.out.println(1111);
+        RecipeEntity recipeEntity = recipeRepository.findById(recentlyViewRecipe.getRecipeId()).get();
         List<RecipeEntity> allByIngredientCategory = recipeRepository.findTop5ByIngredientCategoryOrderByRecipeViews(recipeEntity.getIngredientCategory());
         for (RecipeEntity recipe : allByIngredientCategory) {
-            recipeDto.add(toRecommendDto(recipeEntity));
+            recipeDto.add(toRecommendDto(recipe));
         }
     }
 
@@ -187,23 +213,31 @@ public class RecommendRecipeService {
         return a;
     }
 
-    private int justOneRandom(List<Long>list) {
+    private List<Long> justOneRandom(List<Long>list) {
         Random random = new Random();
         int max = recipeRepository.getMaxId().intValue();
+        List arr2 = new ArrayList<>();
         System.out.println("max = " + max);
         int min = 1;
         //rNum = random.nextInt(recipeRepository.getMaxId().intValue()) + 1;
         //리스트 값과 중복되는지 중복검사
+        System.out.println(list);
         int randomInt = random.nextInt(max - min) + 1;
-        for (int i = 1; i < list.size(); i++) {
+        arr2.add(randomInt);
+        for (int i = 0; i < 30; i++) {
+            randomInt = random.nextInt(max - min) + 1;
+
             if (randomInt == list.get(i)) {
-                i = 1;
-                randomInt = random.nextInt(max - min) + 1;
+                System.out.println("aaaaa"+ i +" " + randomInt + " " +  list.get(i));
+                i=0;
+                continue;
+            }
+            else{
+                arr2.add(randomInt);
             }
         }
-        return randomInt;
+        return arr2;
     }
-
 
     private RecommendRecipeDto toRecommendDto(RecipeEntity entity) {
         return RecommendRecipeDto.builder()
