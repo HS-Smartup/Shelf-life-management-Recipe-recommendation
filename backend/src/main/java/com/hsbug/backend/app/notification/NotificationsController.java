@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,9 @@ public class NotificationsController {
     @Value("${project.properties.firebase-multicast-message-size}")
     Long multicastMessageSize;
 
-    @PostMapping(value = "/pushs/users")
+    //@Scheduled(cron = "10 * * * * *") 매 분 10초마다 체크
+    @Scheduled(cron = "0 0 9 * * *")
+    @PostMapping(value = "/pushs/users") // 위에 scheduled 되면 이 줄 삭제
     public void notificationUser() throws FirebaseMessagingException{
         List<String> user = userRegisterService.findByRefrigSomething();
         if (user != null){
