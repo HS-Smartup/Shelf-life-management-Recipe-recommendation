@@ -24,8 +24,9 @@
                 <td th:text="${data.email}"></td>
                 <td th:text="${data.roles}"></td>
                 <td>
-                    <button onclick="location.href=''">삭제</button>
-                    <button onclick="location.href=''">수정</button>
+                    <form th:action="@{'/admin/AdminManage/id'+ ${data.id} + '/delete'}" method= "post">
+                        <button type = delete value="삭제">삭제</button>
+                    </form>
                 </td>
             </tr>
         </table>
