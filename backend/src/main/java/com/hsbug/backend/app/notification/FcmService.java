@@ -49,7 +49,7 @@ public class FcmService {
 
     @PostConstruct
     public void firebaseSetting() throws IOException {
-        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource("recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json").getInputStream())
+        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource("firebase/recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json").getInputStream())
                 .createScoped((Arrays.asList(fireBaseCreateScoped)));
 
         FirebaseOptions secondaryAppConfig = FirebaseOptions.builder()

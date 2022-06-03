@@ -165,5 +165,7 @@ gradle-app.setting
 ### IntelliJ IDEA ###
 application-mysql.properties
 /build/resources/application.properties
-src/main/resources/recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json
+src/main/resources/firebase
+src/main/resources/firebase/recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json
+
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij
