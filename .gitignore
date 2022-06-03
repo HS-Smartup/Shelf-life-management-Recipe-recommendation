@@ -18,6 +18,9 @@
 /backend/.gradle/buildOutputCleanup/outputFiles.bin
 /backend/.gradle/buildOutputCleanup/cache.properties
 /backend/src/main/resources/application-mysql.properties
+/backend/src/main/resources/recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json
+
 /backend/build/resources/main/application.properties
 /backend/build/resources/main/application-mysql.properties
 /backend/build/resources/recipe-refrigerator-firebase-adminsdk-lx8r4-de0017b4cb.json
+
