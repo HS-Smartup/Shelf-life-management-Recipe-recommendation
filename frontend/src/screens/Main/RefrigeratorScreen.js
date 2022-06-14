@@ -278,6 +278,6 @@ const styles = StyleSheet.create({
   //   backgroundColor: '#636773',
   // },
   listWrapper: {
-    height: '87%',
+    height: '89%',
   },
 });

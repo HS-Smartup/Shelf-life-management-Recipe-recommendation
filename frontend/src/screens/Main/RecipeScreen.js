@@ -15,7 +15,7 @@ const RecipeScreen = () => {
   const readItem = async () => {
     try {
       const token = await AsyncStorage.getItem('user_token');
-      await fetch('http://localhost:8080/user/recommend/like', {
+      await fetch('http://localhost:8080/user/recommend/random', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const RecipeScreen = () => {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log('read\n\n\n', responseJson.recipe);
+          // console.log('read\n\n\n', responseJson.recipe);
           if (responseJson.status === 200) {
             setRecipeItem([...responseJson.recipe.recipe]);
           } else {

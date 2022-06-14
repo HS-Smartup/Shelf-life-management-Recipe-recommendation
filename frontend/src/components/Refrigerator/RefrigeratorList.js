@@ -22,7 +22,7 @@ const RefrigeratorList = ({
 
     if (
       contentSize.height > layoutMeasurement.height &&
-      distanceFromBottom < 72
+      distanceFromBottom < 10
     ) {
       onScrolledToBottom(true);
     } else {
@@ -61,5 +61,6 @@ export default RefrigeratorList;
 const styles = StyleSheet.create({
   list: {
     flex: 1,
+    paddingBottom: 15,
   },
 });

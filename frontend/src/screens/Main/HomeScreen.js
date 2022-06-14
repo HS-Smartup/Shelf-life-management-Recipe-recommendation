@@ -48,7 +48,7 @@ const HomeScreen = ({navigation}) => {
         .then(responseJson => {
           // console.log('read\n\n\n', responseJson);
           if (responseJson.status === 200) {
-            setRecommendItem([...responseJson.recipe]);
+            setRecommendItem([...responseJson.recipe.recipe]);
           } else {
             console.log('error');
           }
