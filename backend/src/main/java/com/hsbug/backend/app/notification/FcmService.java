@@ -32,7 +32,7 @@ public class FcmService {
         Message msg = Message.builder().setToken(targetToken).setNotification(notification).build();
         sendMessage(msg);
     }
-
+/*
     public void sendTopicMessage(String topic, String title, String body) throws FirebaseMessagingException {
         this.sendTopicMessage(topic, title, body, null);
     }
@@ -40,7 +40,7 @@ public class FcmService {
         Notification notification = Notification.builder().setTitle(title).setBody(body).setImage(image).build();
         Message msg = Message.builder().setTopic(topic).setNotification(notification).build();
         sendMessage(msg);
-    }
+    }*/
 
     public String sendMessage(Message message) throws FirebaseMessagingException {
         System.out.println("message is " + message);
