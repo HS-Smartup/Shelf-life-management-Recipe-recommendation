@@ -20,7 +20,7 @@ YOLOv5 객체 인식 아록리즘을 기반으로 레시피를 쉽게 검색 할
 - MacOS Monterey
 
 ## 사용 기술
-- react-native a.b.c
+- react-native
 - Spring Boot
 - MySQL @8.0.28
 - Flask & Yolov5
