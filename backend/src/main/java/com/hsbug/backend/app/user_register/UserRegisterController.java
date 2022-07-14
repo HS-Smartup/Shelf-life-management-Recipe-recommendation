@@ -114,11 +114,16 @@ public class UserRegisterController {
                 obj.put("status", 200);
                 obj.put("token", jwtTokenProvider.createToken(user.get("email"), member.getRoles()));
                 obj.put("username", member.getUsername());
-                FcmTokenEntity fcmTokenEntity = new FcmTokenEntity();
-                fcmTokenEntity.setEmail(member.getEmail());
-                fcmTokenEntity.setToken(token);
-                fcmTokenRepository.save(fcmTokenEntity);
-
+                if (!fcmTokenRepository.findAllByEmail(member.getEmail()).isEmpty()){
+                    FcmTokenEntity fcmTokenEntity = fcmTokenRepository.findByEmail(member.getEmail());
+                    fcmTokenEntity.setToken("fOhlZz8dTre7v6H49Y3FAr:APA91bHeGanCSGyLLUGUPxY9jVztOvTn--JGPYpqKNaf8RTaCS5dKvzZmU6g23xtVCfoQ87wVTp0ZneaXavMnhQNWoXtZJuvPnb_LAf9yCCOjvRa9gU_kpaDCjzmTRKbL7hDBg6Odyu7");
+                    fcmTokenRepository.save(fcmTokenEntity);
+                }else {
+                    FcmTokenEntity fcmTokenEntity = new FcmTokenEntity();
+                    fcmTokenEntity.setEmail(member.getEmail());
+                    fcmTokenEntity.setToken("fOhlZz8dTre7v6H49Y3FAr:APA91bHeGanCSGyLLUGUPxY9jVztOvTn--JGPYpqKNaf8RTaCS5dKvzZmU6g23xtVCfoQ87wVTp0ZneaXavMnhQNWoXtZJuvPnb_LAf9yCCOjvRa9gU_kpaDCjzmTRKbL7hDBg6Odyu7");
+                    fcmTokenRepository.save(fcmTokenEntity);
+                }
             }
         }
         return obj;

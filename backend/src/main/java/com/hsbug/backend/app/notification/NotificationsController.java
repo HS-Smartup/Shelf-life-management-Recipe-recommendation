@@ -33,7 +33,8 @@ public class NotificationsController {
     Long multicastMessageSize;
 
     //@Scheduled(cron = "10 * * * * *") 매 분 10초마다 체크
-    @Scheduled(cron = "0 0 9 * * *")
+    //@Scheduled(cron = "0 0 9 * * *") 정각 9시마다 체크
+    @Scheduled(cron = "0 13 14 * * *")
     @PostMapping(value = "/pushs/users") // 위에 scheduled 되면 이 줄 삭제
     public void notificationUser() throws FirebaseMessagingException{
         List<String> user = userRegisterService.findByRefrigSomething();
@@ -44,8 +45,8 @@ public class NotificationsController {
                 FcmTokenEntity fcmTokenEntity = fcmTokenRepository.findByEmail(email);
 
                 Notification notification = Notification.builder()
-                        .setTitle("title")
-                        .setBody("body")
+                        .setTitle("유통기한이 다가오는 상품이 있어요!")
+                        .setBody("테스트 입니다. "+i)
                         .setImage(null)
                         .build();
 
@@ -54,7 +55,6 @@ public class NotificationsController {
                 System.out.println(fcmTokenEntity.getToken());
                 Message msg = builder
                         .setToken(fcmTokenEntity.getToken()) // 이거 풀어서 사용
-                        //.setToken("token")
                         .setNotification(notification)
                         .build();
 
