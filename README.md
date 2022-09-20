@@ -1,6 +1,6 @@
 # 유통기한 관리, 레시피 추천
 
-시연 연상 : https://youtu.be/HYR3SZFiu3o
+시연 영상 : https://youtu.be/HYR3SZFiu3o
 
 - 서승한 : jokerbear109@gmail.com
 - 임현준 : immenige2@gmail.com
