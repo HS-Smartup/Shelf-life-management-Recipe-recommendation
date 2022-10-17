@@ -1,3 +1,10 @@
+
+1. Move directory to /yolov5
+2. run 'pip install -r requirements.txt'
+3. run 'python run.py', it will run on port 5000
+
+-------------
+
 <div align="center">
 <p>
    <a align="left" href="https://ultralytics.com/yolov5" target="_blank">
