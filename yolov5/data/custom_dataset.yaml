@@ -1,0 +1,8 @@
+path: /content/drive/MyDrive/yolov5/ing
+#path: /Volumes/Google Drive/내 드라이브/yolov5/ing
+train: train/images
+val: valid/images
+
+
+nc: 25
+names: ['bean sprouts', 'beef', 'chicken', 'egg', 'fork', 'garlic', 'green onion', 'kimchi', 'onion', 'photato', 'spam','carrot','apple','radish','while bread', 'tofu', 'sweet potato', 'cucumber', 'tomato', 'banana', 'mandarin', 'seaweed','watermelon','chili pepper paste', 'miso']
