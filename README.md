@@ -15,7 +15,7 @@
 
 - 서승한 : jokerbear109@gmail.com
 - 임현준 : immenige2@gmail.com
-- 나경규 :
+- 나경규 : skrudrb2@gmail.com
 - 방호배 :
 
 ## 소개
